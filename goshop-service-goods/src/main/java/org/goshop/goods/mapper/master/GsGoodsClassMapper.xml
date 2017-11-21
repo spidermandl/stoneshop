@@ -1,0 +1,255 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.goshop.goods.mapper.master.GsGoodsClassMapper">
+  <resultMap id="BaseResultMap" type="org.goshop.goods.pojo.GsGoodsClass">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="addTime" jdbcType="TIMESTAMP" property="addtime" />
+    <result column="deleteStatus" jdbcType="BIT" property="deletestatus" />
+    <result column="className" jdbcType="VARCHAR" property="classname" />
+    <result column="display" jdbcType="BIT" property="display" />
+    <result column="level" jdbcType="INTEGER" property="level" />
+    <result column="recommend" jdbcType="BIT" property="recommend" />
+    <result column="sequence" jdbcType="INTEGER" property="sequence" />
+    <result column="goods_type_id" jdbcType="BIGINT" property="goodsTypeId" />
+    <result column="parent_id" jdbcType="BIGINT" property="parentId" />
+    <result column="icon_sys" jdbcType="VARCHAR" property="iconSys" />
+    <result column="icon_type" jdbcType="INTEGER" property="iconType" />
+    <result column="icon_acc_id" jdbcType="BIGINT" property="iconAccId" />
+    <collection property="children" ofType="org.goshop.goods.pojo.GsGoodsClass" column="parent_id">
+      <id column="id" property="id" jdbcType="BIGINT" />
+      <result column="addTime" jdbcType="TIMESTAMP" property="addtime" />
+      <result column="deleteStatus" jdbcType="BIT" property="deletestatus" />
+      <result column="className" jdbcType="VARCHAR" property="classname" />
+      <result column="display" jdbcType="BIT" property="display" />
+      <result column="level" jdbcType="INTEGER" property="level" />
+      <result column="recommend" jdbcType="BIT" property="recommend" />
+      <result column="sequence" jdbcType="INTEGER" property="sequence" />
+      <result column="goods_type_id" jdbcType="BIGINT" property="goodsTypeId" />
+      <result column="parent_id" jdbcType="BIGINT" property="parentId" />
+      <result column="icon_sys" jdbcType="VARCHAR" property="iconSys" />
+      <result column="icon_type" jdbcType="INTEGER" property="iconType" />
+      <result column="icon_acc_id" jdbcType="BIGINT" property="iconAccId" />
+    </collection>
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="org.goshop.goods.pojo.GsGoodsClassWithBLOBs">
+    <result column="seo_description" jdbcType="LONGVARCHAR" property="seoDescription" />
+    <result column="seo_keywords" jdbcType="LONGVARCHAR" property="seoKeywords" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, addTime, deleteStatus, className, display, level, recommend, sequence, goods_type_id,
+    parent_id, icon_sys, icon_type, icon_acc_id
+  </sql>
+  <sql id="Blob_Column_List">
+    seo_description, seo_keywords
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="ResultMapWithBLOBs">
+    select
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from gs_goods_class
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from gs_goods_class
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="org.goshop.goods.pojo.GsGoodsClassWithBLOBs">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into gs_goods_class (addTime, deleteStatus, className,
+      display, level, recommend,
+      sequence, goods_type_id, parent_id,
+      icon_sys, icon_type, icon_acc_id,
+      seo_description, seo_keywords)
+    values (#{addtime,jdbcType=TIMESTAMP}, #{deletestatus,jdbcType=BIT}, #{classname,jdbcType=VARCHAR},
+      #{display,jdbcType=BIT}, #{level,jdbcType=INTEGER}, #{recommend,jdbcType=BIT},
+      #{sequence,jdbcType=INTEGER}, #{goodsTypeId,jdbcType=BIGINT}, #{parentId,jdbcType=BIGINT},
+      #{iconSys,jdbcType=VARCHAR}, #{iconType,jdbcType=INTEGER}, #{iconAccId,jdbcType=BIGINT},
+      #{seoDescription,jdbcType=LONGVARCHAR}, #{seoKeywords,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="org.goshop.goods.pojo.GsGoodsClassWithBLOBs">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into gs_goods_class
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="addtime != null">
+        addTime,
+      </if>
+      <if test="deletestatus != null">
+        deleteStatus,
+      </if>
+      <if test="classname != null">
+        className,
+      </if>
+      <if test="display != null">
+        display,
+      </if>
+      <if test="level != null">
+        level,
+      </if>
+      <if test="recommend != null">
+        recommend,
+      </if>
+      <if test="sequence != null">
+        sequence,
+      </if>
+      <if test="goodsTypeId != null">
+        goods_type_id,
+      </if>
+      <if test="parentId != null">
+        parent_id,
+      </if>
+      <if test="iconSys != null">
+        icon_sys,
+      </if>
+      <if test="iconType != null">
+        icon_type,
+      </if>
+      <if test="iconAccId != null">
+        icon_acc_id,
+      </if>
+      <if test="seoDescription != null">
+        seo_description,
+      </if>
+      <if test="seoKeywords != null">
+        seo_keywords,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="addtime != null">
+        #{addtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="deletestatus != null">
+        #{deletestatus,jdbcType=BIT},
+      </if>
+      <if test="classname != null">
+        #{classname,jdbcType=VARCHAR},
+      </if>
+      <if test="display != null">
+        #{display,jdbcType=BIT},
+      </if>
+      <if test="level != null">
+        #{level,jdbcType=INTEGER},
+      </if>
+      <if test="recommend != null">
+        #{recommend,jdbcType=BIT},
+      </if>
+      <if test="sequence != null">
+        #{sequence,jdbcType=INTEGER},
+      </if>
+      <if test="goodsTypeId != null">
+        #{goodsTypeId,jdbcType=BIGINT},
+      </if>
+      <if test="parentId != null">
+        #{parentId,jdbcType=BIGINT},
+      </if>
+      <if test="iconSys != null">
+        #{iconSys,jdbcType=VARCHAR},
+      </if>
+      <if test="iconType != null">
+        #{iconType,jdbcType=INTEGER},
+      </if>
+      <if test="iconAccId != null">
+        #{iconAccId,jdbcType=BIGINT},
+      </if>
+      <if test="seoDescription != null">
+        #{seoDescription,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="seoKeywords != null">
+        #{seoKeywords,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="org.goshop.goods.pojo.GsGoodsClassWithBLOBs">
+    update gs_goods_class
+    <set>
+      <if test="addtime != null">
+        addTime = #{addtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="deletestatus != null">
+        deleteStatus = #{deletestatus,jdbcType=BIT},
+      </if>
+      <if test="classname != null">
+        className = #{classname,jdbcType=VARCHAR},
+      </if>
+      <if test="display != null">
+        display = #{display,jdbcType=BIT},
+      </if>
+      <if test="level != null">
+        level = #{level,jdbcType=INTEGER},
+      </if>
+      <if test="recommend != null">
+        recommend = #{recommend,jdbcType=BIT},
+      </if>
+      <if test="sequence != null">
+        sequence = #{sequence,jdbcType=INTEGER},
+      </if>
+      <if test="goodsTypeId != null">
+        goods_type_id = #{goodsTypeId,jdbcType=BIGINT},
+      </if>
+      <if test="parentId != null">
+        parent_id = #{parentId,jdbcType=BIGINT},
+      </if>
+      <if test="iconSys != null">
+        icon_sys = #{iconSys,jdbcType=VARCHAR},
+      </if>
+      <if test="iconType != null">
+        icon_type = #{iconType,jdbcType=INTEGER},
+      </if>
+      <if test="iconAccId != null">
+        icon_acc_id = #{iconAccId,jdbcType=BIGINT},
+      </if>
+      <if test="seoDescription != null">
+        seo_description = #{seoDescription,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="seoKeywords != null">
+        seo_keywords = #{seoKeywords,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="org.goshop.goods.pojo.GsGoodsClassWithBLOBs">
+    update gs_goods_class
+    set addTime = #{addtime,jdbcType=TIMESTAMP},
+      deleteStatus = #{deletestatus,jdbcType=BIT},
+      className = #{classname,jdbcType=VARCHAR},
+      display = #{display,jdbcType=BIT},
+      level = #{level,jdbcType=INTEGER},
+      recommend = #{recommend,jdbcType=BIT},
+      sequence = #{sequence,jdbcType=INTEGER},
+      goods_type_id = #{goodsTypeId,jdbcType=BIGINT},
+      parent_id = #{parentId,jdbcType=BIGINT},
+      icon_sys = #{iconSys,jdbcType=VARCHAR},
+      icon_type = #{iconType,jdbcType=INTEGER},
+      icon_acc_id = #{iconAccId,jdbcType=BIGINT},
+      seo_description = #{seoDescription,jdbcType=LONGVARCHAR},
+      seo_keywords = #{seoKeywords,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="org.goshop.goods.pojo.GsGoodsClass">
+    update gs_goods_class
+    set addTime = #{addtime,jdbcType=TIMESTAMP},
+      deleteStatus = #{deletestatus,jdbcType=BIT},
+      className = #{classname,jdbcType=VARCHAR},
+      display = #{display,jdbcType=BIT},
+      level = #{level,jdbcType=INTEGER},
+      recommend = #{recommend,jdbcType=BIT},
+      sequence = #{sequence,jdbcType=INTEGER},
+      goods_type_id = #{goodsTypeId,jdbcType=BIGINT},
+      parent_id = #{parentId,jdbcType=BIGINT},
+      icon_sys = #{iconSys,jdbcType=VARCHAR},
+      icon_type = #{iconType,jdbcType=INTEGER},
+      icon_acc_id = #{iconAccId,jdbcType=BIGINT}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+
+  <select id="findByGcParentId" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select
+    <include refid="Base_Column_List" />
+    from gs_goods_class
+    where parent_id = #{parentId,jdbcType=INTEGER}
+  </select>
+</mapper>

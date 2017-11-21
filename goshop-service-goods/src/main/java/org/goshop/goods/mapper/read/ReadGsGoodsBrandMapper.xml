@@ -1,0 +1,234 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.goshop.goods.mapper.read.ReadGsGoodsBrandMapper">
+  <resultMap id="BaseResultMap" type="org.goshop.goods.pojo.GsGoodsBrand">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="addTime" jdbcType="TIMESTAMP" property="addtime" />
+    <result column="deleteStatus" jdbcType="BIT" property="deletestatus" />
+    <result column="audit" jdbcType="BIT" property="audit" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="recommend" jdbcType="BIT" property="recommend" />
+    <result column="sequence" jdbcType="INTEGER" property="sequence" />
+    <result column="brandLogo_id" jdbcType="BIGINT" property="brandlogoId" />
+    <result column="category_id" jdbcType="BIGINT" property="categoryId" />
+    <result column="userStatus" jdbcType="INTEGER" property="userstatus" />
+    <result column="user_id" jdbcType="BIGINT" property="userId" />
+    <result column="weixin_shop_recommend" jdbcType="BIT" property="weixinShopRecommend" />
+    <result column="weixin_shop_recommendTime" jdbcType="DATE" property="weixinShopRecommendtime" />
+    <result column="first_word" jdbcType="VARCHAR" property="firstWord" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="org.goshop.goods.pojo.GsGoodsBrand">
+    <result column="remark" jdbcType="LONGVARCHAR" property="remark" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, addTime, deleteStatus, audit, name, recommend, sequence, brandLogo_id, category_id,
+    userStatus, user_id, weixin_shop_recommend, weixin_shop_recommendTime, first_word
+  </sql>
+  <sql id="Blob_Column_List">
+    remark
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="ResultMapWithBLOBs">
+    select
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from gs_goods_brand
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from gs_goods_brand
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="org.goshop.goods.pojo.GsGoodsBrand">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into gs_goods_brand (addTime, deleteStatus, audit,
+      name, recommend, sequence,
+      brandLogo_id, category_id, userStatus,
+      user_id, weixin_shop_recommend, weixin_shop_recommendTime,
+      first_word, remark)
+    values (#{addtime,jdbcType=TIMESTAMP}, #{deletestatus,jdbcType=BIT}, #{audit,jdbcType=BIT},
+      #{name,jdbcType=VARCHAR}, #{recommend,jdbcType=BIT}, #{sequence,jdbcType=INTEGER},
+      #{brandlogoId,jdbcType=BIGINT}, #{categoryId,jdbcType=BIGINT}, #{userstatus,jdbcType=INTEGER},
+      #{userId,jdbcType=BIGINT}, #{weixinShopRecommend,jdbcType=BIT}, #{weixinShopRecommendtime,jdbcType=DATE},
+      #{firstWord,jdbcType=VARCHAR}, #{remark,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="org.goshop.goods.pojo.GsGoodsBrand">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into gs_goods_brand
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="addtime != null">
+        addTime,
+      </if>
+      <if test="deletestatus != null">
+        deleteStatus,
+      </if>
+      <if test="audit != null">
+        audit,
+      </if>
+      <if test="name != null">
+        name,
+      </if>
+      <if test="recommend != null">
+        recommend,
+      </if>
+      <if test="sequence != null">
+        sequence,
+      </if>
+      <if test="brandlogoId != null">
+        brandLogo_id,
+      </if>
+      <if test="categoryId != null">
+        category_id,
+      </if>
+      <if test="userstatus != null">
+        userStatus,
+      </if>
+      <if test="userId != null">
+        user_id,
+      </if>
+      <if test="weixinShopRecommend != null">
+        weixin_shop_recommend,
+      </if>
+      <if test="weixinShopRecommendtime != null">
+        weixin_shop_recommendTime,
+      </if>
+      <if test="firstWord != null">
+        first_word,
+      </if>
+      <if test="remark != null">
+        remark,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="addtime != null">
+        #{addtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="deletestatus != null">
+        #{deletestatus,jdbcType=BIT},
+      </if>
+      <if test="audit != null">
+        #{audit,jdbcType=BIT},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="recommend != null">
+        #{recommend,jdbcType=BIT},
+      </if>
+      <if test="sequence != null">
+        #{sequence,jdbcType=INTEGER},
+      </if>
+      <if test="brandlogoId != null">
+        #{brandlogoId,jdbcType=BIGINT},
+      </if>
+      <if test="categoryId != null">
+        #{categoryId,jdbcType=BIGINT},
+      </if>
+      <if test="userstatus != null">
+        #{userstatus,jdbcType=INTEGER},
+      </if>
+      <if test="userId != null">
+        #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="weixinShopRecommend != null">
+        #{weixinShopRecommend,jdbcType=BIT},
+      </if>
+      <if test="weixinShopRecommendtime != null">
+        #{weixinShopRecommendtime,jdbcType=DATE},
+      </if>
+      <if test="firstWord != null">
+        #{firstWord,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="org.goshop.goods.pojo.GsGoodsBrand">
+    update gs_goods_brand
+    <set>
+      <if test="addtime != null">
+        addTime = #{addtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="deletestatus != null">
+        deleteStatus = #{deletestatus,jdbcType=BIT},
+      </if>
+      <if test="audit != null">
+        audit = #{audit,jdbcType=BIT},
+      </if>
+      <if test="name != null">
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="recommend != null">
+        recommend = #{recommend,jdbcType=BIT},
+      </if>
+      <if test="sequence != null">
+        sequence = #{sequence,jdbcType=INTEGER},
+      </if>
+      <if test="brandlogoId != null">
+        brandLogo_id = #{brandlogoId,jdbcType=BIGINT},
+      </if>
+      <if test="categoryId != null">
+        category_id = #{categoryId,jdbcType=BIGINT},
+      </if>
+      <if test="userstatus != null">
+        userStatus = #{userstatus,jdbcType=INTEGER},
+      </if>
+      <if test="userId != null">
+        user_id = #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="weixinShopRecommend != null">
+        weixin_shop_recommend = #{weixinShopRecommend,jdbcType=BIT},
+      </if>
+      <if test="weixinShopRecommendtime != null">
+        weixin_shop_recommendTime = #{weixinShopRecommendtime,jdbcType=DATE},
+      </if>
+      <if test="firstWord != null">
+        first_word = #{firstWord,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="org.goshop.goods.pojo.GsGoodsBrand">
+    update gs_goods_brand
+    set addTime = #{addtime,jdbcType=TIMESTAMP},
+      deleteStatus = #{deletestatus,jdbcType=BIT},
+      audit = #{audit,jdbcType=BIT},
+      name = #{name,jdbcType=VARCHAR},
+      recommend = #{recommend,jdbcType=BIT},
+      sequence = #{sequence,jdbcType=INTEGER},
+      brandLogo_id = #{brandlogoId,jdbcType=BIGINT},
+      category_id = #{categoryId,jdbcType=BIGINT},
+      userStatus = #{userstatus,jdbcType=INTEGER},
+      user_id = #{userId,jdbcType=BIGINT},
+      weixin_shop_recommend = #{weixinShopRecommend,jdbcType=BIT},
+      weixin_shop_recommendTime = #{weixinShopRecommendtime,jdbcType=DATE},
+      first_word = #{firstWord,jdbcType=VARCHAR},
+      remark = #{remark,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="org.goshop.goods.pojo.GsGoodsBrand">
+    update gs_goods_brand
+    set addTime = #{addtime,jdbcType=TIMESTAMP},
+      deleteStatus = #{deletestatus,jdbcType=BIT},
+      audit = #{audit,jdbcType=BIT},
+      name = #{name,jdbcType=VARCHAR},
+      recommend = #{recommend,jdbcType=BIT},
+      sequence = #{sequence,jdbcType=INTEGER},
+      brandLogo_id = #{brandlogoId,jdbcType=BIGINT},
+      category_id = #{categoryId,jdbcType=BIGINT},
+      userStatus = #{userstatus,jdbcType=INTEGER},
+      user_id = #{userId,jdbcType=BIGINT},
+      weixin_shop_recommend = #{weixinShopRecommend,jdbcType=BIT},
+      weixin_shop_recommendTime = #{weixinShopRecommendtime,jdbcType=DATE},
+      first_word = #{firstWord,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

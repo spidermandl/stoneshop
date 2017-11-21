@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.goshop.goods.mapper.read.ReadGsAlbumMapper">
+  <resultMap id="BaseResultMap" type="org.goshop.goods.pojo.GsAlbum">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="addTime" jdbcType="TIMESTAMP" property="addtime" />
+    <result column="deleteStatus" jdbcType="BIT" property="deletestatus" />
+    <result column="album_default" jdbcType="BIT" property="albumDefault" />
+    <result column="album_name" jdbcType="VARCHAR" property="albumName" />
+    <result column="album_sequence" jdbcType="INTEGER" property="albumSequence" />
+    <result column="album_cover_id" jdbcType="BIGINT" property="albumCoverId" />
+    <result column="user_id" jdbcType="BIGINT" property="userId" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="org.goshop.goods.pojo.GsAlbum">
+    <result column="alblum_info" jdbcType="LONGVARCHAR" property="alblumInfo" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, addTime, deleteStatus, album_default, album_name, album_sequence, album_cover_id,
+    user_id
+  </sql>
+  <sql id="Blob_Column_List">
+    alblum_info
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="ResultMapWithBLOBs">
+    select
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from gs_album
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from gs_album
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="org.goshop.goods.pojo.GsAlbum">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into gs_album (addTime, deleteStatus, album_default,
+      album_name, album_sequence, album_cover_id,
+      user_id, alblum_info)
+    values (#{addtime,jdbcType=TIMESTAMP}, #{deletestatus,jdbcType=BIT}, #{albumDefault,jdbcType=BIT},
+      #{albumName,jdbcType=VARCHAR}, #{albumSequence,jdbcType=INTEGER}, #{albumCoverId,jdbcType=BIGINT},
+      #{userId,jdbcType=BIGINT}, #{alblumInfo,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="org.goshop.goods.pojo.GsAlbum">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into gs_album
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="addtime != null">
+        addTime,
+      </if>
+      <if test="deletestatus != null">
+        deleteStatus,
+      </if>
+      <if test="albumDefault != null">
+        album_default,
+      </if>
+      <if test="albumName != null">
+        album_name,
+      </if>
+      <if test="albumSequence != null">
+        album_sequence,
+      </if>
+      <if test="albumCoverId != null">
+        album_cover_id,
+      </if>
+      <if test="userId != null">
+        user_id,
+      </if>
+      <if test="alblumInfo != null">
+        alblum_info,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="addtime != null">
+        #{addtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="deletestatus != null">
+        #{deletestatus,jdbcType=BIT},
+      </if>
+      <if test="albumDefault != null">
+        #{albumDefault,jdbcType=BIT},
+      </if>
+      <if test="albumName != null">
+        #{albumName,jdbcType=VARCHAR},
+      </if>
+      <if test="albumSequence != null">
+        #{albumSequence,jdbcType=INTEGER},
+      </if>
+      <if test="albumCoverId != null">
+        #{albumCoverId,jdbcType=BIGINT},
+      </if>
+      <if test="userId != null">
+        #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="alblumInfo != null">
+        #{alblumInfo,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="org.goshop.goods.pojo.GsAlbum">
+    update gs_album
+    <set>
+      <if test="addtime != null">
+        addTime = #{addtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="deletestatus != null">
+        deleteStatus = #{deletestatus,jdbcType=BIT},
+      </if>
+      <if test="albumDefault != null">
+        album_default = #{albumDefault,jdbcType=BIT},
+      </if>
+      <if test="albumName != null">
+        album_name = #{albumName,jdbcType=VARCHAR},
+      </if>
+      <if test="albumSequence != null">
+        album_sequence = #{albumSequence,jdbcType=INTEGER},
+      </if>
+      <if test="albumCoverId != null">
+        album_cover_id = #{albumCoverId,jdbcType=BIGINT},
+      </if>
+      <if test="userId != null">
+        user_id = #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="alblumInfo != null">
+        alblum_info = #{alblumInfo,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="org.goshop.goods.pojo.GsAlbum">
+    update gs_album
+    set addTime = #{addtime,jdbcType=TIMESTAMP},
+      deleteStatus = #{deletestatus,jdbcType=BIT},
+      album_default = #{albumDefault,jdbcType=BIT},
+      album_name = #{albumName,jdbcType=VARCHAR},
+      album_sequence = #{albumSequence,jdbcType=INTEGER},
+      album_cover_id = #{albumCoverId,jdbcType=BIGINT},
+      user_id = #{userId,jdbcType=BIGINT},
+      alblum_info = #{alblumInfo,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="org.goshop.goods.pojo.GsAlbum">
+    update gs_album
+    set addTime = #{addtime,jdbcType=TIMESTAMP},
+      deleteStatus = #{deletestatus,jdbcType=BIT},
+      album_default = #{albumDefault,jdbcType=BIT},
+      album_name = #{albumName,jdbcType=VARCHAR},
+      album_sequence = #{albumSequence,jdbcType=INTEGER},
+      album_cover_id = #{albumCoverId,jdbcType=BIGINT},
+      user_id = #{userId,jdbcType=BIGINT}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>
