@@ -262,10 +262,10 @@
             <dd class="arrow"></dd>
             </dl>
             <dl class="">
-                <dt><a href="${S_URL}${SELLER_ROOT}/lgsTools/lgsToolsQuery">物流</a></dt>
+                <dt><a href="${S_URL}${SELLER_ROOT}/transport/transport_list">物流</a></dt>
                 <dd>
                     <ul>
-                        <li><a href="${S_URL}${SELLER_ROOT}/lgsTools/lgsToolsQuery"> 物流工具 </a></li>
+                        <li><a href="${S_URL}${SELLER_ROOT}/transport/transport_list"> 物流工具 </a></li>
                         <li><a href="${S_URL}${SELLER_ROOT}/lgsTools/feeSet"> 免运费额度 </a></li>
                     </ul>
                 </dd>

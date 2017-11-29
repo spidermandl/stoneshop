@@ -3,6 +3,8 @@ package org.goshop.goods.mapper.master;
 import org.goshop.goods.pojo.GsGoods;
 import org.goshop.goods.pojo.GsGoodsWithBLOBs;
 
+import java.util.List;
+
 public interface GsGoodsMapper {
     int deleteByPrimaryKey(Long id);
 
@@ -17,4 +19,7 @@ public interface GsGoodsMapper {
     int updateByPrimaryKeyWithBLOBs(GsGoodsWithBLOBs record);
 
     int updateByPrimaryKey(GsGoods record);
+
+    List<GsGoodsWithBLOBs> findByMainPhoto(Long id);
+
 }

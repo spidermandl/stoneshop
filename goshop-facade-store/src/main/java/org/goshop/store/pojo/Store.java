@@ -5,7 +5,7 @@ import java.math.BigDecimal;
 import java.util.Date;
 
 public class Store  implements Serializable {
-    private Integer storeId;
+    private Long storeId;
 
     private String storeName;
 
@@ -95,11 +95,13 @@ public class Store  implements Serializable {
 
     private Byte storeStorageAlarm;
 
-    public Integer getStoreId() {
+    private StoreGrade storeGrade;
+
+    public Long getStoreId() {
         return storeId;
     }
 
-    public void setStoreId(Integer storeId) {
+    public void setStoreId(Long storeId) {
         this.storeId = storeId;
     }
 
@@ -453,5 +455,13 @@ public class Store  implements Serializable {
 
     public void setStoreStorageAlarm(Byte storeStorageAlarm) {
         this.storeStorageAlarm = storeStorageAlarm;
+    }
+
+    public StoreGrade getStoreGrade() {
+        return storeGrade;
+    }
+
+    public void setStoreGrade(StoreGrade storeGrade) {
+        this.storeGrade = storeGrade;
     }
 }

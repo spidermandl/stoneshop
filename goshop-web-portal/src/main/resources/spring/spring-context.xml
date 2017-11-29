@@ -10,7 +10,9 @@
 
 	<!-- 加载配置文件 -->
 	<context:property-placeholder  ignore-resource-not-found="true"
-								   location="classpath:common.properties,classpath:resource/*.properties,
+								   location="classpath:common.properties,
+								   classpath:resource/*.properties,
+								   classpath:system.properties,
                                   file:/usr/web_home/manage/resource/*.properties" />
 
 	<!-- 扫描包加载Service实现类-->

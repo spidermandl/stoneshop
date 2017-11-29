@@ -20,26 +20,26 @@
     <h2>
         填写商品详情
     </h2>
+    <#--<i class="arrow icon-angle-right">-->
+    <#--</i>-->
+    <#--</li>-->
+    <#--<li <<#if P_STEP==3>class="current"</#if>>-->
+    <#--<i class="icon icon-camera-retro ">-->
+    <#--</i>-->
+    <#--<h6>-->
+        <#--STIP.3-->
+    <#--</h6>-->
+    <#--<h2>-->
+        <#--上传商品图片-->
+    <#--</h2>-->
     <i class="arrow icon-angle-right">
     </i>
     </li>
-    <li <<#if P_STEP==3>class="current"</#if>>
-    <i class="icon icon-camera-retro ">
-    </i>
-    <h6>
-        STIP.3
-    </h6>
-    <h2>
-        上传商品图片
-    </h2>
-    <i class="arrow icon-angle-right">
-    </i>
-    </li>
-    <li <#if P_STEP==4 >class="current"</#if>>
+    <li <#if P_STEP==3 >class="current"</#if>>
     <i class="icon icon-ok-circle">
     </i>
     <h6>
-        STIP.4
+        STIP.3
     </h6>
     <h2>
         商品发布成功

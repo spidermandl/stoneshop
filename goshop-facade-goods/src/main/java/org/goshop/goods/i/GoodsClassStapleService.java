@@ -2,6 +2,7 @@ package org.goshop.goods.i;
 
 import org.goshop.goods.pojo.GoodsClass;
 import org.goshop.goods.pojo.GoodsClassStaple;
+import org.goshop.goods.pojo.GsGoodsClass;
 import org.goshop.goods.pojo.JsonGoodsClass;
 import org.goshop.users.pojo.User;
 
@@ -13,11 +14,11 @@ import java.util.List;
 public interface GoodsClassStapleService {
     List<GoodsClassStaple> findByMemberId(Long memberId);
 
-    GoodsClassStaple findOne(Integer id);
+    GoodsClassStaple findOne(Long id);
 
-    int checkSaveStaple(User user, GoodsClass goodsClass);
+    int checkSaveStaple(User user, GsGoodsClass goodsClass);
 
-    int delete(Integer stapleId);
+    int delete(Long stapleId);
 
-    JsonGoodsClass selectGoodsClassStaple(Integer stapleId);
+    JsonGoodsClass selectGoodsClassStaple(Long stapleId);
 }

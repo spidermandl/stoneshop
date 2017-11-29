@@ -5,11 +5,9 @@ import org.goshop.common.exception.MapperException;
 import org.goshop.common.utils.PageUtils;
 import org.goshop.goods.i.GoodsClassService;
 import org.goshop.goods.mapper.master.GsGoodsClassMapper;
-import org.goshop.goods.mapper.master.GsGoodsMapper;
 import org.goshop.goods.pojo.GoodsClass;
 import org.goshop.goods.mapper.master.GoodsClassMapper;
 import org.goshop.goods.pojo.GsGoodsClass;
-import org.goshop.goods.pojo.GsGoodsWithBLOBs;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

@@ -11,7 +11,7 @@ public class AlbumClass implements Serializable {
 
     private String aclassName;
 
-    private Integer storeId;
+    private Long storeId;
 
     private String aclassDes;
 
@@ -50,11 +50,11 @@ public class AlbumClass implements Serializable {
         this.aclassName = aclassName == null ? null : aclassName.trim();
     }
 
-    public Integer getStoreId() {
+    public Long getStoreId() {
         return storeId;
     }
 
-    public void setStoreId(Integer storeId) {
+    public void setStoreId(Long storeId) {
         this.storeId = storeId;
     }
 

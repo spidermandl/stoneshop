@@ -70,7 +70,7 @@ public class AlbumClassServiceImpl implements AlbumClassService {
     @Override
     public int update(AlbumClass albumClass, Long userId) {
         Store store=storeService.findByMemberId(userId);
-        Integer storeId = store.getStoreId();
+        Long storeId = store.getStoreId();
         albumClass.setStoreId(storeId);
         return albumClassMapper.updateByStoreId(albumClass);
     }

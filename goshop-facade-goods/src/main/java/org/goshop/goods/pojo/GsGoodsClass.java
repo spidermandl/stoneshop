@@ -32,6 +32,16 @@ public class GsGoodsClass implements Serializable {
 
     private Long iconAccId;
 
+    private GsGoodsType goodsType = new GsGoodsType();
+
+    public GsGoodsType getGoodsType(){
+        return this.goodsType;
+    }
+
+    public void setGoodsType(GsGoodsType goodsType){
+        this.goodsType = goodsType;
+    }
+
     private List<GsGoodsClass> children = new ArrayList<GsGoodsClass>();
 
     public List<GsGoodsClass> getChildren() {

@@ -15,12 +15,8 @@
     <!-- 依赖管理 -->
     <dependencies>
         <dependency>
-            <groupId>org.goshop</groupId>m
-            <artifactId>goshop-facade-store</artifactId>
-        </dependency>
-        <dependency>
             <groupId>org.goshop</groupId>
-            <artifactId>goshop-facade-goods</artifactId>
+            <artifactId>goshop-facade-store</artifactId>
         </dependency>
         <dependency>
             <groupId>org.goshop</groupId>
@@ -185,6 +181,19 @@
                     </execution>
                 </executions>
             </plugin>
+            <!-- mybatis逆向工程 -->
+            <plugin>
+                <groupId>org.mybatis.generator</groupId>
+                <artifactId>mybatis-generator-maven-plugin</artifactId>
+                <version>${mybatis-generator-version}</version>
+                <configuration>
+                    <!--配置文件的位置-->
+                    <configurationFile>src/main/resources/mybatis/generator.xml</configurationFile>
+                    <verbose>true</verbose>
+                    <overwrite>true</overwrite>
+                </configuration>
+            </plugin>
+
         </plugins>
     </build>
 </project>

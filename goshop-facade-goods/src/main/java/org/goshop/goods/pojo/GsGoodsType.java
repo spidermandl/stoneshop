@@ -1,7 +1,9 @@
 package org.goshop.goods.pojo;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 public class GsGoodsType implements Serializable {
     private Long id;
@@ -13,6 +15,8 @@ public class GsGoodsType implements Serializable {
     private String name;
 
     private Integer sequence;
+
+    private List<GsGoodsSpecification> gss = new ArrayList();
 
     public Long getId() {
         return id;
@@ -52,5 +56,13 @@ public class GsGoodsType implements Serializable {
 
     public void setSequence(Integer sequence) {
         this.sequence = sequence;
+    }
+
+    public List<GsGoodsSpecification> getGss(){
+        return this.gss;
+    }
+
+    public void setGss(List<GsGoodsSpecification> gss){
+        this.gss = gss;
     }
 }

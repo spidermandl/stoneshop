@@ -1,10 +1,12 @@
 package org.goshop.common.utils;
 
+import com.github.pagehelper.PageInfo;
 import com.sun.image.codec.jpeg.JPEGCodec;
 import com.sun.image.codec.jpeg.JPEGEncodeParam;
 import com.sun.image.codec.jpeg.JPEGImageEncoder;
 import org.jsoup.Jsoup;
 import org.jsoup.safety.Whitelist;
+import org.springframework.ui.Model;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
@@ -1007,19 +1009,19 @@ public class CommUtil {
 //        }
 //    }
 //
-//    public static void saveIPageList2ModelAndView(String url, String staticURL, String params, IPageList pList, ModelAndView mv){
-//        if (pList != null){
-//            mv.addObject("objs", pList.getResult());
-//            mv.addObject("totalPage", new Integer(pList.getPages()));
-//            mv.addObject("pageSize", Integer.valueOf(pList.getPageSize()));
-//            mv.addObject("rows", new Integer(pList.getRowCount()));
-//            mv.addObject("currentPage", new Integer(pList.getCurrentPage()));
-//            mv.addObject("gotoPageHTML", showPageHtml(url, params, pList.getCurrentPage(), pList.getPages()));
-//            mv.addObject("gotoPageFormHTML", showPageFormHtml(pList.getCurrentPage(), pList.getPages()));
-//            mv.addObject("gotoPageStaticHTML", showPageStaticHtml(staticURL, pList.getCurrentPage(), pList.getPages()));
-//            mv.addObject("gotoPageAjaxHTML", showPageAjaxHtml(url, params, pList.getCurrentPage(), pList.getPages()));
-//        }
-//    }
+    public static void saveIPageList2ModelAndView(String url, String staticURL, String params, PageInfo pList, Model mv){
+        if (pList != null){
+            mv.addAttribute("objs", pList.getList());
+            mv.addAttribute("totalPage", new Integer(pList.getPages()));
+            mv.addAttribute("pageSize", Integer.valueOf(pList.getPageSize()));
+            mv.addAttribute("rows", new Integer(pList.getSize()));
+            mv.addAttribute("currentPage", new Integer(pList.getPageNum()));
+            mv.addAttribute("gotoPageHTML", CommUtil.showPageHtml(url, params, pList.getPageNum(), pList.getPages()));
+            mv.addAttribute("gotoPageFormHTML", CommUtil.showPageFormHtml(pList.getPageNum(), pList.getPages()));
+            mv.addAttribute("gotoPageStaticHTML", CommUtil.showPageStaticHtml(staticURL, pList.getPageNum(), pList.getPages()));
+            mv.addAttribute("gotoPageAjaxHTML", CommUtil.showPageAjaxHtml(url, params, pList.getPageNum(), pList.getPages()));
+        }
+    }
 
     public static char randomChar(){
         char[] chars = { 'a', 'A', 'b', 'B', 'c', 'C', 'd', 'D',
@@ -1284,7 +1286,7 @@ public class CommUtil {
     }
 
     public static String getURL(HttpServletRequest request){
-        String contextPath = request.getContextPath().equals("/") ? "" : request.getContextPath();
+        String contextPath = request.getContextPath().equals("/") ?"" : request.getContextPath();
 
         String url = "http://" + request.getServerName();
         if (null2Int(Integer.valueOf(request.getServerPort())) != 80)
@@ -1437,12 +1439,14 @@ public class CommUtil {
 
         long foldersize = 0L;
         File[] filelist = folder.listFiles();
-        for (int i = 0; i < filelist.length; i++){
-            if (filelist[i].isDirectory()){
-                foldersize = (long)(foldersize + fileSize(filelist[i]));
-            }else{
-                totalFile += 1;
-                foldersize += filelist[i].length();
+        if (filelist!=null) {
+            for (int i = 0; i < filelist.length; i++) {
+                if (filelist[i].isDirectory()) {
+                    foldersize = (long) (foldersize + fileSize(filelist[i]));
+                } else {
+                    totalFile += 1;
+                    foldersize += filelist[i].length();
+                }
             }
         }
 

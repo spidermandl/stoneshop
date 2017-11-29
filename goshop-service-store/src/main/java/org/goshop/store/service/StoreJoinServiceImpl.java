@@ -1,12 +1,13 @@
 package org.goshop.store.service;
 
 import com.github.pagehelper.PageInfo;
+import net.sf.json.JSONObject;
 import org.goshop.common.exception.MapperException;
 import org.goshop.common.exception.PageException;
 import org.goshop.common.utils.PageUtils;
-import org.goshop.common.web.utils.JsonUtils;
 import org.goshop.goods.i.GoodsClassService;
 import org.goshop.goods.pojo.GoodsClass;
+import org.goshop.goods.pojo.GsGoodsClass;
 import org.goshop.store.i.StoreClassService;
 import org.goshop.store.i.StoreGradeService;
 import org.goshop.store.i.StoreService;
@@ -74,7 +75,7 @@ public class StoreJoinServiceImpl implements StoreJoinService {
         //店铺等级
         List<StoreGrade> storeGradeList = storeGradeService.findAll();
         //经营类目
-        List<GoodsClass> goodsClassParentList = goodsClassService.findByGcParentId(0);
+        List<GsGoodsClass> goodsClassParentList = goodsClassService.findByGcParentId(0L);
 
         StoreInfoModel storeInfoModel = new StoreInfoModel();
         storeInfoModel.setStoreClassParentList(storeClassParentList);
@@ -155,7 +156,8 @@ public class StoreJoinServiceImpl implements StoreJoinService {
                 jsonManagementList.add(jm);
             }
         }
-        storeJoin.setStoreClassIds(JsonUtils.objectToJson(jsonManagementList));
+
+        storeJoin.setStoreClassIds(JSONObject.fromObject(jsonManagementList).toString());
         storeJoin.setJoininState(StoreJoinMapper.JOIN_STATIC_APPLY);
         storeJoinMapper.updateByPrimaryKeySelective(storeJoin);
         return storeJoinMapper.selectByPrimaryKey(user.getId());
@@ -163,7 +165,9 @@ public class StoreJoinServiceImpl implements StoreJoinService {
 
     @Override
     public Store getCurrentStore(User user) {
-        return storeService.findByMemberId(user.getId());
+        Store store = storeService.findByMemberId(user.getId());
+        store.setStoreGrade(storeGradeService.findOne(store.getGradeId()));
+        return store;
     }
 
     @Override

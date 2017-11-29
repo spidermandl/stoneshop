@@ -6,13 +6,13 @@ import org.goshop.goods.pojo.GoodsClassStaple;
 import java.util.List;
 
 public interface GoodsClassStapleMapper {
-    int deleteByPrimaryKey(Integer stapleId);
+    int deleteByPrimaryKey(Long stapleId);
 
     int insert(GoodsClassStaple record);
 
     int insertSelective(GoodsClassStaple record);
 
-    GoodsClassStaple selectByPrimaryKey(Integer stapleId);
+    GoodsClassStaple selectByPrimaryKey(Long stapleId);
 
     int updateByPrimaryKeySelective(GoodsClassStaple record);
 
@@ -20,5 +20,5 @@ public interface GoodsClassStapleMapper {
 
     List<GoodsClassStaple> findByMemberId(@Param("memberId") Long memberId);
 
-    GoodsClassStaple findOneByGcId3AndMemberId(@Param("gcId3") Integer gcId3, @Param("memberId") Long memberId);
+    GoodsClassStaple findOneByGcId3AndMemberId(@Param("gcId3") Long gcId3, @Param("memberId") Long memberId);
 }

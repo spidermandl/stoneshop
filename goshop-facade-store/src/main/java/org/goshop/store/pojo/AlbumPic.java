@@ -22,7 +22,7 @@ public class AlbumPic implements Serializable {
 
     private String apicSpec;
 
-    private Integer storeId;
+    private Long storeId;
 
     private Date uploadTime;
 
@@ -82,11 +82,11 @@ public class AlbumPic implements Serializable {
         this.apicSpec = apicSpec == null ? null : apicSpec.trim();
     }
 
-    public Integer getStoreId() {
+    public Long getStoreId() {
         return storeId;
     }
 
-    public void setStoreId(Integer storeId) {
+    public void setStoreId(Long storeId) {
         this.storeId = storeId;
     }
 
