@@ -2,6 +2,8 @@ package org.goshop.store.mapper.read;
 
 import org.goshop.store.pojo.GsTransArea;
 
+import java.util.List;
+
 public interface ReadGsTransAreaMapper {
     int deleteByPrimaryKey(Long id);
 
@@ -14,4 +16,8 @@ public interface ReadGsTransAreaMapper {
     int updateByPrimaryKeySelective(GsTransArea record);
 
     int updateByPrimaryKey(GsTransArea record);
+
+    List<GsTransArea> selectByNullParent();
+
+    List<GsTransArea> selectByParentId(Long parendId);
 }

@@ -8,7 +8,7 @@
 <#--<link type="text/css" rel="stylesheet" href="${S_URL}/static/styles/user.css">-->
 <#--<link type="text/css" rel="stylesheet" href="${S_URL}/static/styles/public.css">-->
 <#--<link type="text/css" rel="stylesheet" href="${S_URL}/static/styles/overlay.css">-->
-<link type="text/css" rel="stylesheet" href="${S_URL}/static/styles/add_goods.css">
+<link type="text/css" rel="stylesheet" href="${S_URL}/static/styles/goods.css">
 <link type="text/css" rel="stylesheet" href="${S_URL}/static/editor/themes/default/default.css">
 <script charset="utf-8" src="${S_URL}/static/editor/kindeditor.js"></script>
 <script charset="utf-8" src="${S_URL}/static/editor/lang/zh_CN.js"></script>
@@ -187,7 +187,7 @@
             jQuery("#ugc_id_${ugc_index+1}").val("${(ugc.id)!}");
         </#list>
         <#list (obj.goods_specs)! as spec>
-            jQuery(":checkbox[id=spec_${(spec.id)!}]").attr("checked",true);
+            jQuery(":checkbox[id=spec_${(spec.id)!}]").prop("checked",true);
         </#list>
 
         <#if ((obj.inventory_type)!)=="spec">

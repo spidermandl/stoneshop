@@ -11,6 +11,7 @@ import org.goshop.shiro.bind.annotation.CurrentUser;
 import org.goshop.store.i.AreaService;
 import org.goshop.store.i.StoreJoinService;
 import org.goshop.store.i.TransportService;
+import org.goshop.store.pojo.GsTransArea;
 import org.goshop.store.pojo.GsTransport;
 import org.goshop.store.pojo.GsTransportWithBLOBs;
 import org.goshop.store.pojo.Store;
@@ -251,7 +252,7 @@ public class TransportController {
         else
             this.transportService.update(transport);
 
-        return "redirect:"+"transport/"+"transport_success?currentPage=" + currentPage;
+        return "redirect:"+"/transport/"+"transport_success?currentPage=" + currentPage;
     }
 
     //卖家运费模板保存成功
@@ -283,7 +284,7 @@ public class TransportController {
             }
         }
 
-        return "redirect:transport_list?currentPage=" + currentPage;
+        return "redirect:/transport/"+"transport_list?currentPage=" + currentPage;
     }
 
     //卖家运费模板详细信息
@@ -321,7 +322,15 @@ public class TransportController {
                                        String trans_city_type,
                                        String trans_index){
         String ret = "transport_area";
-        List objs = this.transAreaService.findByRootArea();
+        List<GsTransArea> objs = this.transAreaService.findByRootArea();
+        for (GsTransArea area : objs){
+            List<GsTransArea> childs = this.transAreaService.findByRootArea(area);
+            area.setChilds(childs);
+            for (GsTransArea ch : childs){
+                List<GsTransArea> grands = this.transAreaService.findByRootArea(ch);
+                ch.setChilds(grands);
+            }
+        }
         model.addAttribute("objs", objs);
         model.addAttribute("trans_city_type", trans_city_type);
         model.addAttribute("trans_index", trans_index);

@@ -37,7 +37,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- * 增加商品功能
+ * 增加商品控制器
  */
 @Controller
 @RequestMapping(value =  "/goods_add")

@@ -4,6 +4,8 @@ import com.github.pagehelper.PageInfo;
 import org.goshop.common.utils.PageUtils;
 import org.goshop.store.i.TransportService;
 import org.goshop.store.mapper.master.GsTransportMapper;
+import org.goshop.store.mapper.read.ReadGsTransAreaMapper;
+import org.goshop.store.mapper.read.ReadGsTransportMapper;
 import org.goshop.store.pojo.GsTransportWithBLOBs;
 import org.goshop.store.pojo.Store;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,19 +22,22 @@ public class TransportServiceImpl implements TransportService {
     @Autowired
     GsTransportMapper gsTransportMapper;
 
+    @Autowired
+    ReadGsTransportMapper readGsTransportMapper;
+
 
     @Override
     public PageInfo<GsTransportWithBLOBs> findByStoreId(Store store, Integer curPage, Integer pageSize,String orderBy,String orderType) {
         PageUtils.startPage(curPage,pageSize);
         orderBy = orderBy==null?"addTime":orderBy;
         orderType = orderType==null?"desc":orderType;
-        List<GsTransportWithBLOBs> list = gsTransportMapper.selectByStoreId(store.getStoreId(),orderBy,orderType);
+        List<GsTransportWithBLOBs> list = readGsTransportMapper.selectByStoreId(store.getStoreId(),orderBy,orderType);
         return new PageInfo<GsTransportWithBLOBs>(list);
     }
 
     @Override
     public GsTransportWithBLOBs findOne(Long id) {
-        return gsTransportMapper.selectByPrimaryKey(id);
+        return readGsTransportMapper.selectByPrimaryKey(id);
     }
 
     @Override

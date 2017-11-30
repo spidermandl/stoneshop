@@ -12,6 +12,7 @@
     <link type="text/css" rel="stylesheet" href="${S_URL}/static/scripts/dialog/dialog.css">
     <link type="text/css" rel="stylesheet" href="${S_URL}/static/scripts/jquery-ui/themes/ui-lightness/jquery.ui.css">
     <link type="text/css" rel="stylesheet" href="${S_URL}/static/styles/seller_center.css">
+    <link type="text/css" rel="stylesheet" href="${S_URL}/static/styles/overlay.css">
     <script src="${S_URL}/static/scripts/jquery/jquery.js"></script>
     <script src="${S_URL}/static/scripts/jquery/jquery-browser.js"></script>
     <script src="${S_URL}/static/scripts/jquery/waypoints.js"></script>

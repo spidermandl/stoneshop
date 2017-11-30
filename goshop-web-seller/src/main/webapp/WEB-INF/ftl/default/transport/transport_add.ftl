@@ -59,17 +59,17 @@
                 ems_trans_add_fee:{required:"不能为空",number:"只能为数字"}
             }
       });
-      jQuery(":checkbox").on("click",null,function(){
-         var ck=jQuery(this).attr("checked");
-         if(ck=="checked"){
-           var id=jQuery(this).attr("id");
+      jQuery(":checkbox").on("click",function(){
+         var ck=jQuery(this).prop("checked");
+         if(ck==true){
+           var id=jQuery(this).prop("id");
            jQuery("#"+id+"_info").show();
          }else{
-            var id=jQuery(this).attr("id");
+            var id=jQuery(this).prop("id");
            jQuery("#"+id+"_info").hide();
          }
        });
-      jQuery("a[id^=batch_set_]").on("click",null,function(){
+      jQuery("a[id^=batch_set_]").on("click",function(){
          jQuery(this).parent().parent().find(":checkbox").show();
          var type=jQuery(this).attr("trans_type");
          jQuery("#"+type+"_trans_city_op").show();
@@ -85,7 +85,7 @@
             ems_batch=1;
          }
       });
-      jQuery("a[id^=batch_cancle_]").on("click",null,function(){
+      jQuery("a[id^=batch_cancle_]").on("click",function(){
          jQuery(this).parent().parent().find(":checkbox").hide();
          var type=jQuery(this).attr("trans_type");
          jQuery("#"+type+"_trans_city_op").hide();
@@ -101,7 +101,7 @@
             ems_batch=0;
          }
       });
-      jQuery("a[id^=batch_del_]").on("click",null,function(){
+      jQuery("a[id^=batch_del_]").on("click",function(){
          jQuery(this).parent().parent().find(":checkbox:checked[id^=trans_ck]").each(function(){
              jQuery(this).parent().parent().parent().parent().remove();
          });
@@ -110,7 +110,7 @@
       jQuery("a[id^=batch_config_]").click(function(){
 
       });
-      jQuery(":checkbox[id$=mail_trans_all]").on("click",null,function(){
+      jQuery(":checkbox[id$=mail_trans_all]").on("click",function(){
          var ck=jQuery(this).attr("checked");
          if(ck=="checked"){
            jQuery(this).parent().parent().parent().find(":checkbox").attr("checked",true);
@@ -194,7 +194,7 @@
      var trans_index=jQuery(obj).parent().parent().parent().attr("index");
      jQuery.ajax({type:'POST',url:'${S_URL}/transport/transport_area',data:{"trans_city_type":trans_city_type,"trans_index":trans_index},
                   success:function(data){
-                             jQuery(".main").append(data);
+                             jQuery(".productmain").append(data);
                              var left=jQuery(obj).offset().left-280;
                              var top=jQuery(obj).offset().top+32;
                              jQuery(".area_box").css({"top":top+"px","left":left+"px"}).show();
@@ -208,7 +208,7 @@
 
 <div class="ncsc-layout wrapper">
     <#include "layout_transport.ftl"/>
-    <div class="ncsc-layout-right" id="layoutRight">
+    <div class="ncsc-layout-right" style="min-height: 1280px"  id="layoutRight">
         <#include "../nav.ftl"/>
         <div id="mainContent" class="main-content">
             <div class="productmain">

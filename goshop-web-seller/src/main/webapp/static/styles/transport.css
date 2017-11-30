@@ -9,6 +9,44 @@
 }
 
 .productmain{width: 900px;border: 1px solid #d7d7d7;overflow: hidden;margin: 5px;padding-bottom: 20px;background: #fff;}
+/**2013-08-19 goods分类 区域框start--------------------------------------***/
+.blue2{color: #0771DF;}
+.pdctitle{border-bottom: 1px solid #E4E1E1;font-size: 14px;font-weight: bold;padding: 10px;padding-left: 20px;background: url(../images/pdctitle_x.jpg);color: #3366CC;}
+.alldel{width:900px;float: right;}
+.alldel_r{float: right;margin-right: 10px;}
+.alldel_r span{float: left;display: block;}
+.alldelsel select{padding: 1px;}
+.alldelsear input{width: 90px;height: 18px;margin-left: 10px;}
+.alldel{height: 30px;margin-top: 10px;}
+.alldelbtn input{cursor: pointer;background: url(../images/btn.jpg) no-repeat;width: 83px;height: 24px;margin-left: 10px;border: 0px;}
+.alldel_l{float: left;padding-top: 5px;}
+.alldel_l span{display: block;float: left;}
+.alldel_la{width: 20px;}
+.alldel_lb{width: 30px;}
+.alldel_lc{padding-left: 10px;}
+.alldel_ld{padding-left: 10px;}
+.alldel_ld1{padding-left: 10px;}
+.classname{width: 650px;}
+.classname span{display: block;float: left}
+.sort{width: 70px;}
+.show{width: 30px;}
+.operajt{text-align: center;}
+.operajt span{margin-right: 5px;}
+.classname2{width: 20px;margin-left: 10px;margin-right: 10px; *padding-top: 4px;}
+.classname3{*padding-top: 4px;}
+.classname4{*padding-top: 4px;}
+.classname4 a{background: url(../images/goods/newxiaj.jpg) no-repeat;width: 80px;height: 21px;display: block;margin-left: 10px;color: #999;padding-left: 30px;line-height: 25px; *line-height: 21px;margin-top: -3px; *margin-top: 0px;}
+.classname4 a:hover{color: #FFF;background: url(../images/goods/hover.jpg) no-repeat;}
+.classname5{background: url(../images/goods/xiaji.jpg) no-repeat;padding-left: 15px;}
+.edit{padding-left: 5px;width: 30px;}
+.del{padding-left: 5px;width: 30px;}
+.userfenye{float: right;margin-right: 10px;height: 20px;padding-top: 5px;padding-bottom: 5px; margin-top:10px;}
+.userfenye a{border: 1px solid #CCCCCC;padding: 2px 5px; margin-right:10px; background:#FFF;}
+.userfenye .this{background: #aaa;color: #fff;font-weight: bold;}
+.userfenye a:hover{background: #ccc;color: #fff;}
+.userfenye span{border: 1px solid #666;padding: 2px 5px;}
+/**2013-08-19 end--------------------------------------***/
+
 .ordernav{overflow: hidden;margin-top: 10px;position: relative;top: 1px;width: 900px;}
 .orderul{padding-left: 20px;}
 .orderul li{float: left;padding-left: 15px;padding-right: 15px;text-align: center;line-height: 29px;height: 29px;border: 1px solid #AED2FF;margin-right: 3px;font-weight: bold;background: #E8F2FF;border-bottom: 0px;color: #000;cursor: pointer;border-radius:4px 4px 0px 0px;}
@@ -18,7 +56,7 @@
 .operation{width: 900px;overflow: hidden;margin-top: 10px;float: left;}
 #opertable{margin-left: 10px;border: none;border-bottom: 2px solid #E4E4E4;}
 #opertable td{border: 0px;border-top: 1px solid #E4E4E4;padding-left: 10px;padding-top: 10px;padding-bottom: 7px;}
-#opertitle{background: url(../images/usercenter/opratitle.jpg) repeat-x;background: url(../images/usercenter/exchane_oneh3.jpg) repeat-x leftbottom;}
+#opertitle{background: url(../images/opratitle.jpg) repeat-x;background: url(../images/exchane_oneh3.jpg) repeat-x leftbottom;}
 #opertitle td{border-bottom: 1px solid #AEC7E5;border-top: 1px solid #AEC7E5;}
 .addnewclass{width: 800px;float: left;margin-top: 10px;}
 .addnew{float: right;}
@@ -56,8 +94,35 @@
 .rdinary_ul .in { width:65px; height:20px; line-height:20px; border-top:1px solid #c7ccc6; border-left:1px solid #c7ccc6; border-right:1px solid #ebebeb; border-bottom:1px solid #ebebeb; border-radius:2px; margin-top:5px; background-color:#fbfbfb;}
 .rdinary_ul_bottom { width:651px; float:left; line-height:30px; color:#0030ff; padding-left:10px;}
 .rdinary_ul_bottom a { color:#0030ff; text-decoration:none;}
+.rdinary_ul table {text-align:center;}
+.rdinary_ul td { height:24px; line-height:24px;  border-right:1px solid #bcbcbc; border-bottom:1px solid #bcbcbc;}
 .db_box_save { width:734px; height:40px; float:left; text-align:center;}
 .db_box_save input { width:120px; height:34px; cursor:pointer; display: inline}
+
+/**2013-08-19 transport area区域框start--------------------------------------***/
+.area_box { width:580px; margin:0px auto;border:1px solid #dedede; background-color:#FFF;position:absolute;top:100px; left:100px; z-index:9999;}
+.area_box_title { width:560px; height:24px; line-height:24px; margin-top:1px; background-color:#e9f1f4; border-bottom:1px solid #dedede; padding:0px 10px;}
+.area_box_title_left { float:left;}
+.area_box_title_right { float:right; font-size:20px;}
+.area_box_title_right a { color:#666; text-decoration:none;}
+.area_box_title_right a:hover { color:#333;}
+.area_box_main { width:502px; float:left;}
+.area_bg_blue { width:580px; float:left; background-color:#ecf4ff;}
+.area_bg_white { width:580px; float:left; background-color:#ffffff;}
+.area_before { width:73px; float:left; line-height:35px; height:35px; padding-left:5px;}
+.area_box_main li { width:91px; float:left; height:35px; line-height:35px;}
+.area_box_main li input { margin-right:5px; margin-top:8px; margin-left:5px; float:left;}
+.area_box_main li span { background:url(../images/transport/sanjiao.png) no-repeat right center; float:left; padding-right:8px; cursor:pointer;}
+.area_box_main .this {width:91px; float:left; height:33px; line-height:33px;border:1px solid #ebe4ad; background-color:#fbfcc3; position:relative;}
+.area_box_main .area_level { position:absolute; width:225px; border:1px solid #ebe4ad; background-color:#fbfcc3; left:-1px; top:30px; display:none;}
+.area_level .close { width:225px; height:24px; float:left; line-height:24px; margin-bottom:10px;}
+.area_level .close input { float:right; cursor:pointer;}
+.area_level li { width:auto; height:30px; float:left; line-height:30px;}
+.area_box_bottom { width:580px; height:30px; line-height:30px; margin-top:10px; float:left; border-top:1px solid #dedede;}
+.area_box_bottom input { width:50px; height:24px; float:right; margin-right:10px; margin-top:5px; cursor:pointer;}
+.rdinary_ul table {text-align:center;}
+.rdinary_ul td { height:24px; line-height:24px;  border-right:1px solid #bcbcbc; border-bottom:1px solid #bcbcbc;}
+/**2013-08-19 end--------------------------------------***/
 
 /**系统常用按钮样式css3**/
 .button_common{color: #666;display: block;float: left;margin-right: 8px;text-decoration: none;font-weight: lighter;line-height: 1;border: 3px;border: 1px solid #ccc;border-radius: 3px;box-shadow: 0 1px 2px #999;text-shadow: 0 -1px 1px #ccc;cursor: pointer;padding: 5px 5px;}

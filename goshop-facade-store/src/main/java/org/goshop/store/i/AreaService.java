@@ -11,4 +11,6 @@ import java.util.List;
 public interface AreaService {
 
     List<GsTransArea> findByRootArea();
+
+    List<GsTransArea> findByRootArea(GsTransArea parend);
 }

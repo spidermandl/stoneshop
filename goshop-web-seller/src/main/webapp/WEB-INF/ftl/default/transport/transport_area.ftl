@@ -1,16 +1,16 @@
 <script>
-jQuery(function(){ 
+jQuery(function(){
 //disable已经选择的区域信息
-	  var count=jQuery("#"+"$!{trans_city_type}_trans_city_info table tr").length;
+	  var count=jQuery("#"+"${trans_city_type!}_trans_city_info table tr").length;
 	  for(var i=1;i<=count-1;i++){
-		 var ids=jQuery("#"+"$!{trans_city_type}_city_ids"+i).val().split(","); 
-		 if(i!=$!{trans_index}){ 
+		 var ids=jQuery("#"+"${trans_city_type!}_city_ids"+i).val().split(",");
+		 if(i!=${trans_index!}){
 		   jQuery(".area_box :checkbox").each(function(){
 		     var id=jQuery(this).val();
 			 for(var i=0;i<ids.length;i++){
 			    if(ids[i]==id){
-				  jQuery(this).attr("disabled","disabled"); 
-				} 
+				  jQuery(this).attr("disabled","disabled");
+				}
 			 }
 		   });
 		 }else{
@@ -18,13 +18,13 @@ jQuery(function(){
 		     var id=jQuery(this).val();
 			 for(var i=0;i<ids.length;i++){
 			    if(ids[i]==id){
-				  jQuery(this).attr("checked",true); 
+				  jQuery(this).attr("checked",true);
 				}
 			 }
-		   });	
-		   
+		   });
+
 		 }
-	  }  
+	  }
    jQuery(".area_box_main>ul>li").each(function(){
       var count=jQuery(this).find(".area_level :checkbox:checked").length;
 	  if(count>0){
@@ -34,7 +34,7 @@ jQuery(function(){
    jQuery(".area_box_main li span").click(function(){
       jQuery(".area_box_main li").removeClass("this");
 	  jQuery(".area_level").hide();
-	  jQuery(this).parent().addClass("this");												   
+	  jQuery(this).parent().addClass("this");
       jQuery(this).parent().find(".area_level").show();
    });
    jQuery(".area_before>:checkbox").click(function(){
@@ -87,9 +87,9 @@ jQuery(function(){
 	     jQuery(this).parent().parent().parent().parent().parent().parent().parent().parent().find(":checkbox[id^=group_]").attr("checked",true);
 	  }else{
 	     jQuery(this).parent().parent().parent().parent().parent().parent().parent().parent().find(":checkbox[id^=group_]").attr("checked",false);
-	  }	  
+	  }
    });
-   
+
 })
 function generic_area(){
   var trans_city_type=jQuery("#trans_city_type").val();
@@ -113,37 +113,43 @@ function generic_area(){
     <div class="area_box_title">
         <span class="area_box_title_left">选择区域</span>
         <span class="area_box_title_right"><a href="javascript:void(0);" onclick="javascript:jQuery('.area_box').remove();">×</a></span>
-    </div>  
+    </div>
   <!--蓝色背景:area_bg_blue 白色背景:area_bg_white-->
-  #foreach($obj in $objs)
+  <#list objs! as obj>
   <div class="area_bg_white">
-      <div class="area_before"><input name="group_$!{obj.id}" id="group_$!{obj.id}" type="checkbox" value="$!{obj.id}" /><label style="padding-left:3px;" for="group_$!{obj.id}">$!{obj.areaName}</label></div>
-        <div class="area_box_main">
-            <ul>
-               #foreach($info in $obj.childs)
-                <li>
-                <input name="province_$!{info.id}" id="province_$!{info.id}" type="checkbox" value="$info.id" />
-                <span><label for="province_${info.id}" style="float:left;">$!{info.areaName}</label><b id="city_count_$!{info.id}" style="color:#F60"></b></span>
-                  #if($info.childs.size()>0)
-                     <div class="area_level">
-                        <ul>
-                            #foreach($info1 in $info.childs)
-                            <li><label><input name="city_$!{info1.id}" id="city_$!{info1.id}" city_name="$!{info1.areaName}" type="checkbox" value="$!{info1.id}"  />$!info1.areaName</label></li>
-                            #end
-                            <li class="close"><input type="button" value="关闭" onclick="jQuery(this).parent().parent().parent().hide();jQuery('.area_box_main li').removeClass('this');" /></li>
-                        </ul>
-                    </div>
-                  #end  
-                </li>
-               #end
-            </ul>
-        </div>
+		<div class="area_before">
+			<input name="group_${(obj.id)!}" id="group_${(obj.id)!}" type="checkbox" value="${(obj.id)!}" />
+			<label style="padding-left:3px;" for="group_${(obj.id)!}">${(obj.areaname)!}</label>
+		</div>
+		<div class="area_box_main">
+			<ul>
+			   <#list (obj.childs)! as info >
+					<li>
+					<input name="province_${(info.id)!}" id="province_${(info.id)!}" type="checkbox" value="${(info.id)!}" />
+					<span>
+						<label for="province_${(info.id)!}" style="float:left;">${(info.areaname)!}</label>
+						<b id="city_count_${(info.id)!}" style="color:#F60"></b>
+					</span>
+					<#if (info.childs?size > 0) >
+						<div class="area_level">
+						<ul>
+							<#list (info.childs)! as info1>
+							<li><label><input name="city_${(info1.id)!}" id="city_${(info1.id)!}" city_name="${(info1.areaname)!}" type="checkbox" value="${(info1.id)!}" />${(info1.areaname)!}</label></li>
+							</#list>
+							<li class="close"><input type="button" value="关闭" onclick="jQuery(this).parent().parent().parent().hide();jQuery('.area_box_main li').removeClass('this');" /></li>
+						</ul>
+						</div>
+					</#if>
+					</li>
+			   </#list>
+			</ul>
+		</div>
   </div>
-  #end
+  </#list>
 	<div class="area_box_bottom">
         <input type="button" value="取消" onclick="jQuery('.area_box').remove();" />
     	<input type="button" value="确定" onclick="generic_area();" />
-      <input name="trans_index" type="hidden" id="trans_index" value="$!trans_index" />
-	  <input name="trans_city_type" type="hidden" id="trans_city_type" value="$!trans_city_type" />
+      <input name="trans_index" type="hidden" id="trans_index" value="${trans_index!}" />
+	  <input name="trans_city_type" type="hidden" id="trans_city_type" value="${trans_city_type!}" />
 	</div>
 </div>

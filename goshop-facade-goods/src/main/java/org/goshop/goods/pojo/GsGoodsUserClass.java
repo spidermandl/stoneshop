@@ -1,17 +1,19 @@
-package org.goshop.store.pojo;
+package org.goshop.goods.pojo;
 
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
-public class GsTransArea implements Serializable{
+public class GsGoodsUserClass implements Serializable{
     private Long id;
 
     private Date addtime;
 
     private Boolean deletestatus;
 
-    private String areaname;
+    private String classname;
+
+    private Boolean display;
 
     private Integer level;
 
@@ -19,13 +21,25 @@ public class GsTransArea implements Serializable{
 
     private Long parentId;
 
-    private List<GsTransArea> childs;
+    private Long userId;
 
-    public List<GsTransArea> getChilds() {
+    private List<GsGoodsUserClass> childs;
+
+    private GsGoodsUserClass parent;
+
+    public GsGoodsUserClass getParent() {
+        return parent;
+    }
+
+    public void setParent(GsGoodsUserClass parent) {
+        this.parent = parent;
+    }
+
+    public List<GsGoodsUserClass> getChilds() {
         return childs;
     }
 
-    public void setChilds(List<GsTransArea> childs) {
+    public void setChilds(List<GsGoodsUserClass> childs) {
         this.childs = childs;
     }
 
@@ -53,12 +67,20 @@ public class GsTransArea implements Serializable{
         this.deletestatus = deletestatus;
     }
 
-    public String getAreaname() {
-        return areaname;
+    public String getClassname() {
+        return classname;
     }
 
-    public void setAreaname(String areaname) {
-        this.areaname = areaname;
+    public void setClassname(String classname) {
+        this.classname = classname;
+    }
+
+    public Boolean getDisplay() {
+        return display;
+    }
+
+    public void setDisplay(Boolean display) {
+        this.display = display;
     }
 
     public Integer getLevel() {
@@ -83,5 +105,13 @@ public class GsTransArea implements Serializable{
 
     public void setParentId(Long parentId) {
         this.parentId = parentId;
+    }
+
+    public Long getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Long userId) {
+        this.userId = userId;
     }
 }

@@ -24,10 +24,15 @@
                     仓库中的商品
                 </a>
                 </li>
+                <li <#if P_CURRENT_OP=="GoodsCategory">class="current"</#if>>
+                    <a href="${S_URL}/goods_category/goods_user_class_list">
+                        商品分类
+                    </a>
+                </li>
                 <li <#if P_CURRENT_OP=="storeWarning">class="current"</#if>>
-                <a href="${S_URL}/se/warning/edit">
-                    库存警报
-                </a>
+                    <a href="${S_URL}/se/warning/edit">
+                        库存警报
+                    </a>
                 </li>
                 <li <#if P_CURRENT_OP=="plate">class="current"</#if>>
                 <a href="${S_URL}/se/plate/list">

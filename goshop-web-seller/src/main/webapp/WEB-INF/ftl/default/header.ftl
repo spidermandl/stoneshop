@@ -212,12 +212,14 @@
                     <li><a href="${S_URL}${SELLER_ROOT}/goods_add/step_one"> 商品发布 </a></li>
                     <li><a href="${S_URL}${SELLER_ROOT}/se/goodsonline/list"> 出售中的商品 </a></li>
                     <li><a href="${S_URL}${SELLER_ROOT}/se/goodsonline/list?goodsState=0"> 仓库中的商品 </a></li>
+                    <li><a href="${S_URL}${SELLER_ROOT}/goods_category/goods_user_class_list"> 商品分类 </a></li>
                     <li><a href="${S_URL}${SELLER_ROOT}/se/warning/edit"> 库存警报 </a></li>
                     <li><a href="${S_URL}${SELLER_ROOT}/se/plate/list"> 关联板式 </a></li>
                     <li><a href="${S_URL}${SELLER_ROOT}/se/spec/list"> 商品规格 </a></li>
                     <li><a href="${S_URL}${SELLER_ROOT}/album/space"> 图片空间 </a></li>
                 </ul>
             </dd>
+
             <dd class="arrow"></dd>
             </dl>
             <dl class="">

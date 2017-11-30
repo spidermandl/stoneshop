@@ -23,7 +23,13 @@
     select
     <include refid="Base_Column_List" />
     from gs_trans_area
-    where parent_id = NULL
+    where parent_id IS NULL
+  </select>
+  <select id="selectByParentId" resultMap="BaseResultMap" parameterType="java.lang.Long">
+    select
+    <include refid="Base_Column_List" />
+    from gs_trans_area
+    where parent_id = #{parentId,jdbcType=BIGINT}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
     delete from gs_trans_area

@@ -19,4 +19,6 @@ public interface GsTransAreaMapper {
     int updateByPrimaryKey(GsTransArea record);
 
     List<GsTransArea> selectByNullParent();
+
+    List<GsTransArea> selectByParentId(Long parendId);
 }

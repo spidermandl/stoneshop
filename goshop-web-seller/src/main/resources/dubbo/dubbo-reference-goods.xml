@@ -20,4 +20,6 @@
                      interface="org.goshop.goods.i.GoodsAlbumService" check="false" />
     <dubbo:reference id="goodsService"
                      interface="org.goshop.goods.i.GoodsService" check="false" />
+    <dubbo:reference id="goodsUserClassService"
+                     interface="org.goshop.goods.i.GoodsUserClassService" check="false" />
 </beans>

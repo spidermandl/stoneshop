@@ -1,7 +1,10 @@
 package org.goshop.store.mapper.read;
 
+import org.apache.ibatis.annotations.Param;
 import org.goshop.store.pojo.GsTransport;
 import org.goshop.store.pojo.GsTransportWithBLOBs;
+
+import java.util.List;
 
 public interface ReadGsTransportMapper {
     int deleteByPrimaryKey(Long id);
@@ -17,4 +20,7 @@ public interface ReadGsTransportMapper {
     int updateByPrimaryKeyWithBLOBs(GsTransportWithBLOBs record);
 
     int updateByPrimaryKey(GsTransport record);
+
+    List<GsTransportWithBLOBs> selectByStoreId(@Param("storeId") Long storeId, @Param("orderBy") String orderBy, @Param("orderType") String orderType);
+
 }

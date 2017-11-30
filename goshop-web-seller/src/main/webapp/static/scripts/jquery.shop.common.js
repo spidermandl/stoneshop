@@ -2,24 +2,24 @@
  处理全选或全部反选
 **/
 function selectAll(obj){
-	var status=jQuery(obj).attr("checked");
-	var id=jQuery(obj).attr("id");
-  	if(status=="checked"){
-		jQuery("#ListForm").find(":checkbox[id!=all]").attr("checked","checked");
+	var status=jQuery(obj).prop("checked");
+	var id=jQuery(obj).prop("id");
+  	if(status==true){
+		jQuery("#ListForm").find(":checkbox[id!=all]").prop("checked","checked");
 	}else{
-	    jQuery("#ListForm").find(":checkbox[id!=all]").attr("checked",false);
+	    jQuery("#ListForm").find(":checkbox[id!=all]").prop("checked",false);
 	}
 }
 /**
  处理全部选择
 **/
 function selectAllPage(obj){
-	var status=jQuery(obj).attr("checked");
-	var id=jQuery(obj).attr("id");
-  	if(status=="checked"){
-		jQuery("#ListForm").find(":checkbox").attr("checked","checked");
+	var status=jQuery(obj).prop("checked");
+	var id=jQuery(obj).prop("id");
+  	if(status==true){
+		jQuery("#ListForm").find(":checkbox").prop("checked","checked");
 	}else{
-	    jQuery("#ListForm").find(":checkbox").attr("checked",false);
+	    jQuery("#ListForm").find(":checkbox").prop("checked",false);
 	}
 
 }
@@ -80,13 +80,13 @@ function cmd(){
 function cmd_goods_list(){
 	var url=arguments[0];
 	var mulitId="";
-	var checkall = jQuery("#all").attr("checked");
-	if(checkall=="checked"){
-	jQuery("#ListForm #mulitId").val("all");
-	jQuery("input[name='ids']").each(function(){
-	  if(jQuery(this).attr("checked")!="checked"&&jQuery(this).val()!=""){
-	    mulitId+=jQuery(this).val()+",";
-	  }
+	var checkall = jQuery("#all").prop("checked");
+	if(checkall==true){
+		jQuery("#ListForm #mulitId").val("all");
+		jQuery("input[name='ids']").each(function(){
+	  	if(jQuery(this).prop("checked")!=true&&jQuery(this).val()!=""){
+	    	mulitId+=jQuery(this).val()+",";
+	  	}
 	});
 	jQuery("#ListForm #uncheck_mulitId").val(mulitId);
 	if(confirm("此操作将耗费一定时间，确定要执行该操作？")){
@@ -95,7 +95,7 @@ function cmd_goods_list(){
 	}
 	}else{
 	jQuery("#ListForm").find("input[name='ids']").each(function(){
-	  if(jQuery(this).attr("checked")=="checked"&&jQuery(this).val()!=""){
+	  if(jQuery(this).prop("checked")==true&&jQuery(this).val()!=""){
 	    mulitId+=jQuery(this).val()+",";
 	  }
 	});
@@ -115,11 +115,11 @@ function ajax_cmd(){
 	var url=arguments[0];
 	var confirm_action=arguments[1];
 	var mulitId="";
-	var checkall = jQuery("#all").attr("checked");
-	if(checkall=="checked"){
+	var checkall = jQuery("#all").prop("checked");
+	if(checkall==true){
 	jQuery("#ListForm #mulitId").val("all");
 	jQuery("input[name='ids']").each(function(){
-	  if(jQuery(this).attr("checked")!="checked"&&jQuery(this).val()!=""){
+	  if(jQuery(this).prop("checked")!=true&&jQuery(this).val()!=""){
 	    mulitId+=jQuery(this).val()+",";
 	  }
 	});
@@ -145,7 +145,7 @@ function ajax_cmd(){
 	}
 	}else{
 	jQuery("#ListForm").find("input[name='ids']").each(function(){
-	  if(jQuery(this).attr("checked")=="checked"&&jQuery(this).val()!=""){
+	  if(jQuery(this).prop("checked")==true&&jQuery(this).val()!=""){
 	    mulitId+=jQuery(this).val()+",";
 	  }
 	});
@@ -284,10 +284,10 @@ function showDialog() {
   if(second==undefined||second==""){
      second=5;
   }
-  var s="<div id='"+id+"'><div class='message_white_content'> <a href='javascript:void(0);' class='white_close' onclick='javascript:jQuery(\"#"+id+"\").remove();'>X</a><div><div class='message_white_iframe'><h3 class='message_white_title'><span>"+title+"</span></h3><div class='message_white_box'><span class='message_white_img_"+icon+"'></span><span class='message_white_font'>"+content+"</span></div><h3 class='message_white_title_bottom'><span id='time_down'>"+second+"</span>秒后窗口关闭</h3></div></div></div><div class='black_overlay'></div>";
+  var s="<div id='"+id+"'><div class='message_white_content'> <a href='javascript:void(0);' class='white_close' onclick='javascript:jQuery(\"#"+id+"\").remove();'></a><div><div class='message_white_iframe'><h3 class='message_white_title'><span>"+title+"</span></h3><div class='message_white_box'><span class='message_white_img_"+icon+"'></span><span class='message_white_font'>"+content+"</span></div><h3 class='message_white_title_bottom'><span id='time_down'>"+second+"</span>秒后窗口关闭</h3></div></div></div><div class='black_overlay'></div>";
 
-  var c="<div id='"+id+"'><div class='message_white_content'> <a href='javascript:void(0);' class='white_close' onclick='javascript:jQuery(\"#"+id+"\").remove();'>X</a><div ><div class='message_white_iframe_del'><h3 class='message_white_title'><span>"+title+"</span></h3><div class='message_white_box_del'><span class='message_white_img_"+icon+"'></span><span class='message_white_font' style='font-size:14px;'>"+content+"</span></div>   <div class='message_white_box1'><input id='sure' type='button' value='确定'/><input id='cancel' type='button' value='取消'/></div>    </div></div></div><div class='black_overlay'></div>";
-  var t="<div id='"+id+"'><div class='message_white_content'> <a href='javascript:void(0);' class='white_close' onclick='javascript:jQuery(\"#"+id+"\").remove();'>X</a><div ><div class='message_white_iframe_del'><h3 class='message_white_title'><span>"+title+"</span></h3><div class='message_white_box_del'><span class='message_white_img_"+icon+"'></span><span class='message_white_font' style='font-size:14px;'>"+content+"</span></div>   <div class='message_white_box2'><input id='ok' type='button' value='确定'/></div></div></div></div><div class='black_overlay'></div>";
+  var c="<div id='"+id+"'><div class='message_white_content'> <a href='javascript:void(0);' class='white_close' onclick='javascript:jQuery(\"#"+id+"\").remove();'></a><div ><div class='message_white_iframe_del'><h3 class='message_white_title'><span>"+title+"</span></h3><div class='message_white_box_del'><span class='message_white_img_"+icon+"'></span><span class='message_white_font' style='font-size:14px;'>"+content+"</span></div>   <div class='message_white_box1'><input id='sure' type='button' value='确定'/><input id='cancel' type='button' value='取消'/></div>    </div></div></div><div class='black_overlay'></div>";
+  var t="<div id='"+id+"'><div class='message_white_content'> <a href='javascript:void(0);' class='white_close' onclick='javascript:jQuery(\"#"+id+"\").remove();'></a><div ><div class='message_white_iframe_del'><h3 class='message_white_title'><span>"+title+"</span></h3><div class='message_white_box_del'><span class='message_white_img_"+icon+"'></span><span class='message_white_font' style='font-size:14px;'>"+content+"</span></div>   <div class='message_white_box2'><input id='ok' type='button' value='确定'/></div></div></div></div><div class='black_overlay'></div>";
   if(type==0){//消息框
    jQuery("body").append(s);
   }
@@ -410,10 +410,10 @@ jQuery(document).ready(function(){
 	var dialog_left=300;
 	jQuery("#"+dialog_id).remove();
 	 if(dialog_uri!="undefined"){
-       jQuery("body").append("<div id='"+dialog_id+"'><div class='white_content'> <a href='javascript:void(0);' dialog_uri='undefined' class='white_close' onclick='javascript:jQuery(\"#"+dialog_id+"\").remove();'>X</a><div class='white_box'><h1>"+dialog_title+"</h1><div class='content_load'></div></div></div><div class='black_overlay'></div></div>");
+       jQuery("body").append("<div id='"+dialog_id+"'><div class='white_content'> <a href='javascript:void(0);' dialog_uri='undefined' class='white_close' onclick='javascript:jQuery(\"#"+dialog_id+"\").remove();'></a><div class='white_box'><h1>"+dialog_title+"</h1><div class='content_load'></div></div></div><div class='black_overlay'></div></div>");
 	   e.preventDefault();
 	   if(dialog_top==undefined||dialog_top==""){
-	     dialog_top=jQuery(window).scrollTop()+(jQuery(window).height()-jQuery(document).outerHeight())/2-dialog_height/2 - 30;
+	     //dialog_top=jQuery(window).scrollTop()+(jQuery(window).height()-jQuery(document).outerHeight())/2-dialog_height/2 - 30;
 	   }else{
 		 dialog_top=parseInt(dialog_top)+jQuery(window).scrollTop();
 	   }
@@ -448,7 +448,7 @@ jQuery(document).ready(function(){
 	  var dialog_left=300;
 	  if(dialog_uri!=undefined&&dialog_uri!=""){
 	  if(mulitId!=""){
-        jQuery("body").append("<div id='"+dialog_id+"'><div class='white_content'> <a href='javascript:void(0);' class='white_close' onclick='javascript:jQuery(\"#"+dialog_id+"\").remove();'>X</a><div class='white_box'><h1>"+dialog_title+"</h1><div class='content_load'></div></div></div><div class='black_overlay'></div></div>");
+        jQuery("body").append("<div id='"+dialog_id+"'><div class='white_content'> <a href='javascript:void(0);' class='white_close' onclick='javascript:jQuery(\"#"+dialog_id+"\").remove();'></a><div class='white_box'><h1>"+dialog_title+"</h1><div class='content_load'></div></div></div><div class='black_overlay'></div></div>");
 	   e.preventDefault();
 	   if(dialog_top==undefined||dialog_top==""){
 	     dialog_top=jQuery(window).scrollTop()+(jQuery(window).height()-jQuery(document).outerHeight())/2-dialog_height/2;
