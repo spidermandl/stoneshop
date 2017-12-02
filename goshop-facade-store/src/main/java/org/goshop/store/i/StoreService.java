@@ -25,7 +25,7 @@ public interface StoreService {
 
     PageInfo<Store> find(Integer gradeId, String sellerName, String storeType, String storeName, Integer curPage, Integer size);
 
-    Store findOne(Integer storeId);
+    Store findOne(Long storeId);
 
     void update(StoreWithBLOBs store);
 

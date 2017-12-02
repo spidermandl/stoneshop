@@ -7,13 +7,13 @@ import org.apache.ibatis.annotations.Param;
 import java.util.List;
 
 public interface StoreMapper {
-    int deleteByPrimaryKey(Integer storeId);
+    int deleteByPrimaryKey(Long storeId);
 
     int insert(StoreWithBLOBs record);
 
     int insertSelective(StoreWithBLOBs record);
 
-    StoreWithBLOBs selectByPrimaryKey(Integer storeId);
+    StoreWithBLOBs selectByPrimaryKey(Long storeId);
 
     int updateByPrimaryKeySelective(StoreWithBLOBs record);
 

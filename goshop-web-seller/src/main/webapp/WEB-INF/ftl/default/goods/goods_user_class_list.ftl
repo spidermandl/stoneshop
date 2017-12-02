@@ -2,7 +2,7 @@
 <#assign P_NAV1="商家管理中心" />
 <#assign P_NAV2="商品" />
 <#assign P_NAV3="商品分类" />
-<#assign P_CURRENT_OP="GoodsCategroy" />
+<#assign P_CURRENT_OP="GoodsCategory" />
 
 <@override name="main">
 <#--<link href="${S_URL}/static/style/system/front/default/css/public.css" type="text/css" rel="stylesheet" />-->

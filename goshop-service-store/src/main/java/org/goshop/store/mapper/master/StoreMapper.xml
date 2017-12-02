@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="org.goshop.store.mapper.master.StoreMapper" >
   <resultMap id="BaseResultMap" type="org.goshop.store.pojo.Store" >
-    <id column="store_id" property="storeId" jdbcType="INTEGER" />
+    <id column="store_id" property="storeId" jdbcType="BIGINT" />
     <result column="store_name" property="storeName" jdbcType="VARCHAR" />
     <result column="store_auth" property="storeAuth" jdbcType="BIT" />
     <result column="name_auth" property="nameAuth" jdbcType="BIT" />
@@ -57,65 +57,65 @@
     <result column="store_aftersales" property="storeAftersales" jdbcType="LONGVARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
-    store_id, store_name, store_auth, name_auth, grade_id, member_id, member_name, seller_name, 
-    store_owner_card, sc_id, store_company_name, area_id, area_info, store_address, store_zip, 
-    store_tel, store_image, store_image1, store_state, store_close_info, store_sort, 
-    store_time, store_end_time, store_label, store_banner, store_keywords, store_description, 
-    store_qq, store_ww, store_domain, store_domain_times, store_recommend, store_theme, 
-    store_credit, praise_rate, store_desccredit, store_servicecredit, store_deliverycredit, 
-    store_collect, store_stamp, store_printdesc, store_sales, store_workingtime, store_free_price, 
+    store_id, store_name, store_auth, name_auth, grade_id, member_id, member_name, seller_name,
+    store_owner_card, sc_id, store_company_name, area_id, area_info, store_address, store_zip,
+    store_tel, store_image, store_image1, store_state, store_close_info, store_sort,
+    store_time, store_end_time, store_label, store_banner, store_keywords, store_description,
+    store_qq, store_ww, store_domain, store_domain_times, store_recommend, store_theme,
+    store_credit, praise_rate, store_desccredit, store_servicecredit, store_deliverycredit,
+    store_collect, store_stamp, store_printdesc, store_sales, store_workingtime, store_free_price,
     store_storage_alarm
   </sql>
   <sql id="Blob_Column_List" >
     description, store_zy, store_slide, store_slide_url, store_presales, store_aftersales
   </sql>
-  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer" >
-    select 
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Long" >
+    select
     <include refid="Base_Column_List" />
     ,
     <include refid="Blob_Column_List" />
     from gs_store
-    where store_id = #{storeId,jdbcType=INTEGER}
+    where store_id = #{storeId,jdbcType=BIGINT}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
     delete from gs_store
-    where store_id = #{storeId,jdbcType=INTEGER}
+    where store_id = #{storeId,jdbcType=BIGINT}
   </delete>
   <insert id="insert" parameterType="org.goshop.store.pojo.StoreWithBLOBs" >
-    insert into gs_store (store_id, store_name, store_auth, 
-      name_auth, grade_id, member_id, 
-      member_name, seller_name, store_owner_card, 
-      sc_id, store_company_name, area_id, 
-      area_info, store_address, store_zip, 
-      store_tel, store_image, store_image1, 
-      store_state, store_close_info, store_sort, 
-      store_time, store_end_time, store_label, 
-      store_banner, store_keywords, store_description, 
-      store_qq, store_ww, store_domain, 
-      store_domain_times, store_recommend, store_theme, 
-      store_credit, praise_rate, store_desccredit, 
-      store_servicecredit, store_deliverycredit, store_collect, 
-      store_stamp, store_printdesc, store_sales, 
-      store_workingtime, store_free_price, store_storage_alarm, 
-      description, store_zy, store_slide, 
+    insert into gs_store (store_id, store_name, store_auth,
+      name_auth, grade_id, member_id,
+      member_name, seller_name, store_owner_card,
+      sc_id, store_company_name, area_id,
+      area_info, store_address, store_zip,
+      store_tel, store_image, store_image1,
+      store_state, store_close_info, store_sort,
+      store_time, store_end_time, store_label,
+      store_banner, store_keywords, store_description,
+      store_qq, store_ww, store_domain,
+      store_domain_times, store_recommend, store_theme,
+      store_credit, praise_rate, store_desccredit,
+      store_servicecredit, store_deliverycredit, store_collect,
+      store_stamp, store_printdesc, store_sales,
+      store_workingtime, store_free_price, store_storage_alarm,
+      description, store_zy, store_slide,
       store_slide_url, store_presales, store_aftersales
       )
-    values (#{storeId,jdbcType=INTEGER}, #{storeName,jdbcType=VARCHAR}, #{storeAuth,jdbcType=BIT}, 
+    values (#{storeId,jdbcType=BIGINT}, #{storeName,jdbcType=VARCHAR}, #{storeAuth,jdbcType=BIT},
       #{nameAuth,jdbcType=BIT}, #{gradeId,jdbcType=INTEGER}, #{memberId,jdbcType=BIGINT},
-      #{memberName,jdbcType=VARCHAR}, #{sellerName,jdbcType=VARCHAR}, #{storeOwnerCard,jdbcType=VARCHAR}, 
-      #{scId,jdbcType=INTEGER}, #{storeCompanyName,jdbcType=VARCHAR}, #{areaId,jdbcType=INTEGER}, 
-      #{areaInfo,jdbcType=VARCHAR}, #{storeAddress,jdbcType=VARCHAR}, #{storeZip,jdbcType=VARCHAR}, 
-      #{storeTel,jdbcType=VARCHAR}, #{storeImage,jdbcType=VARCHAR}, #{storeImage1,jdbcType=VARCHAR}, 
-      #{storeState,jdbcType=BIT}, #{storeCloseInfo,jdbcType=VARCHAR}, #{storeSort,jdbcType=INTEGER}, 
+      #{memberName,jdbcType=VARCHAR}, #{sellerName,jdbcType=VARCHAR}, #{storeOwnerCard,jdbcType=VARCHAR},
+      #{scId,jdbcType=INTEGER}, #{storeCompanyName,jdbcType=VARCHAR}, #{areaId,jdbcType=INTEGER},
+      #{areaInfo,jdbcType=VARCHAR}, #{storeAddress,jdbcType=VARCHAR}, #{storeZip,jdbcType=VARCHAR},
+      #{storeTel,jdbcType=VARCHAR}, #{storeImage,jdbcType=VARCHAR}, #{storeImage1,jdbcType=VARCHAR},
+      #{storeState,jdbcType=BIT}, #{storeCloseInfo,jdbcType=VARCHAR}, #{storeSort,jdbcType=INTEGER},
       #{storeTime,jdbcType=DATE}, #{storeEndTime,jdbcType=DATE}, #{storeLabel,jdbcType=VARCHAR},
-      #{storeBanner,jdbcType=VARCHAR}, #{storeKeywords,jdbcType=VARCHAR}, #{storeDescription,jdbcType=VARCHAR}, 
-      #{storeQq,jdbcType=VARCHAR}, #{storeWw,jdbcType=VARCHAR}, #{storeDomain,jdbcType=VARCHAR}, 
-      #{storeDomainTimes,jdbcType=BIT}, #{storeRecommend,jdbcType=BIT}, #{storeTheme,jdbcType=VARCHAR}, 
-      #{storeCredit,jdbcType=INTEGER}, #{praiseRate,jdbcType=REAL}, #{storeDesccredit,jdbcType=REAL}, 
-      #{storeServicecredit,jdbcType=REAL}, #{storeDeliverycredit,jdbcType=REAL}, #{storeCollect,jdbcType=INTEGER}, 
-      #{storeStamp,jdbcType=VARCHAR}, #{storePrintdesc,jdbcType=VARCHAR}, #{storeSales,jdbcType=INTEGER}, 
-      #{storeWorkingtime,jdbcType=VARCHAR}, #{storeFreePrice,jdbcType=DECIMAL}, #{storeStorageAlarm,jdbcType=TINYINT}, 
-      #{description,jdbcType=LONGVARCHAR}, #{storeZy,jdbcType=LONGVARCHAR}, #{storeSlide,jdbcType=LONGVARCHAR}, 
+      #{storeBanner,jdbcType=VARCHAR}, #{storeKeywords,jdbcType=VARCHAR}, #{storeDescription,jdbcType=VARCHAR},
+      #{storeQq,jdbcType=VARCHAR}, #{storeWw,jdbcType=VARCHAR}, #{storeDomain,jdbcType=VARCHAR},
+      #{storeDomainTimes,jdbcType=BIT}, #{storeRecommend,jdbcType=BIT}, #{storeTheme,jdbcType=VARCHAR},
+      #{storeCredit,jdbcType=INTEGER}, #{praiseRate,jdbcType=REAL}, #{storeDesccredit,jdbcType=REAL},
+      #{storeServicecredit,jdbcType=REAL}, #{storeDeliverycredit,jdbcType=REAL}, #{storeCollect,jdbcType=INTEGER},
+      #{storeStamp,jdbcType=VARCHAR}, #{storePrintdesc,jdbcType=VARCHAR}, #{storeSales,jdbcType=INTEGER},
+      #{storeWorkingtime,jdbcType=VARCHAR}, #{storeFreePrice,jdbcType=DECIMAL}, #{storeStorageAlarm,jdbcType=TINYINT},
+      #{description,jdbcType=LONGVARCHAR}, #{storeZy,jdbcType=LONGVARCHAR}, #{storeSlide,jdbcType=LONGVARCHAR},
       #{storeSlideUrl,jdbcType=LONGVARCHAR}, #{storePresales,jdbcType=LONGVARCHAR}, #{storeAftersales,jdbcType=LONGVARCHAR}
       )
   </insert>
@@ -278,7 +278,7 @@
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="storeId != null" >
-        #{storeId,jdbcType=INTEGER},
+        #{storeId,jdbcType=BIGINT},
       </if>
       <if test="storeName != null" >
         #{storeName,jdbcType=VARCHAR},
@@ -586,7 +586,7 @@
         store_aftersales = #{storeAftersales,jdbcType=LONGVARCHAR},
       </if>
     </set>
-    where store_id = #{storeId,jdbcType=INTEGER}
+    where store_id = #{storeId,jdbcType=BIGINT}
   </update>
   <update id="updateByPrimaryKeyWithBLOBs" parameterType="org.goshop.store.pojo.StoreWithBLOBs" >
     update gs_store
@@ -640,7 +640,7 @@
       store_slide_url = #{storeSlideUrl,jdbcType=LONGVARCHAR},
       store_presales = #{storePresales,jdbcType=LONGVARCHAR},
       store_aftersales = #{storeAftersales,jdbcType=LONGVARCHAR}
-    where store_id = #{storeId,jdbcType=INTEGER}
+    where store_id = #{storeId,jdbcType=BIGINT}
   </update>
   <update id="updateByPrimaryKey" parameterType="org.goshop.store.pojo.Store" >
     update gs_store
@@ -688,7 +688,7 @@
       store_workingtime = #{storeWorkingtime,jdbcType=VARCHAR},
       store_free_price = #{storeFreePrice,jdbcType=DECIMAL},
       store_storage_alarm = #{storeStorageAlarm,jdbcType=TINYINT}
-    where store_id = #{storeId,jdbcType=INTEGER}
+    where store_id = #{storeId,jdbcType=BIGINT}
   </update>
 
   <select id="findByMemberId" resultMap="BaseResultMap" parameterType="java.lang.Long" >

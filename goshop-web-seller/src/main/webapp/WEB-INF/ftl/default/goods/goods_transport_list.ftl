@@ -1,11 +1,15 @@
 <#list objs! as obj>
-<table width="98%" border="0" cellspacing="0" cellpadding="0" id="opertable" >
-  <tr>
-    <td width="100px;">${(obj.trans_name)!}</td>
-    <td ><span style=" margin-left:20px;display:block; border:1px #CCC solid; width:70px; text-align:center;"><a href="javascript:void(0);" onClick="select_template('${(obj.trans_name)!}','${(obj.id)!}')">选择模板</a></span></td>
-  </tr>
-</table>
-<table width="560" border="0" cellspacing="0" cellpadding="0" id="opertable">
+    <table width="98%" border="0" cellspacing="0" cellpadding="0" id="opertable" >
+        <tr>
+            <td width="100px;">${(obj.trans_name)!}</td>
+            <td >
+                <span style=" margin-left:20px;display:block; border:1px #CCC solid; width:70px; text-align:center;">
+                    <a href="javascript:void(0);" onClick="select_template('${(obj.trans_name)!}','${(obj.id)!}')">选择模板</a>
+                </span>
+            </td>
+        </tr>
+    </table>
+    <table width="560" border="0" cellspacing="0" cellpadding="0" id="opertable">
       <#if ((obj.trans_type)!0)==0>
           <tr id="opertitle">
             <td width="12%" >配送方式</td>

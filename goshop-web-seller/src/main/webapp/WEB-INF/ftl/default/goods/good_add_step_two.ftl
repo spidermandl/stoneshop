@@ -906,7 +906,7 @@
                             </tr>
                             <script>
                                 function add_goods_class(){
-                                    var s="<select name='ugc_id_0' id='ugc_id_0'><option value=''>请选择...</option><#list ugcs! as ugc><option value='${(ugc.id)!}'>${(ugc.className)!}</option> <#list (ugc.childs)! as c_ugc> <option value='${c_ugc.id}'>&nbsp;&nbsp;${c_ugc.className}</option></#list> </#list> </select>";
+                                    var s="<select name='ugc_id_0' id='ugc_id_0'><option value=''>请选择...</option><#list ugcs! as ugc><option value='${(ugc.id)!}'>${(ugc.classname)!}</option> <#list (ugc.childs)! as c_ugc> <option value='${(c_ugc.id)!}'>&nbsp;&nbsp;${(c_ugc.classname)!}</option></#list> </#list> </select>";
                                     s=s.replaceAll("ugc_id_0","ugc_id_"+user_goods_class_count);
                                     jQuery("#ugc_id_"+(user_goods_class_count-1)).after(s);
                                     user_goods_class_count++;
@@ -919,9 +919,9 @@
                                         <select name="ugc_id_1" id="ugc_id_1">
                                           <option value="">请选择...</option>
                                           <#list ugcs! as ugc >
-                                          <option value="${ugc.id}">${ugc.className}</option>
+                                          <option value="${ugc.id}">${(ugc.classname)!}</option>
                                               <#list (ugc.childs)! as c_ugc>
-                                              <option value="${c_ugc.id}">&nbsp;&nbsp;${c_ugc.className}</option>
+                                              <option value="${c_ugc.id}">&nbsp;&nbsp;${c_ugc.classname}</option>
                                               </#list>
                                           </#list>
                                         </select>
@@ -930,9 +930,9 @@
                                             <select name="ugc_id_${goods_ugc_index+1}" id="ugc_id_${goods_ugc_index+1}">
                                               <option value="">请选择本店分类...</option>
                                               <#list ugcs as ugc>
-                                                  <option value="${ugc.id}">${ugc.className}</option>
+                                                  <option value="${ugc.id}">${ugc.classname}</option>
                                                   <#list ugc.childs as c_ugc>
-                                                      <option value="${c_ugc.id}">&nbsp;&nbsp;${c_ugc.className}</option>
+                                                      <option value="${c_ugc.id}">&nbsp;&nbsp;${c_ugc.classname}</option>
                                                   </#list>
                                               </#list>
                                             </select>

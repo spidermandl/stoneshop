@@ -32,7 +32,7 @@
     from gs_goods_user_class
     where id = #{id,jdbcType=BIGINT}
   </select>
-  <select id="selectByUserIdAndNullParent" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+  <select id="selectByUserIdAndNullParent" resultMap="BaseResultMap">
     select
         t.id,
         t.addTime,
@@ -54,7 +54,11 @@
         child.user_id AS c_user_id
     from gs_goods_user_class t
     LEFT JOIN gs_goods_user_class child ON (child.parent_id = t.id)
-    where t.user_id = #{userId,jdbcType=BIGINT} AND t.parent_id IS NULL
+    where t.user_id = #{userId,jdbcType=BIGINT}
+    <if test="display != null">
+      AND t.display = #{display,jdbcType=BIT}
+    </if>
+    AND t.parent_id IS NULL
     order BY t.sequence ASC
   </select>
   <select id="selectByUserIdAndParentId" resultMap="BaseResultMap" >

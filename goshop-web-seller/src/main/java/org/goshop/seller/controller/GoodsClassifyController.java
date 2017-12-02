@@ -116,7 +116,7 @@ public class GoodsClassifyController {
         String ret = "goods_user_class_add";
         Map map = new HashMap();
         map.put("uid", user.getId());
-        List ugcs = this.goodsUserClassService.findByUserIdAndParentId(user.getId(),null);
+        List ugcs = this.goodsUserClassService.findByUserIdAndParentId(user.getId(),null,null);
         if (!CommUtil.null2String(pid).equals("")){
             GsGoodsUserClass parent = this.goodsUserClassService.findOne(CommUtil.null2Long(pid));
             GsGoodsUserClass obj = new GsGoodsUserClass();
@@ -138,7 +138,7 @@ public class GoodsClassifyController {
                                             String currentPage,
                                             String id){
         String ret = "goods_user_class_add";
-        List ugcs = this.goodsUserClassService.findByUserIdAndParentId(user.getId(),null);
+        List ugcs = this.goodsUserClassService.findByUserIdAndParentId(user.getId(),null,null);
         GsGoodsUserClass obj = this.goodsUserClassService.findOne(CommUtil.null2Long(id));
         if (obj.getParentId()!=null){
             GsGoodsUserClass parent = this.goodsUserClassService.findOne(CommUtil.null2Long(obj.getParentId()));

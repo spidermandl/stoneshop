@@ -18,7 +18,7 @@ public interface GsGoodsUserClassMapper {
 
     int updateByPrimaryKey(GsGoodsUserClass record);
 
-    List<GsGoodsUserClass> selectByUserIdAndNullParent(Long userId);
+    List<GsGoodsUserClass> selectByUserIdAndNullParent(@Param("userId") Long userId,@Param("display") Boolean display);
 
     List<GsGoodsUserClass> selectByUserIdAndParentId(@Param("userId")Long userId,@Param("parentId") Long parentId);
 }

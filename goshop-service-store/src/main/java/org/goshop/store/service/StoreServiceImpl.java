@@ -88,7 +88,7 @@ public class StoreServiceImpl implements StoreService {
     }
 
     @Override
-    public Store findOne(Integer storeId) {
+    public Store findOne(Long storeId) {
         return storeMapper.selectByPrimaryKey(storeId);
     }
 

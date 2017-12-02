@@ -9,7 +9,7 @@ jQuery(function(){
 		     var id=jQuery(this).val();
 			 for(var i=0;i<ids.length;i++){
 			    if(ids[i]==id){
-				  jQuery(this).attr("disabled","disabled");
+				  jQuery(this).prop("disabled","disabled");
 				}
 			 }
 		   });
@@ -18,7 +18,7 @@ jQuery(function(){
 		     var id=jQuery(this).val();
 			 for(var i=0;i<ids.length;i++){
 			    if(ids[i]==id){
-				  jQuery(this).attr("checked",true);
+				  jQuery(this).prop("checked",true);
 				}
 			 }
 		   });
@@ -38,8 +38,8 @@ jQuery(function(){
       jQuery(this).parent().find(".area_level").show();
    });
    jQuery(".area_before>:checkbox").click(function(){
-	  if(jQuery(this).attr("checked")=="checked"){
-        jQuery(this).parent().parent().find(":checkbox[disabled!=true]").attr("checked",true);
+	  if(jQuery(this).prop("checked")==true){
+        jQuery(this).parent().parent().find(":checkbox[disabled!=true]").prop("checked",true);
 		jQuery(this).parent().parent().find(":checkbox[id^=province_]").each(function(){
 		   var count=jQuery(this).parent().find(":checkbox[id^=city_][disabled!=true]").length;
 		   if(count>0){
@@ -47,29 +47,29 @@ jQuery(function(){
 		   }
 		})
 	  }else{
-	    jQuery(this).parent().parent().find(":checkbox[disabled!=true]").attr("checked",false);
+	    jQuery(this).parent().parent().find(":checkbox[disabled!=true]").prop("checked",false);
 		jQuery(this).parent().parent().find(":checkbox[id^=province_]").each(function(){
 		   jQuery(this).parent().find("b").html("");
 		})
 	  }
    });
    jQuery(":checkbox[id^=province_]").click(function(){
-      if(jQuery(this).attr("checked")=="checked"){
-		  jQuery(this).parent().find(":checkbox[id^=city_][disabled!=true]").attr("checked",true);
+      if(jQuery(this).prop("checked")==true){
+		  jQuery(this).parent().find(":checkbox[id^=city_][disabled!=true]").prop("checked",true);
 	      var count=jQuery(this).parent().find(":checkbox[id^=city_][disabled!=true]").length;
 		  if(count>0){
 		    jQuery(this).parent().find("b").html("("+count+")");
 		  }
 	  }else{
-		  jQuery(this).parent().find(":checkbox[id^=city_][disabled!=true]").attr("checked",false);
+		  jQuery(this).parent().find(":checkbox[id^=city_][disabled!=true]").prop("checked",false);
 	      jQuery(this).parent().find("b").html("");
 	  }
 	  var count=jQuery(this).parent().parent().parent().parent().find(":checkbox[id^=province_]:checked").length;
       var total_count=jQuery(this).parent().parent().parent().parent().find(":checkbox[id^=province_]").length;
 	  if(count==total_count){
-	     jQuery(this).parent().parent().parent().parent().find(":checkbox[id^=group_]").attr("checked",true);
+	     jQuery(this).parent().parent().parent().parent().find(":checkbox[id^=group_]").prop("checked",true);
 	  }else{
-	     jQuery(this).parent().parent().parent().parent().find(":checkbox[id^=group_]").attr("checked",false);
+	     jQuery(this).parent().parent().parent().parent().find(":checkbox[id^=group_]").prop("checked",false);
 	  }
    });
    jQuery(":checkbox[id^=city_]").click(function(){
@@ -77,16 +77,16 @@ jQuery(function(){
 	  jQuery(this).parent().parent().parent().parent().parent().find("b").html("("+count+")");
 	  var total_count=jQuery(this).parent().parent().parent().parent().parent().find(":checkbox[id^=city_]").length;
 	  if(count==total_count){
-	    jQuery(this).parent().parent().parent().parent().parent().find(":checkbox[id^=province_]").attr("checked",true);
+	    jQuery(this).parent().parent().parent().parent().parent().find(":checkbox[id^=province_]").prop("checked",true);
 	  }else{
-	    jQuery(this).parent().parent().parent().parent().parent().find(":checkbox[id^=province_]").attr("checked",false);
+	    jQuery(this).parent().parent().parent().parent().parent().find(":checkbox[id^=province_]").prop("checked",false);
 	  }
 	  var p_count=jQuery(this).parent().parent().parent().parent().parent().parent().parent().parent().find(":checkbox[id^=province_]:checked").length;
       var p_total_count=jQuery(this).parent().parent().parent().parent().parent().parent().parent().parent().find(":checkbox[id^=province_]").length;
 	  if(p_count==p_total_count){
-	     jQuery(this).parent().parent().parent().parent().parent().parent().parent().parent().find(":checkbox[id^=group_]").attr("checked",true);
+	     jQuery(this).parent().parent().parent().parent().parent().parent().parent().parent().find(":checkbox[id^=group_]").prop("checked",true);
 	  }else{
-	     jQuery(this).parent().parent().parent().parent().parent().parent().parent().parent().find(":checkbox[id^=group_]").attr("checked",false);
+	     jQuery(this).parent().parent().parent().parent().parent().parent().parent().parent().find(":checkbox[id^=group_]").prop("checked",false);
 	  }
    });
 

@@ -31,14 +31,14 @@ public class GoodsUserClassServiceImpl implements GoodsUserClassService {
     @Override
     public PageInfo<GsGoodsUserClass> findRootClassByUserId(User user,Integer currentPage,Integer pageSize) {
         PageUtils.startPage(currentPage,pageSize);
-        List<GsGoodsUserClass> list = readGsGoodsUserClassMapper.selectByUserIdAndNullParent(user.getId());
+        List<GsGoodsUserClass> list = readGsGoodsUserClassMapper.selectByUserIdAndNullParent(user.getId(),null);
         return new PageInfo<GsGoodsUserClass>(list);
     }
 
     @Override
-    public List<GsGoodsUserClass> findByUserIdAndParentId(Long userId, Long parentId) {
+    public List<GsGoodsUserClass> findByUserIdAndParentId(Long userId, Long parentId,Boolean display) {
         if (parentId == null)
-            return readGsGoodsUserClassMapper.selectByUserIdAndNullParent(userId);
+            return readGsGoodsUserClassMapper.selectByUserIdAndNullParent(userId,display);
         return readGsGoodsUserClassMapper.selectByUserIdAndParentId(userId,parentId);
     }
 

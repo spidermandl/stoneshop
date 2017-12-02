@@ -15,7 +15,7 @@ public interface GoodsUserClassService {
 
     PageInfo<GsGoodsUserClass> findRootClassByUserId(User user, Integer currentPage, Integer pageSize);
 
-    List<GsGoodsUserClass> findByUserIdAndParentId(Long userId,Long parentId);
+    List<GsGoodsUserClass> findByUserIdAndParentId(Long userId,Long parentId,Boolean display);
 
     Long save(GsGoodsUserClass userClass);
 

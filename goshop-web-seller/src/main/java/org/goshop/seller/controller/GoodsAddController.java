@@ -4,6 +4,7 @@ import com.github.pagehelper.PageInfo;
 import net.sf.json.JSONObject;
 import org.goshop.common.pojo.ResponseStatus;
 import org.goshop.common.utils.WebForm;
+import org.goshop.seller.controller.tools.StoreViewTools;
 import org.goshop.store.pojo.GsTransport;
 import org.goshop.common.service.SystemConfigService;
 import org.goshop.common.utils.CommUtil;
@@ -59,6 +60,9 @@ public class GoodsAddController {
     GoodsAccessoryService goodsAccessoryService;
 
     @Autowired
+    GoodsUserClassService goodsUserClassService;
+
+    @Autowired
     GoodsService goodsService;
 
     @Autowired
@@ -75,6 +79,8 @@ public class GoodsAddController {
     StoreTools storeTools;
     @Autowired
     TransportTools transportTools;
+    @Autowired
+    StoreViewTools storeViewTools;
 
     @RequestMapping("/step_one")
     public String one(Model model,
@@ -190,18 +196,15 @@ public class GoodsAddController {
             Map params = new HashMap();
             params.put("user_id", user.getId());
             params.put("display", Boolean.valueOf(true));
-//            List ugcs = this.userGoodsClassService
-//                    .query("select obj from UserGoodsClass obj where obj.user.id=:user_id and obj.display=:display and obj.parent.id is null order by obj.sequence asc",
-//                            params, -1, -1);
+            List ugcs = this.goodsUserClassService.findByUserIdAndParentId(user.getId(),null,true);
 //            List gbs = this.goodsBrandService.query(
 //                    "select obj from GoodsBrand obj order by obj.sequence asc",
 //                    null, -1, -1);
 //            model.addAttribute("gbs", gbs);
-//            model.addAttribute("ugcs", ugcs);
-//            model.addAttribute("img_remain_size", Double.valueOf(img_remain_size));
-//            model.addAttribute("imageSuffix", this.storeViewTools
-//                    .genericImageSuffix(this.configService.getSysConfig()
-//                            .getImageSuffix()));
+            model.addAttribute("ugcs", ugcs);
+            model.addAttribute("img_remain_size", Double.valueOf(img_remain_size));
+            model.addAttribute("imageSuffix",
+                    this.storeViewTools.genericImageSuffix(this.systemConfigService.getConfig().getImageSuffix()));
             String goods_session = CommUtil.randomString(32);
             model.addAttribute("goods_session", goods_session);
             request.getSession(false).setAttribute("goods_session",
@@ -524,17 +527,15 @@ public class GoodsAddController {
                 String source = request.getSession().getServletContext().getRealPath("/")
                         + image.getPath() + File.separator + image.getName();
                 String target = source + "_small" + ext;
-//                CommUtil.createSmall(source, target, this.configService
-//                        .getSysConfig().getSmallWidth(), this.configService
-//                        .getSysConfig().getSmallHeight());
-                CommUtil.createSmall(source, target, 160,160);
+                CommUtil.createSmall(source, target,
+                        this.systemConfigService.getConfig().getSmallWidth(),
+                        this.systemConfigService.getConfig().getSmallHeight());
 
                 String midext = image.getExt().indexOf(".") < 0 ? "." + image.getExt() : image.getExt();
                 String midtarget = source + "_middle" + ext;
-//                CommUtil.createSmall(source, midtarget, this.configService
-//                        .getSysConfig().getMiddleWidth(), this.configService
-//                        .getSysConfig().getMiddleHeight());
-                CommUtil.createSmall(source, midtarget, 160,160);
+                CommUtil.createSmall(source, midtarget,
+                        this.systemConfigService.getConfig().getMiddleWidth(),
+                        this.systemConfigService.getConfig().getMiddleHeight());
             } catch (IOException e){
                 e.printStackTrace();
             }
