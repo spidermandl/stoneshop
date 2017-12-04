@@ -6,7 +6,6 @@ import org.goshop.common.exception.MapperException;
 import org.goshop.common.exception.PageException;
 import org.goshop.common.utils.PageUtils;
 import org.goshop.goods.i.GoodsClassService;
-import org.goshop.goods.pojo.GoodsClass;
 import org.goshop.goods.pojo.GsGoodsClass;
 import org.goshop.store.i.StoreClassService;
 import org.goshop.store.i.StoreGradeService;

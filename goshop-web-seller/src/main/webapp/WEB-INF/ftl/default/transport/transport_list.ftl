@@ -34,16 +34,17 @@
                         <#list objs! as obj>
                           <table width="98%" border="0" cellspacing="0" cellpadding="0" id="opertable" >
                             <tr>
-                              <td >${(obj.trans_name)!}
-                                  <span style="float:right;">最后编辑时间:$!CommUtil.formatLongDate(${(obj.addTime)!})
+                              <td >${(obj.transName)!}
+                                  <span style="float:right;">最后编辑时间:${(CommUtil.formatLongDate(obj.addtime))!}
                                       <a href="${S_URL}/transport/transport_copy?id=${(obj.id)!}">复制模板</a>|
                                       <a href="${S_URL}/transport/transport_edit?id=${(obj.id)!}">编辑</a>|
                                       <a href="javascript:void(0);" onclick="if(confirm('删除后不可恢复，是否继续?'))window.location.href='${S_URL}/transport/transport_del?mulitId=${(obj.id)!}&currentPage=${currentPage!}'">删除</a>
-                                  </span></td>
+                                  </span>
+                              </td>
                             </tr>
                           </table>
                           <table width="98%" border="0" cellspacing="0" cellpadding="0" id="opertable" >
-                              <#if ((obj.trans_type)!0)==0>
+                              <#if ((obj.transType)!0)==0>
                                 <tr id="opertitle">
                                   <td width="12%" >配送方式</td>
                                   <td>配送区域</td>
@@ -53,7 +54,7 @@
                                   <td width="8%" align="center">运费(¥)</td>
                                 </tr>
                               </#if>
-                              <#if ((obj.trans_type)!0)==1>
+                              <#if ((obj.transType)!0)==1>
                                 <tr id="opertitle">
                                   <td width="12%" >配送方式</td>
                                   <td>配送区域</td>
@@ -63,7 +64,7 @@
                                   <td width="8%" align="center">运费(¥)</td>
                                 </tr>
                               </#if>
-                              <#if ((obj.trans_type)!0)==2>
+                              <#if ((obj.transType)!0)==2>
                                 <tr id="opertitle">
                                   <td width="12%" >配送方式</td>
                                   <td>配送区域</td>
@@ -73,7 +74,7 @@
                                   <td width="8%" align="center">运费(¥)</td>
                                 </tr>
                               </#if>
-                              <#list (transportTools.query_all_transprot(obj.trans_mail_info,0))! as info>
+                              <#list (transportTools.query_all_transprot(obj.transMailInfo,0))! as info>
                                 <tr class="opertr">
                                   <td>平邮</td>
                                   <td>${(info.value("city_name"))!}</td>
@@ -83,7 +84,7 @@
                                   <td>${(info.value("trans_add_fee"))!}</td>
                                 </tr>
                               </#list>
-                              <#list (transportTools.query_all_transprot(obj.trans_express_info,0))! as info>
+                              <#list (transportTools.query_all_transprot(obj.transExpressInfo,0))! as info>
                                 <tr class="opertr">
                                   <td>快递</td>
                                   <td>${(info.value("city_name"))!}</td>
@@ -93,7 +94,7 @@
                                   <td>${(info.value("trans_add_fee"))!}</td>
                                 </tr>
                               </#list>
-                              <#list (transportTools.query_all_transprot(obj.trans_ems_info,0))! as info>
+                              <#list (transportTools.query_all_transprot(obj.transEmsInfo,0))! as info>
                                 <tr class="opertr">
                                   <td>EMS</td>
                                   <td>${(info.value("city_name"))!}</td>

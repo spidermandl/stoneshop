@@ -4,7 +4,6 @@ import com.github.pagehelper.PageInfo;
 import org.goshop.common.utils.PageUtils;
 import org.goshop.store.i.TransportService;
 import org.goshop.store.mapper.master.GsTransportMapper;
-import org.goshop.store.mapper.read.ReadGsTransAreaMapper;
 import org.goshop.store.mapper.read.ReadGsTransportMapper;
 import org.goshop.store.pojo.GsTransportWithBLOBs;
 import org.goshop.store.pojo.Store;
@@ -44,6 +43,15 @@ public class TransportServiceImpl implements TransportService {
     public long save(GsTransportWithBLOBs transport) {
         if (transport.getDeletestatus()==null){
             transport.setDeletestatus(false);
+        }
+        if (transport.getTransMail()==null){
+            transport.setTransMail(false);
+        }
+        if (transport.getTransEms()==null){
+            transport.setTransEms(false);
+        }
+        if (transport.getTransExpress()==null){
+            transport.setTransExpress(false);
         }
         long ret = gsTransportMapper.insert(transport);
         return ret;

@@ -3,7 +3,6 @@ package org.goshop.store.i;
 import com.github.pagehelper.PageInfo;
 import org.goshop.store.pojo.GsTransportWithBLOBs;
 import org.goshop.store.pojo.Store;
-import org.springframework.stereotype.Service;
 
 /**
  * Created by Desmond on 28/11/2017.

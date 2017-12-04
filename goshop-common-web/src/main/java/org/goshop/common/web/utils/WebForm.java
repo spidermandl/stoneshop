@@ -1,4 +1,4 @@
-package org.goshop.common.utils;
+package org.goshop.common.web.utils;
 
 
 import org.goshop.common.annotation.Lock;

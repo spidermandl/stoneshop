@@ -5,7 +5,6 @@ import org.goshop.common.utils.PageUtils;
 import org.goshop.goods.i.GoodsAccessoryService;
 import org.goshop.goods.mapper.master.GsGoodsAccessoryMapper;
 import org.goshop.goods.pojo.GsGoodsAccessory;
-import org.goshop.goods.pojo.GsGoodsWithBLOBs;
 import org.goshop.users.pojo.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

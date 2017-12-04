@@ -1,7 +1,7 @@
 package org.goshop.seller.controller.tools;
 
 import org.goshop.common.service.SystemConfigService;
-import org.goshop.common.utils.CommUtil;
+import org.goshop.common.web.utils.CommUtil;
 import org.goshop.common.web.utils.JsonUtils;
 import org.goshop.goods.i.GoodsService;
 import org.goshop.goods.pojo.GsGoods;

@@ -2,21 +2,21 @@
 <div class="db_box_main">
   <div class="db_box_main_input">
     <label>
-      <input name="trans_mail" type="checkbox" id="trans_mail" value="true" <#if (obj.trans_mail)??> checked="checked"</#if> />
+      <input name="trans_mail" type="checkbox" id="trans_mail" value="true" <#if (obj.transMail)??> checked="checked"</#if> />
       平邮 </label>
   </div>
-  <div class="db_box_main_rdinary" id="trans_mail_info"<#if (obj.trans_mail)!?? > style="display:none;" </#if>>
+  <div class="db_box_main_rdinary" id="trans_mail_info"<#if (obj.transMail)!?? > style="display:none;" </#if>>
     <div class="rdinary_top">默认运费：
-      <input name="mail_trans_weight" type="text" id="mail_trans_weight" value='${(transportTools.query_transprot("${(obj.trans_mail_info)!}","trans_weight"))!}' size="5" />
+      <input name="mail_trans_weight" type="text" id="mail_trans_weight" value='${(transportTools.query_transprot("${(obj.transMailInfo)!}","trans_weight"))!}' size="5" />
       kg内，
-      <input name="mail_trans_fee" type="text" id="mail_trans_fee" value='${(transportTools.query_transprot("${(obj.trans_mail_info)!}","trans_fee"))!}' size="8" />
+      <input name="mail_trans_fee" type="text" id="mail_trans_fee" value='${(transportTools.query_transprot("${(obj.transMailInfo)!}","trans_fee"))!}' size="8" />
       元， 每增加
-      <input name="mail_trans_add_weight" type="text" id="mail_trans_add_weight" value='${(transportTools.query_transprot("${(obj.trans_mail_info)!}","trans_add_weight"))!}' size="5" />
+      <input name="mail_trans_add_weight" type="text" id="mail_trans_add_weight" value='${(transportTools.query_transprot("${(obj.transMailInfo)!}","trans_add_weight"))!}' size="5" />
       kg，增加运费
-      <input name="mail_trans_add_fee" type="text" id="mail_trans_add_fee" value='${(transportTools.query_transprot("${(obj.trans_mail_info)!}","trans_add_fee"))!}' size="8" />
+      <input name="mail_trans_add_fee" type="text" id="mail_trans_add_fee" value='${(transportTools.query_transprot("${(obj.transMailInfo)!}","trans_add_fee"))!}' size="8" />
       元</div>
-    <#assign mail_trans_list = (transportTools.query_all_transprot((obj.trans_mail_info),1))!/>
-    <div class="rdinary_ul" <#if ((mail_trans_list.size())!0)==0 >style="display:none;"</#if> id="mail_trans_city_info">
+    <#assign mail_trans_list = (transportTools.query_all_transprot((obj.transMailInfo),1))!/>
+    <div class="rdinary_ul" <#if (mail_trans_list?size)==0 >style="display:none;"</#if> id="mail_trans_city_info">
       <table width="100%" cellpadding="0" cellspacing="0">
         <tr bgcolor="#f5f5f5">
           <td width="46%" align="center"><span class="width1">运送到</span></td>
@@ -69,21 +69,21 @@
 <div class="db_box_main">
   <div class="db_box_main_input">
     <label>
-      <input name="trans_express" type="checkbox" id="trans_express" value="true" <#if (obj.trans_express)??> checked="checked"</#if> />
+      <input name="trans_express" type="checkbox" id="trans_express" value="true" <#if (obj.transExpress)??> checked="checked"</#if> />
       快递 </label>
   </div>
-  <div class="db_box_main_rdinary" id="trans_express_info" <#if (obj.trans_express)!?? > style="display:none;" </#if>>
+  <div class="db_box_main_rdinary" id="trans_express_info" <#if (obj.transExpress)!?? > style="display:none;" </#if>>
     <div class="rdinary_top">默认运费：
-      <input name="express_trans_weight" type="text" id="express_trans_weight" value='${(transportTools.query_transprot("${(obj.trans_express_info)!}","trans_weight"))!}' size="5" />
+      <input name="express_trans_weight" type="text" id="express_trans_weight" value='${(transportTools.query_transprot("${(obj.transExpressInfo)!}","trans_weight"))!}' size="5" />
       kg内，
-      <input name="express_trans_fee" type="text" id="express_trans_fee" value='${(transportTools.query_transprot("${(obj.trans_express_info)!}","trans_fee"))!}' size="8" />
+      <input name="express_trans_fee" type="text" id="express_trans_fee" value='${(transportTools.query_transprot("${(obj.transExpressInfo)!}","trans_fee"))!}' size="8" />
       元， 每增加
-      <input name="express_trans_add_weight" type="text" id="express_trans_add_weight" value='${(transportTools.query_transprot("${(obj.trans_express_info)!}","trans_add_weight"))!}' size="5" />
+      <input name="express_trans_add_weight" type="text" id="express_trans_add_weight" value='${(transportTools.query_transprot("${(obj.transExpressInfo)!}","trans_add_weight"))!}' size="5" />
       kg，增加运费
-      <input name="express_trans_add_fee" type="text" id="express_trans_add_fee" value='${(transportTools.query_transprot("${(obj.trans_express_info)!}","trans_add_fee"))!}' size="8" />
+      <input name="express_trans_add_fee" type="text" id="express_trans_add_fee" value='${(transportTools.query_transprot("${(obj.transExpressInfo)!}","trans_add_fee"))!}' size="8" />
       元</div>
-    <#assign express_trans_list = (transportTools.query_all_transprot((obj.trans_express_info),1))!/>
-    <div class="rdinary_ul" <#if ((express_trans_list.size())!0)==0>style="display:none;"</#if> id="express_trans_city_info">
+    <#assign express_trans_list = (transportTools.query_all_transprot((obj.transExpressInfo),1))!/>
+    <div class="rdinary_ul" <#if (express_trans_list?size)==0>style="display:none;"</#if> id="express_trans_city_info">
       <table width="100%" cellpadding="0" cellspacing="0">
         <tr bgcolor="#f5f5f5">
           <td width="46%" align="center"><span class="width1">运送到</span></td>
@@ -145,21 +145,21 @@
 <div class="db_box_main">
   <div class="db_box_main_input">
     <label>
-      <input name="trans_ems" type="checkbox" id="trans_ems" value="true" <#if (obj.trans_ems)??> checked="checked"</#if>/>
+      <input name="trans_ems" type="checkbox" id="trans_ems" value="true" <#if (obj.transEms)??> checked="checked"</#if>/>
       EMS </label>
   </div>
-  <div class="db_box_main_rdinary" id="trans_ems_info" <#if (obj.trans_ems)!?? > style="display:none;" </#if>>
+  <div class="db_box_main_rdinary" id="trans_ems_info" <#if (obj.transEms)!?? > style="display:none;" </#if>>
     <div class="rdinary_top">默认运费：
-      <input name="ems_trans_weight" type="text" id="ems_trans_weight" value='${(transportTools.query_transprot("${(obj.trans_ems_info)!}","trans_weight"))!}' size="5" />
+      <input name="ems_trans_weight" type="text" id="ems_trans_weight" value='${(transportTools.query_transprot("${(obj.transEmsInfo )!}","trans_weight"))!}' size="5" />
       kg内，
-      <input name="ems_trans_fee" type="text" id="ems_trans_fee" value='${(transportTools.query_transprot("${(obj.trans_ems_info)!}","trans_fee"))!}' size="8" />
+      <input name="ems_trans_fee" type="text" id="ems_trans_fee" value='${(transportTools.query_transprot("${(obj.transEmsInfo )!}","trans_fee"))!}' size="8" />
       元， 每增加
-      <input name="ems_trans_add_weight" type="text" id="ems_trans_add_weight" value='${(transportTools.query_transprot("${(obj.trans_ems_info)!}","trans_add_weight"))!}' size="5" />
+      <input name="ems_trans_add_weight" type="text" id="ems_trans_add_weight" value='${(transportTools.query_transprot("${(obj.transEmsInfo )!}","trans_add_weight"))!}' size="5" />
       kg，增加运费
-      <input name="ems_trans_add_fee" type="text" id="ems_trans_add_fee" value='${(transportTools.query_transprot("${(obj.trans_ems_info)!}","trans_add_fee"))!}' size="8" />
+      <input name="ems_trans_add_fee" type="text" id="ems_trans_add_fee" value='${(transportTools.query_transprot("${(obj.transEmsInfo )!}","trans_add_fee"))!}' size="8" />
       元</div>
-  <#assign ems_trans_list = (transportTools.query_all_transprot((obj.trans_ems_info),1))!/>
-    <div class="rdinary_ul" <#if ((ems_trans_list.size())!0)==0 >style="display:none;"</#if> id="ems_trans_city_info">
+  <#assign ems_trans_list = (transportTools.query_all_transprot((obj.transEmsInfo ),1))!/>
+    <div class="rdinary_ul" <#if (ems_trans_list?size)==0 >style="display:none;"</#if> id="ems_trans_city_info">
       <table width="100%" cellpadding="0" cellspacing="0">
         <tr bgcolor="#f5f5f5">
           <td width="46%" align="center"><span class="width1">运送到</span></td>

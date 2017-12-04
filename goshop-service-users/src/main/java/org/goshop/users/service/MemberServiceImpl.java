@@ -2,8 +2,6 @@ package org.goshop.users.service;
 
 import com.alibaba.fastjson.JSONObject;
 import com.github.pagehelper.PageInfo;
-import org.apache.activemq.command.Message;
-import org.apache.shiro.session.Session;
 import org.goshop.common.exception.MapperException;
 import org.goshop.common.utils.PageUtils;
 import org.goshop.common.utils.RandomUtils;

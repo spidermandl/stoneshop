@@ -1,9 +1,12 @@
-package org.goshop.common.utils;
+package org.goshop.common.web.utils;
 
 import com.github.pagehelper.PageInfo;
 import com.sun.image.codec.jpeg.JPEGCodec;
 import com.sun.image.codec.jpeg.JPEGEncodeParam;
 import com.sun.image.codec.jpeg.JPEGImageEncoder;
+import org.goshop.common.utils.ImageCompress;
+import org.goshop.common.utils.ImageScale;
+import org.goshop.common.utils.StringUtils;
 import org.jsoup.Jsoup;
 import org.jsoup.safety.Whitelist;
 import org.springframework.ui.Model;

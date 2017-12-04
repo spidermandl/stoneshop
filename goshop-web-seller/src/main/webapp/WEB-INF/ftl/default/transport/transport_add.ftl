@@ -30,18 +30,18 @@
          jQuery("#theForm").validate({
            rules: {
                 trans_name:{required:true},
-                mail_trans_weight:{required:true,digits:true,range:[1,999]},
-                mail_trans_fee:{required:true,number:true},
-                mail_trans_add_weight:{required:true,digits:true,range:[1,999]},
-                mail_trans_add_fee:{required:true,number:true},
-                express_trans_weight:{required:true,digits:true,range:[1,999]},
-                express_trans_fee:{required:true,number:true},
-                express_trans_add_weight:{required:true,digits:true,range:[1,999]},
-                express_trans_add_fee:{required:true,number:true},
-                ems_trans_weight:{required:true,digits:true,range:[1,999]},
-                ems_trans_fee:{required:true,number:true},
-                ems_trans_add_weight:{required:true,digits:true,range:[1,999]},
-                ems_trans_add_fee:{required:true,number:true}
+                mail_trans_weight:{required:requireMailCheck,digits:true,range:[1,999]},
+                mail_trans_fee:{required:requireMailCheck,number:true},
+                mail_trans_add_weight:{required:requireMailCheck,digits:true,range:[1,999]},
+                mail_trans_add_fee:{required:requireMailCheck,number:true},
+                express_trans_weight:{required:requireExpressCheck,digits:true,range:[1,999]},
+                express_trans_fee:{required:requireExpressCheck,number:true},
+                express_trans_add_weight:{required:requireExpressCheck,digits:true,range:[1,999]},
+                express_trans_add_fee:{required:requireExpressCheck,number:true},
+                ems_trans_weight:{required:requireEmsCheck,digits:true,range:[1,999]},
+                ems_trans_fee:{required:requireEmsCheck,number:true},
+                ems_trans_add_weight:{required:requireEmsCheck,digits:true,range:[1,999]},
+                ems_trans_add_fee:{required:requireEmsCheck,number:true}
               },
            messages: {
                 trans_name:{required:"模板名称不能为空"},
@@ -59,7 +59,25 @@
                 ems_trans_add_fee:{required:"不能为空",number:"只能为数字"}
             }
       });
+        function requireMailCheck() {
+            if(jQuery("#trans_mail_info").css('display')=='none')
+                return false;
+            return true;
+        }
+        function requireExpressCheck() {
+            if(jQuery("#trans_express_info").css('display')=='none')
+                return false;
+            return true;
+        }
+        function requireEmsCheck() {
+            if(jQuery("#trans_ems_info").css('display')=='none')
+                return false;
+            return true;
+        }
 
+        /**
+         *  初始化事件监听
+         * */
         function initListener(){
             jQuery(":checkbox").on("click",null,clickTranportType);
             jQuery("a[id^=batch_set_]").on("click",null,clickBatchTypeEdit);
@@ -147,6 +165,10 @@
             }
         }
 
+        function test() {
+            console.log("test");
+        }
+
       jQuery("a[id^=batch_config_]").click(function(){
 
       });
@@ -171,17 +193,17 @@
              });
           }
        });
-      <#if (obj.trans_mail)??>
+      <#if (obj.transMail)??>
         jQuery("#trans_mail_info").show();
       </#if>
-      <#if (obj.trans_express)??>
+      <#if (obj.transExpress)??>
         jQuery("#trans_express_info").show();
       </#if>
-      <#if (obj.trans_ems)??>
+      <#if (obj.transEms)??>
        jQuery("#trans_ems_info").show();
       </#if>
-      jQuery("#trans_time").val("${(obj.trans_time)!}");
-      jQuery(":radio[value=${(obj.trans_type)!}]").prop("checked",true);
+      jQuery("#trans_time").val("${(obj.transTime)!}");
+      jQuery(":radio[value=${(obj.transType)!}]").prop("checked",true);
     });
     function trans_city(id){
       var the_id="";
@@ -219,8 +241,8 @@
         }else{
           s='<tr index="'+mail_city_count+'"><td><span class="width2"><i><input id="trans_ck_'+mail_city_count+'" name="trans_ck_'+mail_city_count+'" type="checkbox" value="" style="display:none;" /></i><input id="mail_city_ids'+mail_city_count+'" name="mail_city_ids'+mail_city_count+'" type="hidden" value="" /><input id="mail_city_names'+mail_city_count+'" name="mail_city_names'+mail_city_count+'" type="hidden" value="" /><a  href="javascript:void(0);" onclick="edit_trans_city(this);" trans_city_type="'+id+'">编辑</a></span><span class="width1" id="'+the_id+'">未添加地区</span></td><td><input type="text" value="1" class="in" id="mail_trans_weight'+mail_city_count+'" name="mail_trans_weight'+mail_city_count+'" /></td><td><input type="text" value="1" class="in" id="mail_trans_fee'+mail_city_count+'" name="mail_trans_fee'+mail_city_count+'" /></td><td><input type="text" value="1" class="in" id="mail_trans_add_weight'+mail_city_count+'" name="mail_trans_add_weight'+mail_city_count+'" /></td><td><input type="text" value="1" class="in" id="mail_trans_add_fee'+mail_city_count+'" name="mail_trans_add_fee'+mail_city_count+'" /></td><td><span class="width3"><a href="javascript:void(0);" onclick="if(confirm(\'确认要删除当前地区的设置么？\'))remove_trans_city(this)">删除</a></span></td></tr>';
         }
-      jQuery("#"+id+"_trans_city_info table tr:last").after(s);
-      jQuery("#"+id+"_trans_city_info").show();
+        jQuery("#"+id+"_trans_city_info table tr:last").after(s);
+        jQuery("#"+id+"_trans_city_info").show();
       }
     }
     function edit_trans_city(obj){
@@ -261,7 +283,7 @@
                           <div class="db_box_top">
                             <ul>
                               <li> <span class="li_left">模板名称:</span> <span class="li_right">
-                                <input name="trans_name" type="text" id="trans_name" value="${(obj.trans_name)!}"  />
+                                <input name="transName" type="text" id="trans_name" value="${(obj.transName)!}"  />
                                 <input name="id" type="hidden" id="id" value="${(obj.id)!}" />
                                 </span>
                                 <input type="hidden" name="mail_city_count" id="mail_city_count" />
@@ -269,7 +291,7 @@
                                 <input type="hidden" name="ems_city_count" id="ems_city_count" />
                               </li>
                               <li> <span class="li_left">发货时间:</span> <span class="li_right_font">
-                                <select name="trans_time" id="trans_time">
+                                <select name="transTime" id="trans_time">
                                   <option selected="selected">请选择</option>
                                   <option value="12">12小时内</option>
                                   <option value="24">24小时内</option>
@@ -284,13 +306,13 @@
                                 承诺买家付款后该时间内录入物流信息并发货，以物流公司收单信息为准</span> </li>
                               <li> <span class="li_left">计价方式:</span> <span class="li_right_font">
                                 <label>
-                                  <input type="radio" name="trans_type" value="0" checked="checked" />
+                                  <input type="radio" name="transType" value="0" checked="checked" />
                                   按件数 </label>
                                 <label>
-                                  <input type="radio" name="trans_type" value="1" />
+                                  <input type="radio" name="transType" value="1" />
                                   按重量 </label>
                                 <label>
-                                  <input type="radio" name="trans_type" value="2" />
+                                  <input type="radio" name="transType" value="2" />
                                   按体积 </label>
                                 </span> </li>
                               <li> <span class="li_left">运送方式:</span> <span class="li_right_font">除指定地区外，其他地区的运费采用“默认运费”</span> </li>
@@ -298,13 +320,13 @@
                           </div>
                           <div id="trans_detail">
                              <#if obj??>
-                                <#if ((obj.trans_type)!0)==0 >
+                                <#if ((obj.transType)!0)==0 >
                                     ${httpInclude.include("/transport/transport_info?id=${(obj.id)!}&type=mail")}
                                 </#if>
-                                <#if ((obj.trans_type)!0)==1 >
+                                <#if ((obj.transType)!0)==1 >
                                     ${httpInclude.include("/transport/transport_info?id=${(obj.id)!}&type=express")}
                                 </#if>
-                                <#if ((obj.trans_type)!0)==2 >
+                                <#if ((obj.transType)!0)==2 >
                                     ${httpInclude.include("/transport/transport_info?id=${(obj.id)!}&type=ems")}
                                 </#if>
                              <#else>
@@ -312,21 +334,21 @@
                               <div class="db_box_main">
                                 <div class="db_box_main_input">
                                   <label>
-                                    <input name="trans_mail" type="checkbox" id="trans_mail" value="true"
-                                           <#if (obj.trans_mail)??> checked="checked" </#if> />
+                                    <input name="transMail" type="checkbox" id="trans_mail" value="true"
+                                           <#if (obj.transMail)??> checked="checked" </#if> />
                                     平邮 </label>
                                 </div>
-                                <div class="db_box_main_rdinary" id="trans_mail_info" <#if (obj.trans_mail)!??> style="display:none;" </#if>>
+                                <div class="db_box_main_rdinary" id="trans_mail_info" <#if (obj.transMail)!??> style="display:none;" </#if>>
                                   <div class="rdinary_top">默认运费：
-                                    <input name="mail_trans_weight" type="text" id="mail_trans_weight" value='${(transportTools.query_transprot("${(obj.trans_mail_info)!}","trans_weight"))!}' size="5" />
+                                    <input name="mail_trans_weight" type="text" id="mail_trans_weight" value='${(transportTools.query_transprot("${(obj.transMailInfo)!}","trans_weight"))!}' size="5" />
                                     件内，
-                                    <input name="mail_trans_fee" type="text" id="mail_trans_fee" value='${(transportTools.query_transprot("${(obj.trans_mail_info)!}","trans_fee"))!}' size="8" />
+                                    <input name="mail_trans_fee" type="text" id="mail_trans_fee" value='${(transportTools.query_transprot("${(obj.transMailInfo)!}","trans_fee"))!}' size="8" />
                                     元， 每增加
-                                    <input name="mail_trans_add_weight" type="text" id="mail_trans_add_weight" value='${(transportTools.query_transprot("${(obj.trans_mail_info)!}","trans_add_weight"))!}' size="5" />
+                                    <input name="mail_trans_add_weight" type="text" id="mail_trans_add_weight" value='${(transportTools.query_transprot("${(obj.transMailInfo)!}","trans_add_weight"))!}' size="5" />
                                     件，增加运费
-                                    <input name="mail_trans_add_fee" type="text" id="mail_trans_add_fee" value='${(transportTools.query_transprot("${(obj.trans_mail_info)!}","trans_add_fee"))!}' size="8" />
+                                    <input name="mail_trans_add_fee" type="text" id="mail_trans_add_fee" value='${(transportTools.query_transprot("${(obj.transMailInfo)!}","trans_add_fee"))!}' size="8" />
                                     元</div>
-                                    <#assign mail_trans_list= (transportTools.query_all_transprot("${(obj.trans_mail_info)!}",1))! />
+                                    <#assign mail_trans_list= (transportTools.query_all_transprot("${(obj.transMailInfo)!}",1))! />
                                   <div class="rdinary_ul" <#if ((mail_trans_list.size())!0)==0 >style="display:none;"</#if> id="mail_trans_city_info">
                                     <table width="100%" cellpadding="0" cellspacing="0">
                                       <tr bgcolor="#f5f5f5">
@@ -379,20 +401,20 @@
                               <div class="db_box_main">
                                 <div class="db_box_main_input">
                                   <label>
-                                    <input name="trans_express" type="checkbox" id="trans_express" value="true" <#if (obj.trans_express)?? > checked="checked"</#if> />
+                                    <input name="transExpress" type="checkbox" id="trans_express" value="true" <#if (obj.transExpress)?? > checked="checked"</#if> />
                                     快递 </label>
                                 </div>
-                                <div class="db_box_main_rdinary" id="trans_express_info" <#if (obj.trans_express)!?? > style="display:none;" </#if>>
+                                <div class="db_box_main_rdinary" id="trans_express_info" <#if (obj.transExpress)!?? > style="display:none;" </#if>>
                                   <div class="rdinary_top">默认运费：
-                                    <input name="express_trans_weight" type="text" id="express_trans_weight" value='${(transportTools.query_transprot("${(obj.trans_express_info)!}","trans_weight"))!}' size="5" />
+                                    <input name="express_trans_weight" type="text" id="express_trans_weight" value='${(transportTools.query_transprot("${(obj.transExpressInfo)!}","trans_weight"))!}' size="5" />
                                     件内，
-                                    <input name="express_trans_fee" type="text" id="express_trans_fee" value='${(transportTools.query_transprot("${(obj.trans_express_info)!}","trans_fee"))!}' size="8" />
+                                    <input name="express_trans_fee" type="text" id="express_trans_fee" value='${(transportTools.query_transprot("${(obj.transExpressInfo)!}","trans_fee"))!}' size="8" />
                                     元， 每增加
-                                    <input name="express_trans_add_weight" type="text" id="express_trans_add_weight" value='${(transportTools.query_transprot("${(obj.trans_express_info)!}","trans_add_weight"))!}' size="5" />
+                                    <input name="express_trans_add_weight" type="text" id="express_trans_add_weight" value='${(transportTools.query_transprot("${(obj.transExpressInfo)!}","trans_add_weight"))!}' size="5" />
                                     件，增加运费
-                                    <input name="express_trans_add_fee" type="text" id="express_trans_add_fee" value='${(transportTools.query_transprot("${(obj.trans_express_info)!}","trans_add_fee"))!}' size="8" />
+                                    <input name="express_trans_add_fee" type="text" id="express_trans_add_fee" value='${(transportTools.query_transprot("${(obj.transExpressInfo)!}","trans_add_fee"))!}' size="8" />
                                     元</div>
-                                    <#assign mail_trans_list= (transportTools.query_all_transprot("${(obj.trans_express_info)!}",1))!/>
+                                    <#assign mail_trans_list= (transportTools.query_all_transprot("${(obj.transExpressInfo)!}",1))!/>
                                   <div class="rdinary_ul" <#if ((express_trans_list.size())!0)==0>style="display:none;" </#if> id="express_trans_city_info">
                                     <table width="100%" cellpadding="0" cellspacing="0">
                                       <tr bgcolor="#f5f5f5">
@@ -447,20 +469,20 @@
                               <div class="db_box_main">
                                 <div class="db_box_main_input">
                                   <label>
-                                    <input name="trans_ems" type="checkbox" id="trans_ems" value="true" <#if (obj.trans_ems)??> checked="checked" </#if>/>
+                                    <input name="transEms" type="checkbox" id="trans_ems" value="true" <#if (obj.transEms)??> checked="checked" </#if>/>
                                     EMS </label>
                                 </div>
-                                <div class="db_box_main_rdinary" id="trans_ems_info" <#if (obj.trans_ems)!??> style="display:none;" </#if>>
+                                <div class="db_box_main_rdinary" id="trans_ems_info" <#if (obj.transEms)!??> style="display:none;" </#if>>
                                   <div class="rdinary_top">默认运费：
-                                    <input name="ems_trans_weight" type="text" id="ems_trans_weight" value='${(transportTools.query_transprot("${(obj.trans_ems_info)!}","trans_weight"))!}' size="5" />
+                                    <input name="ems_trans_weight" type="text" id="ems_trans_weight" value='${(transportTools.query_transprot("${(obj.transEmsInfo)!}","trans_weight"))!}' size="5" />
                                     件内，
-                                    <input name="ems_trans_fee" type="text" id="ems_trans_fee" value='${(transportTools.query_transprot("${(obj.trans_ems_info)!}","trans_fee"))!}' size="8" />
+                                    <input name="ems_trans_fee" type="text" id="ems_trans_fee" value='${(transportTools.query_transprot("${(obj.transEmsInfo)!}","trans_fee"))!}' size="8" />
                                     元， 每增加
-                                    <input name="ems_trans_add_weight" type="text" id="ems_trans_add_weight" value='${(transportTools.query_transprot("${(obj.trans_ems_info)!}","trans_add_weight"))!}' size="5" />
+                                    <input name="ems_trans_add_weight" type="text" id="ems_trans_add_weight" value='${(transportTools.query_transprot("${(obj.transEmsInfo)!}","trans_add_weight"))!}' size="5" />
                                     件，增加运费
-                                    <input name="ems_trans_add_fee" type="text" id="ems_trans_add_fee" value='${(transportTools.query_transprot("${(obj.trans_ems_info)!}","trans_add_fee"))!}' size="8" />
+                                    <input name="ems_trans_add_fee" type="text" id="ems_trans_add_fee" value='${(transportTools.query_transprot("${(obj.transEmsInfo)!}","trans_add_fee"))!}' size="8" />
                                     元</div>
-                                    <#assign mail_trans_list= (transportTools.query_all_transprot("${(obj.trans_ems_info)!}",1))! />
+                                    <#assign mail_trans_list= (transportTools.query_all_transprot("${(obj.transEmsInfo)!}",1))! />
                                   <div class="rdinary_ul" <#if ((ems_trans_list.size())!0)==0 >style="display:none;"</#if> id="ems_trans_city_info">
                                     <table width="100%" cellpadding="0" cellspacing="0">
                                       <tr bgcolor="#f5f5f5">

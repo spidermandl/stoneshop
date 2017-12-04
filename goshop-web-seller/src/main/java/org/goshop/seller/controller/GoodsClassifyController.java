@@ -2,8 +2,8 @@ package org.goshop.seller.controller;
 
 import com.github.pagehelper.PageInfo;
 import org.goshop.common.service.SystemConfigService;
-import org.goshop.common.utils.CommUtil;
-import org.goshop.common.utils.WebForm;
+import org.goshop.common.web.utils.CommUtil;
+import org.goshop.common.web.utils.WebForm;
 import org.goshop.goods.i.GoodsUserClassService;
 import org.goshop.goods.pojo.GsGoodsUserClass;
 import org.goshop.shiro.bind.annotation.CurrentUser;

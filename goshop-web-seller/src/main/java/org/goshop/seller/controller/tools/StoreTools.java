@@ -1,6 +1,6 @@
 package org.goshop.seller.controller.tools;
 
-import org.goshop.common.utils.CommUtil;
+import org.goshop.common.web.utils.CommUtil;
 import org.goshop.goods.i.GoodsClassService;
 import org.goshop.goods.pojo.GsGoodsAccessory;
 import org.goshop.goods.pojo.GsGoodsClass;

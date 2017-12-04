@@ -4,6 +4,7 @@ import org.goshop.common.attachment.AttachmentService;
 import org.goshop.common.context.CustomTimestampEditor;
 import org.goshop.common.exception.PageException;
 import org.goshop.common.utils.*;
+import org.goshop.common.web.utils.BeanUtils;
 import org.goshop.common.web.utils.ImageUtils;
 import org.goshop.common.web.utils.JsonUtils;
 import org.goshop.common.web.utils.ResponseMessageUtils;

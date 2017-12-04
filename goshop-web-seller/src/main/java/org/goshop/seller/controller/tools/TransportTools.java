@@ -1,7 +1,8 @@
 package org.goshop.seller.controller.tools;
 
 import org.goshop.common.pojo.CglibBean;
-import org.goshop.common.utils.CommUtil;
+import org.goshop.common.pojo.EUDataGridResult;
+import org.goshop.common.web.utils.CommUtil;
 import org.goshop.common.web.utils.JsonUtils;
 import org.goshop.goods.i.GoodsService;
 import org.goshop.store.i.AreaService;

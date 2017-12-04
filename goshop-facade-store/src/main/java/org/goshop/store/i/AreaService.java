@@ -1,7 +1,6 @@
 package org.goshop.store.i;
 
 import org.goshop.store.pojo.GsTransArea;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
 

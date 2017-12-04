@@ -1,8 +1,7 @@
-package org.goshop.common.utils;
+package org.goshop.common.web.utils;
 
 
 import org.apache.commons.beanutils.PropertyUtils;
-import org.springframework.beans.BeanWrapperImpl;
 import org.springframework.beans.SimpleTypeConverter;
 import org.springframework.beans.TypeConverter;
 import org.springframework.core.MethodParameter;

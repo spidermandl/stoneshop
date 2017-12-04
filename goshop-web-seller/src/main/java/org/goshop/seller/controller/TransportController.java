@@ -1,11 +1,11 @@
 package org.goshop.seller.controller;
 
 import com.github.pagehelper.PageInfo;
-import net.sf.json.JSONObject;
-import org.goshop.common.pojo.SysMap;
 import org.goshop.common.service.SystemConfigService;
-import org.goshop.common.utils.CommUtil;
-import org.goshop.common.utils.WebForm;
+import org.goshop.common.web.utils.CommUtil;
+import org.goshop.common.web.utils.HttpInclude;
+import org.goshop.common.web.utils.WebForm;
+import org.goshop.common.web.utils.JsonUtils;
 import org.goshop.seller.controller.tools.TransportTools;
 import org.goshop.shiro.bind.annotation.CurrentUser;
 import org.goshop.store.i.AreaService;
@@ -15,13 +15,11 @@ import org.goshop.store.pojo.GsTransArea;
 import org.goshop.store.pojo.GsTransport;
 import org.goshop.store.pojo.GsTransportWithBLOBs;
 import org.goshop.store.pojo.Store;
-import org.goshop.users.i.UserService;
 import org.goshop.users.pojo.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -81,7 +79,7 @@ public class TransportController {
                                 String currentPage){
         String ret = "transport_add";
         model.addAttribute("currentPage", currentPage);
-
+        model.addAttribute("httpInclude", new HttpInclude(request, response));
         return "transport/"+ret;
     }
 
@@ -98,6 +96,7 @@ public class TransportController {
             model.addAttribute("obj", transport);
             model.addAttribute("currentPage", currentPage);
         }
+        model.addAttribute("httpInclude", new HttpInclude(request, response));
         model.addAttribute("transportTools", this.transportTools);
 
         return "transport/"+ret;
@@ -126,6 +125,7 @@ public class TransportController {
             model.addAttribute("obj", obj);
             model.addAttribute("currentPage", currentPage);
         }
+        model.addAttribute("httpInclude", new HttpInclude(request, response));
         model.addAttribute("transportTools", this.transportTools);
 
         return "transport/"+ret;
@@ -182,7 +182,8 @@ public class TransportController {
                 }
             }
 
-            transport.setTransMailInfo(JSONObject.fromObject(trans_mail_info).toString());
+            transport.setTransMail(true);
+            transport.setTransMailInfo(JsonUtils.objectToJson(trans_mail_info));
         }
         if (CommUtil.null2Boolean(trans_express)){
             List trans_express_info = new ArrayList();
@@ -212,7 +213,8 @@ public class TransportController {
                     trans_express_info.add(map1);
                 }
             }
-            transport.setTransExpressInfo(JSONObject.fromObject(trans_express_info).toString());
+            transport.setTransExpress(true);
+            transport.setTransExpressInfo(JsonUtils.objectToJson(trans_express_info));
         }
         if (CommUtil.null2Boolean(trans_ems)){
             List trans_ems_info = new ArrayList();
@@ -242,7 +244,8 @@ public class TransportController {
                     trans_ems_info.add(map1);
                 }
             }
-            transport.setTransEmsInfo(JSONObject.fromObject(trans_ems_info).toString());
+            transport.setTransEms(true);
+            transport.setTransEmsInfo(JsonUtils.objectToJson(trans_ems_info));
         }
         transport.setAddtime(new Date());
         Store store = storeJoinService.getCurrentStore(user);
@@ -261,7 +264,7 @@ public class TransportController {
                                           HttpServletRequest request,
                                           HttpServletResponse response,
                                           String currentPage){
-        String ret = "success";
+        String ret = "transport_success";
 
         model.addAttribute("op_title", "运费模板保存成功");
         model.addAttribute("url", CommUtil.getURL(request) +
@@ -293,7 +296,7 @@ public class TransportController {
                                  HttpServletRequest request,
                                  HttpServletResponse response,
                                  String type,
-                                 String id){
+                                 String id){//
         if ((type == null) || (type.equals(""))){
             type = CommUtil.null2String(request.getAttribute("type"));
         }
