@@ -15,6 +15,7 @@ public interface GoodsAccessoryService {
     GsGoodsAccessory findOne(Long id);
     int delete(GsGoodsAccessory accessory);
     long save(GsGoodsAccessory accessory);
+    int update(GsGoodsAccessory accessory);
 
     /**
      * 分页查找goods

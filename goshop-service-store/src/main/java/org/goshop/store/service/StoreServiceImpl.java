@@ -94,7 +94,7 @@ public class StoreServiceImpl implements StoreService {
 
     @Override
     public void update(StoreWithBLOBs store) {
-        storeMapper.updateByPrimaryKeySelective(store);
+        storeMapper.updateByPrimaryKeyWithBLOBs(store);
     }
 
     @Override

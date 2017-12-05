@@ -10,7 +10,7 @@ public class GsGoodsBrand implements Serializable {
 
     private Boolean deletestatus;
 
-    private Boolean audit;
+    private int audit;
 
     private String name;
 
@@ -33,6 +33,16 @@ public class GsGoodsBrand implements Serializable {
     private String firstWord;
 
     private String remark;
+
+    public GsGoodsAccessory getBrandLogo() {
+        return brandLogo;
+    }
+
+    public void setBrandLogo(GsGoodsAccessory brandLogo) {
+        this.brandLogo = brandLogo;
+    }
+
+    private GsGoodsAccessory brandLogo;
 
     public Long getId() {
         return id;
@@ -58,11 +68,11 @@ public class GsGoodsBrand implements Serializable {
         this.deletestatus = deletestatus;
     }
 
-    public Boolean getAudit() {
+    public int getAudit() {
         return audit;
     }
 
-    public void setAudit(Boolean audit) {
+    public void setAudit(int audit) {
         this.audit = audit;
     }
 

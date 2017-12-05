@@ -6,7 +6,7 @@
 <#--<link href="${S_URL}/static/style/system/front/default/css/user.css" type="text/css" rel="stylesheet" />-->
 <#--<link href="${S_URL}/static/style/common/css/jquery-ui-1.8.22.custom.css" type="text/css" rel="stylesheet" />-->
 <#--<link href="${S_URL}/static/style/common/css/overlay.css" type="text/css" rel="stylesheet" />-->
-<link href="${S_URL}/static/styles/transport.css" type="text/css" rel="stylesheet" />
+<link href="${S_URL}/static/styles/basic.css" type="text/css" rel="stylesheet" />
 <script src="${S_URL}/static/scripts/jquery.shop.common.js"></script>
 <div class="ncsc-layout wrapper">
     <#include "layout_transport.ftl"/>
@@ -22,14 +22,14 @@
                     </div>
                 </div>
             </div>
-            <#--<script>-->
-                <#--var count=3;-->
-                <#--window.setInterval(go,1000);-->
-                <#--function go(){-->
-                    <#--count--;-->
-                    <#--if(count==0) window.location.href="${url!}";-->
-                <#--}-->
-            <#--</script>-->
+            <script>
+                var count=3;
+                window.setInterval(go,1000);
+                function go(){
+                    count--;
+                    if(count==0) window.location.href="${url!}";
+                }
+            </script>
         </div>
     </div>
 </div>

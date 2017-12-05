@@ -43,4 +43,6 @@
     <dubbo:service  retries="0" interface="org.goshop.goods.i.GoodsService" ref="goodsService"  />
 
     <dubbo:service  retries="0" interface="org.goshop.goods.i.GoodsUserClassService" ref="goodsUserClassService"  />
+
+    <dubbo:service  retries="0" interface="org.goshop.goods.i.GoodsBrandService" ref="goodsBrandService"  />
 </beans>

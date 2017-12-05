@@ -4,6 +4,8 @@ import com.github.pagehelper.PageInfo;
 import org.goshop.common.utils.PageUtils;
 import org.goshop.goods.i.GoodsAccessoryService;
 import org.goshop.goods.mapper.master.GsGoodsAccessoryMapper;
+import org.goshop.goods.mapper.read.ReadGsGoodsAccessoryMapper;
+import org.goshop.goods.mapper.read.ReadGsGoodsBrandMapper;
 import org.goshop.goods.pojo.GsGoodsAccessory;
 import org.goshop.users.pojo.User;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,9 +22,12 @@ public class GoodsAccessoryServiceImpl implements GoodsAccessoryService {
     @Autowired
     GsGoodsAccessoryMapper gsGoodsAccessoryMapper;
 
+    @Autowired
+    ReadGsGoodsAccessoryMapper readGsGoodsAccessoryMapper;
+
     @Override
     public GsGoodsAccessory findOne(Long id) {
-        return gsGoodsAccessoryMapper.selectByPrimaryKey(id);
+        return readGsGoodsAccessoryMapper.selectByPrimaryKey(id);
     }
 
     @Override
@@ -40,16 +45,21 @@ public class GoodsAccessoryServiceImpl implements GoodsAccessoryService {
     }
 
     @Override
+    public int update(GsGoodsAccessory accessory) {
+        return gsGoodsAccessoryMapper.updateByPrimaryKey(accessory);
+    }
+
+    @Override
     public PageInfo<GsGoodsAccessory> findAll(Integer curPage, Integer pageSize) {
         PageUtils.startPage(curPage,pageSize);
-        List<GsGoodsAccessory> list = gsGoodsAccessoryMapper.findAll();
+        List<GsGoodsAccessory> list = readGsGoodsAccessoryMapper.findAll();
         return new PageInfo<GsGoodsAccessory>(list);
     }
 
     @Override
     public PageInfo<GsGoodsAccessory> findByUserId(User user, Integer curPage, Integer pageSize) {
         PageUtils.startPage(curPage,pageSize);
-        List<GsGoodsAccessory> list = gsGoodsAccessoryMapper.selectByUserId(user.getId());
+        List<GsGoodsAccessory> list = readGsGoodsAccessoryMapper.selectByUserId(user.getId());
         return new PageInfo<GsGoodsAccessory>(list);
     }
 

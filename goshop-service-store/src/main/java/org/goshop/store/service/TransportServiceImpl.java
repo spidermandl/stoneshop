@@ -59,7 +59,7 @@ public class TransportServiceImpl implements TransportService {
 
     @Override
     public int update(GsTransportWithBLOBs transport) {
-        return gsTransportMapper.updateByPrimaryKey(transport);
+        return gsTransportMapper.updateByPrimaryKeyWithBLOBs(transport);
     }
 
     @Override

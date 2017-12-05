@@ -44,7 +44,7 @@
           <tr class="opertr" align="left">
               <td>平邮</td>
               <#assign city_name = info.value("city_name")/>
-              <td>${(CommUtil.substring("${city_name!}",22))!}</td>
+              <td>${(CommUtil.substring(city_name,22))!}</td>
               <td>${(info.value("trans_weight"))!}</td>
               <td>${(info.value("trans_fee"))!}</td>
               <td>${(info.value("trans_add_weight"))!}</td>
@@ -55,7 +55,7 @@
           <tr class="opertr" align="left">
               <td>快递</td>
               <#assign city_name = info.value("city_name")/>
-              <td>${(CommUtil.substring("${city_name!}",22))!}</td>
+              <td>${(CommUtil.substring(city_name,22))!}</td>
               <td>${(info.value("trans_weight"))!}</td>
               <td>${(info.value("trans_fee"))!}</td>
               <td>${(info.value("trans_add_weight"))!}</td>
@@ -66,7 +66,7 @@
           <tr class="opertr" align="left">
             <td>EMS</td>
               <#assign city_name = info.value("city_name")/>
-              <td>${(CommUtil.substring("${city_name!}",22))!}</td>
+              <td>${(CommUtil.substring(city_name,22))!}</td>
               <td>${(info.value("trans_weight"))!}</td>
               <td>${(info.value("trans_fee"))!}</td>
               <td>${(info.value("trans_add_weight"))!}</td>

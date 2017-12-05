@@ -29,6 +29,11 @@
                         商品分类
                     </a>
                 </li>
+                <li <#if P_CURRENT_OP=="GoodsBrandRequest">class="current"</#if>>
+                    <a href="${S_URL}/brand/usergoodsbrand_list">
+                        品牌申请
+                    </a>
+                </li>
                 <li <#if P_CURRENT_OP=="storeWarning">class="current"</#if>>
                     <a href="${S_URL}/se/warning/edit">
                         库存警报

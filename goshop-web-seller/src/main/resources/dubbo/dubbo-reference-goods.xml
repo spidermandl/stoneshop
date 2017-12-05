@@ -22,4 +22,6 @@
                      interface="org.goshop.goods.i.GoodsService" check="false" />
     <dubbo:reference id="goodsUserClassService"
                      interface="org.goshop.goods.i.GoodsUserClassService" check="false" />
+    <dubbo:reference id="goodsBrandService"
+                     interface="org.goshop.goods.i.GoodsBrandService" check="false" />
 </beans>

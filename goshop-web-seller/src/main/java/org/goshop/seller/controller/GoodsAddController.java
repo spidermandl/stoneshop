@@ -38,7 +38,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- * 增加商品控制器
+ * 增加\编辑商品控制器
  */
 @Controller
 @RequestMapping(value =  "/goods_add")
@@ -226,6 +226,7 @@ public class GoodsAddController {
 
         model.addAttribute("goods_class",goodsClass);
         model.addAttribute("config",systemConfigService.getConfig());
+        model.addAttribute("CommUtil",new CommUtil());
         return "goods/good_add_step_two";
     }
 
@@ -717,8 +718,9 @@ public class GoodsAddController {
         index = index==0?1:index;
         PageInfo<GsTransportWithBLOBs> plist = this.transportService.findByStoreId(store,index,1,orderBy,orderType);
         CommUtil.saveIPageList2ModelAndView(
-                url + "goods/goods_transport", "", params, plist, model);
+                url + "/goods_add/goods_transport", "", params, plist, model);
         model.addAttribute("transportTools", this.transportTools);
+        model.addAttribute("CommUtil",new CommUtil());
 
         return ret;
     }

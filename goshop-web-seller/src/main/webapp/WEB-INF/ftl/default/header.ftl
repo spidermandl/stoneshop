@@ -34,20 +34,21 @@
                     <div class="content" id="quicklink_list">
                         <dl>
                             <dt>商品</dt>
-                            <dd class="selected"><i title="添加为常用功能菜单" class="icon-check"
-                                                    data-quicklink-act="store_goods_add" nctype="btn_add_quicklink"></i><a
-                                    href="${S_URL}/goods_add/step_one"> 商品发布 </a></dd>
-                            <dd class="selected"><i title="添加为常用功能菜单" class="icon-check"
-                                                    data-quicklink-act="store_goods_online"
-                                                    nctype="btn_add_quicklink"></i><a
-                                    href="#"> 出售中的商品 </a></dd>
-                            <dd class="selected"><i title="添加为常用功能菜单" class="icon-check"
-                                                    data-quicklink-act="store_goods_offline"
-                                                    nctype="btn_add_quicklink"></i><a
-                                    href="#"> 仓库中的商品 </a></dd>
-                            <dd><i title="添加为常用功能菜单" class="icon-check" data-quicklink-act="store_storage_alarm"
-                                   nctype="btn_add_quicklink"></i><a
-                                    href="#"> 库存警报 </a></dd>
+                            <dd class="selected">
+                                <i title="添加为常用功能菜单" class="icon-check" data-quicklink-act="store_goods_add" nctype="btn_add_quicklink"></i>
+                                <a href="${S_URL}/goods_add/step_one"> 商品发布 </a>
+                            </dd>
+                            <dd class="selected">
+                                <i title="添加为常用功能菜单" class="icon-check" data-quicklink-act="store_goods_online" nctype="btn_add_quicklink"></i>
+                                <a href="#"> 出售中的商品 </a>
+                            </dd>
+                            <dd class="selected">
+                                <i title="添加为常用功能菜单" class="icon-check" data-quicklink-act="store_goods_offline" nctype="btn_add_quicklink"></i>
+                                <a href="#"> 仓库中的商品 </a>
+                            </dd>
+                            <dd><i title="添加为常用功能菜单" class="icon-check" data-quicklink-act="store_storage_alarm" nctype="btn_add_quicklink"></i>
+                                <a href="#"> 库存警报 </a>
+                            </dd>
                             <dd><i title="添加为常用功能菜单" class="icon-check" data-quicklink-act="store_plate"
                                    nctype="btn_add_quicklink"></i><a href="#">
                                 关联板式 </a></dd>
@@ -213,6 +214,7 @@
                     <li><a href="${S_URL}${SELLER_ROOT}/se/goodsonline/list"> 出售中的商品 </a></li>
                     <li><a href="${S_URL}${SELLER_ROOT}/se/goodsonline/list?goodsState=0"> 仓库中的商品 </a></li>
                     <li><a href="${S_URL}${SELLER_ROOT}/goods_category/goods_user_class_list"> 商品分类 </a></li>
+                    <li><a href="${S_URL}${SELLER_ROOT}/brand/usergoodsbrand_list"> 品牌申请 </a></li>
                     <li><a href="${S_URL}${SELLER_ROOT}/se/warning/edit"> 库存警报 </a></li>
                     <li><a href="${S_URL}${SELLER_ROOT}/se/plate/list"> 关联板式 </a></li>
                     <li><a href="${S_URL}${SELLER_ROOT}/se/spec/list"> 商品规格 </a></li>

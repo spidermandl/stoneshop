@@ -704,12 +704,12 @@ public class CommUtil {
             String address = url + "?1=1" + params;
             if (currentPage >= 1){
                 s = s + "<a href='javascript:void(0);' onclick='return ajaxPage(\"" +
-                    address + "\",1,this)'>首页</a> ";
+                        address + "\",1,this)'>首页</a> ";
                 s = s + "<a href='javascript:void(0);' onclick='return ajaxPage(\"" +
-                    address +
-                    "\"," + (
+                        address +
+                        "\"," + (
                         currentPage - 1) +
-                    ",this)'>上一页</a> ";
+                        ",this)'>上一页</a> ";
             }
 
             int beginPage = currentPage - 3 < 1 ? 1 : currentPage - 3;
@@ -719,16 +719,16 @@ public class CommUtil {
                 for (int j = 0; (i <= pages) && (j < 6); j++){
                     if (i == currentPage)
                         s = s + "<a class='this' href='javascript:void(0);' onclick='return ajaxPage(\"" +
-                            address +
-                            "\"," +
-                            i +
-                            ",this)'>" +
-                            i +
-                            "</a> ";
+                                address +
+                                "\"," +
+                                i +
+                                ",this)'>" +
+                                i +
+                                "</a> ";
                     else
                         s = s + "<a href='javascript:void(0);' onclick='return ajaxPage(\"" +
-                            address + "\"," + i +
-                            ",this)'>" + i + "</a> ";
+                                address + "\"," + i +
+                                ",this)'>" + i + "</a> ";
                     i++;
                 }
 
@@ -736,12 +736,12 @@ public class CommUtil {
             }
             if (currentPage <= pages){
                 s = s + "<a href='javascript:void(0);' onclick='return ajaxPage(\"" +
-                    address +
-                    "\"," + (
+                        address +
+                        "\"," + (
                         currentPage + 1) +
-                    ",this)'>下一页</a> ";
+                        ",this)'>下一页</a> ";
                 s = s + "<a href='javascript:void(0);' onclick='return ajaxPage(\"" +
-                    address + "\"," + pages + ",this)'>末页</a> ";
+                        address + "\"," + pages + ",this)'>末页</a> ";
             }
         }
 

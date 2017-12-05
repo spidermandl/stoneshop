@@ -413,10 +413,12 @@ jQuery(document).ready(function(){
        jQuery("body").append("<div id='"+dialog_id+"'><div class='white_content'> <a href='javascript:void(0);' dialog_uri='undefined' class='white_close' onclick='javascript:jQuery(\"#"+dialog_id+"\").remove();'></a><div class='white_box'><h1>"+dialog_title+"</h1><div class='content_load'></div></div></div><div class='black_overlay'></div></div>");
 	   e.preventDefault();
 	   if(dialog_top==undefined||dialog_top==""){
-		   var top = jQuery(window).height() - dialog_height/2;
-		   var scrollTop = jQuery(window).scrollTop();
-		   dialog_top = scrollTop+top;
-	     //dialog_top=jQuery(window).scrollTop()+(jQuery(window).height()-jQuery(document).outerHeight())/2-dialog_height/2 - 30;
+		   // var top = jQuery(window).height() - dialog_height/2;
+		   // var scrollTop = jQuery(window).scrollTop();
+		   // dialog_top = scrollTop+top;
+		   var _scrollHeight = $(document).scrollTop(),//获取当前窗口距离页面顶部高度
+			   _windowHeight = $(window).height();//获取当前窗口高度
+		   dialog_top = (_windowHeight - dialog_height)/2 + _scrollHeight;
 	   }else{
 		 dialog_top=parseInt(dialog_top)+jQuery(window).scrollTop();
 	   }

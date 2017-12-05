@@ -8,7 +8,7 @@
 <#--<link type="text/css" rel="stylesheet" href="${S_URL}/static/styles/user.css">-->
 <#--<link type="text/css" rel="stylesheet" href="${S_URL}/static/styles/public.css">-->
 <#--<link type="text/css" rel="stylesheet" href="${S_URL}/static/styles/overlay.css">-->
-<link type="text/css" rel="stylesheet" href="${S_URL}/static/styles/goods.css">
+<link type="text/css" rel="stylesheet" href="${S_URL}/static/styles/basic.css">
 <link type="text/css" rel="stylesheet" href="${S_URL}/static/editor/themes/default/default.css">
 <script charset="utf-8" src="${S_URL}/static/editor/kindeditor.js"></script>
 <script charset="utf-8" src="${S_URL}/static/editor/lang/zh_CN.js"></script>

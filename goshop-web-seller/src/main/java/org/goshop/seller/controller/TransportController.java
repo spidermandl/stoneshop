@@ -20,6 +20,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -64,9 +65,10 @@ public class TransportController {
         Store store = storeJoinService.getCurrentStore(user);
         int index = CommUtil.null2Int(currentPage);
         index = index==0?1:index;
-        PageInfo<GsTransportWithBLOBs> plist = this.transportService.findByStoreId(store,index,1,orderBy,orderType);
+        PageInfo<GsTransportWithBLOBs> plist = this.transportService.findByStoreId(store,index,12,orderBy,orderType);
         CommUtil.saveIPageList2ModelAndView("", "", params, plist, model);
         model.addAttribute("transportTools", this.transportTools);
+        model.addAttribute("CommUtil",new CommUtil());
 
         return "transport/"+ret;
     }

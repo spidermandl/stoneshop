@@ -1,6 +1,9 @@
 package org.goshop.goods.mapper.master;
 
+import org.apache.ibatis.annotations.Param;
 import org.goshop.goods.pojo.GsGoodsBrand;
+
+import java.util.List;
 
 public interface GsGoodsBrandMapper {
     int deleteByPrimaryKey(Long id);
@@ -16,4 +19,7 @@ public interface GsGoodsBrandMapper {
     int updateByPrimaryKeyWithBLOBs(GsGoodsBrand record);
 
     int updateByPrimaryKey(GsGoodsBrand record);
+
+    List<GsGoodsBrand> selectByUserId(@Param("userId") Long storeId, @Param("orderBy") String orderBy, @Param("orderType") String orderType);
+
 }

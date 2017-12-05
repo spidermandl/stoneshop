@@ -9,7 +9,7 @@
 <#--<link href="${S_URL}/static/style/system/front/default/css/user.css" type="text/css" rel="stylesheet" />-->
 <#--<link href="${S_URL}/static/style/common/css/jquery-ui-1.8.22.custom.css" type="text/css" rel="stylesheet" />-->
 <#--<link href="${S_URL}/static/style/common/css/overlay.css" type="text/css" rel="stylesheet" />-->
-<link href="${S_URL}/static/styles/transport.css" type="text/css" rel="stylesheet" />
+<link href="${S_URL}/static/styles/basic.css" type="text/css" rel="stylesheet" />
 <script src="${S_URL}/static/scripts/jquery.shop.common.js"></script>
 <div class="ncsc-layout wrapper">
   <#include "layout_transport.ftl"/>
@@ -108,7 +108,7 @@
                         </#list>
                     </div>
                     <div class="alldel">
-                        <div  class="userfenye"> ${gotoPageFormHTML!} </div>
+                        <div  class="userfenye"> ${gotoPageHTML!} </div>
                     </div>
                 </div>
               </form>
