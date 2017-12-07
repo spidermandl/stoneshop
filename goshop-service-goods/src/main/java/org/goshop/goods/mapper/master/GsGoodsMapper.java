@@ -2,8 +2,10 @@ package org.goshop.goods.mapper.master;
 
 import org.goshop.goods.pojo.GsGoods;
 import org.goshop.goods.pojo.GsGoodsWithBLOBs;
+import org.omg.CORBA.Object;
 
 import java.util.List;
+import java.util.Map;
 
 public interface GsGoodsMapper {
     int deleteByPrimaryKey(Long id);
@@ -20,6 +22,8 @@ public interface GsGoodsMapper {
 
     int updateByPrimaryKey(GsGoods record);
 
-    List<GsGoodsWithBLOBs> findByMainPhoto(Long id);
+    List<GsGoodsWithBLOBs> findGoodsByMainPhoto(Long id);
+
+    List<GsGoodsWithBLOBs> findByCondition(Map<String,Object> condition);
 
 }

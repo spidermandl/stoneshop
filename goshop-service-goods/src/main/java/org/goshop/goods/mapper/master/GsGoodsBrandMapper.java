@@ -20,6 +20,6 @@ public interface GsGoodsBrandMapper {
 
     int updateByPrimaryKey(GsGoodsBrand record);
 
-    List<GsGoodsBrand> selectByUserId(@Param("userId") Long storeId, @Param("orderBy") String orderBy, @Param("orderType") String orderType);
+    List<GsGoodsBrand> selectByUserId(@Param("userId") Long userId, @Param("orderBy") String orderBy, @Param("orderType") String orderType);
 
 }

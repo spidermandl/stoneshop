@@ -36,7 +36,7 @@
     <include refid="Base_Column_List" />
     from gs_goods_accessory
     where user_id = #{userId,jdbcType=BIGINT}
-    order by addtime desc
+    order by addTime desc
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
     delete from gs_goods_accessory

@@ -33,6 +33,12 @@ public class GoodsBrandServiceImpl implements GoodsBrandService {
     }
 
     @Override
+    public List<GsGoodsBrand> findByUserId(User user) {
+        return readGsGoodsBrandMapper.selectByUserId(user.getId(),"addTime","desc");
+    }
+
+
+    @Override
     public GsGoodsBrand findOne(Long id) {
         return readGsGoodsBrandMapper.selectByPrimaryKey(id);
     }
@@ -41,6 +47,10 @@ public class GoodsBrandServiceImpl implements GoodsBrandService {
     public long save(GsGoodsBrand brand) {
         if (brand.getDeletestatus()==null)
             brand.setDeletestatus(false);
+        if (brand.getRecommend()==null)
+            brand.setRecommend(false);
+        if (brand.getSequence()==null)
+            brand.setSequence(0);
         long id = gsGoodsBrandMapper.insert(brand);
         return id;
     }

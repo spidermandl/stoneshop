@@ -34,7 +34,7 @@
     var options = {
         cssPath : '${S_URL}/static/editor/plugins/code/prettify.css',
         filterMode : true,
-        uploadJson:'${S_URL}/goods_add/upload.htm',
+        uploadJson:'${S_URL}/goods/upload.htm',
         width : '860px',
         height:'400px',
         resizeType : 1,
@@ -69,7 +69,7 @@
     var user_goods_class_count=2;
     jQuery(document).ready(function() {
         var settings_object = {//定义参数配置对象
-            upload_url : "${S_URL}/goods_add/swf_upload.htm",
+            upload_url : "${S_URL}/goods/swf_upload.htm",
             flash_url : "${S_URL}/static/flash/swfupload.swf",
             file_post_name : "imgFile",
             post_params : {
@@ -196,7 +196,7 @@
                 goods_spec_ids=jQuery(this).val()+","+goods_spec_ids;
             });
 
-            jQuery.post("${S_URL}/goods_add/goods_inventory.htm",{"goods_spec_ids":goods_spec_ids},function(data){
+            jQuery.post("${S_URL}/goods/goods_inventory.htm",{"goods_spec_ids":goods_spec_ids},function(data){
                 jQuery("#inventory_detail_content").append(data);
                 jQuery("#inventory_detail").show();
                 var inventory_detail='${(obj.goods_inventory_detail)!}';
@@ -370,7 +370,7 @@
                 goods_spec_ids=jQuery(this).val()+","+goods_spec_ids;
             });
 
-            jQuery.post("${S_URL}/goods_add/goods_inventory.htm",{"goods_spec_ids":goods_spec_ids},function(data){
+            jQuery.post("${S_URL}/goods/goods_inventory.htm",{"goods_spec_ids":goods_spec_ids},function(data){
                 jQuery("#inventory_detail_content").append(data);
                 jQuery("#inventory_detail").show();
             },"text");
@@ -418,7 +418,7 @@
         if(confirm("删除后不可恢复，是否继续？")){
             var stats = swf_upload.getStats();
             var image_id=jQuery("#goods_image_"+id).attr("image_id");
-            jQuery.post("${S_URL}/goods_add/goods_image_del.htm",{"image_id":image_id},function(data){
+            jQuery.post("${S_URL}/goods/goods_image_del.htm",{"image_id":image_id},function(data){
                 if(data.result==true){
                     jQuery("#img_remain_size").html(data.remainSpace+"M");
                     jQuery("#goods_image_"+id).attr("src","${S_URL}/static/images/goods/smallimg.jpg");
@@ -483,13 +483,13 @@
     function ajaxPage(url,currentPage,obj){
         var ajax_page=jQuery(obj).parent().attr("ajax_page");
         if(ajax_page=="goods_transport"){
-            jQuery.post("${S_URL}/goods_add/goods_transport.htm",{"currentPage":currentPage,"ajax":true},function(data){
+            jQuery.post("${S_URL}/goods/goods_transport.htm",{"currentPage":currentPage,"ajax":true},function(data){
                 jQuery("#ListForm").empty().html(data);
             },"html");
         }else{
             var ajax_type=jQuery(obj).parent().attr("ajax_type");
             var type=jQuery(obj).parent().attr("type");
-            jQuery.post("${S_URL}/goods_add/goods_img_album.htm",{"currentPage":currentPage,"type":type},function(text){
+            jQuery.post("${S_URL}/goods/goods_img_album.htm",{"currentPage":currentPage,"type":type},function(text){
                 jQuery(ajax_type).empty();
                 jQuery(ajax_type).append(text);
             },"text");
@@ -548,7 +548,7 @@
 
             <#--<div class="wrapper_search">-->
                 <div class="main">
-                    <form action="${S_URL}/goods_add/step_three" method="post" enctype="multipart/form-data" name="theForm" id="theForm">
+                    <form action="${S_URL}/goods/step_three" method="post" enctype="multipart/form-data" name="theForm" id="theForm">
                         <table border="0" cellspacing="0" cellpadding="0" class="tabledetail" >
                             <tr>
                                 <td colspan="2" class="tableh1">商品详细信息
@@ -564,7 +564,7 @@
                                     <input name="goods_spec_ids" type="hidden" id="goods_spec_ids" />
                                     <input name="goods_properties" type="hidden" id="goods_properties" />
                                     <input type="hidden" name="inventory_details" id="inventory_details" />
-                                    <input name="edit_class" type="button" id="edit_class" value="编辑" style="cursor:pointer;" onclick="window.location.href='${S_URL}/goods_add/add_goods_first.htm?id=${(obj.id)!}'" />
+                                    <input name="edit_class" type="button" id="edit_class" value="编辑" style="cursor:pointer;" onclick="window.location.href='${S_URL}/goods_add/step_one?id=${(obj.id)!}'" />
                                     </span></td>
                             </tr>
                             <tr>
@@ -681,7 +681,7 @@
                                         jQuery(".tab_body_b").hide();
                                         jQuery(obj).addClass("this");
                                         if(clz=="tab_body_b"){
-                                            jQuery.post("${S_URL}/goods_add/goods_img_album.htm",{"type":"goods_img_album"},function(text){
+                                            jQuery.post("${S_URL}/goods/goods_img_album.htm",{"type":"goods_img_album"},function(text){
                                                 jQuery(".tab_body_b").empty();
                                                 jQuery(".tab_body_b").append(text);
                                             },"text");
@@ -702,23 +702,43 @@
                                                     <#if (obj.goods_main_photo)?? >
                                                         <#assign img="${S_URL}/${(obj.goods_main_photo.path)!}/${(obj.goods_main_photo.name)!}"/>
                                                     <#else>
-                                                        <#assign img="${S_URL}/${(config.goodsImage.path)!}/${(config.goodsImage.name)!}"/>
+                                                        <#assign img="${S_URL}/static/images/goods/img.jpg"/>
                                                     </#if>
                                                     <div class="tabimgbig"><img id="goods_image_0" src="${img}" width="197" height="196" /></div>
                                                     <div class="tabimgcent">
-                                                        <div class="tabupload"> <a href="javascript:void(0);"><span id="upload_imgs"></span><img id="upload_wait" style="display:none;" src="${S_URL}/static/images/goods/loader.gif" /></a></div>
+                                                        <div class="tabupload">
+                                                            <a href="javascript:void(0);">
+                                                                <span id="upload_imgs"></span>
+                                                                <img id="upload_wait" style="display:none;" src="${S_URL}/static/images/goods/loader.gif" />
+                                                            </a>
+                                                        </div>
                                                         <div class="tabimgsmall">
                                                             <ul>
-                                                                <li class="tabimgs"><img id="goods_image_1" image_id="${(obj.goods_main_photo.id)!}" src="${img!}" width="73" height="73" /></li>
-                                                                <li class="taboper"><a href="javascript:void(0);"  title="左移" onclick="arrow_left('1');" class="tableft"><img src="${S_URL}/static/images/goods/arrow_left.png" width="16" height="16" /></a><a href="javascript:void(0);" title="从服务器删除" onclick="arrow_del('1');" class="tabdel"><img src="${S_URL}/static/images/goods/arrow_del.gif" width="15" height="13" /></a><a href="javascript:void(0);" title="从商品删除" onclick="arrow_remove('1');" class="tabdel"><img src="${S_URL}/static/images/goods/arrow_remove.gif" width="15" height="13" /></a><a href="javascript:void(0);" title="右移" onclick="arrow_right('1');" class="tabright"><img src="${S_URL}/static/images/goods/arrow_right.png" width="16" height="16" /></a></li>
+                                                                <li class="tabimgs">
+                                                                    <img id="goods_image_1" image_id="${(obj.goods_main_photo.id)!}" src="${img!}" width="73" height="73" />
+                                                                </li>
+                                                                <li class="taboper">
+                                                                    <a href="javascript:void(0);"  title="左移" onclick="arrow_left('1');" class="tableft">
+                                                                        <img src="${S_URL}/static/images/goods/arrow_left.png" width="16" height="16" />
+                                                                    </a>
+                                                                    <a href="javascript:void(0);" title="从服务器删除" onclick="arrow_del('1');" class="tabdel">
+                                                                        <img src="${S_URL}/static/images/goods/arrow_del.gif" width="15" height="13" />
+                                                                    </a>
+                                                                    <a href="javascript:void(0);" title="从商品删除" onclick="arrow_remove('1');" class="tabdel">
+                                                                        <img src="${S_URL}/static/images/goods/arrow_remove.gif" width="15" height="13" />
+                                                                    </a>
+                                                                    <a href="javascript:void(0);" title="右移" onclick="arrow_right('1');" class="tabright">
+                                                                        <img src="${S_URL}/static/images/goods/arrow_right.png" width="16" height="16" />
+                                                                    </a>
+                                                                </li>
                                                             </ul>
-                                                            <#assign img2="${S_URL}/${(config.goodsImage.path)!}/${(config.goodsImage.name)!}" />
+                                                            <#assign img2="${S_URL}/static/images/goods/smallimg.jpg" />
                                                             <#assign img2_id="" />
-                                                            <#assign img3="${S_URL}/${(config.goodsImage.path)!}/${(config.goodsImage.name)!}" />
+                                                            <#assign img3="${S_URL}/static/images/goods/smallimg.jpg" />
                                                             <#assign img3_id="" />
-                                                            <#assign img4="${S_URL}/${(config.goodsImage.path)!}/${(config.goodsImage.name)!}" />
+                                                            <#assign img4="${S_URL}/static/images/goods/smallimg.jpg" />
                                                             <#assign img4_id="" />
-                                                            <#assign img5="${S_URL}/${(config.goodsImage.path)!}/${(config.goodsImage.name)!}" />
+                                                            <#assign img5="${S_URL}/static/images/goods/smallimg.jpg" />
                                                             <#assign img5_id="" />
                                                             <#list (obj.goods_photos)! as img>
                                                                 <#if img_index==0 >
@@ -875,7 +895,7 @@
                             </tr>
                             </#list>
                             <tr>
-                                <td align="right" valign="top">商品描述：</td>
+                                <td align="right" valign="top">商品描述 ↓ </td>
                                 <td></td>
                             </tr>
                             <tr>
@@ -885,7 +905,7 @@
                                         function switch_editor_photo(){
                                             var dis=jQuery(".editor_photo_detail").css("display");
                                             if(dis=="none"){
-                                                jQuery.post("${S_URL}/goods_add/goods_img_album.htm",
+                                                jQuery.post("${S_URL}/goods/goods_img_album.htm",
                                                         {"type":"goods_detail_album"},function(text){
                                                     jQuery(".editor_photo_detail").empty();
                                                     jQuery(".editor_photo_detail").append(text);
@@ -942,7 +962,7 @@
                                 </span><a class="button_common" href="javascript:void(0);" onclick="add_goods_class();">新增分类</a> <span class="hui2 tableli">
                                 <ul>
                                   <li>商品可以从属于店铺的多个分类之下,</li>
-                                  <li>店铺分类可以由 "卖家中心 ->  商品管理 -> <a href="${S_URL}/goods_add/usergoodsclass_list.htm">商品分类</a>" 中自定义 </li>
+                                  <li>店铺分类可以由 "卖家中心 ->  商品管理 -> <a href="${S_URL}/goods_category/goods_user_class_list">商品分类</a>" 中自定义 </li>
                                 </ul>
                                 </span></td>
                             </tr>

@@ -7,6 +7,7 @@ import org.goshop.goods.pojo.GsGoodsWithBLOBs;
 import org.goshop.users.pojo.User;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Desmond on 24/11/2017.
@@ -51,5 +52,29 @@ public interface GoodsService {
      * @return
      */
     long save(GsGoodsWithBLOBs goods);
+
+
+    /**
+     * 删除goods
+     * @param id
+     * @return
+     */
+    int delete(Long id);
+    /**
+     * 根据条件查询
+     * @param condition
+     * @param curPage
+     * @param pageSize
+     * @return
+     */
+    PageInfo<GsGoodsWithBLOBs> findByCondition(Map condition,Integer curPage,Integer pageSize);
+
+    /**
+     * 根据条件查询
+     * @param condition
+     * @return
+     */
+    List<GsGoodsWithBLOBs> findByCondition(Map condition);
+
 
 }

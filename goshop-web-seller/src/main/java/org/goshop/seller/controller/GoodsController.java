@@ -1,10 +1,15 @@
 package org.goshop.seller.controller;
 
+import com.github.pagehelper.Page;
 import com.github.pagehelper.PageInfo;
 import net.sf.json.JSONObject;
+import org.apache.commons.collections.map.HashedMap;
 import org.goshop.common.pojo.ResponseStatus;
+import org.goshop.common.utils.StringUtils;
 import org.goshop.common.web.utils.WebForm;
+import org.goshop.seller.controller.tools.GoodsViewTools;
 import org.goshop.seller.controller.tools.StoreViewTools;
+import org.goshop.store.i.StoreService;
 import org.goshop.store.pojo.GsTransport;
 import org.goshop.common.service.SystemConfigService;
 import org.goshop.common.web.utils.CommUtil;
@@ -18,6 +23,8 @@ import org.goshop.store.i.TransportService;
 import org.goshop.store.pojo.GsTransportWithBLOBs;
 import org.goshop.store.pojo.Store;
 import org.goshop.store.pojo.StoreJoin;
+import org.goshop.users.i.MemberService;
+import org.goshop.users.pojo.Member;
 import org.goshop.users.pojo.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -41,8 +48,8 @@ import java.util.regex.Pattern;
  * 增加\编辑商品控制器
  */
 @Controller
-@RequestMapping(value =  "/goods_add")
-public class GoodsAddController {
+@RequestMapping(value =  "/goods")
+public class GoodsController {
 
     @Autowired
     GoodsClassStapleService goodsClassStapleService;
@@ -74,6 +81,14 @@ public class GoodsAddController {
     @Autowired
     TransportService transportService;
 
+    @Autowired
+    GoodsBrandService goodsBrandService;
+
+    @Autowired
+    StoreService storeService;
+
+    @Autowired
+    MemberService memberService;
 
     @Autowired
     StoreTools storeTools;
@@ -81,6 +96,8 @@ public class GoodsAddController {
     TransportTools transportTools;
     @Autowired
     StoreViewTools storeViewTools;
+    @Autowired
+    GoodsViewTools goodsViewTools;
 
     @RequestMapping("/step_one")
     public String one(Model model,
@@ -95,9 +112,7 @@ public class GoodsAddController {
     }
 
     @RequestMapping("/class")
-    public
-    @ResponseBody
-    List getClass(
+    public @ResponseBody List getClass(
             @RequestParam("gc_id") Long id,
             @RequestParam("deep") String deep,
             HttpServletRequest request,
@@ -193,14 +208,9 @@ public class GoodsAddController {
                         .fileSize(new File(path))), Integer
                         .valueOf(1024));
             }
-            Map params = new HashMap();
-            params.put("user_id", user.getId());
-            params.put("display", Boolean.valueOf(true));
             List ugcs = this.goodsUserClassService.findByUserIdAndParentId(user.getId(),null,true);
-//            List gbs = this.goodsBrandService.query(
-//                    "select obj from GoodsBrand obj order by obj.sequence asc",
-//                    null, -1, -1);
-//            model.addAttribute("gbs", gbs);
+            List gbs = this.goodsBrandService.findByUserId(user);
+            model.addAttribute("gbs", gbs);
             model.addAttribute("ugcs", ugcs);
             model.addAttribute("img_remain_size", Double.valueOf(img_remain_size));
             model.addAttribute("imageSuffix",
@@ -235,18 +245,12 @@ public class GoodsAddController {
                         @CurrentUser User user,
                         HttpServletRequest request,
                         HttpServletResponse response,
-                        @RequestParam("id") String id,
-                        @RequestParam("goods_class_id") String goods_class_id,
-                        @RequestParam("image_ids") String image_ids,
-                        @RequestParam("goods_main_img_id") String goods_main_img_id,
-                        @RequestParam("user_class_ids") String user_class_ids,
-                        @RequestParam("goods_brand_id") String goods_brand_id,
-                        @RequestParam("goods_spec_ids") String goods_spec_ids,
-                        @RequestParam("goods_properties") String goods_properties,
-                        @RequestParam("inventory_details") String inventory_details,
-                        @RequestParam("goods_session") String goods_session,
-                        @RequestParam("transport_type") String transport_type,
-                        @RequestParam("transport_id") String transport_id){
+                        String id,String goods_class_id,
+                        String image_ids,String goods_main_img_id,
+                        String user_class_ids,String goods_brand_id,
+                        String goods_spec_ids,String goods_properties,
+                        String inventory_details,String goods_session,
+                        String transport_type,String transport_id){
         String ret = null;
         String goods_session1 = CommUtil.null2String(request.getSession(false).getAttribute("goods_session"));
         if (goods_session1==null || goods_session1.equals("")){
@@ -288,36 +292,38 @@ public class GoodsAddController {
             /**
              * 商品分类逻辑
              */
-//            goods.getGoods_ugcs().clear();
-//            String[] ugc_ids = user_class_ids.split(",");
-//
-//            for (int i = 0; i < ugc_ids.length; i++){
-//                String ugc_id = ugc_ids[i];
-//                if (!ugc_id.equals("")){
-//                    UserGoodsClass ugc = this.userGoodsClassService
-//                            .getObjById(Long.valueOf(Long.parseLong(ugc_id)));
-//                    goods.getGoods_ugcs().add(ugc);
-//                }
-//            }
+            goods.getGoodsUgcs().clear();
+            String[] ugc_ids = user_class_ids.split(",");
+
+            for (int i = 0; i < ugc_ids.length; i++){
+                String ugc_id = ugc_ids[i];
+                if (!ugc_id.equals("")){
+                    GsGoodsUserClass ugc =
+                            this.goodsUserClassService.findOne(Long.valueOf(Long.parseLong(ugc_id)));
+                    goods.getGoodsUgcs().add(ugc);
+                }
+            }
             /**************************************************
              ************************************************/
             /**
              * 商品品牌
              */
-//            if ((goods_brand_id != null) && (!goods_brand_id.equals(""))){
-//                GoodsBrand goods_brand = this.goodsBrandService.getObjById(Long.valueOf(Long.parseLong(goods_brand_id)));
-//                goods.setGoods_brand(goods_brand);
-//            }
-//            goods.getGoods_specs().clear();
-//            String[] spec_ids = goods_spec_ids.split(",");
-//
-//            for (int i = 0; i < spec_ids.length; i++){
-//                String spec_id = spec_ids[i];
-//                if (!spec_id.equals("")){
-//                    GoodsSpecProperty gsp = this.specPropertyService.getObjById(Long.valueOf(Long.parseLong(spec_id)));
-//                    goods.getGoods_specs().add(gsp);
-//                }
-//            }
+            if ((goods_brand_id != null) && (!goods_brand_id.equals(""))){
+                GsGoodsBrand goods_brand =
+                        this.goodsBrandService.findOne(Long.valueOf(Long.parseLong(goods_brand_id)));
+                goods.setGoodsBrandId(goods_brand.getId());
+                goods.setGoodsBrand(goods_brand);
+            }
+            goods.getGoodsSpecs().clear();
+            String[] spec_ids = goods_spec_ids.split(",");
+
+            for (int i = 0; i < spec_ids.length; i++){
+                String spec_id = spec_ids[i];
+                if (!spec_id.equals("")){
+//                    GsGoodsSpecProperty gsp = this.specPropertyService.getObjById(Long.valueOf(Long.parseLong(spec_id)));
+//                    goods.getGoodsSpecs().add(gsp);
+                }
+            }
             /**************************************************
              ************************************************/
 //            List maps = new ArrayList();
@@ -437,6 +443,190 @@ public class GoodsAddController {
         return "goods/"+ret;
     }
 
+    /**
+     * 商品上下架管理
+     * @param request
+     * @param response
+     * @param mulitId
+     * @return
+     */
+    @RequestMapping({ "/goods_sale" })
+    public String goods_sale(@CurrentUser User user,
+                             HttpServletRequest request,
+                             HttpServletResponse response, String mulitId){
+        String url = "/forsell_list";
+        String[] ids = mulitId.split(",");
+        for (String id : ids){
+            if (!id.equals("")){
+                GsGoodsWithBLOBs goods = this.goodsService.findOne(
+                        Long.valueOf(Long.parseLong(id)));
+
+                Store store = this.storeService.findOne(goods.getGoodsStoreId());
+                Member member = this.memberService.findOne(store.getMemberId());
+                if (member.getUserId().equals(user.getId())){
+                    int goods_status = goods.getGoodsStatus() == 0 ? 1 : 0;
+                    goods.setGoodsStatus(goods_status);
+                    this.goodsService.update(goods);// 更新商品资料
+                    if (goods_status == 0){
+                        url = "/goods_storage";
+
+                        // 更新全文检索
+                        String goods_lucene_path = (new StringBuilder(String.valueOf(System.getProperty("wemall.root")))).append(File.separator).append("lucene").append(File.separator).append("goods").toString();
+                        File file = new File(goods_lucene_path);
+                        if (!file.exists()){
+                            CommUtil.createFolder(goods_lucene_path);
+                        }
+
+//                        LuceneVo vo = new LuceneVo();
+//                        vo.setVo_id(goods.getId());
+//                        vo.setVo_title(goods.getGoods_name());
+//                        vo.setVo_content(goods.getGoods_details());
+//                        vo.setVo_type("goods");
+//                        vo.setVo_store_price(CommUtil.null2Double(goods
+//                                .getStore_price()));
+//                        vo.setVo_add_time(goods.getAddTime().getTime());
+//                        vo.setVo_goods_salenum(goods.getGoods_salenum());
+//                        LuceneUtil lucene = LuceneUtil.instance();
+//                        LuceneUtil.setIndex_path(goods_lucene_path);
+//                        lucene.update(CommUtil.null2String(goods.getId()), vo);
+                    }else{
+                        String goods_lucene_path = (new StringBuilder(String.valueOf(System.getProperty("wemall.root")))).append(File.separator).append("lucene").append(File.separator).append("goods").toString();
+                        File file = new File(goods_lucene_path);
+                        if (!file.exists()){
+                            CommUtil.createFolder(goods_lucene_path);
+                        }
+//                        LuceneUtil lucene = LuceneUtil.instance();
+//                        lucene.delete_index(CommUtil.null2String(goods.getId()));
+                    }
+                }
+            }
+        }
+
+        return "redirect:/goods/" + url;
+    }
+
+    /**
+     * 商品删除
+     * @param request
+     * @param response
+     * @param mulitId
+     * @param op
+     * @return
+     */
+    @RequestMapping({ "/goods_del" })
+    public String goods_del(@CurrentUser User user,
+                            HttpServletRequest request,
+                            HttpServletResponse response,
+                            String mulitId, String op){
+        String url = "forsell_list";
+        if (CommUtil.null2String(op).equals("storage")){
+            url = "goods_storage";
+        }
+        if (CommUtil.null2String(op).equals("out")){
+            url = "goods_out";
+        }
+        String[] ids = mulitId.split(",");
+        for (String id : ids){
+            if (!id.equals("")){
+                GsGoodsWithBLOBs goods = this.goodsService.findOne(CommUtil.null2Long(id));
+
+                Store store = this.storeService.findOne(goods.getGoodsStoreId());
+                Member member = this.memberService.findOne(store.getMemberId());
+                if (member.getUserId().equals(user.getId())){
+                    Map map = new HashMap();
+                    map.put("gid", goods.getId());
+//                    List<GoodsCart> goodCarts = this.goodsCartService
+//                            .query("select obj from GoodsCart obj where obj.goods.id = :gid",
+//                                    map, -1, -1);
+//                    Long ofid = null;
+//                    Long of_id;
+//                    for (GoodsCart gc : goodCarts){
+//                        of_id = gc.getOf().getId();
+//                        this.goodsCartService.delete(gc.getId());
+//                        OrderForm of = this.orderFormService.getObjById(of_id);
+//                        if (of.getGcs().size() == 0){
+//                            this.orderFormService.delete(of_id);
+//                        }
+//                    }
+//
+//                    List<Evaluate> evaluates = goods.getEvaluates();
+//                    for (Evaluate e : evaluates){
+//                        this.evaluateService.delete(e.getId());
+//                    }
+//                    goods.getGoodsUgcs().clear();
+//                    goods.getGoods_ugcs().clear();
+//                    goods.getGoods_photos().clear();
+//                    goods.getGoods_ugcs().clear();
+//                    goods.getGoods_specs().clear();
+//                    this.goodsService.delete(goods.getId());
+//
+//                    String goods_lucene_path = (new StringBuilder(String.valueOf(System.getProperty("wemall.root")))).append(File.separator).append("lucene").append(File.separator).append("goods").toString();
+//                    File file = new File(goods_lucene_path);
+//                    if (!file.exists()){
+//                        CommUtil.createFolder(goods_lucene_path);
+//                    }
+//                    LuceneUtil lucene = LuceneUtil.instance();
+//                    LuceneUtil.setIndex_path(goods_lucene_path);
+//                    lucene.delete_index(CommUtil.null2String(id));
+                }
+            }
+        }
+
+        return "redirect:/goods/" + url;
+    }
+
+    /**
+     * 产品规格显示
+     * @param request
+     * @param response
+     * @param goods_spec_ids
+     * @return
+     */
+    @RequestMapping({ "/goods_inventory.htm" })
+    public String goods_inventory(Model model,
+                                  HttpServletRequest request,
+                                  HttpServletResponse response,
+                                  String goods_spec_ids){
+        String ret = "goods_inventory";
+        String[] spec_ids = goods_spec_ids.split(",");
+        List<GsGoodsSpecProperty> gsps = new ArrayList();
+        // GoodsSpecProperty gsp;
+        for (String spec_id : spec_ids){
+            if (!spec_id.equals("")){
+//                GsGoodsSpecProperty gsp = this.specPropertyService
+//                        .getObjById(Long.valueOf(Long.parseLong(spec_id)));
+//                gsps.add(gsp);
+            }
+        }
+        Set<GsGoodsSpecification> specs = new HashSet<GsGoodsSpecification>();
+        for (GsGoodsSpecProperty gsp : gsps){
+            specs.add(gsp.getSpec());
+        }
+        for (GsGoodsSpecification spec : specs){
+//            spec.getProperties().clear();
+//            for (GsGoodsSpecProperty gsp : gsps){
+//                if (gsp.getSpec().getId().equals(spec.getId())){
+//                    spec.getProperties().add(gsp);
+//                }
+//            }
+        }
+        GsGoodsSpecification[] spec_list = (GsGoodsSpecification[]) specs.toArray(new GsGoodsSpecification[specs.size()]);
+        Arrays.sort(spec_list, new Comparator(){
+            public int compare(Object obj1, Object obj2){
+                GsGoodsSpecification a = (GsGoodsSpecification) obj1;
+                GsGoodsSpecification b = (GsGoodsSpecification) obj2;
+                if (a.getSequence() == b.getSequence()){
+                    return 0;
+                }
+                return a.getSequence() > b.getSequence() ? 1 : -1;
+            }
+        });
+        List gsp_list = generic_spec_property(specs);
+        model.addAttribute("specs", Arrays.asList(spec_list));
+        model.addAttribute("gsps", gsp_list);
+
+        return "goods/"+ret;
+    }
     /**
      * 上传商品展示图片
      * @param user
@@ -677,10 +867,10 @@ public class GoodsAddController {
 
         PageInfo<GsGoodsAccessory> pList = goodsAccessoryService.findByUserId(user,page,pageSize);
         String photo_url = CommUtil.getURL(request)
-                + "/goods_add/goods_img_album.htm";
+                + "/goods/goods_img_album.htm";
         model.addAttribute("photos", pList.getList());
-        model.addAttribute("gotoPageAjaxHTML", CommUtil.showPageAjaxHtml(photo_url,
-                "", pList.getPageNum(), pList.getPages()));
+        model.addAttribute("gotoPageAjaxHTML",
+                CommUtil.showPageAjaxHtml(photo_url,"", pList.getPageNum(), pList.getPages()));
 
         return "goods/"+type;
     }
@@ -718,11 +908,236 @@ public class GoodsAddController {
         index = index==0?1:index;
         PageInfo<GsTransportWithBLOBs> plist = this.transportService.findByStoreId(store,index,1,orderBy,orderType);
         CommUtil.saveIPageList2ModelAndView(
-                url + "/goods_add/goods_transport", "", params, plist, model);
+                url + "/goods/goods_transport", "", params, plist, model);
         model.addAttribute("transportTools", this.transportTools);
         model.addAttribute("CommUtil",new CommUtil());
 
         return ret;
+    }
+
+    /**
+     * 查询出售中的商品列表
+     * @param request
+     * @param response
+     * @param currentPage
+     * @param orderBy
+     * @param orderType
+     * @param goods_name
+     * @param user_class_id
+     * @return
+     */
+    @RequestMapping({ "/forsell_list" })
+    public String sellList(@CurrentUser User user,
+                           Model model,
+                           HttpServletRequest request,
+                           HttpServletResponse response,
+                           String currentPage, String orderBy,
+                           String orderType, String goods_name,
+                           String user_class_id){
+        String ret = "goods";
+        String url = this.systemConfigService.getConfig().getAddress();
+        if ((url == null) || (url.equals(""))){
+            url = CommUtil.getURL(request);
+        }
+        Store store = this.storeJoinService.getCurrentStore(user);
+        String params = "";
+        Map<String,Object> condition = new HashedMap();
+        condition.put("goods_store_id",store.getStoreId());
+        condition.put("goods_status",0);
+        condition.put("orderBy","addTime");
+        condition.put("orderType","desc");
+        if (org.apache.commons.lang.StringUtils.isNotEmpty(goods_name)){
+            condition.put("goods_name",goods_name);
+        }
+        if (org.apache.commons.lang.StringUtils.isNotEmpty(user_class_id)){
+            condition.put("user_class_id", Long.valueOf(Long.parseLong(user_class_id)));
+        }
+
+        int index = CommUtil.null2Int(currentPage);
+        index = index==0?1:index;
+        PageInfo<GsGoodsWithBLOBs> pList = goodsService.findByCondition(condition,index,12);// 根据条件查询商品
+        //获取主图片
+        for (GsGoodsWithBLOBs goods : pList.getList()){
+            if (goods.getGoodsMainPhotoId()!=null){
+                goods.setGoods_main_photo(this.goodsAccessoryService.findOne(goods.getGoodsMainPhotoId()));
+            }
+        }
+        CommUtil.saveIPageList2ModelAndView(url + "/goods/forsell_list", "",
+                params, pList, model);
+        model.addAttribute("uid",user.getId());
+        model.addAttribute("storeTools", this.storeTools);
+        model.addAttribute("goodsViewTools", this.goodsViewTools);
+
+        return "goods/"+ret;
+    }
+
+    /**
+     * 仓库中的商品列表
+     * @param request
+     * @param response
+     * @param currentPage
+     * @param orderBy
+     * @param orderType
+     * @param goods_name
+     * @param user_class_id
+     * @return
+     */
+    @RequestMapping({ "/goods_storage" })
+    public String goods_storage(@CurrentUser User user,
+                                Model model,
+                                HttpServletRequest request,
+                                HttpServletResponse response, String currentPage,
+                                String orderBy,String orderType,
+                                String goods_name, String user_class_id){
+        String ret = "goods_storage";
+        String url = this.systemConfigService.getConfig().getAddress();
+        if (org.apache.commons.lang.StringUtils.isEmpty(url)){
+            url = CommUtil.getURL(request);
+        }
+        Store store = this.storeJoinService.getCurrentStore(user);
+        String params = "";
+        Map<String,Object> condition = new HashedMap();
+        condition.put("goods_store_id",store.getStoreId());
+        condition.put("goods_status",1);
+        condition.put("orderBy","goods_seller_time");
+        condition.put("orderType","desc");
+        if (org.apache.commons.lang.StringUtils.isNotEmpty(goods_name)){
+            condition.put("goods_name",goods_name);
+        }
+        if (org.apache.commons.lang.StringUtils.isNotEmpty(user_class_id)){
+            condition.put("user_class_id", Long.valueOf(Long.parseLong(user_class_id)));
+        }
+
+        int index = CommUtil.null2Int(currentPage);
+        index = index==0?1:index;
+        PageInfo<GsGoodsWithBLOBs> pList = goodsService.findByCondition(condition,index,12);// 根据条件查询商品
+        CommUtil.saveIPageList2ModelAndView(url + "/goods/goods_storage",
+                "", params, pList, model);
+        model.addAttribute("storeTools", this.storeTools);
+        model.addAttribute("goodsViewTools", this.goodsViewTools);
+
+        return "goods/"+ret;
+    }
+
+    /**
+     * 违规下架商品
+     * @param request
+     * @param response
+     * @param currentPage
+     * @param orderBy
+     * @param orderType
+     * @param goods_name
+     * @param user_class_id
+     * @return
+     */
+    @RequestMapping({ "/goods_out" })
+    public String goods_out(@CurrentUser User user,
+                            Model model,
+                            HttpServletRequest request,
+                            HttpServletResponse response,
+                            String currentPage, String orderBy,
+                            String orderType, String goods_name,
+                            String user_class_id){
+        String ret = "goods_out";
+        String url = this.systemConfigService.getConfig().getAddress();
+        if ((url == null) || (url.equals(""))){
+            url = CommUtil.getURL(request);
+        }
+        Store store = this.storeJoinService.getCurrentStore(user);
+        String params = "";
+        Map<String,Object> condition = new HashedMap();
+        condition.put("goods_store_id",store.getStoreId());
+        condition.put("goods_status",-2);
+        condition.put("orderBy","goods_seller_time");
+        condition.put("orderType","desc");
+
+        if (org.apache.commons.lang.StringUtils.isNotEmpty(goods_name)){
+            condition.put("goods_name",goods_name);
+        }
+        if (org.apache.commons.lang.StringUtils.isNotEmpty(user_class_id)){
+            condition.put("user_class_id", Long.valueOf(Long.parseLong(user_class_id)));
+        }
+        int index = CommUtil.null2Int(currentPage);
+        index = index==0?1:index;
+        PageInfo<GsGoodsWithBLOBs> pList = goodsService.findByCondition(condition,index,12);// 根据条件查询商品
+        CommUtil.saveIPageList2ModelAndView(url + "/goods/goods_out", "",
+                params, pList, model);
+        model.addAttribute("storeTools", this.storeTools);
+        model.addAttribute("goodsViewTools", this.goodsViewTools);
+
+        return "goods/"+ret;
+    }
+
+    /**
+     * 商品编辑
+     * @param request
+     * @param response
+     * @param id
+     * @return
+     */
+    @RequestMapping({ "/goods_edit" })
+    public String goods_edit(@CurrentUser User user,
+                             Model model,
+                             HttpServletRequest request,
+                             HttpServletResponse response, String id){
+        String ret = "good_add_step_two";
+        GsGoodsWithBLOBs obj = this.goodsService.findOne(Long.valueOf(Long.parseLong(id)));
+
+        Store store = this.storeService.findOne(obj.getGoodsStoreId());
+        Member member = this.memberService.findOne(store.getMemberId());
+        if (member.getUserId().equals(user.getId())){
+            String path = request.getSession().getServletContext()
+                    .getRealPath("/")
+                    + File.separator
+                    + "upload"
+                    + File.separator
+                    + "store"
+                    + File.separator + store.getStoreId();
+            double img_remain_size = store.getStoreGrade().getSgSpaceLimit()
+                    - CommUtil.div(
+                    Double.valueOf(CommUtil.fileSize(new File(path))),
+                    Integer.valueOf(1024));
+            List ugcs = this.goodsUserClassService.findByUserIdAndParentId(user.getId(),null,true);
+
+            PageInfo<GsGoodsAccessory> pList = this.goodsAccessoryService.findByUserId(user,1,8);
+            String photo_url = CommUtil.getURL(request)
+                    + "/seller/load_photo.htm";
+            List gbs = this.goodsBrandService.findByUserId(user);
+            model.addAttribute("gbs", gbs);
+            model.addAttribute("photos", pList.getList());
+            model.addAttribute("gotoPageAjaxHTML",
+                    CommUtil.showPageAjaxHtml(photo_url, "",pList.getPageNum(), pList.getPages()));
+            model.addAttribute("ugcs", ugcs);
+            model.addAttribute("img_remain_size", Double.valueOf(img_remain_size));
+            model.addAttribute("obj", obj);
+            if (request.getSession(false).getAttribute("goods_class_info") != null){
+                GsGoodsClass session_gc =
+                        (GsGoodsClass) request.getSession(false).getAttribute("goods_class_info");
+                GsGoodsClass gc = this.goodsClassService.findOne(session_gc.getId());
+                model.addAttribute(
+                        "goods_class_info",this.storeTools.generic_goods_class_info(gc));
+                model.addAttribute("goods_class", gc);
+                request.getSession(false).removeAttribute("goods_class_info");
+            }else if (obj.getGc() != null){
+                model.addAttribute(
+                        "goods_class_info",this.storeTools.generic_goods_class_info(obj.getGc()));
+                model.addAttribute("goods_class", obj.getGc());
+            }
+
+            String goods_session = CommUtil.randomString(32);
+            model.addAttribute("goods_session", goods_session);
+            request.getSession(false).setAttribute("goods_session",
+                    goods_session);
+            model.addAttribute("imageSuffix",
+                    this.storeViewTools.genericImageSuffix(
+                            this.systemConfigService.getConfig().getImageSuffix()));
+        }else{
+            ret = "error";
+            model.addAttribute("op_title", "您没有该商品信息！");
+            model.addAttribute("url", CommUtil.getURL(request) + "/index.htm");
+        }
+
+        return "goods/"+ret;
     }
     /****************************************************************
      * *****************private func
@@ -757,5 +1172,55 @@ public class GoodsAddController {
         }
 
         return textStr;
+    }
+
+    private List<List<GsGoodsSpecProperty>> generic_spec_property(
+            Set<GsGoodsSpecification> specs){
+        List result_list = new ArrayList();
+//        List list = new ArrayList();
+//        int max = 1;
+//        for (GsGoodsSpecification spec : specs){
+//            list.add(spec.getProperties());
+//        }
+//
+//        GsGoodsSpecProperty[][] gsps = list2group(list);
+//        for (int i = 0; i < gsps.length; i++){
+//            max *= gsps[i].length;
+//        }
+//        for (int i = 0; i < max; i++){
+//            List temp_list = new ArrayList();
+//            int temp = 1;
+//            for (int j = 0; j < gsps.length; j++){
+//                temp *= gsps[j].length;
+//                temp_list.add(j, gsps[j][(i / (max / temp) % gsps[j].length)]);
+//            }
+//            GsGoodsSpecProperty[] temp_gsps = (GsGoodsSpecProperty[]) temp_list
+//                    .toArray(new GsGoodsSpecProperty[temp_list.size()]);
+//            Arrays.sort(temp_gsps, new Comparator(){
+//                public int compare(Object obj1, Object obj2){
+//                    GsGoodsSpecProperty a = (GsGoodsSpecProperty) obj1;
+//                    GsGoodsSpecProperty b = (GsGoodsSpecProperty) obj2;
+//                    if (a.getSpec().getSequence() == b.getSpec().getSequence()){
+//                        return 0;
+//                    }
+//                    return a.getSpec().getSequence() > b.getSpec()
+//                            .getSequence() ? 1 : -1;
+//                }
+//            });
+//            result_list.add(Arrays.asList(temp_gsps));
+//        }
+//
+        return result_list;
+    }
+
+    private GsGoodsSpecProperty[][] list2group(
+            List<List<GsGoodsSpecProperty>> list){
+        GsGoodsSpecProperty[][] gps = new GsGoodsSpecProperty[list.size()][];
+        for (int i = 0; i < list.size(); i++){
+            gps[i] = ((GsGoodsSpecProperty[]) ((List) list.get(i))
+                    .toArray(new GsGoodsSpecProperty[((List) list.get(i)).size()]));
+        }
+
+        return gps;
     }
 }

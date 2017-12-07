@@ -39,6 +39,7 @@
 				/validationCodeServlet.png**= anon
 				/check/captcha**=anon
 				/static/** = anon
+				/upload/** = anon
 				/refuse = anon
 				/index** = anon
 				/login.do = authc

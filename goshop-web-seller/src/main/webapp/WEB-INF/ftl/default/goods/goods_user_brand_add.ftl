@@ -31,12 +31,12 @@ var re = /^[a-zA-Z]*$/;
        rules: {
 			name:{required:true},
 			first_word:{required:true,verify:true,maxlength:1},
-			brandLogo:{#if(!$!obj)required:true,#end accept:"jpg,gif,png,jpeg"}
+			brandLogo:{<#if !(obj??)>required:true,</#if> accept:"jpg,gif,png,jpeg"}
 		  },
 	   messages: {
 		    name:{required:"品牌名称不能为空"},
 			first_word:{required:"名称首字母不能为空",verify:"请输入名称首字母",maxlength:"输入长度不正确"},
-			brandLogo:{#if(!$!obj)required:"品牌标志不能为空",#end accept:"格式不对，只能为jpg|gif|png|jpeg"}
+			brandLogo:{<#if !(obj??)>required:"品牌标志不能为空",</#if> accept:"格式不对，只能为jpg|gif|png|jpeg"}
 	     }
   });
 });
@@ -49,43 +49,48 @@ var re = /^[a-zA-Z]*$/;
             <div class="productmain" style="width: 910px;">
                 <div class="ordernav">
                     <ul class="orderul">
-                        #if($!edit)
+                        <#if edit?? >
                         <li ><a href='${S_URL}/brand/usergoodsbrand_list' >品牌列表</a></li>
                         <li><a href='${S_URL}/brand/usergoodsbrand_add' >申请品牌</a></li>
                         <li class="this"><a href='javascript:void(0);' >编辑品牌</a></li>
-                        #else
+                        <#else>
                         <li ><a href='${S_URL}/brand/usergoodsbrand_list' >品牌列表</a></li>
                         <li class="this"><a href='${S_URL}/brand/usergoodsbrand_add' >申请品牌</a></li>
-                        #end
+                        </#if>
                     </ul>
                 </div>
                 <div class="ordercon">
                     <div class="addnav">
                         <form action="${S_URL}/brand/usergoodsbrand_save" method="post" id="theForm" enctype="multipart/form-data">
-                            <input name="id" type="hidden" id="id"  value="$!obj.id"/>
+                            <input name="id" type="hidden" id="id"  value="${(obj.id)!}"/>
                             <table width="100%" border="0" cellspacing="0" cellpadding="0" class="addnavtable">
                                 <tr>
-                                    <td align="right" valign="top" class="modifysp" width="155"><span>品牌名称：</span><span><strong class="red" style="font-size:14px;">*</strong></span></td>
-                                    <td  class="px10"><span class="setinput">
-                                        <input name="name" type="text" id="name"  value="$!obj.name"/>
+                                    <td align="right" valign="top" class="modifysp" width="155">
+                                        <span>品牌名称：</span><span><strong class="red" style="font-size:14px;">*</strong></span></td>
+                                    <td  class="pl10"><span class="setinput">
+                                        <input name="name" type="text" id="name"  value="${(obj.name)!}"/>
                                     </span></td>
                                 </tr>
                                 <tr>
-                                    <td align="right" valign="top" class="modifysp" width="155"><span>首字母：</span><span><strong class="red" style="font-size:14px;">*</strong></span></td>
-                                    <td  class="px10"><span class="setinput">
-                                        <input name="first_word" type="text" id="first_word"  value="$!obj.first_word"/>
-                                    </span></td>
+                                    <td align="right" valign="top" class="modifysp" width="155">
+                                        <span>首字母：</span><span><strong class="red" style="font-size:14px;">*</strong></span></td>
+                                    <td  class="pl10">
+                                        <span class="setinput">
+                                        <input name="firstWord" type="text" id="first_word"  value="${(obj.firstWord)!}"/>
+                                        </span></td>
                                 </tr>
-                                #if($!obj.brandLogo)
+                                <#if (obj.brandLogo)??>
                                 <tr>
                                     <td align="right" valign="top" class="modifysp" width="155"><span>品牌预览：</span></td>
-                                    <td  class="px10">
-                                        <a href="${S_URL}/$!obj.brandLogo.path/$!obj.brandLogo.name" target="_blank"><img src="${S_URL}/$!obj.brandLogo.path/$!obj.brandLogo.name" height="44px" width="88px" title="点击查看大图"/></a>
+                                    <td  class="pl10">
+                                        <a href="${S_URL}/${(obj.brandLogo.path)!}/${(obj.brandLogo.name)!}" target="_blank">
+                                            <img src="${S_URL}/${(obj.brandLogo.path)!}/${(obj.brandLogo.name)!}" height="44px" width="88px" title="点击查看大图"/></a>
                                     </td>
                                 </tr>
-                                #end
+                                </#if>
                                 <tr>
-                                    <td align="right" valign="top" class="modifysp"><span>品牌标志：</span><span><strong class="red" style="font-size:14px;">*</strong></span></td>
+                                    <td align="right" valign="top" class="modifysp">
+                                        <span>品牌标志：</span><span><strong class="red" style="font-size:14px;">*</strong></span></td>
                                     <td  class="px10">
                                         <input name="brandLogo" type="file" id="brandLogo" />
                                     </td>
@@ -93,13 +98,13 @@ var re = /^[a-zA-Z]*$/;
 
                                 <tr>
                                     <td align="right" valign="top" class="modifysp"><span>申请备注：</span></td>
-                                    <td  class="px10"><span class="setinput">
-                                        <textarea name="remark" cols="40" rows="6" id="remark">$!obj.remark</textarea>
+                                    <td  class="pl10"><span class="setinput">
+                                        <textarea name="remark" cols="40" rows="6" id="remark">${(obj.remark)!}</textarea>
                                     </span></td>
                                 </tr>
                                 <tr>
                                     <td>&nbsp;</td>
-                                    <td class="px10"><span class="setsub">
+                                    <td class="pl10"><span class="setsub">
                                         <input name="" type="submit"  value="提交" style="cursor:pointer;"/>
                                     </span></td>
                                 </tr>

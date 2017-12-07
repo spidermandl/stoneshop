@@ -15,7 +15,7 @@ function selClass($this){
     $('#dataLoading').show();
     var deep = parseInt(data_str.deep) + 1;
 
-    $.getJSON(SITEURL +'/goods_add/class', {gc_id : data_str.gcid, deep: deep}, function(data) {
+    $.getJSON(SITEURL +'/goods/class', {gc_id : data_str.gcid, deep: deep}, function(data) {
         if (data != null&&data.length>0) {
             $('input[nctype="buttonNextStep"]').attr('disabled', true);
             $('#class_div_' + deep).children('ul').html('').end()
@@ -83,7 +83,7 @@ $(function(){
         $('.wp_category_list').addClass('blank');
         $this = $(this);
         eval('var data_str = ' + $this.parents('li').attr('data-param'));
-        $.getJSON(SITEURL +'/goods_add/class_staple?stapleid=' + data_str.stapleid, function(data) {
+        $.getJSON(SITEURL +'/goods/class_staple?stapleid=' + data_str.stapleid, function(data) {
             if (data.done) {
                 $('.category_list').children('ul').empty();
                 if (data.one.length > 0) {
@@ -121,7 +121,7 @@ $(function(){
     $('#commListArea').find('a[nctype="del-comm-cate"]').off().on('click',function() {
         $this = $(this);
         eval('var data_str = ' + $this.parents('li').attr('data-param'));
-        $.getJSON(SITEURL +'/goods_add/staple_del?stapleid='+ data_str.stapleid, function(data) {
+        $.getJSON(SITEURL +'/goods/staple_del?stapleid='+ data_str.stapleid, function(data) {
             if (data) {
                 $this.parents('li:first').remove();
                 if ($('#commListArea').find('li').length == 1) {

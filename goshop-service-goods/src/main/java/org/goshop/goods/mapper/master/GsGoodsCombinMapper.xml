@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="org.goshop.goods.mapper.master.GsGoodsCombinMapper" >
+  <resultMap id="BaseResultMap" type="org.goshop.goods.pojo.GsGoodsCombin" >
+    <result column="goods_id" property="goodsId" jdbcType="BIGINT" />
+    <result column="combin_goods_id" property="combinGoodsId" jdbcType="BIGINT" />
+  </resultMap>
+  <insert id="insert" parameterType="org.goshop.goods.pojo.GsGoodsCombin" >
+    insert into gs_goods_combin (goods_id, combin_goods_id)
+    values (#{goodsId,jdbcType=BIGINT}, #{combinGoodsId,jdbcType=BIGINT})
+  </insert>
+  <insert id="insertSelective" parameterType="org.goshop.goods.pojo.GsGoodsCombin" >
+    insert into gs_goods_combin
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="goodsId != null" >
+        goods_id,
+      </if>
+      <if test="combinGoodsId != null" >
+        combin_goods_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="goodsId != null" >
+        #{goodsId,jdbcType=BIGINT},
+      </if>
+      <if test="combinGoodsId != null" >
+        #{combinGoodsId,jdbcType=BIGINT},
+      </if>
+    </trim>
+  </insert>
+</mapper>

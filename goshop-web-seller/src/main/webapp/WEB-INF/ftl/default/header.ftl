@@ -36,7 +36,7 @@
                             <dt>商品</dt>
                             <dd class="selected">
                                 <i title="添加为常用功能菜单" class="icon-check" data-quicklink-act="store_goods_add" nctype="btn_add_quicklink"></i>
-                                <a href="${S_URL}/goods_add/step_one"> 商品发布 </a>
+                                <a href="${S_URL}/goods/step_one"> 商品发布 </a>
                             </dd>
                             <dd class="selected">
                                 <i title="添加为常用功能菜单" class="icon-check" data-quicklink-act="store_goods_online" nctype="btn_add_quicklink"></i>
@@ -207,11 +207,11 @@
             <dd class="arrow"></dd>
             </dl>
             <dl  <#if P_CURRENT_TOP=='goods'> class="current" </#if>>
-            <dt><a href="${S_URL}${SELLER_ROOT}/goods_add/step_one">商品</a></dt>
+            <dt><a href="${S_URL}${SELLER_ROOT}/goods/step_one">商品</a></dt>
             <dd>
                 <ul>
-                    <li><a href="${S_URL}${SELLER_ROOT}/goods_add/step_one"> 商品发布 </a></li>
-                    <li><a href="${S_URL}${SELLER_ROOT}/se/goodsonline/list"> 出售中的商品 </a></li>
+                    <li><a href="${S_URL}${SELLER_ROOT}/goods/step_one"> 商品发布 </a></li>
+                    <li><a href="${S_URL}${SELLER_ROOT}/goods/forsell_list"> 出售中的商品 </a></li>
                     <li><a href="${S_URL}${SELLER_ROOT}/se/goodsonline/list?goodsState=0"> 仓库中的商品 </a></li>
                     <li><a href="${S_URL}${SELLER_ROOT}/goods_category/goods_user_class_list"> 商品分类 </a></li>
                     <li><a href="${S_URL}${SELLER_ROOT}/brand/usergoodsbrand_list"> 品牌申请 </a></li>

@@ -2,7 +2,9 @@ package org.goshop.goods.pojo;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 public class GsGoods implements Serializable {
     private Long id;
@@ -115,6 +117,64 @@ public class GsGoods implements Serializable {
 
     private Date weixinShopRecommendtime;
 
+    /**
+     * non auto create
+     */
+    private List<GsGoodsUserClass> goodsUgcs = new ArrayList<>(); //GoodsUserClass
+    private GsGoodsBrand goodsBrand;//GoodsBrand
+    private List<GsGoodsSpecProperty> goodsSpecs = new ArrayList<>();//GsGoodsSpecProperty
+    private List<GsGoodsWithBLOBs> combinGoods;
+    private GsGoodsClass gc;
+    private GsGoodsAccessory goods_main_photo;//商品主图片
+
+    public GsGoodsAccessory getGoods_main_photo() {
+        return goods_main_photo;
+    }
+
+    public void setGoods_main_photo(GsGoodsAccessory goods_main_photo) {
+        this.goods_main_photo = goods_main_photo;
+    }
+
+    /** end **/
+    public GsGoodsClass getGc() {
+        return gc;
+    }
+
+    public void setGc(GsGoodsClass gc) {
+        this.gc = gc;
+    }
+
+    public List<GsGoodsWithBLOBs> getCombinGoods() {
+        return combinGoods;
+    }
+
+    public void setCombinGoods(List<GsGoodsWithBLOBs> combinGoods) {
+        this.combinGoods = combinGoods;
+    }
+
+    public GsGoodsBrand getGoodsBrand() {
+        return goodsBrand;
+    }
+
+    public void setGoodsBrand(GsGoodsBrand goodsBrand) {
+        this.goodsBrand = goodsBrand;
+    }
+
+    public List<GsGoodsUserClass> getGoodsUgcs() {
+        return goodsUgcs;
+    }
+
+    public void setGoodsUgcs(List<GsGoodsUserClass> goodsUgcs) {
+        this.goodsUgcs = goodsUgcs;
+    }
+
+    public List<GsGoodsSpecProperty> getGoodsSpecs() {
+        return goodsSpecs;
+    }
+
+    public void setGoodsSpecs(List<GsGoodsSpecProperty> goodsSpecs) {
+        this.goodsSpecs = goodsSpecs;
+    }
     public Long getId() {
         return id;
     }

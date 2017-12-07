@@ -93,7 +93,7 @@
                     </dl>
                 </div>
                 <div class="wp_confirm">
-                    <form method="get" action="${S_URL}/goods_add/step_two">
+                    <form method="get" action="${S_URL}/goods/step_two">
                         <input type="hidden" value="" id="class_id" name="class_id" />
                         <input type="hidden" value="" id="t_id" name="t_id" />
                         <div class="bottom tc">

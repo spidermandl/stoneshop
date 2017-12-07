@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="org.goshop.goods.mapper.master.GsGoodsUgcMapper" >
+  <resultMap id="BaseResultMap" type="org.goshop.goods.pojo.GsGoodsUgc" >
+    <result column="goods_id" property="goodsId" jdbcType="BIGINT" />
+    <result column="class_id" property="classId" jdbcType="BIGINT" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    goods_id, class_id
+  </sql>
+  <select id="findByUserClassId" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select
+    <include refid="Base_Column_List" />
+    from gs_goods_ugc
+    where class_id = #{classId,jdbcType=BIGINT}
+  </select>
+
+  <insert id="insert" parameterType="org.goshop.goods.pojo.GsGoodsUgc" >
+    insert into gs_goods_ugc (goods_id, class_id)
+    values (#{goodsId,jdbcType=BIGINT}, #{classId,jdbcType=BIGINT})
+  </insert>
+  <insert id="insertSelective" parameterType="org.goshop.goods.pojo.GsGoodsUgc" >
+    insert into gs_goods_ugc
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="goodsId != null" >
+        goods_id,
+      </if>
+      <if test="classId != null" >
+        class_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="goodsId != null" >
+        #{goodsId,jdbcType=BIGINT},
+      </if>
+      <if test="classId != null" >
+        #{classId,jdbcType=BIGINT},
+      </if>
+    </trim>
+  </insert>
+</mapper>

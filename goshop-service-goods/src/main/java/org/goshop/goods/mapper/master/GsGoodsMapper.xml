@@ -96,6 +96,42 @@
     from gs_goods
     where goods_main_photo_id = #{goods_main_photo_id,jdbcType=BIGINT}
   </select>
+  <select id="findByCondition" parameterType="java.util.Map" resultMap="ResultMapWithBLOBs">
+    select
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from gs_goods as A
+    <where>
+      <if test="goods_status != null">
+        and goods_status=#{goods_status}
+      </if>
+      <if test="goods_store_id != null">
+        and goods_store_id=#{goods_store_id}
+      </if>
+      <if test="goods_name != null">
+        and goods_name LIKE #{goods_name}
+      </if>
+      --       item表示集合中每一个元素进行迭代时的别名，
+      --       index指 定一个名字，用于表示在迭代过程中，每次迭代到的位置，
+      --       open表示该语句以什么开始，
+      --       separator表示在每次进行迭代之间以什么符号作为分隔 符，
+      --       close表示以什么结束。
+      <if test="ids !=null">
+        and id IN
+        <foreach collection="ids" index="index" item="item" open="(" separator="," close=")">
+          #{item}
+        </foreach>
+      </if>
+      <if test="good_class_ids !=null">
+        and gc_id IN
+        <foreach collection="ids" index="index" item="item" open="(" separator="," close=")">
+          #{item}
+        </foreach>
+      </if>
+    </where>
+    order BY #{orderBy} #{orderType}
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
     delete from gs_goods
     where id = #{id,jdbcType=BIGINT}

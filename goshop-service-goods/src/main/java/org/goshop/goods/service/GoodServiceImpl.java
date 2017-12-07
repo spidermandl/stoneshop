@@ -1,14 +1,22 @@
 package org.goshop.goods.service;
 
+import com.github.pagehelper.PageInfo;
+import org.goshop.common.utils.PageUtils;
 import org.goshop.goods.i.GoodsService;
 import org.goshop.goods.mapper.master.GsGoodsMapper;
 import org.goshop.goods.mapper.master.GsGoodsPhotoMapper;
+import org.goshop.goods.mapper.read.ReadGsGoodsMapper;
+import org.goshop.goods.mapper.read.ReadGsGoodsPhotoMapper;
+import org.goshop.goods.mapper.read.ReadGsGoodsUgcMapper;
 import org.goshop.goods.pojo.GsGoodsAccessory;
+import org.goshop.goods.pojo.GsGoodsUgc;
 import org.goshop.goods.pojo.GsGoodsWithBLOBs;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Desmond on 24/11/2017.
@@ -18,9 +26,16 @@ public class GoodServiceImpl implements GoodsService {
 
     @Autowired
     GsGoodsMapper gsGoodsMapper;
+    @Autowired
+    ReadGsGoodsMapper readGsGoodsMapper;
 
     @Autowired
     GsGoodsPhotoMapper gsGoodsPhotoMapper;
+    @Autowired
+    ReadGsGoodsPhotoMapper readGsGoodsPhotoMapper;
+
+    @Autowired
+    ReadGsGoodsUgcMapper readGsGoodsUgcMapper;
 
     @Override
     public GsGoodsWithBLOBs findOne(Long id) {
@@ -29,7 +44,7 @@ public class GoodServiceImpl implements GoodsService {
 
     @Override
     public List<GsGoodsWithBLOBs> findGoodsByMainPhoto(GsGoodsAccessory accessory) {
-        return gsGoodsMapper.findByMainPhoto(accessory.getId());
+        return readGsGoodsMapper.findGoodsByMainPhoto(accessory.getId());
     }
 
     @Override
@@ -54,6 +69,34 @@ public class GoodServiceImpl implements GoodsService {
         }
         long ret = gsGoodsMapper.insert(goods);
         return ret;
+    }
+
+    @Override
+    public int delete(Long id) {
+        return gsGoodsMapper.deleteByPrimaryKey(id);
+    }
+
+    @Override
+    public PageInfo<GsGoodsWithBLOBs> findByCondition(Map condition,Integer curPage,Integer pageSize ) {
+        PageUtils.startPage(curPage,pageSize);
+        List<GsGoodsWithBLOBs> list = findByCondition(condition);
+        return new PageInfo<GsGoodsWithBLOBs>(list);
+    }
+
+    @Override
+    public List<GsGoodsWithBLOBs> findByCondition(Map condition) {
+        if (condition.containsKey("user_class_id")){//有用户分类条件
+            Long classId = Long.parseLong(condition.get("user_class_id").toString());
+            List<GsGoodsUgc> ugcs = readGsGoodsUgcMapper.findByUserClassId(classId);
+            if (ugcs.size()>0){
+                List<Long> ids = new ArrayList<>();
+                condition.put("ids",ids);
+                for (GsGoodsUgc ug:ugcs){
+                    ids.add(ug.getGoodsId());
+                }
+            }
+        }
+        return readGsGoodsMapper.findByCondition(condition);
     }
 
 }

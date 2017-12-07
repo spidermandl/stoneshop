@@ -36,9 +36,6 @@ public class BrandsController {
     private SystemConfigService systemConfigService;
 
     @Autowired
-    private UserService userService;
-
-    @Autowired
     private GoodsBrandService goodsBrandService;
 
     @Autowired
@@ -61,6 +58,10 @@ public class BrandsController {
         orderBy = orderBy==null?"addTime":orderBy;
         orderType = orderType==null?"desc":orderType;
         PageInfo<GsGoodsBrand> pList = this.goodsBrandService.findByUserId(user,index,12,orderBy,orderType);
+        for (GsGoodsBrand gb : pList.getList()){
+            if (gb.getBrandlogoId()!=null)
+                gb.setBrandLogo(this.goodsAccessoryService.findOne(gb.getBrandlogoId()));
+        }
         CommUtil.saveIPageList2ModelAndView("", "", "", pList, model);
 
         return "goods/"+ret;
@@ -80,6 +81,8 @@ public class BrandsController {
         String ret = "goods_user_brand_add";
         if ((id != null) && (!id.equals(""))){
             GsGoodsBrand goodsBrand = this.goodsBrandService.findOne(Long.valueOf(Long.parseLong(id)));
+            if (goodsBrand.getBrandlogoId()!=null)
+                goodsBrand.setBrandLogo(this.goodsAccessoryService.findOne(goodsBrand.getBrandlogoId()));
             model.addAttribute("obj", goodsBrand);
         }
         model.addAttribute("edit", Boolean.valueOf(true));
