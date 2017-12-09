@@ -28,4 +28,23 @@
       </if>
     </trim>
   </insert>
+  <!-- 批量插入生成的兑换码 -->
+  <insert id ="insertBatch" useGeneratedKeys="true" parameterType="java.util.List" >
+    <selectKey resultType="java.lang.Long" keyProperty="id" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into gs_goods_property
+    (goods_id, spec_id)
+    values
+    <foreach collection ="list" item="gsp" index= "index" separator =",">
+      (
+      #{gsp.goodsId}, #{gsp.specId}
+      )
+    </foreach >
+  </insert >
+
+  <delete id="deleteByGoodsId" parameterType="java.lang.Long" >
+    delete from gs_goods_property
+    where goods_id = #{goods_id,jdbcType=BIGINT}
+  </delete>
 </mapper>

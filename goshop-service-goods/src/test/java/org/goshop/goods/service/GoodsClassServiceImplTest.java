@@ -3,8 +3,10 @@ package org.goshop.goods.service;
 import com.github.pagehelper.PageInfo;
 import org.apache.commons.collections.map.HashedMap;
 import org.goshop.base.service.SpringBaseTest;
+import org.goshop.goods.i.GoodsAccessoryService;
 import org.goshop.goods.i.GoodsClassService;
 import org.goshop.goods.i.GoodsService;
+import org.goshop.goods.mapper.read.ReadGsGoodsAccessoryMapper;
 import org.goshop.goods.pojo.GoodsClass;
 import org.goshop.goods.pojo.GsGoodsClass;
 import org.goshop.goods.pojo.GsGoodsWithBLOBs;
@@ -26,6 +28,8 @@ public class GoodsClassServiceImplTest extends SpringBaseTest {
 
     @Autowired
     GoodsService goodsService;
+    @Autowired
+    GoodsAccessoryService goodsAccessoryService;
 
     @Test
     public void testFindTreeByGcParentId() throws Exception {
@@ -44,6 +48,34 @@ public class GoodsClassServiceImplTest extends SpringBaseTest {
         map.put("orderType","desc");
         PageInfo<GsGoodsWithBLOBs> plist = goodsService.findByCondition(map,1,1);
         System.out.println(plist);
+    }
+
+    /**
+     * 创建 删除goods
+     * @throws Exception
+     */
+    @Test
+    public void testNewGoods() throws Exception{
+        GsGoodsWithBLOBs goods = new GsGoodsWithBLOBs();
+        goods.setGoodsClick(0);
+        goods.setGoodsInventory(0);
+        goods.setGoodsRecommend(false);
+        goods.setGoodsSalenum(0);
+        goods.setGoodsStatus(1);
+        goods.setGoodsTransfee(11);
+        goods.setStoreRecommend(false);
+        goods.setZtcClickNum(0);
+        goods.setZtcDredgePrice(0);
+        goods.setZtcPrice(0);
+        goods.setZtcStatus(0);
+        goods.setZtcGold(0);
+        goods.setZtcPayStatus(0);
+
+        goods.getGoodsPhotos().add(goodsAccessoryService.findOne(426081L));
+        goods.getGoodsPhotos().add(goodsAccessoryService.findOne(426082L));
+
+        long id = goodsService.save(goods);
+        goodsService.delete(id);
     }
     @Test
     public void testFindByGcParentId() throws Exception {

@@ -24,6 +24,7 @@ import org.goshop.store.pojo.GsTransportWithBLOBs;
 import org.goshop.store.pojo.Store;
 import org.goshop.store.pojo.StoreJoin;
 import org.goshop.users.i.MemberService;
+import org.goshop.users.i.UserService;
 import org.goshop.users.pojo.Member;
 import org.goshop.users.pojo.User;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -85,10 +86,16 @@ public class GoodsController {
     GoodsBrandService goodsBrandService;
 
     @Autowired
+    GoodsPropertyService goodsPropertyService;
+
+    @Autowired
+    GoodsTypeService goodsTypeService;
+
+    @Autowired
     StoreService storeService;
 
     @Autowired
-    MemberService memberService;
+    UserService userService;
 
     @Autowired
     StoreTools storeTools;
@@ -111,6 +118,14 @@ public class GoodsController {
         return "goods/good_add_step_one";
     }
 
+    /**
+     * 选择分类
+     * @param id
+     * @param deep
+     * @param request
+     * @param response
+     * @return
+     */
     @RequestMapping("/class")
     public @ResponseBody List getClass(
             @RequestParam("gc_id") Long id,
@@ -119,13 +134,15 @@ public class GoodsController {
             HttpServletResponse response) {
 
         List<GsGoodsClass> goodsClassList = goodsClassService.findByGcParentId(id);
+
+        if (goodsClassList==null||goodsClassList.size()==0) {//叶子节点分类
+            request.getSession(false).setAttribute("goods_class_info", goodsClassService.findOne(id));
+        }
         return goodsClassList;
     }
 
     @RequestMapping("/class_staple")
-    public
-    @ResponseBody
-    Object getClassStaple(
+    public @ResponseBody Object getClassStaple(
             @RequestParam("stapleid") Long stapleId,
             HttpServletRequest request,
             HttpServletResponse response) {
@@ -183,10 +200,8 @@ public class GoodsController {
         //缴费审核失败 "31";
         //审核通过开店 "40";
         if (storeJoin.getJoininState().equals("40")){
-            Object str = request.getSession(false).getAttribute("goods_class_info");
             if (request.getSession(false).getAttribute("goods_class_info") != null){
-                GsGoodsClass gc = (GsGoodsClass) request.getSession(false)
-                        .getAttribute("goods_class_info");
+                GsGoodsClass gc = (GsGoodsClass) request.getSession(false).getAttribute("goods_class_info");
                 gc = this.goodsClassService.findOne(gc.getId());
                 String goods_class_info = storeTools.generic_goods_class_info(gc);
                 model.addAttribute("goods_class",gc);
@@ -204,9 +219,8 @@ public class GoodsController {
             double img_remain_size = 0.0D;
             if (store.getStoreGrade().getSgSpaceLimit() > 0.0F){
                 img_remain_size = store.getStoreGrade().getSgSpaceLimit()
-                        - CommUtil.div(Double.valueOf(CommUtil
-                        .fileSize(new File(path))), Integer
-                        .valueOf(1024));
+                        - CommUtil.div(
+                                Double.valueOf(CommUtil.fileSize(new File(path))), Integer.valueOf(1024));
             }
             List ugcs = this.goodsUserClassService.findByUserIdAndParentId(user.getId(),null,true);
             List gbs = this.goodsBrandService.findByUserId(user);
@@ -217,8 +231,7 @@ public class GoodsController {
                     this.storeViewTools.genericImageSuffix(this.systemConfigService.getConfig().getImageSuffix()));
             String goods_session = CommUtil.randomString(32);
             model.addAttribute("goods_session", goods_session);
-            request.getSession(false).setAttribute("goods_session",
-                    goods_session);
+            request.getSession(false).setAttribute("goods_session",goods_session);
         }
 //        if (store_status == 0){
 //            model.addAttribute("op_title", "您尚未开通店铺，不能发布商品");
@@ -254,147 +267,158 @@ public class GoodsController {
         String ret = null;
         String goods_session1 = CommUtil.null2String(request.getSession(false).getAttribute("goods_session"));
         if (goods_session1==null || goods_session1.equals("")){
+            ret = "error";
             model.addAttribute("op_title", "禁止重复提交表单");
-            model.addAttribute("url", CommUtil.getURL(request) + "/seller/index.htm");
-        }else if (goods_session1.equals(goods_session)){
-            if ((id == null) || (id.equals(""))){
+            model.addAttribute("url", CommUtil.getURL(request) + "/goods/index.htm");
+            return "goods/"+ret;
+        }
+        if(!(goods_session1.equals(goods_session))){
+            ret = "error";
+            model.addAttribute("op_title", "参数错误");
+            model.addAttribute("url", CommUtil.getURL(request) + "/goods/index.htm");
+            return "goods/"+ret;
+        }
 
-            }else{
-                ret = "success.html";
-                model.addAttribute("op_title", "商品编辑成功");
-                model.addAttribute("url", CommUtil.getURL(request) + "/goods_" + id + ".htm");
-            }
-            WebForm wf = new WebForm();
-            GsGoodsWithBLOBs goods = null;
-            if (id.equals("")){
-                goods = (GsGoodsWithBLOBs) wf.toPo(request, GsGoodsWithBLOBs.class);
-                goods.setAddtime(new Date());
-                Store store = storeJoinService.getCurrentStore(user);
-                goods.setGoodsStoreId(store.getStoreId());
-            }else{
-                GsGoodsWithBLOBs obj = this.goodsService.findOne(Long.valueOf(Long.parseLong(id)));
-                goods = (GsGoodsWithBLOBs) wf.toPo(request, obj);
-            }
-            if ((goods.getCombinStatus() != 2)
-                    && (goods.getDeliveryStatus() != 2)
-                    && (goods.getBargainStatus() != 2)
-                    && (goods.getActivityStatus() != 2)){
-                goods.setGoodsCurrentPrice(goods.getStorePrice());
-            }
-            goods.setGoodsName(clearContent(goods.getGoodsName()));
-            GsGoodsClass gc = this.goodsClassService.findOne(Long.valueOf(Long.parseLong(goods_class_id)));
-            goods.setGcId(gc.getId());
-            GsGoodsAccessory main_img = null;
-            if ((goods_main_img_id != null) && (!goods_main_img_id.equals(""))){
-                main_img = this.goodsAccessoryService.findOne(Long.valueOf(Long.parseLong(goods_main_img_id)));
-            }
+        WebForm wf = new WebForm();
+        GsGoodsWithBLOBs goods = null;
+        if ((id == null) || (id.equals(""))){
+            ret = "add_goods_finish";
+            goods = (GsGoodsWithBLOBs) wf.toPo(request, GsGoodsWithBLOBs.class);
+            goods.setAddtime(new Date());
+            Store store = storeJoinService.getCurrentStore(user);
+            goods.setGoodsStoreId(store.getStoreId());
+        }else{
+            ret = "success.html";
+            model.addAttribute("op_title", "商品编辑成功");
+            model.addAttribute("url", CommUtil.getURL(request) + "/goods_" + id + ".htm");
+            GsGoodsWithBLOBs obj = this.goodsService.findOne(Long.valueOf(Long.parseLong(id)));
+            goods = (GsGoodsWithBLOBs) wf.toPo(request, obj);
+        }
+        if ((!Integer.valueOf(2).equals(goods.getCombinStatus()))
+                && (!Integer.valueOf(2).equals(goods.getDeliveryStatus()))
+                && (!Integer.valueOf(2).equals(goods.getBargainStatus()))
+                && (!Integer.valueOf(2).equals(goods.getActivityStatus()))){
+            goods.setGoodsCurrentPrice(goods.getStorePrice());
+        }
+        goods.setGoodsName(clearContent(goods.getGoodsName()));
+        GsGoodsClass gc = this.goodsClassService.findOne(Long.valueOf(Long.parseLong(goods_class_id)));
+        goods.setGcId(gc.getId());
+        //主照片
+        GsGoodsAccessory main_img = null;
+        if ((goods_main_img_id != null) && (!goods_main_img_id.equals(""))){
+            main_img = this.goodsAccessoryService.findOne(Long.valueOf(Long.parseLong(goods_main_img_id)));
             goods.setGoodsMainPhotoId(main_img.getId());
-            /**
-             * 商品分类逻辑
-             */
-            goods.getGoodsUgcs().clear();
-            String[] ugc_ids = user_class_ids.split(",");
+        }
 
-            for (int i = 0; i < ugc_ids.length; i++){
-                String ugc_id = ugc_ids[i];
-                if (!ugc_id.equals("")){
-                    GsGoodsUserClass ugc =
-                            this.goodsUserClassService.findOne(Long.valueOf(Long.parseLong(ugc_id)));
-                    goods.getGoodsUgcs().add(ugc);
+        /**
+         * 商品照片逻辑
+         */
+        String[] img_ids = image_ids.split(",");
+
+        for (int i = 0; i < img_ids.length; i++){
+            String img_id = img_ids[i];
+            if (!img_id.equals("")){
+                GsGoodsAccessory img = new GsGoodsAccessory();
+                img.setId(CommUtil.null2Long(img_id));
+                goods.getGoodsPhotos().add(img);
+            }
+        }
+        /***************** end *********************************/
+
+        /**
+         * 商品分类逻辑
+         */
+        goods.getGoodsUgcs().clear();
+        String[] ugc_ids = user_class_ids.split(",");
+
+        for (int i = 0; i < ugc_ids.length; i++){
+            String ugc_id = ugc_ids[i];
+            if (!ugc_id.equals("")){
+                GsGoodsUserClass ugc =
+                        this.goodsUserClassService.findOne(Long.valueOf(Long.parseLong(ugc_id)));
+                goods.getGoodsUgcs().add(ugc);
+            }
+        }
+        /***************** end *********************************/
+        /**
+         * 商品品牌
+         */
+        if ((goods_brand_id != null) && (!goods_brand_id.equals(""))){
+            GsGoodsBrand goods_brand =
+                    this.goodsBrandService.findOne(Long.valueOf(Long.parseLong(goods_brand_id)));
+            goods.setGoodsBrandId(goods_brand.getId());
+            goods.setGoodsBrand(goods_brand);
+        }
+        goods.getGoodsSpecs().clear();
+        String[] spec_ids = goods_spec_ids.split(",");
+
+        for (int i = 0; i < spec_ids.length; i++){
+            String spec_id = spec_ids[i];
+            if (!spec_id.equals("")){
+                GsGoodsSpecProperty gsp = this.goodsPropertyService.findOne(Long.valueOf(Long.parseLong(spec_id)));
+                goods.getGoodsSpecs().add(gsp);
+            }
+        }
+        /***************** end *********************************/
+        /**
+         * 组装商品属性
+         */
+        List maps = new ArrayList();
+        if (org.apache.commons.lang.StringUtils.isNotEmpty(goods_properties)) {
+            String[] properties = goods_properties.split(";");
+            String[] list;
+            for (int i = 0; i < properties.length; i++) {
+                String property = properties[i];
+                if (StringUtils.isNotEmpty(property)) {
+                    list = property.split(",");
+                    Map map = new HashMap();
+                    map.put("id", list[0]);
+                    map.put("val", list[1]);
+                    map.put("name", this.goodsTypeService.findOne(Long.valueOf(Long.parseLong(list[0]))).getName());
+                    maps.add(map);
                 }
             }
-            /**************************************************
-             ************************************************/
-            /**
-             * 商品品牌
-             */
-            if ((goods_brand_id != null) && (!goods_brand_id.equals(""))){
-                GsGoodsBrand goods_brand =
-                        this.goodsBrandService.findOne(Long.valueOf(Long.parseLong(goods_brand_id)));
-                goods.setGoodsBrandId(goods_brand.getId());
-                goods.setGoodsBrand(goods_brand);
-            }
-            goods.getGoodsSpecs().clear();
-            String[] spec_ids = goods_spec_ids.split(",");
-
-            for (int i = 0; i < spec_ids.length; i++){
-                String spec_id = spec_ids[i];
-                if (!spec_id.equals("")){
-//                    GsGoodsSpecProperty gsp = this.specPropertyService.getObjById(Long.valueOf(Long.parseLong(spec_id)));
-//                    goods.getGoodsSpecs().add(gsp);
+            goods.setGoodsProperty(JSONObject.fromObject(maps).toString());
+        }
+        maps.clear();
+        /***************** end *********************************/
+        /**
+         * 组装商品多规格库存和价格
+         */
+        if(org.apache.commons.lang.StringUtils.isNotEmpty(inventory_details)){
+            String[] inventory_list = inventory_details.split(";");
+            for (int i = 0; i < inventory_list.length; i++){
+                String inventory = inventory_list[i];
+                if (org.apache.commons.lang.StringUtils.isNotEmpty(inventory)){
+                    String[] list1 = inventory.split(",");
+                    Map map = new HashMap();
+                    map.put("id", list1[0]);
+                    map.put("count", list1[1]);
+                    map.put("price", list1[2]);
+                    maps.add(map);
                 }
             }
-            /**************************************************
-             ************************************************/
-//            List maps = new ArrayList();
-//            // 组装商品属性
-//            if(org.apache.commons.lang.StringUtils.isNotEmpty(goods_properties)){
-//                String[] properties = goods_properties.split(";");
-//                String[] list;
-//                for (int i = 0; i < properties.length; i++){
-//                    String property = properties[i];
-//                    if (StringUtils.isNotEmpty(property)){
-//                        list = property.split(",");
-//                        Map map = new HashMap();
-//                        map.put("id", list[0]);
-//                        map.put("val", list[1]);
-//                        map.put("name", this.goodsTypePropertyService.getObjById(Long.valueOf(Long.parseLong(list[0]))).getName());
-//                        maps.add(map);
-//                    }
-//                }
-//                goods.setGoodsProperty(JSONObject.fromObject(maps).toString());
-//            }
-//
-//            maps.clear();
+            goods.setGoodsDetails(JSONObject.fromObject(maps).toString());
+        }
+        /***************** end *********************************/
 
-            // 组装商品多规格库存和价格
-//            if(org.apache.commons.lang.StringUtils.isNotEmpty(inventory_details)){
-//                String[] inventory_list = inventory_details.split(";");
-//                for (int i = 0; i < inventory_list.length; i++){
-//                    String inventory = inventory_list[i];
-//                    if (org.apache.commons.lang.StringUtils.isNotEmpty(inventory)){
-//                        String[] list1 = inventory.split(",");
-//                        Map map = new HashMap();
-//                        map.put("id", list1[0]);
-//                        map.put("count", list1[1]);
-//                        map.put("price", list1[2]);
-//                        maps.add(map);
-//                    }
-//                }
-//                goods.setGoodsDetails(JSONObject.fromObject(maps).toString());
-//            }
-            /**************************************************
-             ************************************************/
-            /**
-             * 物流相关逻辑
-             */
-            if (CommUtil.null2Int(transport_type) == 0){
-                GsTransport trans = this.transportService.findOne(CommUtil.null2Long(transport_id));
-                goods.setTransportId(trans.getId());
-            }
-            if (CommUtil.null2Int(transport_type) == 1){
-                goods.setTransportId(null);
-            }
-            /**************************************************
-             ************************************************/
-            if (id.equals("")){
-                Long g_id = this.goodsService.save(goods);
-                goods.setId(g_id);
-                /**
-                 * 商品照片逻辑
-                 */
-                String[] img_ids = image_ids.split(",");
+        /**
+         * 物流相关逻辑
+         */
+        if (CommUtil.null2Int(transport_type) == 0){
+            GsTransport trans = this.transportService.findOne(CommUtil.null2Long(transport_id));
+            goods.setTransportId(trans.getId());
+        }
+        if (CommUtil.null2Int(transport_type) == 1){
+            goods.setTransportId(null);
+        }
+        /***************** end *********************************/
 
-                for (int i = 0; i < img_ids.length; i++){
-                    String img_id = img_ids[i];
-                    if (!img_id.equals("")){
-                        GsGoodsPhoto gh = new GsGoodsPhoto();
-                        gh.setGoodsId(goods.getId());
-                        gh.setPhotoId(CommUtil.null2Long(img_id));
-                    }
-                }
-                /**************************************************
-                 ************************************************/
+        if ((id == null) || (id.equals(""))){
+            Long g_id = this.goodsService.save(goods);
+            goods.setId(g_id);
+            /**************************************************
+             ************************************************/
 //                String goods_lucene_path = (new StringBuilder(String.valueOf(System.getProperty("wemall.root"))))
 //                        .append(File.separator).append("lucene").append(File.separator).append("goods").toString();
 //                File file = new File(goods_lucene_path);
@@ -412,8 +436,8 @@ public class GoodsController {
 //                LuceneUtil lucene = LuceneUtil.instance();
 //                LuceneUtil.setIndex_path(goods_lucene_path);
 //                lucene.writeIndex(vo);
-            }else{
-                this.goodsService.update(goods);
+        }else{
+            //this.goodsService.update(goods);
 
 //                String goods_lucene_path = (new StringBuilder(String.valueOf(System.getProperty("wemall.root")))).append(File.separator).append("lucene").append(File.separator).append("goods").toString();
 //                File file = new File(goods_lucene_path);
@@ -431,14 +455,10 @@ public class GoodsController {
 //                LuceneUtil lucene = LuceneUtil.instance();
 //                LuceneUtil.setIndex_path(goods_lucene_path);
 //                lucene.update(CommUtil.null2String(goods.getId()), vo);
-            }
-            model.addAttribute("obj", goods);
-            request.getSession(false).removeAttribute("goods_session");
-        }else{
-            ret = "error";
-            model.addAttribute("op_title", "参数错误");
-            model.addAttribute("url", CommUtil.getURL(request) + "/goods/index.htm");
         }
+        model.addAttribute("obj", goods);
+        request.getSession(false).removeAttribute("goods_session");
+
 
         return "goods/"+ret;
     }
@@ -458,12 +478,12 @@ public class GoodsController {
         String[] ids = mulitId.split(",");
         for (String id : ids){
             if (!id.equals("")){
-                GsGoodsWithBLOBs goods = this.goodsService.findOne(
-                        Long.valueOf(Long.parseLong(id)));
+                GsGoodsWithBLOBs goods =
+                        this.goodsService.findOne(Long.valueOf(Long.parseLong(id)));
 
                 Store store = this.storeService.findOne(goods.getGoodsStoreId());
-                Member member = this.memberService.findOne(store.getMemberId());
-                if (member.getUserId().equals(user.getId())){
+                User member = this.userService.findOne(store.getMemberId());
+                if (member.getId().equals(user.getId())){
                     int goods_status = goods.getGoodsStatus() == 0 ? 1 : 0;
                     goods.setGoodsStatus(goods_status);
                     this.goodsService.update(goods);// 更新商品资料
@@ -531,8 +551,8 @@ public class GoodsController {
                 GsGoodsWithBLOBs goods = this.goodsService.findOne(CommUtil.null2Long(id));
 
                 Store store = this.storeService.findOne(goods.getGoodsStoreId());
-                Member member = this.memberService.findOne(store.getMemberId());
-                if (member.getUserId().equals(user.getId())){
+                User member = this.userService.findOne(store.getMemberId());
+                if (member.getId().equals(user.getId())){
                     Map map = new HashMap();
                     map.put("gid", goods.getId());
 //                    List<GoodsCart> goodCarts = this.goodsCartService
@@ -558,7 +578,7 @@ public class GoodsController {
 //                    goods.getGoods_photos().clear();
 //                    goods.getGoods_ugcs().clear();
 //                    goods.getGoods_specs().clear();
-//                    this.goodsService.delete(goods.getId());
+                    this.goodsService.delete(goods.getId());
 //
 //                    String goods_lucene_path = (new StringBuilder(String.valueOf(System.getProperty("wemall.root")))).append(File.separator).append("lucene").append(File.separator).append("goods").toString();
 //                    File file = new File(goods_lucene_path);
@@ -593,24 +613,24 @@ public class GoodsController {
         // GoodsSpecProperty gsp;
         for (String spec_id : spec_ids){
             if (!spec_id.equals("")){
-//                GsGoodsSpecProperty gsp = this.specPropertyService
-//                        .getObjById(Long.valueOf(Long.parseLong(spec_id)));
-//                gsps.add(gsp);
+                GsGoodsSpecProperty gsp =
+                        this.goodsPropertyService.findOne(Long.valueOf(Long.parseLong(spec_id)));
+                gsps.add(gsp);
             }
         }
-        Set<GsGoodsSpecification> specs = new HashSet<GsGoodsSpecification>();
+        Set<GsGoodsSpecification> specs = new HashSet<>();
         for (GsGoodsSpecProperty gsp : gsps){
             specs.add(gsp.getSpec());
         }
         for (GsGoodsSpecification spec : specs){
-//            spec.getProperties().clear();
-//            for (GsGoodsSpecProperty gsp : gsps){
-//                if (gsp.getSpec().getId().equals(spec.getId())){
-//                    spec.getProperties().add(gsp);
-//                }
-//            }
+            spec.getProperties().clear();
+            for (GsGoodsSpecProperty gsp : gsps){
+                if (gsp.getSpec().getId().equals(spec.getId())){
+                    spec.getProperties().add(gsp);
+                }
+            }
         }
-        GsGoodsSpecification[] spec_list = (GsGoodsSpecification[]) specs.toArray(new GsGoodsSpecification[specs.size()]);
+        GsGoodsSpecification[] spec_list = specs.toArray(new GsGoodsSpecification[specs.size()]);
         Arrays.sort(spec_list, new Comparator(){
             public int compare(Object obj1, Object obj2){
                 GsGoodsSpecification a = (GsGoodsSpecification) obj1;
@@ -1084,8 +1104,9 @@ public class GoodsController {
         GsGoodsWithBLOBs obj = this.goodsService.findOne(Long.valueOf(Long.parseLong(id)));
 
         Store store = this.storeService.findOne(obj.getGoodsStoreId());
-        Member member = this.memberService.findOne(store.getMemberId());
-        if (member.getUserId().equals(user.getId())){
+        User member = this.userService.findOne(store.getMemberId());
+        if (member.getId().equals(user.getId())){
+            store = this.storeJoinService.getCurrentStore(user);
             String path = request.getSession().getServletContext()
                     .getRealPath("/")
                     + File.separator
@@ -1118,7 +1139,8 @@ public class GoodsController {
                         "goods_class_info",this.storeTools.generic_goods_class_info(gc));
                 model.addAttribute("goods_class", gc);
                 request.getSession(false).removeAttribute("goods_class_info");
-            }else if (obj.getGc() != null){
+            }else if (obj.getGcId() != null){
+                obj.setGc(goodsClassService.findOne(obj.getGcId()));
                 model.addAttribute(
                         "goods_class_info",this.storeTools.generic_goods_class_info(obj.getGc()));
                 model.addAttribute("goods_class", obj.getGc());
@@ -1126,8 +1148,7 @@ public class GoodsController {
 
             String goods_session = CommUtil.randomString(32);
             model.addAttribute("goods_session", goods_session);
-            request.getSession(false).setAttribute("goods_session",
-                    goods_session);
+            request.getSession(false).setAttribute("goods_session",goods_session);
             model.addAttribute("imageSuffix",
                     this.storeViewTools.genericImageSuffix(
                             this.systemConfigService.getConfig().getImageSuffix()));
@@ -1177,39 +1198,39 @@ public class GoodsController {
     private List<List<GsGoodsSpecProperty>> generic_spec_property(
             Set<GsGoodsSpecification> specs){
         List result_list = new ArrayList();
-//        List list = new ArrayList();
-//        int max = 1;
-//        for (GsGoodsSpecification spec : specs){
-//            list.add(spec.getProperties());
-//        }
-//
-//        GsGoodsSpecProperty[][] gsps = list2group(list);
-//        for (int i = 0; i < gsps.length; i++){
-//            max *= gsps[i].length;
-//        }
-//        for (int i = 0; i < max; i++){
-//            List temp_list = new ArrayList();
-//            int temp = 1;
-//            for (int j = 0; j < gsps.length; j++){
-//                temp *= gsps[j].length;
-//                temp_list.add(j, gsps[j][(i / (max / temp) % gsps[j].length)]);
-//            }
-//            GsGoodsSpecProperty[] temp_gsps = (GsGoodsSpecProperty[]) temp_list
-//                    .toArray(new GsGoodsSpecProperty[temp_list.size()]);
-//            Arrays.sort(temp_gsps, new Comparator(){
-//                public int compare(Object obj1, Object obj2){
-//                    GsGoodsSpecProperty a = (GsGoodsSpecProperty) obj1;
-//                    GsGoodsSpecProperty b = (GsGoodsSpecProperty) obj2;
-//                    if (a.getSpec().getSequence() == b.getSpec().getSequence()){
-//                        return 0;
-//                    }
-//                    return a.getSpec().getSequence() > b.getSpec()
-//                            .getSequence() ? 1 : -1;
-//                }
-//            });
-//            result_list.add(Arrays.asList(temp_gsps));
-//        }
-//
+        List list = new ArrayList();
+        int max = 1;
+        for (GsGoodsSpecification spec : specs){
+            list.add(spec.getProperties());
+        }
+
+        GsGoodsSpecProperty[][] gsps = list2group(list);
+        for (int i = 0; i < gsps.length; i++){
+            max *= gsps[i].length;
+        }
+        for (int i = 0; i < max; i++){
+            List temp_list = new ArrayList();
+            int temp = 1;
+            for (int j = 0; j < gsps.length; j++){
+                temp *= gsps[j].length;
+                temp_list.add(j, gsps[j][(i / (max / temp) % gsps[j].length)]);
+            }
+            GsGoodsSpecProperty[] temp_gsps = (GsGoodsSpecProperty[]) temp_list
+                    .toArray(new GsGoodsSpecProperty[temp_list.size()]);
+            Arrays.sort(temp_gsps, new Comparator(){
+                public int compare(Object obj1, Object obj2){
+                    GsGoodsSpecProperty a = (GsGoodsSpecProperty) obj1;
+                    GsGoodsSpecProperty b = (GsGoodsSpecProperty) obj2;
+                    if (a.getSpec().getSequence() == b.getSpec().getSequence()){
+                        return 0;
+                    }
+                    return a.getSpec().getSequence() > b.getSpec()
+                            .getSequence() ? 1 : -1;
+                }
+            });
+            result_list.add(Arrays.asList(temp_gsps));
+        }
+
         return result_list;
     }
 

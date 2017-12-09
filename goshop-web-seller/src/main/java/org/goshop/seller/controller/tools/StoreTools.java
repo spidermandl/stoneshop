@@ -112,12 +112,11 @@ public class StoreTools {
 
     private String generic_the_goods_class_info(GsGoodsClass gc){
         if (gc != null){
-            String goods_class_info = gc.getClassname() + ">";
+            String goods_class_info = gc.getClassname() ;
             if (gc.getParentId() != null){
-                GsGoodsClass g = null;
-                g = goodsClassService.findOne(g.getParentId());
-                String class_info = generic_goods_class_info(g);
-                goods_class_info = class_info + goods_class_info;
+                GsGoodsClass g = goodsClassService.findOne(gc.getParentId());
+                String class_info = generic_the_goods_class_info(g);
+                goods_class_info = g==null?goods_class_info:(class_info +">"+ goods_class_info);
             }
             return goods_class_info;
         }

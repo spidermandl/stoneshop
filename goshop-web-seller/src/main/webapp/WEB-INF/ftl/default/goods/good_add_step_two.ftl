@@ -20,7 +20,7 @@
 <script>
     jQuery.validator.addMethod("transportId",
         function(value, element) {
-            if (jQuery(':radio[name=goods_transfee][value=0]').attr('checked') && jQuery(':radio[name=transport_type][value=0]').attr('checked')){
+            if (jQuery(':radio[name=goodsTransfee][value=0]').attr('checked') && jQuery(':radio[name=transport_type][value=0]').attr('checked')){
                 if (jQuery('#transport_id').val() == ''){
                     return false;
                 }else{
@@ -109,8 +109,8 @@
         <#if (obj.goods_main_photo)??>
             photo_count=1;
         </#if>
-        <#if (obj.goods_photos)??>
-            photo_count=photo_count+${(obj.goods_photos.size())!0};
+        <#if (obj.goodsPhotos)??>
+            photo_count=photo_count+${(obj.goodsPhotos?size)!0};
         </#if>
         function fileDialogStart(){
             var stats = this.getStats();
@@ -177,20 +177,20 @@
             }
         }
         //默认赋值
-        jQuery(":radio[name='goods_transfee'][value='${(obj.goods_transfee)!}']").attr("checked",true);
-        jQuery(":radio[name='goods_status'][value='${(obj.goods_status)!}']").attr("checked",true);
-        jQuery(":radio[name='goods_recommend'][value='${(obj.goods_recommend)!}']").attr("checked",true);
-        jQuery(":radio[name='inventory_type'][value='${(obj.inventory_type)!}']").attr("checked",true);
-        jQuery(":radio[name='goods_choice_type'][value='${(obj.goods_choice_type)!}']").attr("checked",true);
-        jQuery("#goods_brand_id").val("${(obj.goods_brand.id)!}");
-        <#list (obj.goods_ugcs)! as ugc>
+        jQuery(":radio[name='goodsTransfee'][value='${(obj.goodsTransfee)!}']").prop("checked",true);
+        jQuery(":radio[name='goodsStatus'][value='${(obj.goodsStatus)!}']").prop("checked",true);
+        jQuery(":radio[name='goodsRecommend'][value='${((obj.goodsRecommend)!false)?string("true","false")}']").prop("checked",true);
+        jQuery(":radio[name='inventoryType'][value='${(obj.inventoryType)!}']").prop("checked",true);
+        jQuery(":radio[name='goodsChoiceType'][value='${(obj.goodsChoiceType)!}']").prop("checked",true);
+        jQuery("#goods_brand_id").val("${(obj.goodsBrand.id)!}");
+        <#list (obj.goodsUgcs)! as ugc>
             jQuery("#ugc_id_${ugc_index+1}").val("${(ugc.id)!}");
         </#list>
-        <#list (obj.goods_specs)! as spec>
+        <#list (obj.goodsSpecs)! as spec>
             jQuery(":checkbox[id=spec_${(spec.id)!}]").prop("checked",true);
         </#list>
 
-        <#if ((obj.inventory_type)!)=="spec">
+        <#if ((obj.inventoryType)!)=="spec">
             var goods_spec_ids="";
             jQuery(":checkbox[id^=spec_]:checked").each(function(){
                 goods_spec_ids=jQuery(this).val()+","+goods_spec_ids;
@@ -199,7 +199,7 @@
             jQuery.post("${S_URL}/goods/goods_inventory.htm",{"goods_spec_ids":goods_spec_ids},function(data){
                 jQuery("#inventory_detail_content").append(data);
                 jQuery("#inventory_detail").show();
-                var inventory_detail='${(obj.goods_inventory_detail)!}';
+                var inventory_detail='${(obj.goodsInventoryDetail)!}';
                 var goods_inventory_detail=eval("("+inventory_detail+")");
                 jQuery.each(goods_inventory_detail, function(index,item){
                     jQuery("#inventory_details_count_"+item.id).val(item.count);
@@ -207,8 +207,8 @@
                 });
             },"text");
         </#if>
-        <#if ((obj.goods_property)!'')!='' >
-            var data='${(obj.goods_property)!}';
+        <#if ((obj.goodsProperty)!'')!='' >
+            var data='${(obj.goodsProperty)!}';
             var properties=eval("("+data+")");
             jQuery.each(properties,function(index,item){
                 jQuery("#property_"+item.id).val(item.val);
@@ -333,12 +333,12 @@
             });
         });
         //
-        jQuery(":radio[name=inventory_type]").on("click",null,inventory_type);
+        jQuery(":radio[name=inventoryType]").on("click",null,inventory_type);
         jQuery(":checkbox[id^=spec_]").on("click",null,inventory_type);
         //
         editor = KindEditor.create('#goods_details',options);
         //
-        jQuery(":radio[name='goods_transfee']").click(function(){
+        jQuery(":radio[name='goodsTransfee']").click(function(){
             var val=jQuery(this).val();
             if(val==0){
                 jQuery("#buyer_transport_info").show();
@@ -359,7 +359,7 @@
         });
     });
     function inventory_type(){
-        var rv=jQuery(":radio[name=inventory_type]:checked").val();
+        var rv=jQuery(":radio[name=inventoryType]:checked").val();
         if(rv=="all"){
             jQuery("#inventory_detail_content").empty();
             jQuery("#inventory_detail").hide();
@@ -545,7 +545,6 @@
         <#include "../nav.ftl"/>
         <div id="mainContent" class="main-content">
             <#include "setp.ftl" />
-
             <#--<div class="wrapper_search">-->
                 <div class="main">
                     <form action="${S_URL}/goods/step_three" method="post" enctype="multipart/form-data" name="theForm" id="theForm">
@@ -557,37 +556,37 @@
                             <tr>
                                 <td width="95" align="right">商品分类：</td>
                                 <td><span>${(goods_class_info)!}</span><span class="editbtn">
-                                    <input name="goods_class_id" type="hidden" id="goods_class_id" value="${goods_class.id}" />
+                                    <input name="goods_class_id" type="hidden" id="goods_class_id" value="${(goods_class.id)!}" />
                                     <input name="goods_main_img_id" type="hidden" id="goods_main_img_id" />
                                     <input name="image_ids" type="hidden" id="image_ids" />
                                     <input name="user_class_ids" type="hidden" id="user_class_ids" />
                                     <input name="goods_spec_ids" type="hidden" id="goods_spec_ids" />
                                     <input name="goods_properties" type="hidden" id="goods_properties" />
                                     <input type="hidden" name="inventory_details" id="inventory_details" />
-                                    <input name="edit_class" type="button" id="edit_class" value="编辑" style="cursor:pointer;" onclick="window.location.href='${S_URL}/goods_add/step_one?id=${(obj.id)!}'" />
+                                    <input name="edit_class" type="button" id="edit_class" value="编辑" style="cursor:pointer;" onclick="window.location.href='${S_URL}/goods/step_one?id=${(obj.id)!}'" />
                                     </span></td>
                             </tr>
                             <tr>
                                 <td align="right" valign="top">商品名称：</td>
                                 <td class="sptable"><span class="tabtxt1 size1">
-                                    <input name="goods_name" type="text" id="goods_name" value="${(obj.goods_name)!}" />
+                                    <input name="goodsName" type="text" id="goods_name" value="${(obj.goodsName)!}" />
                                     </span><span class="hui2">商品标题名称长度至少3个字符，最长50个汉字</span></td>
                             </tr>
                             <tr>
                                 <td align="right" valign="top">商品原价：</td>
                                 <td class="sptable"><span class="tabtxt1 size2">
-                                    <input name="goods_price" type="text" id="goods_price" value="${(obj.goods_price)!}" />
+                                    <input name="goodsPrice" type="text" id="goods_price" value="${(obj.goodsPrice)!}" />
                                     </span> <span class="hui2">商品原价必须是0.01~1000000之间的数字</span></td>
                             </tr>
                             <tr>
                                 <td align="right" valign="top">商品类型：</td>
                                 <td class="sptable">
                                     <label>
-                                        <input name="goods_choice_type" type="radio" value="0" checked="checked" />
+                                        <input name="goodsChoiceType" type="radio" value="0" checked="checked" />
                                         实物商品
                                     </label>
                                     <label>
-                                        <input type="radio" name="goods_choice_type" value="1" />虚拟商品
+                                        <input type="radio" name="goodsChoiceType" value="1" />虚拟商品
                                     </label>
                                     <span class="hui2">充值卡、消费券等属于虚拟商品</span>
                                 </td>
@@ -595,7 +594,7 @@
                             <tr>
                                 <td align="right" valign="top">店铺价格：</td>
                                 <td class="sptable"><span class="tabtxt1 size2">
-                                    <input name="store_price" type="text" id="store_price" value="${(obj.store_price)!}" />
+                                    <input name="store_price" type="text" id="store_price" value="${(obj.storePrice)!}" />
                                     </span> <span class="hui2">
                                     <ul class="tableli">
                                       <li>商品原价必须是0.01~1000000之间的数字</li>
@@ -604,7 +603,7 @@
                                     </ul>
                                     </span></td>
                             </tr>
-                            <#list goods_class.goodsType.gss as gs>
+                            <#list (goods_class.goodsType.gss)! as gs>
                             <tr id="gs_${gs.id}" gs_name="${(gs.name)!}">
                                 <td align="right" valign="top">${(gs.name)!}：</td>
                                 <td class="sptable"><ul class="color_chose">
@@ -629,11 +628,11 @@
                                 <td align="right" valign="top">库存配置：</td>
                                 <td class="sptable">
                                     <label>
-                                        <input type="radio" name="inventory_type" value="all" checked="checked" />
+                                        <input type="radio" name="inventoryType" value="all" checked="checked" />
                                         全局配置
                                     </label>
                                     <label>
-                                        <input type="radio" name="inventory_type" value="spec" />
+                                        <input type="radio" name="inventoryType" value="spec" />
                                         规格配置
                                     </label>
                                     <span class="hui2">
@@ -651,7 +650,7 @@
                             <tr >
                                 <td align="right" valign="top">商品库存：</td>
                                 <td class="sptable"><span class="tabtxt1 size2">
-                                <input name="goods_inventory" type="text" id="goods_inventory" value="${(obj.goods_inventory)!}" />
+                                <input name="goodsInventory" type="text" id="goods_inventory" value="${(obj.goodsInventory)!}" />
                                 </span> <span class="hui2">
                                 <ul class="tableli">
                                   <li>商铺库存数量必须为1~1000000000之间的整数</li>
@@ -662,7 +661,7 @@
                             <tr>
                                 <td align="right" valign="top">商品货号：</td>
                                 <td class="sptable"><span class="tabtxt1 size2">
-                                <input name="goods_serial" type="text" id="goods_serial" value="${(obj.goods_serial)!}" />
+                                <input name="goodsSerial" type="text" id="goods_serial" value="${(obj.goodsSerial)!}" />
                                 </span> <span class="hui2">
                                 <ul class="tableli">
                                   <li>商品货号是指卖家个人管理商品的编号，买家不可见</li>
@@ -740,7 +739,7 @@
                                                             <#assign img4_id="" />
                                                             <#assign img5="${S_URL}/static/images/goods/smallimg.jpg" />
                                                             <#assign img5_id="" />
-                                                            <#list (obj.goods_photos)! as img>
+                                                            <#list (obj.goodsPhotos)! as img>
                                                                 <#if img_index==0 >
                                                                     <#assign img2="${S_URL}/${(img.path)!}/${(img.name)!}" />
                                                                     <#assign img2_id="${(img.id)!}" />
@@ -793,24 +792,24 @@
                             <tr>
                                 <td align="right" valign="top">商品重量：</td>
                                 <td class="sptable"><span class="tabtxt1 size2">
-                                    <input name="goods_weight" type="text" id="goods_weight" value="${(obj.goods_weight)!}" />
+                                    <input name="goodsWeight" type="text" id="goods_weight" value="${(obj.goodsWeight)!}" />
                                     </span> <span class="hui2"> 单位：千克(Kg) </span>
                                 </td>
                             </tr>
                             <tr>
                                 <td align="right" valign="top">商品体积：</td>
                                 <td class="sptable"><span class="tabtxt1 size2">
-                                    <input name="goods_volume" type="text" id="goods_volume" value="${(obj.goods_volume)!}" />
+                                    <input name="goodsVolume" type="text" id="goods_volume" value="${(obj.goodsVolume)!}" />
                                     </span> <span class="hui2"> 单位：立方米(m³) </span>
                                 </td>
                             </tr>
                             <tr>
                                 <td rowspan="2" align="right" valign="middle">运费：</td>
-                                <td><label><input name="goods_transfee" type="radio" value="1" checked="checked" />
+                                <td><label><input name="goodsTransfee" type="radio" value="1" checked="checked" />
                                     卖家承担运费</label> </td>
                             </tr>
                             <tr>
-                                <td><label><input name="goods_transfee" type="radio" value="0" />
+                                <td><label><input name="goodsTransfee" type="radio" value="0" />
                                     买家承担运费</label>
                                     <script>
                                         jQuery(document).ready(function(){
@@ -835,7 +834,7 @@
                                             jQuery(":radio[name=transport_type][value=1]").attr("checked","checked");
                                             jQuery("#transport_template_select").hide();
                                             </#if>
-                                            <#if ((obj.goods_transfee)!0)!=0 >
+                                            <#if ((obj.goodsTransfee)!0)!=0 >
                                             jQuery("#buyer_transport_info").show();
                                             </#if>
                                         });
@@ -850,7 +849,7 @@
                                                 <div id="transport_template_select" style="padding-left:30px;"><input type="hidden" value="${(obj.transport.id)!}" name="transport_id" id="transport_id" />
                                                     <span style="color:#06C;" id="transport_template_name">${(obj.transport.trans_name)!}</span>
                                                     <span style="display:block; width:70px; height:28px; text-align:center; border:#CCC solid 1px;">
-                                                    <a href="javascript:void(0);" dialog_uri="${S_URL}/goods_add/goods_transport.htm" dialog_title="选择运费模板" dialog_width="600" dialog_height="500" dialog_id="transport_template_frm">选择模板</a></span>
+                                                    <a href="javascript:void(0);" dialog_uri="${S_URL}/goods/goods_transport.htm" dialog_title="选择运费模板" dialog_width="600" dialog_height="500" dialog_id="transport_template_frm">选择模板</a></span>
                                                 </div>
                                             </li>
                                             <li><label>
@@ -872,7 +871,7 @@
                             </tr>
                             <tr>
                                 <td align="right" valign="middle">商品品牌：</td>
-                                <td><select name="goods_brand_id" id="goods_brand_id">
+                                <td><select name="goodsBrandId" id="goods_brand_id">
                                     <option value="">请选择...</option>
 
                                     <#list gbs! as gb>
@@ -900,7 +899,7 @@
                             </tr>
                             <tr>
                                 <td colspan="2">
-                                    <textarea name="goods_details" style="width:100%;height:400px;visibility:hidden;" id="goods_details">${(obj.goods_details)!}</textarea>
+                                    <textarea name="goodsDetails" style="width:100%;height:400px;visibility:hidden;" id="goods_details">${(obj.goodsDetails)!}</textarea>
                                     <script>
                                         function switch_editor_photo(){
                                             var dis=jQuery(".editor_photo_detail").css("display");
@@ -935,7 +934,7 @@
                             <tr>
                                 <td align="right" valign="top">本店分类：</td>
                                 <td><span> <span id="ugc_info">
-                                    <#if ((obj.goods_ugcs.size())!0)==0>
+                                    <#if ((obj.goodsUgcs?size)!0)==0>
                                         <select name="ugc_id_1" id="ugc_id_1">
                                           <option value="">请选择...</option>
                                           <#list ugcs! as ugc >
@@ -946,7 +945,7 @@
                                           </#list>
                                         </select>
                                     <#else>
-                                        <#list (obj.goods_ugcs)! as goods_ugc >
+                                        <#list (obj.goodsUgcs)! as goods_ugc >
                                             <select name="ugc_id_${goods_ugc_index+1}" id="ugc_id_${goods_ugc_index+1}">
                                               <option value="">请选择本店分类...</option>
                                               <#list ugcs as ugc>
@@ -970,12 +969,12 @@
                                 <td align="right" valign="top">商品发布：</td>
                                 <td class="prorelease"><span>
                                 <label>
-                                <input name="goods_status" type="radio" value="0" checked="checked" />
+                                <input name="goodsStatus" type="radio" value="0" checked="checked" />
                                 &nbsp;立即发布
                                 </label>
                                 </span> <span>
                                 <label>
-                                <input name="goods_status" type="radio" value="1" />
+                                <input name="goodsStatus" type="radio" value="1" />
                                 &nbsp;放入仓库
                                 </label>
                                 </span></td>
@@ -984,12 +983,12 @@
                                 <td valign="top" align="right">商品推荐：</td>
                                 <td class="prorelease"><span><strong>
                                 <label>
-                                <input name="goods_recommend" type="radio" value="true" checked="checked" />
+                                <input name="goodsRecommend" type="radio" value="true" checked="checked" />
                                 &nbsp;是
                                 </label>
                                 </strong><strong>
                                 <label>
-                                <input name="goods_recommend" type="radio" value="false" />
+                                <input name="goodsRecommend" type="radio" value="false" />
                                 &nbsp;否
                                 </label>
                               </strong></span> <span class="hui2">被推荐的商品会显示在店铺首页</span></td>
@@ -997,14 +996,14 @@
                             <tr>
                                 <td align="right" valign="top">SEO关键字：</td>
                                 <td class="sptable"><span class="tabtxt1 size1">
-                                <input name="seo_keywords" type="text" id="seo_keywords" value="${(obj.seo_keywords)!}" />
+                                <input name="seoKeywords" type="text" id="seo_keywords" value="${(obj.seoKeywords)!}" />
                                 </span> <span class="hui2 noteswidth">SEO关键字 (keywords) 出现在商品详细页面头部的 Meta 标签中，
                                 用于记录本页面商品的关键字，多个关键字间请用半角逗号 "," 隔开</span></td>
                             </tr>
                             <tr>
                                 <td align="right" valign="top">SEO描述：</td>
                                 <td class="sptable"><span class="texttable">
-                                <textarea name="seo_description" cols="" rows="" id="seo_description">${(obj.seo_description)!}</textarea>
+                                <textarea name="seoDescription" cols="" rows="" id="seo_description">${(obj.seoDescription)!}</textarea>
                                 </span> <span class="hui2 noteswidth">SEO关键字 (keywords) 出现在商品详细页面头部的 Meta 标签中，
                                 用于记录本页面商品的关键字，多个关键字间请用半角逗号 "," 隔开</span></td>
                             </tr>

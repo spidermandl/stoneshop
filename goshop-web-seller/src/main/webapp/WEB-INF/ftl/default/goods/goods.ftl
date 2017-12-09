@@ -91,10 +91,10 @@
                                 </td>
                                 <td class="operajt">
                                     <span class="edit">
-                                        <a href="${S_URL}/seller/goods_edit.htm?id=${(obj.id)!}" target="_blank">编辑</a>
+                                        <a href="${S_URL}/goods/goods_edit?id=${(obj.id)!}" target="_blank">编辑</a>
                                     </span>
                                     <span class="out">
-                                        <a href="${S_URL}/seller/goods_sale.htm?mulitId=${(obj.id)!}">下架</a>
+                                        <a href="${S_URL}/goods/goods_sale?mulitId=${(obj.id)!}">下架</a>
                                     </span>
                                     <span class="del">
                                         <a href="javascript:if(confirm('删除后不可恢复?'))window.location.href='${S_URL}/goods/goods_del?mulitId=${(obj.id)!}'">删除</a>

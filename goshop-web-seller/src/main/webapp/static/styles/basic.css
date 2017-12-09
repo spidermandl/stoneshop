@@ -34,7 +34,6 @@
 .tab_body_b h1{width: 840px;padding: 10px;font-weight: lighter;color: #999;font-size: 12px;position: relative;}
 .tab_body_b h1 span{position: absolute;right: 10px;}
 .tab_body_b h1 i{font-style: normal;padding-left: 5px;padding-right: 5px;}
-
 .tabimg{width: 850px;overflow: hidden;position: relative;padding-left: 10px;}
 .tabimgsmall{float: left;margin-left: 10px;margin-top: 25px;_margin-left: 5px;position: absolute;top: 70px;left: 200px;width: 450px;}
 .tabimgsmall ul{width:95px;float: left;margin-right: 15px;}
@@ -70,6 +69,18 @@
 .noteswidth{width: 400px;line-height: 20px;}
 .texttable textarea{width: 410px;height: 90px;}
 .submittable input{background: url(../images/goods/tijiao.jpg) no-repeat;width: 103px;height: 29px;color: #FFF;font-weight: bold;font-size: 14px;border: 0px;}
+/**----------- end--------------------------------------***/
+/**goods创建成功 样式 start--------------------------------------***/
+.success{border: 1px solid #FFC993;margin-top: 10px;background: #FEFBE8;overflow: hidden;padding-bottom: 20px;padding-top: 10px;}
+.success_mid{width: 400px;float: left;}
+.okimg{float: left;margin-left: 30px;margin-top: 20px;margin-bottom: 20px;}
+.success_mid h1{margin-top: 40px;margin-left: 10px;}
+.success_mid span{margin-left: 10px;padding-right: 80px;display: block;margin-top: 15px;}
+.success_mid span a{color: #EF5704;font-size: 14px;}
+.success_right{width: 400px;float: left;margin-top: 10px;}
+.success_right h2{font-size: 12px;font-weight: lighter;}
+.success_right ul li{line-height: 25px;padding-left: 20px;}
+.success_right ul li a{color: #0865F2;}
 /**----------- end--------------------------------------***/
 /**goods分类 区域框start--------------------------------------***/
 .blue2{color: #0771DF;}

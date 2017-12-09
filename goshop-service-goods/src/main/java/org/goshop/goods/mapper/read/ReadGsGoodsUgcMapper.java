@@ -10,4 +10,6 @@ public interface ReadGsGoodsUgcMapper {
     int insertSelective(GsGoodsUgc record);
 
     List<GsGoodsUgc> findByUserClassId(Long classId);
+
+    void insertBatch(List<GsGoodsUgc> ugcs);
 }

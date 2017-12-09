@@ -123,9 +123,18 @@ public class GsGoods implements Serializable {
     private List<GsGoodsUserClass> goodsUgcs = new ArrayList<>(); //GoodsUserClass
     private GsGoodsBrand goodsBrand;//GoodsBrand
     private List<GsGoodsSpecProperty> goodsSpecs = new ArrayList<>();//GsGoodsSpecProperty
-    private List<GsGoodsWithBLOBs> combinGoods;
+    private List<GsGoodsWithBLOBs> combinGoods = new ArrayList<>();
     private GsGoodsClass gc;
     private GsGoodsAccessory goods_main_photo;//商品主图片
+    private List<GsGoodsAccessory> goodsPhotos = new ArrayList<>();//商品副图片
+
+    public List<GsGoodsAccessory> getGoodsPhotos() {
+        return goodsPhotos;
+    }
+
+    public void setGoodsPhotos(List<GsGoodsAccessory> goodsPhotos) {
+        this.goodsPhotos = goodsPhotos;
+    }
 
     public GsGoodsAccessory getGoods_main_photo() {
         return goods_main_photo;

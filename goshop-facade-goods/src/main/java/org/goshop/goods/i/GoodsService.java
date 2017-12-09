@@ -60,6 +60,34 @@ public interface GoodsService {
      * @return
      */
     int delete(Long id);
+
+    /**
+     * 删除照片关联
+     * @param id
+     * @return
+     */
+    int deletePhotoRelationByGoodsId(Long id);
+
+    /**
+     *删除specification property 关联
+     * @param id
+     * @return
+     */
+    int deletePropertyRelationByGoodsId(Long id);
+
+    /**
+     * 删除user class关联
+     * @param id
+     * @return
+     */
+    int deleteUGCRelationByGoodsId(Long id);
+
+    /**
+     * 删除组合商品关联
+     * @param id
+     * @return
+     */
+    int deleteCombinRelationByGoodsId(Long id);
     /**
      * 根据条件查询
      * @param condition

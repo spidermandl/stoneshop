@@ -28,4 +28,17 @@
       </if>
     </trim>
   </insert>
+
+  <!-- 批量插入生成的兑换码 -->
+  <insert id ="insertBatch" useGeneratedKeys="true" parameterType="java.util.List" >
+    insert into gs_goods_photo
+    (goods_id, photo_id)
+    values
+    <foreach collection ="list" item="gh" index= "index" separator =",">
+      (
+      #{gh.goodsId}, #{gh.photoId}
+      )
+    </foreach >
+  </insert >
+
 </mapper>
