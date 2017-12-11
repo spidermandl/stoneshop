@@ -5,6 +5,9 @@
     <result column="goods_id" property="goodsId" jdbcType="BIGINT" />
     <result column="combin_goods_id" property="combinGoodsId" jdbcType="BIGINT" />
   </resultMap>
+  <sql id="Base_Column_List" >
+    goods_id, combin_goods_id
+  </sql>
   <insert id="insert" parameterType="org.goshop.goods.pojo.GsGoodsCombin" >
     insert into gs_goods_combin (goods_id, combin_goods_id)
     values (#{goodsId,jdbcType=BIGINT}, #{combinGoodsId,jdbcType=BIGINT})
@@ -29,14 +32,10 @@
     </trim>
   </insert>
 
-  <!-- 批量插入生成的兑换码 -->
-  <insert id ="insertBatch" useGeneratedKeys="true" parameterType="java.util.List" >
-    insert into gs_goods_combin (goods_id, combin_goods_id)
-    values
-    <foreach collection ="list" item="coms" index= "index" separator =",">
-      (
-      #{coms.goodsId}, #{coms.combinGoodsId}
-      )
-    </foreach >
-  </insert >
+  <select id="findByGoodsId" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select
+    <include refid="Base_Column_List" />
+    from gs_goods_combin
+    where goods_id = #{goodsId,jdbcType=BIGINT}
+  </select>
 </mapper>

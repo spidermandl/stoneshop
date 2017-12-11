@@ -14,6 +14,12 @@
     from gs_goods_ugc
     where class_id = #{classId,jdbcType=BIGINT}
   </select>
+  <select id="findByGoodsId" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select
+    <include refid="Base_Column_List" />
+    from gs_goods_ugc
+    where goods_id = #{goodsId,jdbcType=BIGINT}
+  </select>
   <insert id="insert" parameterType="org.goshop.goods.pojo.GsGoodsUgc" >
     insert into gs_goods_ugc (goods_id, class_id)
     values (#{goodsId,jdbcType=BIGINT}, #{classId,jdbcType=BIGINT})
@@ -37,15 +43,4 @@
       </if>
     </trim>
   </insert>
-  <!-- 批量插入生成的兑换码 -->
-  <insert id ="insertBatch" useGeneratedKeys="true" parameterType="java.util.List" >
-    insert into gs_goods_ugc
-    (goods_id, class_id)
-    values
-    <foreach collection ="list" item="ugc" index= "index" separator =",">
-      (
-      #{ugc.goodsId}, #{ugc.classId}
-      )
-    </foreach >
-  </insert >
 </mapper>

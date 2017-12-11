@@ -13,6 +13,7 @@ import org.goshop.goods.pojo.GsGoodsWithBLOBs;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
 
@@ -51,7 +52,7 @@ public class GoodsClassServiceImplTest extends SpringBaseTest {
     }
 
     /**
-     * 创建 删除goods
+     * 创建 编辑 删除goods
      * @throws Exception
      */
     @Test
@@ -75,6 +76,14 @@ public class GoodsClassServiceImplTest extends SpringBaseTest {
         goods.getGoodsPhotos().add(goodsAccessoryService.findOne(426082L));
 
         long id = goodsService.save(goods);
+
+        goods = goodsService.findOne(id);
+        goods.setStorePrice(BigDecimal.valueOf(100));
+        goods.setGoodsPhotos(goodsAccessoryService.findByGoodsId(goods.getId()));
+        goods.getGoodsPhotos().remove(0);
+        goods.getGoodsPhotos().add(goodsAccessoryService.findOne(426083L));
+        goodsService.update(goods);
+
         goodsService.delete(id);
     }
     @Test

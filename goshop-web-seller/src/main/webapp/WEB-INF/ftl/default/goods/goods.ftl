@@ -81,17 +81,17 @@
                                         <img src="${img!}" width="60" height="63" />
                                     </span>
                                     <span class="nameproduct">
-                                        <a href="${S_URL}/goods_${(obj.id)!}.htm" target="_blank">${(obj.goods_name)!}</a>
+                                        <a href="${S_URL}/goods_${(obj.id)!}.htm" target="_blank">${(obj.goodsName)!}</a>
                                     </span>
                                 </td>
                                 <td class="proclassify"><#if (obj.gc)?? >${(storeTools.generic_goods_class_info(obj.gc))!}</#if></td>
-                                <td  class="promoney">${(obj.store_price)!}</td>
+                                <td  class="promoney">${(obj.storePrice)!}</td>
                                 <td class="prorec">
-                                    <img src="${S_URL}/resources/style/system/front/default/images/usercenter/${(obj.goods_recommend)!}.jpg" width="16" height="14" />
+                                    <img src="${S_URL}/static/images/goods/${((obj.goodsRecommend)!false)?string("true","false")}.jpg" width="16" height="14" />
                                 </td>
                                 <td class="operajt">
                                     <span class="edit">
-                                        <a href="${S_URL}/goods/goods_edit?id=${(obj.id)!}" target="_blank">编辑</a>
+                                        <a href="${S_URL}/goods/goods_edit?id=${(obj.id)!}" >编辑</a><#--target="_blank"-->
                                     </span>
                                     <span class="out">
                                         <a href="${S_URL}/goods/goods_sale?mulitId=${(obj.id)!}">下架</a>

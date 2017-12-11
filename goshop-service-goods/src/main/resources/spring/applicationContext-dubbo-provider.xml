@@ -48,4 +48,7 @@
 
     <dubbo:service  retries="0" interface="org.goshop.goods.i.GoodsPropertyService" ref="goodsPropertyService"  />
 
+    <dubbo:service  retries="0" interface="org.goshop.goods.i.TransportService" ref="transportService"  />
+
+    <dubbo:service  retries="0" interface="org.goshop.goods.i.AreaService" ref="areaService"  />
 </beans>

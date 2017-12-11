@@ -1,13 +1,12 @@
 package org.goshop.seller.controller.tools;
 
 import org.goshop.common.pojo.CglibBean;
-import org.goshop.common.pojo.EUDataGridResult;
 import org.goshop.common.web.utils.CommUtil;
 import org.goshop.common.web.utils.JsonUtils;
 import org.goshop.goods.i.GoodsService;
-import org.goshop.store.i.AreaService;
-import org.goshop.store.i.TransportService;
-import org.goshop.store.pojo.GsTransportWithBLOBs;
+import org.goshop.goods.i.AreaService;
+import org.goshop.goods.i.TransportService;
+import org.goshop.goods.pojo.GsTransportWithBLOBs;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 

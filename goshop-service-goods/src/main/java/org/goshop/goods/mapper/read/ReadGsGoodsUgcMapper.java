@@ -11,5 +11,7 @@ public interface ReadGsGoodsUgcMapper {
 
     List<GsGoodsUgc> findByUserClassId(Long classId);
 
+    List<GsGoodsUgc> findByGoodsId(Long goodsId);
+
     void insertBatch(List<GsGoodsUgc> ugcs);
 }

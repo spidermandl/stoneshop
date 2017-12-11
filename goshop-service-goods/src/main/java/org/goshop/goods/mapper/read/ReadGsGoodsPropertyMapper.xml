@@ -5,6 +5,9 @@
     <result column="goods_id" property="goodsId" jdbcType="BIGINT" />
     <result column="spec_id" property="specId" jdbcType="BIGINT" />
   </resultMap>
+  <sql id="Base_Column_List" >
+    goods_id, spec_id
+  </sql>
   <insert id="insert" parameterType="org.goshop.goods.pojo.GsGoodsProperty" >
     insert into gs_goods_property (goods_id, spec_id)
     values (#{goodsId,jdbcType=BIGINT}, #{specId,jdbcType=BIGINT})
@@ -29,15 +32,10 @@
     </trim>
   </insert>
 
-  <!-- 批量插入生成的兑换码 -->
-  <insert id ="insertBatch" useGeneratedKeys="true" parameterType="java.util.List" >
-    insert into gs_goods_property
-    (goods_id, spec_id)
-    values
-    <foreach collection ="list" item="gsp" index= "index" separator =",">
-      (
-      #{gsp.goodsId}, #{gsp.specId}
-      )
-    </foreach >
-  </insert >
+  <select id="findByGoodsId" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select
+    <include refid="Base_Column_List" />
+    from gs_goods_property
+    where goods_id = #{goodsId,jdbcType=BIGINT}
+  </select>
 </mapper>

@@ -49,12 +49,27 @@
     values
     <foreach collection ="list" item="ugc" index= "index" separator =",">
       (
-      #{ugc.goodsId}, #{ugc.classId}      )
+      #{ugc.goodsId}, #{ugc.classId}
+      )
     </foreach >
   </insert >
 
   <delete id="deleteByGoodsId" parameterType="java.lang.Long" >
     delete from gs_goods_ugc
     where goods_id = #{goods_id,jdbcType=BIGINT}
+  </delete>
+
+  <delete id="deleteByGoodsAndClassId" parameterType="java.util.List" >
+    delete from gs_goods_ugc
+    <where>
+    --       item表示集合中每一个元素进行迭代时的别名，
+    --       index指 定一个名字，用于表示在迭代过程中，每次迭代到的位置，
+    --       open表示该语句以什么开始，
+    --       separator表示在每次进行迭代之间以什么符号作为分隔 符，
+    --       close表示以什么结束。
+    <foreach collection="list" index="index" item="ugc" open="" separator="OR" close="">
+      (goods_id = #{ugc.goodsId,jdbcType=BIGINT} and class_id = #{ugc.classId,jdbcType=BIGINT})
+    </foreach>
+    </where>
   </delete>
 </mapper>

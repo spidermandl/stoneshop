@@ -14,4 +14,6 @@ public interface GsGoodsCombinMapper {
 
     int deleteByGoodsId(Long goods_id);
 
+    int deleteByGoodsAndCombinId(List<GsGoodsCombin> list);
+
 }

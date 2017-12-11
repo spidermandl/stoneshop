@@ -4,9 +4,7 @@ import com.github.pagehelper.PageInfo;
 import org.goshop.common.utils.PageUtils;
 import org.goshop.goods.i.GoodsService;
 import org.goshop.goods.mapper.master.*;
-import org.goshop.goods.mapper.read.ReadGsGoodsMapper;
-import org.goshop.goods.mapper.read.ReadGsGoodsPhotoMapper;
-import org.goshop.goods.mapper.read.ReadGsGoodsUgcMapper;
+import org.goshop.goods.mapper.read.*;
 import org.goshop.goods.pojo.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -29,10 +27,21 @@ public class GoodServiceImpl implements GoodsService {
     ReadGsGoodsMapper readGsGoodsMapper;
 
     @Autowired
+    ReadGsGoodsAccessoryMapper readGsGoodsAccessoryMapper;
+    @Autowired
     ReadGsGoodsPhotoMapper readGsGoodsPhotoMapper;
-
     @Autowired
     ReadGsGoodsUgcMapper readGsGoodsUgcMapper;
+    @Autowired
+    ReadGsGoodsBrandMapper readGsGoodsBrandMapper;
+    @Autowired
+    ReadGsGoodsClassMapper readGsGoodsClassMapper;
+    @Autowired
+    ReadGsTransportMapper readGsTransportMapper;
+    @Autowired
+    ReadGsGoodsPropertyMapper readGsGoodsPropertyMapper;
+    @Autowired
+    ReadGsGoodsCombinMapper readGsGoodsCombinMapper;
 
     @Autowired
     GsGoodsUgcMapper gsGoodsUgcMapper;
@@ -45,7 +54,16 @@ public class GoodServiceImpl implements GoodsService {
 
     @Override
     public GsGoodsWithBLOBs findOne(Long id) {
-        return gsGoodsMapper.selectByPrimaryKey(id);
+        GsGoodsWithBLOBs one = gsGoodsMapper.selectByPrimaryKey(id);
+        if (one.getGoodsMainPhotoId()!=null)
+            one.setGoods_main_photo(readGsGoodsAccessoryMapper.selectByPrimaryKey(one.getGoodsMainPhotoId()));
+        if (one.getGoodsBrandId()!=null)
+            one.setGoodsBrand(readGsGoodsBrandMapper.selectByPrimaryKey(one.getGoodsBrandId()));
+        if (one.getGcId()!=null)
+            one.setGc(readGsGoodsClassMapper.selectByPrimaryKey(one.getGcId()));
+        if (one.getTransportId()!=null)
+            one.setTransport(readGsTransportMapper.selectByPrimaryKey(one.getTransportId()));
+        return one;
     }
 
     @Override
@@ -63,8 +81,114 @@ public class GoodServiceImpl implements GoodsService {
         return gsGoodsPhotoMapper.deleteByAccessoryId(accessory.getId());
     }
 
+    @Transactional
     @Override
     public int update(GsGoodsWithBLOBs goods) {
+        /*******************************************************/
+        List<GsGoodsUgc> add_ugcs = new ArrayList<>();
+        List<GsGoodsUgc> db_ugcs = readGsGoodsUgcMapper.findByGoodsId(goods.getId());
+        for ( GsGoodsUserClass userClass  : goods.getGoodsUgcs()){
+            GsGoodsUgc del = null;
+            for (GsGoodsUgc ugc:db_ugcs){
+                if (ugc.getClassId().equals(userClass.getId())){
+                    del=ugc;
+                    break;
+                }
+            }
+            if (del==null)//不需要更改项目
+                db_ugcs.remove(del);
+            else {//增加项目
+                GsGoodsUgc ugc = new GsGoodsUgc();
+                ugc.setGoodsId(goods.getId());
+                ugc.setClassId(userClass.getId());
+                add_ugcs.add(ugc);
+            }
+
+        }
+        if (add_ugcs.size() > 0)
+            gsGoodsUgcMapper.insertBatch(add_ugcs);
+        if (db_ugcs.size() > 0)
+            gsGoodsUgcMapper.deleteByGoodsAndClassId(db_ugcs);
+        /*******************************************************/
+        /*******************************************************/
+        List<GsGoodsProperty> add_gps = new ArrayList<>();
+        List<GsGoodsProperty> db_gps = readGsGoodsPropertyMapper.findByGoodsId(goods.getId());
+        for ( GsGoodsSpecProperty specProperty : goods.getGoodsSpecs()){
+            GsGoodsProperty del = null;
+            for (GsGoodsProperty gp:db_gps){
+                if (gp.getSpecId().equals(specProperty.getId())){
+                    del=gp;
+                    break;
+                }
+            }
+            if (del==null)//不需要更改项目
+                db_gps.remove(del);
+            else {//增加项目
+                GsGoodsProperty gp = new GsGoodsProperty();
+                gp.setGoodsId(goods.getId());
+                gp.setSpecId(specProperty.getId());
+                add_gps.add(gp);
+            }
+
+        }
+        if (add_gps.size() > 0)
+            gsGoodsPropertyMapper.insertBatch(add_gps);
+        if (db_gps.size() > 0)
+            gsGoodsPropertyMapper.deleteByGoodsAndSpecId(db_gps);
+        /*******************************************************/
+        /*******************************************************/
+        List<GsGoodsCombin> add_coms = new ArrayList<>();
+        List<GsGoodsCombin> db_coms = readGsGoodsCombinMapper.findByGoodsId(goods.getId());
+        for ( GsGoodsWithBLOBs gCom : goods.getCombinGoods()){
+            GsGoodsCombin del = null;
+            for (GsGoodsCombin dCom:db_coms){
+                if (dCom.getCombinGoodsId().equals(gCom.getId())){
+                    del=dCom;
+                    break;
+                }
+            }
+            if (del==null)//不需要更改项目
+                db_coms.remove(del);
+            else {//增加项目
+                GsGoodsCombin com = new GsGoodsCombin();
+                com.setGoodsId(goods.getId());
+                com.setCombinGoodsId(gCom.getId());
+                add_coms.add(com);
+            }
+
+        }
+        if (add_coms.size() > 0)
+            gsGoodsCombinMapper.insertBatch(add_coms);
+        if (db_coms.size() > 0)
+            gsGoodsCombinMapper.deleteByGoodsAndCombinId(db_coms);
+
+        /*******************************************************/
+        /*******************************************************/
+        List<GsGoodsPhoto> add_photos = new ArrayList<>();
+        List<GsGoodsPhoto> db_photos = readGsGoodsPhotoMapper.findByGoodsId(goods.getId());
+        for ( GsGoodsAccessory gAcc : goods.getGoodsPhotos()){
+            GsGoodsPhoto del = null;
+            for (GsGoodsPhoto dAcc:db_photos){
+                if (dAcc.getPhotoId().equals(gAcc.getId())){
+                    del=dAcc;
+                    break;
+                }
+            }
+            if (del==null)//不需要更改项目
+                db_photos.remove(del);
+            else {//增加项目
+                GsGoodsPhoto photo = new GsGoodsPhoto();
+                photo.setGoodsId(goods.getId());
+                photo.setPhotoId(gAcc.getId());
+                add_photos.add(photo);
+            }
+
+        }
+        if (add_photos.size() > 0)
+            gsGoodsPhotoMapper.insertBatch(add_photos);
+        if (db_photos.size() > 0)
+            gsGoodsPhotoMapper.deleteByGoodsAndAccessoryId(db_photos);
+
         return gsGoodsMapper.updateByPrimaryKeyWithBLOBs(goods);
     }
 
@@ -179,7 +303,7 @@ public class GoodServiceImpl implements GoodsService {
     public PageInfo<GsGoodsWithBLOBs> findByCondition(Map condition,Integer curPage,Integer pageSize ) {
         PageUtils.startPage(curPage,pageSize);
         List<GsGoodsWithBLOBs> list = findByCondition(condition);
-        return new PageInfo<GsGoodsWithBLOBs>(list);
+        return new PageInfo<>(list);
     }
 
     @Override
@@ -187,14 +311,18 @@ public class GoodServiceImpl implements GoodsService {
         if (condition.containsKey("user_class_id")){//有用户分类条件
             Long classId = Long.parseLong(condition.get("user_class_id").toString());
             List<GsGoodsUgc> ugcs = readGsGoodsUgcMapper.findByUserClassId(classId);
-            if (ugcs.size()>0){
-                List<Long> ids = new ArrayList<>();
-                condition.put("ids",ids);
-                for (GsGoodsUgc ug:ugcs){
-                    ids.add(ug.getGoodsId());
-                }
+            List<Long> ids = new ArrayList<>();
+            ids.add(-1L);
+            condition.put("ids",ids);
+            for (GsGoodsUgc ug:ugcs){
+                ids.add(ug.getGoodsId());
             }
         }
+//
+//        if (condition.containsKey("goods_photos")){//有goods图片展示
+//            Long classId = Long.parseLong(condition.get("user_class_id").toString());
+//            List<GsGoodsPhoto> photos = readGsGoodsPhotoMapper.findByGoodsId("goods_photos")
+//        }
         return readGsGoodsMapper.findByCondition(condition);
     }
 

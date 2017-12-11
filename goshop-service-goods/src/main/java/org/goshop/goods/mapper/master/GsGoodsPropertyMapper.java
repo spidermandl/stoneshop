@@ -13,4 +13,5 @@ public interface GsGoodsPropertyMapper {
 
     int deleteByGoodsId(Long goods_id);
 
+    int deleteByGoodsAndSpecId(List<GsGoodsProperty> list);
 }

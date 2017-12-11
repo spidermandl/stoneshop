@@ -16,4 +16,6 @@ public interface GsGoodsPhotoMapper {
 
     int deleteByGoodsId(Long goods_id);
 
+    int deleteByGoodsAndAccessoryId(List<GsGoodsPhoto> list);
+
 }

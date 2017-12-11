@@ -1,6 +1,5 @@
 package org.goshop.seller.controller;
 
-import com.github.pagehelper.Page;
 import com.github.pagehelper.PageInfo;
 import net.sf.json.JSONObject;
 import org.apache.commons.collections.map.HashedMap;
@@ -10,7 +9,7 @@ import org.goshop.common.web.utils.WebForm;
 import org.goshop.seller.controller.tools.GoodsViewTools;
 import org.goshop.seller.controller.tools.StoreViewTools;
 import org.goshop.store.i.StoreService;
-import org.goshop.store.pojo.GsTransport;
+import org.goshop.goods.pojo.GsTransport;
 import org.goshop.common.service.SystemConfigService;
 import org.goshop.common.web.utils.CommUtil;
 import org.goshop.goods.i.*;
@@ -19,13 +18,11 @@ import org.goshop.seller.controller.tools.StoreTools;
 import org.goshop.seller.controller.tools.TransportTools;
 import org.goshop.shiro.bind.annotation.CurrentUser;
 import org.goshop.store.i.StoreJoinService;
-import org.goshop.store.i.TransportService;
-import org.goshop.store.pojo.GsTransportWithBLOBs;
+import org.goshop.goods.i.TransportService;
+import org.goshop.goods.pojo.GsTransportWithBLOBs;
 import org.goshop.store.pojo.Store;
 import org.goshop.store.pojo.StoreJoin;
-import org.goshop.users.i.MemberService;
 import org.goshop.users.i.UserService;
-import org.goshop.users.pojo.Member;
 import org.goshop.users.pojo.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -220,7 +217,7 @@ public class GoodsController {
             if (store.getStoreGrade().getSgSpaceLimit() > 0.0F){
                 img_remain_size = store.getStoreGrade().getSgSpaceLimit()
                         - CommUtil.div(
-                                Double.valueOf(CommUtil.fileSize(new File(path))), Integer.valueOf(1024));
+                        Double.valueOf(CommUtil.fileSize(new File(path))), Integer.valueOf(1024));
             }
             List ugcs = this.goodsUserClassService.findByUserIdAndParentId(user.getId(),null,true);
             List gbs = this.goodsBrandService.findByUserId(user);
@@ -245,7 +242,6 @@ public class GoodsController {
 //            model.addAttribute("op_title", "您的店铺已被关闭，不能发布商品");
 //            model.addAttribute("url", CommUtil.getURL(request) + "/seller/index.htm");
 //        }
-
 
         model.addAttribute("goods_class",goodsClass);
         model.addAttribute("config",systemConfigService.getConfig());
@@ -283,12 +279,12 @@ public class GoodsController {
         GsGoodsWithBLOBs goods = null;
         if ((id == null) || (id.equals(""))){
             ret = "add_goods_finish";
-            goods = (GsGoodsWithBLOBs) wf.toPo(request, GsGoodsWithBLOBs.class);
+            goods = wf.toPo(request, GsGoodsWithBLOBs.class);
             goods.setAddtime(new Date());
             Store store = storeJoinService.getCurrentStore(user);
             goods.setGoodsStoreId(store.getStoreId());
         }else{
-            ret = "success.html";
+            ret = "success";
             model.addAttribute("op_title", "商品编辑成功");
             model.addAttribute("url", CommUtil.getURL(request) + "/goods_" + id + ".htm");
             GsGoodsWithBLOBs obj = this.goodsService.findOne(Long.valueOf(Long.parseLong(id)));
@@ -437,7 +433,7 @@ public class GoodsController {
 //                LuceneUtil.setIndex_path(goods_lucene_path);
 //                lucene.writeIndex(vo);
         }else{
-            //this.goodsService.update(goods);
+            this.goodsService.update(goods);
 
 //                String goods_lucene_path = (new StringBuilder(String.valueOf(System.getProperty("wemall.root")))).append(File.separator).append("lucene").append(File.separator).append("goods").toString();
 //                File file = new File(goods_lucene_path);
@@ -462,7 +458,75 @@ public class GoodsController {
 
         return "goods/"+ret;
     }
+    /**
+     * 商品编辑
+     * @param request
+     * @param response
+     * @param id
+     * @return
+     */
+    @RequestMapping({ "/goods_edit" })
+    public String goods_edit(@CurrentUser User user,
+                             Model model,
+                             HttpServletRequest request,
+                             HttpServletResponse response,
+                             String id){
+        String ret = "good_add_step_two";
+        GsGoodsWithBLOBs obj = this.goodsService.findOne(Long.valueOf(Long.parseLong(id)));
 
+        Store store = this.storeService.findOne(obj.getGoodsStoreId());
+        User member = this.userService.findOne(store.getMemberId());
+        if (member.getId().equals(user.getId())){
+            store = this.storeJoinService.getCurrentStore(user);
+            String path = request.getSession().getServletContext()
+                    .getRealPath("/")
+                    + File.separator
+                    + "upload"
+                    + File.separator
+                    + "store"
+                    + File.separator + store.getStoreId();
+            double img_remain_size = store.getStoreGrade().getSgSpaceLimit()
+                    - CommUtil.div(
+                    Double.valueOf(CommUtil.fileSize(new File(path))),
+                    Integer.valueOf(1024));
+
+            List ugcs = this.goodsUserClassService.findByUserIdAndParentId(user.getId(),null,true);
+            PageInfo<GsGoodsAccessory> pList = this.goodsAccessoryService.findByUserId(user,1,8);
+            String photo_url = CommUtil.getURL(request) + "/seller/load_photo.htm";
+            List gbs = this.goodsBrandService.findByUserId(user);
+            model.addAttribute("gbs", gbs);
+            model.addAttribute("photos", pList.getList());
+            model.addAttribute("gotoPageAjaxHTML",
+                    CommUtil.showPageAjaxHtml(photo_url, "",pList.getPageNum(), pList.getPages()));
+            model.addAttribute("ugcs", ugcs);
+            model.addAttribute("img_remain_size", Double.valueOf(img_remain_size));
+            model.addAttribute("obj", obj);
+            if (request.getSession(false).getAttribute("goods_class_info") != null){
+                GsGoodsClass session_gc=(GsGoodsClass) request.getSession(false).getAttribute("goods_class_info");
+                obj.setGc(this.goodsClassService.findOne(session_gc.getId()));
+                model.addAttribute("goods_class_info",this.storeTools.generic_goods_class_info(obj.getGc()));
+                model.addAttribute("goods_class", obj.getGc());
+                request.getSession(false).removeAttribute("goods_class_info");
+            }else if (obj.getGcId() != null){
+                obj.setGc(goodsClassService.findOne(obj.getGcId()));
+                model.addAttribute("goods_class_info",this.storeTools.generic_goods_class_info(obj.getGc()));
+                model.addAttribute("goods_class", obj.getGc());
+            }
+
+            String goods_session = CommUtil.randomString(32);
+            model.addAttribute("goods_session", goods_session);
+            request.getSession(false).setAttribute("goods_session",goods_session);
+            model.addAttribute("imageSuffix",
+                    this.storeViewTools.genericImageSuffix(
+                            this.systemConfigService.getConfig().getImageSuffix()));
+        }else{
+            ret = "error";
+            model.addAttribute("op_title", "您没有该商品信息！");
+            model.addAttribute("url", CommUtil.getURL(request) + "/index.htm");
+        }
+
+        return "goods/"+ret;
+    }
     /**
      * 商品上下架管理
      * @param request
@@ -926,7 +990,7 @@ public class GoodsController {
         Store store = storeJoinService.getCurrentStore(user);
         int index = CommUtil.null2Int(currentPage);
         index = index==0?1:index;
-        PageInfo<GsTransportWithBLOBs> plist = this.transportService.findByStoreId(store,index,1,orderBy,orderType);
+        PageInfo<GsTransportWithBLOBs> plist = this.transportService.findByStoreId(store.getStoreId(),index,1,orderBy,orderType);
         CommUtil.saveIPageList2ModelAndView(
                 url + "/goods/goods_transport", "", params, plist, model);
         model.addAttribute("transportTools", this.transportTools);
@@ -980,6 +1044,9 @@ public class GoodsController {
         for (GsGoodsWithBLOBs goods : pList.getList()){
             if (goods.getGoodsMainPhotoId()!=null){
                 goods.setGoods_main_photo(this.goodsAccessoryService.findOne(goods.getGoodsMainPhotoId()));
+            }
+            if (goods.getGcId()!=null){
+                goods.setGc(this.goodsClassService.findOne(goods.getGcId()));
             }
         }
         CommUtil.saveIPageList2ModelAndView(url + "/goods/forsell_list", "",
@@ -1088,78 +1155,7 @@ public class GoodsController {
         return "goods/"+ret;
     }
 
-    /**
-     * 商品编辑
-     * @param request
-     * @param response
-     * @param id
-     * @return
-     */
-    @RequestMapping({ "/goods_edit" })
-    public String goods_edit(@CurrentUser User user,
-                             Model model,
-                             HttpServletRequest request,
-                             HttpServletResponse response, String id){
-        String ret = "good_add_step_two";
-        GsGoodsWithBLOBs obj = this.goodsService.findOne(Long.valueOf(Long.parseLong(id)));
 
-        Store store = this.storeService.findOne(obj.getGoodsStoreId());
-        User member = this.userService.findOne(store.getMemberId());
-        if (member.getId().equals(user.getId())){
-            store = this.storeJoinService.getCurrentStore(user);
-            String path = request.getSession().getServletContext()
-                    .getRealPath("/")
-                    + File.separator
-                    + "upload"
-                    + File.separator
-                    + "store"
-                    + File.separator + store.getStoreId();
-            double img_remain_size = store.getStoreGrade().getSgSpaceLimit()
-                    - CommUtil.div(
-                    Double.valueOf(CommUtil.fileSize(new File(path))),
-                    Integer.valueOf(1024));
-            List ugcs = this.goodsUserClassService.findByUserIdAndParentId(user.getId(),null,true);
-
-            PageInfo<GsGoodsAccessory> pList = this.goodsAccessoryService.findByUserId(user,1,8);
-            String photo_url = CommUtil.getURL(request)
-                    + "/seller/load_photo.htm";
-            List gbs = this.goodsBrandService.findByUserId(user);
-            model.addAttribute("gbs", gbs);
-            model.addAttribute("photos", pList.getList());
-            model.addAttribute("gotoPageAjaxHTML",
-                    CommUtil.showPageAjaxHtml(photo_url, "",pList.getPageNum(), pList.getPages()));
-            model.addAttribute("ugcs", ugcs);
-            model.addAttribute("img_remain_size", Double.valueOf(img_remain_size));
-            model.addAttribute("obj", obj);
-            if (request.getSession(false).getAttribute("goods_class_info") != null){
-                GsGoodsClass session_gc =
-                        (GsGoodsClass) request.getSession(false).getAttribute("goods_class_info");
-                GsGoodsClass gc = this.goodsClassService.findOne(session_gc.getId());
-                model.addAttribute(
-                        "goods_class_info",this.storeTools.generic_goods_class_info(gc));
-                model.addAttribute("goods_class", gc);
-                request.getSession(false).removeAttribute("goods_class_info");
-            }else if (obj.getGcId() != null){
-                obj.setGc(goodsClassService.findOne(obj.getGcId()));
-                model.addAttribute(
-                        "goods_class_info",this.storeTools.generic_goods_class_info(obj.getGc()));
-                model.addAttribute("goods_class", obj.getGc());
-            }
-
-            String goods_session = CommUtil.randomString(32);
-            model.addAttribute("goods_session", goods_session);
-            request.getSession(false).setAttribute("goods_session",goods_session);
-            model.addAttribute("imageSuffix",
-                    this.storeViewTools.genericImageSuffix(
-                            this.systemConfigService.getConfig().getImageSuffix()));
-        }else{
-            ret = "error";
-            model.addAttribute("op_title", "您没有该商品信息！");
-            model.addAttribute("url", CommUtil.getURL(request) + "/index.htm");
-        }
-
-        return "goods/"+ret;
-    }
     /****************************************************************
      * *****************private func
      ****************************************************************/

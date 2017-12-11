@@ -1,9 +1,9 @@
-package org.goshop.store.service;
+package org.goshop.goods.service;
 
-import org.goshop.store.i.AreaService;
-import org.goshop.store.mapper.master.GsTransAreaMapper;
-import org.goshop.store.mapper.read.ReadGsTransAreaMapper;
-import org.goshop.store.pojo.GsTransArea;
+import org.goshop.goods.i.AreaService;
+import org.goshop.goods.mapper.master.GsTransAreaMapper;
+import org.goshop.goods.mapper.read.ReadGsTransAreaMapper;
+import org.goshop.goods.pojo.GsTransArea;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

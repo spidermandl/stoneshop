@@ -38,6 +38,22 @@
     where user_id = #{userId,jdbcType=BIGINT}
     order by addTime desc
   </select>
+  <select id="selectByPrimaryKeys" parameterType="java.util.List" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from gs_goods_accessory
+    <where>
+      --       item表示集合中每一个元素进行迭代时的别名，
+      --       index指 定一个名字，用于表示在迭代过程中，每次迭代到的位置，
+      --       open表示该语句以什么开始，
+      --       separator表示在每次进行迭代之间以什么符号作为分隔 符，
+      --       close表示以什么结束。
+      id IN
+      <foreach collection="list" index="index" item="item" open="(" separator="," close=")">
+        #{item}
+      </foreach>
+    </where>
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
     delete from gs_goods_accessory
     where id = #{id,jdbcType=BIGINT}

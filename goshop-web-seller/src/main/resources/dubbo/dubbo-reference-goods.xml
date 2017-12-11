@@ -26,5 +26,9 @@
                      interface="org.goshop.goods.i.GoodsBrandService" check="false" />
     <dubbo:reference id="goodsPropertyService"
                      interface="org.goshop.goods.i.GoodsPropertyService" check="false" />
+    <dubbo:reference id="transportService"
+                     interface="org.goshop.goods.i.TransportService" check="false" />
+    <dubbo:reference id="areaService"
+                     interface="org.goshop.goods.i.AreaService" check="false" />
 
 </beans>

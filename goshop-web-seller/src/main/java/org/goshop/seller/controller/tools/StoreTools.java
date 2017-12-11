@@ -103,7 +103,7 @@ public class StoreTools {
     public String generic_goods_class_info(GsGoodsClass gc){
         if (gc != null){
             String goods_class_info = generic_the_goods_class_info(gc);
-            return goods_class_info.substring(0, goods_class_info.length() - 1);
+            return goods_class_info.substring(0, goods_class_info.length());
         }
 
         return "";

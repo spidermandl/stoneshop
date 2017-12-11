@@ -1,4 +1,6 @@
-package org.goshop.store.pojo;
+package org.goshop.goods.pojo;
+
+import org.goshop.goods.pojo.GsTransport;
 
 public class GsTransportWithBLOBs extends GsTransport {
     private String transEmsInfo;

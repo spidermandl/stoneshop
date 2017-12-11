@@ -1,8 +1,7 @@
-package org.goshop.store.i;
+package org.goshop.goods.i;
 
 import com.github.pagehelper.PageInfo;
-import org.goshop.store.pojo.GsTransportWithBLOBs;
-import org.goshop.store.pojo.Store;
+import org.goshop.goods.pojo.GsTransportWithBLOBs;
 
 /**
  * Created by Desmond on 28/11/2017.
@@ -11,14 +10,14 @@ public interface TransportService {
 
     /**
      * 根据store id查找
-     * @param store
+     * @param storeId
      * @param curPage
      * @param pageSize
      * @param orderBy
      * @param orderType
      * @return
      */
-    PageInfo<GsTransportWithBLOBs> findByStoreId(Store store, Integer curPage, Integer pageSize,String orderBy,String orderType);
+    PageInfo<GsTransportWithBLOBs> findByStoreId(Long storeId, Integer curPage, Integer pageSize, String orderBy, String orderType);
 
     /**
      * 根据主键查找

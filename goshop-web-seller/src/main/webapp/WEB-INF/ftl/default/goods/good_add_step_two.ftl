@@ -556,6 +556,7 @@
                             <tr>
                                 <td width="95" align="right">商品分类：</td>
                                 <td><span>${(goods_class_info)!}</span><span class="editbtn">
+                                    <input name = "id" type="hidden" id="goods_id" value="${(obj.id)!}" />
                                     <input name="goods_class_id" type="hidden" id="goods_class_id" value="${(goods_class.id)!}" />
                                     <input name="goods_main_img_id" type="hidden" id="goods_main_img_id" />
                                     <input name="image_ids" type="hidden" id="image_ids" />

@@ -14,6 +14,8 @@ public interface ReadGsGoodsAccessoryMapper {
 
     GsGoodsAccessory selectByPrimaryKey(Long id);
 
+    List<GsGoodsAccessory> selectByPrimaryKeys(List<Long> list);
+
     int updateByPrimaryKeySelective(GsGoodsAccessory record);
 
     int updateByPrimaryKey(GsGoodsAccessory record);

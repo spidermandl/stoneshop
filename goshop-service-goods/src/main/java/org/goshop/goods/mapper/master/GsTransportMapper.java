@@ -1,8 +1,8 @@
-package org.goshop.store.mapper.master;
+package org.goshop.goods.mapper.master;
 
 import org.apache.ibatis.annotations.Param;
-import org.goshop.store.pojo.GsTransport;
-import org.goshop.store.pojo.GsTransportWithBLOBs;
+import org.goshop.goods.pojo.GsTransport;
+import org.goshop.goods.pojo.GsTransportWithBLOBs;
 
 import java.util.List;
 

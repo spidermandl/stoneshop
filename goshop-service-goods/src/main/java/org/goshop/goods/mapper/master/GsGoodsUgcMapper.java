@@ -16,5 +16,5 @@ public interface GsGoodsUgcMapper {
 
     int deleteByGoodsId(Long goods_id);
 
-
+    int deleteByGoodsAndClassId(List<GsGoodsUgc> list);
 }

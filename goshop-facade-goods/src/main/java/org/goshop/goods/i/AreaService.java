@@ -1,6 +1,6 @@
-package org.goshop.store.i;
+package org.goshop.goods.i;
 
-import org.goshop.store.pojo.GsTransArea;
+import org.goshop.goods.pojo.GsTransArea;
 
 import java.util.List;
 

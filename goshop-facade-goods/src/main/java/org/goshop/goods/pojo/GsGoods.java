@@ -127,6 +127,15 @@ public class GsGoods implements Serializable {
     private GsGoodsClass gc;
     private GsGoodsAccessory goods_main_photo;//商品主图片
     private List<GsGoodsAccessory> goodsPhotos = new ArrayList<>();//商品副图片
+    private GsTransport transport;//运送地址
+
+    public GsTransport getTransport() {
+        return transport;
+    }
+
+    public void setTransport(GsTransport transport) {
+        this.transport = transport;
+    }
 
     public List<GsGoodsAccessory> getGoodsPhotos() {
         return goodsPhotos;
