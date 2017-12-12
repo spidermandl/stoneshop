@@ -551,12 +551,12 @@
                         <table border="0" cellspacing="0" cellpadding="0" class="tabledetail" >
                             <tr>
                                 <td colspan="2" class="tableh1">商品详细信息
-                                    <input name="goods_commonid" type="hidden" id="goods_commonid" value="${(obj.id)!}" /></td>
+                                    <input name="id" type="hidden" id="goods_id" value="${(obj.id)!}" /></td>
                             </tr>
                             <tr>
                                 <td width="95" align="right">商品分类：</td>
-                                <td><span>${(goods_class_info)!}</span><span class="editbtn">
-                                    <input name = "id" type="hidden" id="goods_id" value="${(obj.id)!}" />
+                                <td><span>${(goods_class_info)!}</span>
+                                    <span class="editbtn">
                                     <input name="goods_class_id" type="hidden" id="goods_class_id" value="${(goods_class.id)!}" />
                                     <input name="goods_main_img_id" type="hidden" id="goods_main_img_id" />
                                     <input name="image_ids" type="hidden" id="image_ids" />
@@ -595,7 +595,7 @@
                             <tr>
                                 <td align="right" valign="top">店铺价格：</td>
                                 <td class="sptable"><span class="tabtxt1 size2">
-                                    <input name="store_price" type="text" id="store_price" value="${(obj.storePrice)!}" />
+                                    <input name="storePrice" type="text" id="store_price" value="${(obj.storePrice)!}" />
                                     </span> <span class="hui2">
                                     <ul class="tableli">
                                       <li>商品原价必须是0.01~1000000之间的数字</li>
@@ -806,11 +806,14 @@
                             </tr>
                             <tr>
                                 <td rowspan="2" align="right" valign="middle">运费：</td>
-                                <td><label><input name="goodsTransfee" type="radio" value="1" checked="checked" />
-                                    卖家承担运费</label> </td>
+                                <td>
+                                    <label><input name="goodsTransfee" type="radio" value="1" checked="checked" />
+                                    卖家承担运费</label>
+                                </td>
                             </tr>
                             <tr>
-                                <td><label><input name="goodsTransfee" type="radio" value="0" />
+                                <td>
+                                    <label><input name="goodsTransfee" type="radio" value="0" />
                                     买家承担运费</label>
                                     <script>
                                         jQuery(document).ready(function(){
@@ -835,7 +838,7 @@
                                             jQuery(":radio[name=transport_type][value=1]").attr("checked","checked");
                                             jQuery("#transport_template_select").hide();
                                             </#if>
-                                            <#if ((obj.goodsTransfee)!0)!=0 >
+                                            <#if ((obj.goodsTransfee)!1)==0 >
                                             jQuery("#buyer_transport_info").show();
                                             </#if>
                                         });
@@ -848,7 +851,7 @@
                                                     使用运费模板
                                                 </label>
                                                 <div id="transport_template_select" style="padding-left:30px;"><input type="hidden" value="${(obj.transport.id)!}" name="transport_id" id="transport_id" />
-                                                    <span style="color:#06C;" id="transport_template_name">${(obj.transport.trans_name)!}</span>
+                                                    <span style="color:#06C;" id="transport_template_name">${(obj.transport.transName)!}</span>
                                                     <span style="display:block; width:70px; height:28px; text-align:center; border:#CCC solid 1px;">
                                                     <a href="javascript:void(0);" dialog_uri="${S_URL}/goods/goods_transport.htm" dialog_title="选择运费模板" dialog_width="600" dialog_height="500" dialog_id="transport_template_frm">选择模板</a></span>
                                                 </div>
@@ -856,43 +859,42 @@
                                             <li><label>
                                                 <input type="radio" name="transport_type" value="1" />
                                                 固定运费</label>
-                                                平邮 <input name="mail_trans_fee" type="text" id="mail_trans_fee" value="${(CommUtil.null2Float(obj.mail_trans_fee))!}" size="10" />
+                                                平邮 <input name="mailTransFee" type="text" id="mail_trans_fee" value="${(CommUtil.null2Float(obj.mail_trans_fee))!}" size="10" />
                                                 元,快递
-                                                <input name="express_trans_fee" type="text" id="express_trans_fee" value="${(CommUtil.null2Float(obj.express_trans_fee))!}" size="10" />
+                                                <input name="expressTransFee" type="text" id="express_trans_fee" value="${(CommUtil.null2Float(obj.express_trans_fee))!}" size="10" />
                                                 元,EMS
-                                                <input name="ems_trans_fee" type="text" id="ems_trans_fee" value="${(CommUtil.null2Float(obj.ems_trans_fee))!}" size="10" />
+                                                <input name="emsTransFee" type="text" id="ems_trans_fee" value="${(CommUtil.null2Float(obj.ems_trans_fee))!}" size="10" />
                                                 元
                                             </li>
                                         </ul>
                                     </div></td>
                             </tr>
-
                             <tr>
                                 <td colspan="2" class="tableh1">商品详情描述</td>
                             </tr>
                             <tr>
                                 <td align="right" valign="middle">商品品牌：</td>
-                                <td><select name="goodsBrandId" id="goods_brand_id">
-                                    <option value="">请选择...</option>
-
-                                    <#list gbs! as gb>
-
-                                    <option value="${(gb.id)!}">${(gb.name)!}</option>
-
-                                    </#list>
-
-                                </select></td>
+                                <td>
+                                    <select name="goodsBrandId" id="goods_brand_id">
+                                        <option value="">请选择...</option>
+                                        <#list gbs! as gb>
+                                        <option value="${(gb.id)!}">${(gb.name)!}</option>
+                                        </#list>
+                                    </select>
+                                </td>
                             </tr>
                             <#list (goods_class.goodsType.properties)! as property>
-                            <tr>
-                                <td align="right" valign="top">${(property.name)!}：</td>
-                                <td><select name="property_${(property.id)!}" id="property_${(property.id)!}">
-                                    <option value="">请选择...</option>
-                                    <#list CommUtil.splitByChar("${(property.value)!}",",") as info >
-                                    <option value="${info!}">${info!}</option>
-                                    </#list>
-                                </select></td>
-                            </tr>
+                                <tr>
+                                    <td align="right" valign="top">${(property.name)!}：</td>
+                                    <td>
+                                        <select name="property_${(property.id)!}" id="property_${(property.id)!}">
+                                            <option value="">请选择...</option>
+                                            <#list CommUtil.splitByChar("${(property.value)!}",",") as info >
+                                            <option value="${info!}">${info!}</option>
+                                            </#list>
+                                        </select>
+                                    </td>
+                                </tr>
                             </#list>
                             <tr>
                                 <td align="right" valign="top">商品描述 ↓ </td>
@@ -917,9 +919,11 @@
                                         }
                                     </script>
                                     <div class="photoimg">
-                                        <div class="addphoto"><a href="javascript:void(0);" onclick="switch_editor_photo();">插入相册图片</a></div>
+                                        <div class="addphoto">
+                                            <a href="javascript:void(0);" onclick="switch_editor_photo();">插入相册图片</a></div>
                                         <div class="editor_photo_detail" style="display:none;"> </div>
-                                    </div></td>
+                                    </div>
+                                </td>
                             </tr>
                             <tr>
                                 <td colspan="2" class="tableh1">其他信息</td>

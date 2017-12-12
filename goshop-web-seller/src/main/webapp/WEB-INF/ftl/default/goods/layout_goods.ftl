@@ -19,10 +19,15 @@
                     出售中的商品
                 </a>
                 </li>
-                <li <#if (P_CURRENT_OP!"")=="Offline">class="current"</#if>>
-                <a href="${S_URL}/se/goodsonline/list?goodsState=0">
+                <li <#if (P_CURRENT_OP!"")=="GoodsStorage">class="current"</#if>>
+                <a href="${S_URL}/goods/goods_storage">
                     仓库中的商品
                 </a>
+                </li>
+                <li <#if (P_CURRENT_OP!"")=="GoodsOut">class="current"</#if>>
+                    <a href="${S_URL}/goods/goods_out">
+                        违规下架商品
+                    </a>
                 </li>
                 <li <#if (P_CURRENT_OP!"")=="GoodsCategory">class="current"</#if>>
                     <a href="${S_URL}/goods_category/goods_user_class_list">

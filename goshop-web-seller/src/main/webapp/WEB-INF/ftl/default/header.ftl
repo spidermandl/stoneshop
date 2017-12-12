@@ -212,7 +212,8 @@
                 <ul>
                     <li><a href="${S_URL}${SELLER_ROOT}/goods/step_one"> 商品发布 </a></li>
                     <li><a href="${S_URL}${SELLER_ROOT}/goods/forsell_list"> 出售中的商品 </a></li>
-                    <li><a href="${S_URL}${SELLER_ROOT}/se/goodsonline/list?goodsState=0"> 仓库中的商品 </a></li>
+                    <li><a href="${S_URL}${SELLER_ROOT}/goods/goods_storage"> 仓库中的商品 </a></li>
+                    <li><a href="${S_URL}${SELLER_ROOT}/goods/goods_out"> 违规下架商品 </a></li>
                     <li><a href="${S_URL}${SELLER_ROOT}/goods_category/goods_user_class_list"> 商品分类 </a></li>
                     <li><a href="${S_URL}${SELLER_ROOT}/brand/usergoodsbrand_list"> 品牌申请 </a></li>
                     <li><a href="${S_URL}${SELLER_ROOT}/se/warning/edit"> 库存警报 </a></li>

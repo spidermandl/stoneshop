@@ -254,12 +254,18 @@ public class GoodsController {
                         @CurrentUser User user,
                         HttpServletRequest request,
                         HttpServletResponse response,
-                        String id,String goods_class_id,
-                        String image_ids,String goods_main_img_id,
-                        String user_class_ids,String goods_brand_id,
-                        String goods_spec_ids,String goods_properties,
-                        String inventory_details,String goods_session,
-                        String transport_type,String transport_id){
+                        String id,
+                        String goods_class_id,
+                        String image_ids,
+                        String goods_main_img_id,
+                        String user_class_ids,
+                        String goods_brand_id,
+                        String goods_spec_ids,
+                        String goods_properties,
+                        String inventory_details,
+                        String goods_session,
+                        String transport_type,
+                        String transport_id){
         String ret = null;
         String goods_session1 = CommUtil.null2String(request.getSession(false).getAttribute("goods_session"));
         if (goods_session1==null || goods_session1.equals("")){
@@ -552,7 +558,7 @@ public class GoodsController {
                     goods.setGoodsStatus(goods_status);
                     this.goodsService.update(goods);// 更新商品资料
                     if (goods_status == 0){
-                        url = "/goods_storage";
+                        url = "goods_storage";
 
                         // 更新全文检索
                         String goods_lucene_path = (new StringBuilder(String.valueOf(System.getProperty("wemall.root")))).append(File.separator).append("lucene").append(File.separator).append("goods").toString();
@@ -1015,8 +1021,10 @@ public class GoodsController {
                            Model model,
                            HttpServletRequest request,
                            HttpServletResponse response,
-                           String currentPage, String orderBy,
-                           String orderType, String goods_name,
+                           String currentPage,
+                           String orderBy,
+                           String orderType,
+                           String goods_name,
                            String user_class_id){
         String ret = "goods";
         String url = this.systemConfigService.getConfig().getAddress();
@@ -1040,15 +1048,7 @@ public class GoodsController {
         int index = CommUtil.null2Int(currentPage);
         index = index==0?1:index;
         PageInfo<GsGoodsWithBLOBs> pList = goodsService.findByCondition(condition,index,12);// 根据条件查询商品
-        //获取主图片
-        for (GsGoodsWithBLOBs goods : pList.getList()){
-            if (goods.getGoodsMainPhotoId()!=null){
-                goods.setGoods_main_photo(this.goodsAccessoryService.findOne(goods.getGoodsMainPhotoId()));
-            }
-            if (goods.getGcId()!=null){
-                goods.setGc(this.goodsClassService.findOne(goods.getGcId()));
-            }
-        }
+        fillGoodsListContent(pList.getList());
         CommUtil.saveIPageList2ModelAndView(url + "/goods/forsell_list", "",
                 params, pList, model);
         model.addAttribute("uid",user.getId());
@@ -1063,8 +1063,6 @@ public class GoodsController {
      * @param request
      * @param response
      * @param currentPage
-     * @param orderBy
-     * @param orderType
      * @param goods_name
      * @param user_class_id
      * @return
@@ -1073,9 +1071,10 @@ public class GoodsController {
     public String goods_storage(@CurrentUser User user,
                                 Model model,
                                 HttpServletRequest request,
-                                HttpServletResponse response, String currentPage,
-                                String orderBy,String orderType,
-                                String goods_name, String user_class_id){
+                                HttpServletResponse response,
+                                String currentPage,
+                                String goods_name,
+                                String user_class_id){
         String ret = "goods_storage";
         String url = this.systemConfigService.getConfig().getAddress();
         if (org.apache.commons.lang.StringUtils.isEmpty(url)){
@@ -1098,8 +1097,10 @@ public class GoodsController {
         int index = CommUtil.null2Int(currentPage);
         index = index==0?1:index;
         PageInfo<GsGoodsWithBLOBs> pList = goodsService.findByCondition(condition,index,12);// 根据条件查询商品
+        fillGoodsListContent(pList.getList());
         CommUtil.saveIPageList2ModelAndView(url + "/goods/goods_storage",
                 "", params, pList, model);
+        model.addAttribute("uid",user.getId());
         model.addAttribute("storeTools", this.storeTools);
         model.addAttribute("goodsViewTools", this.goodsViewTools);
 
@@ -1147,8 +1148,9 @@ public class GoodsController {
         int index = CommUtil.null2Int(currentPage);
         index = index==0?1:index;
         PageInfo<GsGoodsWithBLOBs> pList = goodsService.findByCondition(condition,index,12);// 根据条件查询商品
-        CommUtil.saveIPageList2ModelAndView(url + "/goods/goods_out", "",
-                params, pList, model);
+        fillGoodsListContent(pList.getList());
+        CommUtil.saveIPageList2ModelAndView(url + "/goods/goods_out", "",params, pList, model);
+        model.addAttribute("uid",user.getId());
         model.addAttribute("storeTools", this.storeTools);
         model.addAttribute("goodsViewTools", this.goodsViewTools);
 
@@ -1159,6 +1161,11 @@ public class GoodsController {
     /****************************************************************
      * *****************private func
      ****************************************************************/
+    /**
+     * 剔除冗余字符
+     * @param inputString
+     * @return
+     */
     private String clearContent(String inputString){
         String htmlStr = inputString;
         String textStr = "";
@@ -1191,6 +1198,20 @@ public class GoodsController {
         return textStr;
     }
 
+    /**
+     * 查询goods相关附属信息
+     * @param list
+     */
+    private void fillGoodsListContent(List<GsGoodsWithBLOBs> list){
+        for (GsGoodsWithBLOBs goods : list){
+            if (goods.getGoodsMainPhotoId()!=null){//获取主图片
+                goods.setGoods_main_photo(this.goodsAccessoryService.findOne(goods.getGoodsMainPhotoId()));
+            }
+            if (goods.getGcId()!=null){//获取goods 分类
+                goods.setGc(this.goodsClassService.findOne(goods.getGcId()));
+            }
+        }
+    }
     private List<List<GsGoodsSpecProperty>> generic_spec_property(
             Set<GsGoodsSpecification> specs){
         List result_list = new ArrayList();

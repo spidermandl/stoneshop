@@ -119,7 +119,7 @@
 .userfenye a:hover{background: #ccc;color: #fff;}
 .userfenye span{border: 1px solid #666;padding: 2px 5px;}
 /**----------- end--------------------------------------***/
-/**goods出售中的商品 区域框start--------------------------------------***/
+/**goods出售中的商品 仓库中的商品 区域框start--------------------------------------***/
 .proname{width: 300px;}
 .proname span{display: block;float: left;}
 .imgpro img{width: 83px;height: 63px;}

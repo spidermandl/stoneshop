@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="org.goshop.goods.mapper.master.GsGoodsTypePropertyMapper" >
+  <resultMap id="BaseResultMap" type="org.goshop.goods.pojo.GsGoodsTypeProperty" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="addTime" property="addtime" jdbcType="TIMESTAMP" />
+    <result column="deleteStatus" property="deletestatus" jdbcType="BIT" />
+    <result column="display" property="display" jdbcType="BIT" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="sequence" property="sequence" jdbcType="INTEGER" />
+    <result column="value" property="value" jdbcType="VARCHAR" />
+    <result column="goodsType_id" property="goodstypeId" jdbcType="BIGINT" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, addTime, deleteStatus, display, name, sequence, value, goodsType_id
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select
+    <include refid="Base_Column_List" />
+    from gs_goods_type_property
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from gs_goods_type_property
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="org.goshop.goods.pojo.GsGoodsTypeProperty" >
+    <selectKey resultType="java.lang.Long" keyProperty="id" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into gs_goods_type_property (addTime, deleteStatus, display,
+      name, sequence, value,
+      goodsType_id)
+    values (#{addtime,jdbcType=TIMESTAMP}, #{deletestatus,jdbcType=BIT}, #{display,jdbcType=BIT},
+      #{name,jdbcType=VARCHAR}, #{sequence,jdbcType=INTEGER}, #{value,jdbcType=VARCHAR},
+      #{goodstypeId,jdbcType=BIGINT})
+  </insert>
+  <insert id="insertSelective" parameterType="org.goshop.goods.pojo.GsGoodsTypeProperty" >
+    <selectKey resultType="java.lang.Long" keyProperty="id" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into gs_goods_type_property
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="addtime != null" >
+        addTime,
+      </if>
+      <if test="deletestatus != null" >
+        deleteStatus,
+      </if>
+      <if test="display != null" >
+        display,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="sequence != null" >
+        sequence,
+      </if>
+      <if test="value != null" >
+        value,
+      </if>
+      <if test="goodstypeId != null" >
+        goodsType_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="addtime != null" >
+        #{addtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="deletestatus != null" >
+        #{deletestatus,jdbcType=BIT},
+      </if>
+      <if test="display != null" >
+        #{display,jdbcType=BIT},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="sequence != null" >
+        #{sequence,jdbcType=INTEGER},
+      </if>
+      <if test="value != null" >
+        #{value,jdbcType=VARCHAR},
+      </if>
+      <if test="goodstypeId != null" >
+        #{goodstypeId,jdbcType=BIGINT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="org.goshop.goods.pojo.GsGoodsTypeProperty" >
+    update gs_goods_type_property
+    <set >
+      <if test="addtime != null" >
+        addTime = #{addtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="deletestatus != null" >
+        deleteStatus = #{deletestatus,jdbcType=BIT},
+      </if>
+      <if test="display != null" >
+        display = #{display,jdbcType=BIT},
+      </if>
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="sequence != null" >
+        sequence = #{sequence,jdbcType=INTEGER},
+      </if>
+      <if test="value != null" >
+        value = #{value,jdbcType=VARCHAR},
+      </if>
+      <if test="goodstypeId != null" >
+        goodsType_id = #{goodstypeId,jdbcType=BIGINT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="org.goshop.goods.pojo.GsGoodsTypeProperty" >
+    update gs_goods_type_property
+    set addTime = #{addtime,jdbcType=TIMESTAMP},
+      deleteStatus = #{deletestatus,jdbcType=BIT},
+      display = #{display,jdbcType=BIT},
+      name = #{name,jdbcType=VARCHAR},
+      sequence = #{sequence,jdbcType=INTEGER},
+      value = #{value,jdbcType=VARCHAR},
+      goodsType_id = #{goodstypeId,jdbcType=BIGINT}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>
