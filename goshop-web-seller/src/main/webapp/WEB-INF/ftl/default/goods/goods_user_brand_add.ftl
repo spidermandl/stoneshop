@@ -46,7 +46,7 @@ var re = /^[a-zA-Z]*$/;
     <div class="ncsc-layout-right" id="layoutRight">
         <#include "../nav.ftl"/>
         <div id="mainContent" class="main-content">
-            <div class="productmain" style="width: 910px;">
+            <div class="productmain">
                 <div class="ordernav">
                     <ul class="orderul">
                         <#if edit?? >

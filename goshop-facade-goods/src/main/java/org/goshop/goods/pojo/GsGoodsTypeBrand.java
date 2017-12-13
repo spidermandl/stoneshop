@@ -1,6 +1,8 @@
 package org.goshop.goods.pojo;
 
-public class GsGoodsTypeBrand {
+import java.io.Serializable;
+
+public class GsGoodsTypeBrand implements Serializable {
     private Long typeId;
 
     private Long brandId;

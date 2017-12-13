@@ -16,8 +16,7 @@
     <div class="ncsc-layout-right" id="layoutRight">
       <#include "../nav.ftl"/>
         <div id="mainContent" class="main-content">
-          <@shiro.hasPermission name="seller:read">
-          <div class="productmain">
+          <div class="productmain" style="width: 900px;">
               <div class="ordernav">
                   <ul class="orderul">
                       <li class="this"><span class="position">运费模板列表</span></li>
@@ -113,11 +112,6 @@
                 </div>
               </form>
           </div>
-
-          </@shiro.hasPermission>
-          <@shiro.lacksPermission name="seller:read">
-              <#include "../noshop.ftl"/>
-          </@shiro.lacksPermission>
         </div>
     </div>
 </div>

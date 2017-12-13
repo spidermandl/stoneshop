@@ -270,7 +270,7 @@
     <div class="ncsc-layout-right" style="min-height: 1280px"  id="layoutRight">
         <#include "../nav.ftl"/>
         <div id="mainContent" class="main-content">
-            <div class="productmain">
+            <div class="productmain" style="width: 900px">
                 <div class="ordernav">
                     <ul class="orderul">
                     <li><a href="${S_URL}/transport/transport_list">运费模板</a></li>

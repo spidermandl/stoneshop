@@ -1,24 +1,24 @@
-package org.goshop.goods.pojo;
+package org.goshop.store.pojo;
 
 import java.io.Serializable;
 import java.util.Date;
 
-public class GsGoodsTypeProperty implements Serializable {
+public class GsArea implements Serializable {
     private Long id;
 
     private Date addtime;
 
     private Boolean deletestatus;
 
-    private Boolean display;
+    private String areaname;
 
-    private String name;
+    private Integer level;
 
     private Integer sequence;
 
-    private String value;
+    private Long parentId;
 
-    private Long goodstypeId;
+    private Boolean common;
 
     public Long getId() {
         return id;
@@ -44,20 +44,20 @@ public class GsGoodsTypeProperty implements Serializable {
         this.deletestatus = deletestatus;
     }
 
-    public Boolean getDisplay() {
-        return display;
+    public String getAreaname() {
+        return areaname;
     }
 
-    public void setDisplay(Boolean display) {
-        this.display = display;
+    public void setAreaname(String areaname) {
+        this.areaname = areaname;
     }
 
-    public String getName() {
-        return name;
+    public Integer getLevel() {
+        return level;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setLevel(Integer level) {
+        this.level = level;
     }
 
     public Integer getSequence() {
@@ -68,19 +68,19 @@ public class GsGoodsTypeProperty implements Serializable {
         this.sequence = sequence;
     }
 
-    public String getValue() {
-        return value;
+    public Long getParentId() {
+        return parentId;
     }
 
-    public void setValue(String value) {
-        this.value = value;
+    public void setParentId(Long parentId) {
+        this.parentId = parentId;
     }
 
-    public Long getGoodstypeId() {
-        return goodstypeId;
+    public Boolean getCommon() {
+        return common;
     }
 
-    public void setGoodstypeId(Long goodstypeId) {
-        this.goodstypeId = goodstypeId;
+    public void setCommon(Boolean common) {
+        this.common = common;
     }
 }

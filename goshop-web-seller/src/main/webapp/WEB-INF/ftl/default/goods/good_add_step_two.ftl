@@ -34,7 +34,7 @@
     var options = {
         cssPath : '${S_URL}/static/editor/plugins/code/prettify.css',
         filterMode : true,
-        uploadJson:'${S_URL}/goods/upload.htm',
+        uploadJson:'${S_URL}/upload',
         width : '860px',
         height:'400px',
         resizeType : 1,

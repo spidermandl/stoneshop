@@ -91,8 +91,9 @@ public class StoreJoinController {
         return "store/store_agreement";
 
     }
-
-    public String jump(@CurrentUser User user, String statePage) {
+    @RequestMapping("/jump")
+    public String jump(@CurrentUser User user,
+                       String statePage) {
         Store store = storeJoinService.getCurrentStore(user);
         if (store != null) {
             return "goods/step_one";

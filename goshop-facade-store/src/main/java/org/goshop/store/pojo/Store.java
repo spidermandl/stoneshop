@@ -95,7 +95,28 @@ public class Store  implements Serializable {
 
     private Byte storeStorageAlarm;
 
-    private StoreGrade storeGrade;
+    private String mapType;
+
+
+    /************手动添加*****************/
+    private StoreGrade storeGrade;//店铺等级
+    private GsArea area;//店铺地点
+    /************end*****************/
+    public String getMapType() {
+        return mapType;
+    }
+
+    public void setMapType(String mapType) {
+        this.mapType = mapType;
+    }
+
+    public GsArea getArea() {
+        return area;
+    }
+
+    public void setArea(GsArea area) {
+        this.area = area;
+    }
 
     public Long getStoreId() {
         return storeId;

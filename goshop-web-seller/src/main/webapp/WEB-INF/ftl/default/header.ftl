@@ -254,10 +254,10 @@
                 <dd class="arrow"></dd>
             </dl>
             <dl  <#if P_CURRENT_TOP=='store'> class="current" </#if>>
-            <dt><a href="${S_URL}${SELLER_ROOT}/store/set/list">店铺</a></dt>
+            <dt><a href="${S_URL}${SELLER_ROOT}/store/store_set">店铺</a></dt>
             <dd>
                 <ul>
-                    <li><a href="${S_URL}${SELLER_ROOT}/store/set/list"> 店铺设置 </a></li>
+                    <li><a href="${S_URL}${SELLER_ROOT}/store/store_set"> 店铺设置 </a></li>
                     <li><a href="${S_URL}${SELLER_ROOT}/storenav/list"> 店铺导航 </a></li>
                     <li><a href="${S_URL}${SELLER_ROOT}/store/info"> 店铺信息 </a></li>
                     <li><a href="${S_URL}${SELLER_ROOT}/storegoodsclass/list"> 店铺分类 </a></li>

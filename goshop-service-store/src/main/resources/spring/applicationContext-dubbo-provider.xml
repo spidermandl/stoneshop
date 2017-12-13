@@ -35,4 +35,5 @@
     <dubbo:service  retries="0" interface="org.goshop.store.i.StoreService" ref="storeService"  />
     <dubbo:service  retries="0" interface="org.goshop.store.i.AlbumPicService" ref="albumPicService"  />
     <dubbo:service  retries="0" interface="org.goshop.store.i.AlbumClassService" ref="albumClassService"  />
+    <dubbo:service  retries="0" interface="org.goshop.store.i.StoreAreaService" ref="storeAreaService"  />
 </beans>

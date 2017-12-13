@@ -19,9 +19,8 @@
     <div class="ncsc-layout-right" id="layoutRight">
       <#include "../nav.ftl"/>
         <div id="mainContent" class="main-content">
-          <@shiro.hasPermission name="seller:read">
               <form action="${S_URL}/goods/goods_storage" method="post" name="ListForm" id="ListForm">
-                  <div class="productmain" style="width: 910px;">
+                  <div class="productmain">
                       <div class="pdctitle blue2">仓库中的商品
                           <span class="classname">
                               <input name="mulitId" type="hidden" id="mulitId" />
@@ -128,10 +127,6 @@
                       </div>
                   </div>
               </form>
-          </@shiro.hasPermission>
-          <@shiro.lacksPermission name="seller:read">
-            <#include "../noshop.ftl"/>
-          </@shiro.lacksPermission>
         </div>
     </div>
 </div>

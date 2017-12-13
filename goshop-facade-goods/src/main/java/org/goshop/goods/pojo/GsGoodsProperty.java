@@ -1,6 +1,8 @@
 package org.goshop.goods.pojo;
 
-public class GsGoodsProperty {
+import java.io.Serializable;
+
+public class GsGoodsProperty implements Serializable {
     private Long goodsId;
 
     private Long specId;

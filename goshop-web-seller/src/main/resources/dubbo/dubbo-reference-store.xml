@@ -20,5 +20,7 @@
                      interface="org.goshop.store.i.AlbumClassService" check="false" />
     <dubbo:reference id="albumPicService"
                      interface="org.goshop.store.i.AlbumPicService" check="false" />
+    <dubbo:reference id="storeAreaService"
+                     interface="org.goshop.store.i.StoreAreaService" check="false" />
 
 </beans>

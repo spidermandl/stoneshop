@@ -11,7 +11,6 @@
     <div class="ncsc-layout-right" id="layoutRight">
         <#include "../nav.ftl"/>
         <div id="mainContent" class="main-content">
-        <@shiro.hasPermission name="seller:read">
         <#include "setp.ftl" />
             <!--S 分类选择区域-->
             <div class="wrapper_search">
@@ -103,10 +102,6 @@
                     </form>
                 </div>
             </div>
-        </@shiro.hasPermission>
-        <@shiro.lacksPermission name="seller:read">
-            <#include "../noshop.ftl"/>
-        </@shiro.lacksPermission>
         </div>
     </div>
 </div>

@@ -1,6 +1,8 @@
 package org.goshop.goods.pojo;
 
-public class GsGoodsPhoto {
+import java.io.Serializable;
+
+public class GsGoodsPhoto implements Serializable {
     private Long goodsId;
 
     private Long photoId;

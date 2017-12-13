@@ -1,6 +1,8 @@
 package org.goshop.goods.pojo;
 
-public class GsGoodsCombin {
+import java.io.Serializable;
+
+public class GsGoodsCombin implements Serializable{
     private Long goodsId;
 
     private Long combinGoodsId;

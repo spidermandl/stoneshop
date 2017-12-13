@@ -9,17 +9,7 @@ import java.util.List;
 public interface ReadStoreMapper {
     int deleteByPrimaryKey(Long storeId);
 
-    int insert(StoreWithBLOBs record);
-
-    int insertSelective(StoreWithBLOBs record);
-
     StoreWithBLOBs selectByPrimaryKey(Long storeId);
-
-    int updateByPrimaryKeySelective(StoreWithBLOBs record);
-
-    int updateByPrimaryKeyWithBLOBs(StoreWithBLOBs record);
-
-    int updateByPrimaryKey(Store record);
 
     Store findByMemberId(@Param("memberId") Long memberId);
 

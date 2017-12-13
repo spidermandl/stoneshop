@@ -7,15 +7,12 @@ import org.goshop.common.exception.PageException;
 import org.goshop.common.utils.PageUtils;
 import org.goshop.goods.i.GoodsClassService;
 import org.goshop.goods.pojo.GsGoodsClass;
-import org.goshop.store.i.StoreClassService;
-import org.goshop.store.i.StoreGradeService;
-import org.goshop.store.i.StoreService;
+import org.goshop.store.i.*;
 import org.goshop.store.mapper.master.StoreJoinMapper;
 import org.goshop.store.model.JsonManagement;
 import org.goshop.store.model.JsonManagementClass;
 import org.goshop.store.pojo.*;
 import org.goshop.store.model.StoreInfoModel;
-import org.goshop.store.i.StoreJoinService;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.goshop.users.pojo.User;
@@ -47,6 +44,9 @@ public class StoreJoinServiceImpl implements StoreJoinService {
 
     @Autowired
     GoodsClassService goodsClassService;
+
+    @Autowired
+    StoreAreaService storeAreaService;
 
     @Autowired
     StoreService storeService;
@@ -165,7 +165,12 @@ public class StoreJoinServiceImpl implements StoreJoinService {
     @Override
     public Store getCurrentStore(User user) {
         Store store = storeService.findByMemberId(user.getId());
-        store.setStoreGrade(storeGradeService.findOne(store.getGradeId()));
+        if (store!=null) {
+            if (store.getStoreGrade()!=null)
+                store.setStoreGrade(storeGradeService.findOne(store.getGradeId()));
+            if (store.getAreaId()!=null)
+                store.setArea(storeAreaService.findOne(Long.parseLong(store.getAreaId().toString())));
+        }
         return store;
     }
 

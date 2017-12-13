@@ -8,7 +8,7 @@
     border-radius: 4px;
 }
 
-.productmain{width: 900px;border: 1px solid #d7d7d7;overflow: hidden;margin: 5px;padding-bottom: 20px;background: #fff;}
+.productmain{width: 910px;border: 1px solid #d7d7d7;overflow: hidden;margin: 5px;padding-bottom: 20px;background: #fff;}
 /**goods创建第二步 样式 start--------------------------------------***/
 .tabledetail{border-collapse: collapse;border: 1px solid #E2E1E1;width: 100%;}
 .tabledetail tr{border: 1px solid #E2E1E1;}
@@ -212,6 +212,23 @@
 .modifysp span{display: block;float: right}
 .addnavtable{margin-left: auto;margin-right: auto;margin-top: 20px;}
 .addnavtable td{padding-top: 10px;padding-bottom: 10px;border: none}
+/**end--------------------------------------***/
+
+/**store设置start--------------------------------------***/
+.setshop{width:900px;margin-left: auto;margin-right: auto;margin-top: 30px;}
+.setshoptable{width:900px;}
+.setshoptable td{border: none;height: 35px;}
+.shoplogo img{border: 1px solid #ccc;padding: 3px;}
+.setlogo li{margin-bottom: 20px;}
+.setinfo{color: #999;}
+.setinfo strong{color: #F00;font-weight: lighter;}
+.setbanner{width: 460px;}
+.setbanner li{margin-bottom: 20px;}
+.shopbanner img{padding: 3px;border: 1px solid #ccc;}
+.setinput input{height: 22px;width: 220px;border: 1px solid #D3D1D1;line-height: 22px;padding-left: 5px;}
+.setedit input{margin-left: 10px;padding: 2px;}
+.setseo li{line-height: 30px;}
+.setsub input{background: url(../images/usercenter/tijiao.jpg) no-repeat;width: 103px;height: 29px;color: #FFF;font-size: 14px;font-weight: bold;margin-top: 20px;border: 0px;cursor: pointer}
 /**end--------------------------------------***/
 
 /**系统常用按钮样式css3**/

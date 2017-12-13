@@ -249,6 +249,26 @@ public class GoodsController {
         return "goods/good_add_step_two";
     }
 
+    /**
+     * 第三部操作，保存商品
+     * @param model
+     * @param user
+     * @param request
+     * @param response
+     * @param id
+     * @param goods_class_id
+     * @param image_ids
+     * @param goods_main_img_id
+     * @param user_class_ids
+     * @param goods_brand_id
+     * @param goods_spec_ids
+     * @param goods_properties
+     * @param inventory_details
+     * @param goods_session
+     * @param transport_type
+     * @param transport_id
+     * @return
+     */
     @RequestMapping("/step_three")
     public String three(Model model,
                         @CurrentUser User user,
@@ -548,8 +568,7 @@ public class GoodsController {
         String[] ids = mulitId.split(",");
         for (String id : ids){
             if (!id.equals("")){
-                GsGoodsWithBLOBs goods =
-                        this.goodsService.findOne(Long.valueOf(Long.parseLong(id)));
+                GsGoodsWithBLOBs goods = this.goodsService.findOne(Long.valueOf(Long.parseLong(id)));
 
                 Store store = this.storeService.findOne(goods.getGoodsStoreId());
                 User member = this.userService.findOne(store.getMemberId());
@@ -683,8 +702,7 @@ public class GoodsController {
         // GoodsSpecProperty gsp;
         for (String spec_id : spec_ids){
             if (!spec_id.equals("")){
-                GsGoodsSpecProperty gsp =
-                        this.goodsPropertyService.findOne(Long.valueOf(Long.parseLong(spec_id)));
+                GsGoodsSpecProperty gsp = this.goodsPropertyService.findOne(Long.valueOf(Long.parseLong(spec_id)));
                 gsps.add(gsp);
             }
         }
@@ -828,7 +846,10 @@ public class GoodsController {
 
         response.setContentType("text/plain");
         response.setHeader("Cache-Control", "no-cache");
-        try {request.setCharacterEncoding("UTF-8");} catch (java.io.UnsupportedEncodingException e1) {e1.printStackTrace();}
+        try {request.setCharacterEncoding("UTF-8");}
+        catch (java.io.UnsupportedEncodingException e1) {
+            e1.printStackTrace();
+        }
         try {
             PrintWriter writer = response.getWriter();
             writer.print(JSONObject.fromObject(json_map).toString());
@@ -837,49 +858,6 @@ public class GoodsController {
         }
     }
 
-    /**
-     * 上传商品说明嵌入图片
-     * @param user
-     * @param request
-     * @param response
-     * @throws ClassNotFoundException
-     */
-    @RequestMapping({"/upload.htm"})
-    public void upload(@CurrentUser User user,
-                       HttpServletRequest request,
-                       HttpServletResponse response) throws ClassNotFoundException {
-        Store store = storeJoinService.getCurrentStore(user);
-
-        String saveFilePathName = this.storeTools.createUserFolder(request,store);
-        String url = this.storeTools.createUserFolderURL(store);
-
-//        String webPath = request.getContextPath().equals("/") ? "" : request.getContextPath();
-//        if ((this.configService.getSysConfig().getAddress() != null) &&
-//                (!this.configService.getSysConfig().getAddress().equals(""))){
-//            webPath = this.configService.getSysConfig().getAddress() + webPath;
-//        }
-
-        JSONObject obj = new JSONObject();
-        try {
-            Map map = CommUtil.saveFileToServer(request, "imgFile", saveFilePathName, null, null);
-            url = CommUtil.getURL(request) + "/" + url + "/" + map.get("fileName");
-            obj.put("error", Integer.valueOf(0));
-            obj.put("url", url);
-        } catch (IOException e){
-            obj.put("error", Integer.valueOf(1));
-            obj.put("message", e.getMessage());
-            e.printStackTrace();
-        }
-        response.setContentType("text/html");
-        response.setHeader("Cache-Control", "no-cache");
-        try {request.setCharacterEncoding("UTF-8");} catch (java.io.UnsupportedEncodingException e1) {e1.printStackTrace();}
-        try {
-            PrintWriter writer = response.getWriter();
-            writer.print(obj.toString());
-        } catch (IOException e){
-            e.printStackTrace();
-        }
-    }
 
     /**
      * 删除上传图片

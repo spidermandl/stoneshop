@@ -16,14 +16,10 @@ import javax.servlet.ServletResponse;
  */
 public class CustomUserFilter extends PathMatchingFilter {
 
-    @Autowired
-    private UserService userService;
-
     @Override
     protected boolean onPreHandle(ServletRequest request, ServletResponse response, Object mappedValue) throws Exception {
 
         User user = (User) SecurityUtils.getSubject().getPrincipal();
-        //userService.findByLoginName(username)
         request.setAttribute(Constants.CURRENT_USER, user);
         return true;
     }

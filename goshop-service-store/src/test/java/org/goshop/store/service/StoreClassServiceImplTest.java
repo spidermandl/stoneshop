@@ -1,7 +1,9 @@
 package org.goshop.store.service;
 
 import org.goshop.base.service.SpringBaseTest;
+import org.goshop.store.i.StoreAreaService;
 import org.goshop.store.i.StoreClassService;
+import org.goshop.store.pojo.GsArea;
 import org.goshop.store.pojo.StoreClass;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,11 +18,10 @@ import static org.junit.Assert.*;
 public class StoreClassServiceImplTest extends SpringBaseTest {
 
     @Autowired
-    StoreClassService storeClassService;
+    StoreAreaService storeAreaService;
 
     @Test
-    public void testFindByParentId() throws Exception {
-        List<StoreClass> list=storeClassService.findByParentId(Long.valueOf(9));
-        super.logger.info(list.size());
+    public void testAreaFindByParentId() throws Exception{
+        List<GsArea> areas = storeAreaService.findByParentId(null);
     }
 }

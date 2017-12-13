@@ -1,8 +1,9 @@
 package org.goshop.goods.pojo;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class GsGoodsSpecProperty {
+public class GsGoodsSpecProperty implements Serializable {
     private Long id;
 
     private Date addtime;
