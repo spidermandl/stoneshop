@@ -1,4 +1,4 @@
-package org.goshop.common.attachment;
+package org.goshop.common.service;
 
 import org.goshop.common.exception.FileException;
 import org.goshop.common.utils.FileUtils;

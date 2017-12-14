@@ -2,8 +2,12 @@ package org.goshop.store.service;
 
 import com.github.pagehelper.PageInfo;
 import org.goshop.common.utils.PageUtils;
+import org.goshop.goods.i.AccessoryService;
 import org.goshop.store.i.StoreService;
 import org.goshop.store.mapper.master.StoreMapper;
+import org.goshop.store.mapper.read.ReadGsAreaMapper;
+import org.goshop.store.mapper.read.ReadStoreGradeMapper;
+import org.goshop.store.mapper.read.ReadStoreMapper;
 import org.goshop.store.pojo.Store;
 import org.goshop.store.pojo.StoreJoin;
 import org.goshop.store.pojo.StoreWithBLOBs;
@@ -20,11 +24,20 @@ public class StoreServiceImpl implements StoreService {
 
     @Autowired
     StoreMapper storeMapper;
+    @Autowired
+    ReadStoreMapper readStoreMapper;
+    @Autowired
+    ReadStoreGradeMapper readStoreGradeMapper;
+    @Autowired
+    ReadGsAreaMapper readGsAreaMapper;
+
+    @Autowired
+    AccessoryService accessoryService;
 
     @Override
     public PageInfo<Store> findAll(Integer curPage, Integer pageSize) {
         PageUtils.startPage(curPage,pageSize);
-        List<Store> list=storeMapper.findAll();
+        List<Store> list=readStoreMapper.findAll();
         return new PageInfo<>(list);
     }
 
@@ -53,7 +66,7 @@ public class StoreServiceImpl implements StoreService {
 
     @Override
     public Store getCurrentStore(User user) {
-        return storeMapper.findByMemberId(user.getId());
+        return readStoreMapper.findByMemberId(user.getId());
     }
 
     @Override
@@ -83,13 +96,15 @@ public class StoreServiceImpl implements StoreService {
             }
         }
         PageUtils.startPage(curPage,pageSize);
-        List<Store> list=storeMapper.find(gradeId,sellerName,storeName,storeState,isExpire,isExpired);
+        List<Store> list=readStoreMapper.find(gradeId,sellerName,storeName,storeState,isExpire,isExpired);
         return new PageInfo<>(list);
     }
 
     @Override
     public StoreWithBLOBs findOne(Long storeId) {
-        return storeMapper.selectByPrimaryKey(storeId);
+        StoreWithBLOBs store = readStoreMapper.selectByPrimaryKey(storeId);
+        fillForeignTable(store);
+        return store;
     }
 
     @Override
@@ -98,7 +113,21 @@ public class StoreServiceImpl implements StoreService {
     }
 
     @Override
-    public Store findByMemberId(Long userId) {
-        return storeMapper.findByMemberId(userId);
+    public StoreWithBLOBs findByMemberId(Long userId) {
+        StoreWithBLOBs store = readStoreMapper.findByMemberId(userId);
+        return store;
+    }
+
+    private void fillForeignTable(Store store){
+        if (store!=null) {
+            if (store.getGradeId()!=null)
+                store.setStoreGrade(readStoreGradeMapper.selectByPrimaryKey(store.getGradeId()));
+            if (store.getAreaId()!=null)
+                store.setArea(readGsAreaMapper.selectByPrimaryKey(store.getAreaId()));
+            if (store.getStoreLabel()!=null)
+                store.setLogo(accessoryService.findOne(store.getStoreLabel()));
+            if (store.getBanner()!=null)
+                store.setBanner(accessoryService.findOne(store.getStoreBanner()));
+        }
     }
 }

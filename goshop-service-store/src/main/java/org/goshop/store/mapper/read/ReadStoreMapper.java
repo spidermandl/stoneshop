@@ -11,7 +11,7 @@ public interface ReadStoreMapper {
 
     StoreWithBLOBs selectByPrimaryKey(Long storeId);
 
-    Store findByMemberId(@Param("memberId") Long memberId);
+    StoreWithBLOBs findByMemberId(@Param("memberId") Long memberId);
 
     List<Store> findAll();
 

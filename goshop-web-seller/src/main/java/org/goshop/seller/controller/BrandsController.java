@@ -4,13 +4,12 @@ import com.github.pagehelper.PageInfo;
 import org.goshop.common.service.SystemConfigService;
 import org.goshop.common.web.utils.CommUtil;
 import org.goshop.common.web.utils.WebForm;
-import org.goshop.goods.i.GoodsAccessoryService;
+import org.goshop.goods.i.AccessoryService;
 import org.goshop.goods.i.GoodsBrandService;
-import org.goshop.goods.pojo.GsGoodsAccessory;
+import org.goshop.goods.pojo.GsAccessory;
 import org.goshop.goods.pojo.GsGoodsBrand;
 import org.goshop.seller.controller.tools.StoreTools;
 import org.goshop.shiro.bind.annotation.CurrentUser;
-import org.goshop.users.i.UserService;
 import org.goshop.users.pojo.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -22,7 +21,6 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.IOException;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -39,7 +37,7 @@ public class BrandsController {
     private GoodsBrandService goodsBrandService;
 
     @Autowired
-    private GoodsAccessoryService goodsAccessoryService;
+    private AccessoryService accessoryService;
 
     @Autowired
     private StoreTools storeTools;
@@ -60,7 +58,7 @@ public class BrandsController {
         PageInfo<GsGoodsBrand> pList = this.goodsBrandService.findByUserId(user,index,12,orderBy,orderType);
         for (GsGoodsBrand gb : pList.getList()){
             if (gb.getBrandlogoId()!=null)
-                gb.setBrandLogo(this.goodsAccessoryService.findOne(gb.getBrandlogoId()));
+                gb.setBrandLogo(this.accessoryService.findOne(gb.getBrandlogoId()));
         }
         CommUtil.saveIPageList2ModelAndView("", "", "", pList, model);
 
@@ -82,7 +80,7 @@ public class BrandsController {
         if ((id != null) && (!id.equals(""))){
             GsGoodsBrand goodsBrand = this.goodsBrandService.findOne(Long.valueOf(Long.parseLong(id)));
             if (goodsBrand.getBrandlogoId()!=null)
-                goodsBrand.setBrandLogo(this.goodsAccessoryService.findOne(goodsBrand.getBrandlogoId()));
+                goodsBrand.setBrandLogo(this.accessoryService.findOne(goodsBrand.getBrandlogoId()));
             model.addAttribute("obj", goodsBrand);
         }
         model.addAttribute("edit", Boolean.valueOf(true));
@@ -95,7 +93,7 @@ public class BrandsController {
         if (!id.equals("")){
             GsGoodsBrand brand = this.goodsBrandService.findOne(Long.valueOf(Long.parseLong(id)));
             if (brand.getAudit() != 1){
-                GsGoodsAccessory accessory = this.goodsAccessoryService.findOne(brand.getBrandlogoId());
+                GsAccessory accessory = this.accessoryService.findOne(brand.getBrandlogoId());
                 storeTools.del_acc(request, accessory);
                 this.goodsBrandService.delete(Long.valueOf(Long.parseLong(id)));
             }
@@ -128,10 +126,10 @@ public class BrandsController {
         String saveFilePathName = request.getSession().getServletContext().getRealPath("/")
                 +uploadFilePath + File.separator + "brand";
         try {
-            GsGoodsAccessory photo = null;
+            GsAccessory photo = null;
             String fileName = "";
             if (goodsBrand.getBrandlogoId()!=null){
-                photo = this.goodsAccessoryService.findOne(goodsBrand.getBrandlogoId());
+                photo = this.accessoryService.findOne(goodsBrand.getBrandlogoId());
                 goodsBrand.setBrandLogo(photo);
                 fileName = photo.getName();
             }
@@ -139,7 +137,7 @@ public class BrandsController {
             Map map = CommUtil.saveFileToServer(request, "brandLogo",saveFilePathName, fileName, null);
             if (fileName.equals("")){
                 if (map.get("fileName") != ""){
-                    photo = new GsGoodsAccessory();
+                    photo = new GsAccessory();
                     photo.setName(CommUtil.null2String(map.get("fileName")));
                     photo.setExt(CommUtil.null2String(map.get("mime")));
                     photo.setSize(CommUtil.null2Float(map.get("fileSize")));
@@ -147,7 +145,7 @@ public class BrandsController {
                     photo.setWidth(CommUtil.null2Int(map.get("width")));
                     photo.setHeight(CommUtil.null2Int(map.get("height")));
                     photo.setAddtime(new Date());
-                    Long p_id = this.goodsAccessoryService.save(photo);
+                    Long p_id = this.accessoryService.save(photo);
                     goodsBrand.setBrandlogoId(p_id);
                 }
             }else if (map.get("fileName") != ""){
@@ -158,7 +156,7 @@ public class BrandsController {
                 photo.setWidth(CommUtil.null2Int(map.get("width")));
                 photo.setHeight(CommUtil.null2Int(map.get("height")));
                 photo.setAddtime(new Date());
-                this.goodsAccessoryService.update(photo);
+                this.accessoryService.update(photo);
             }
         } catch (IOException e){
             e.printStackTrace();

@@ -1,7 +1,9 @@
 package org.goshop.store.service;
 
 import com.github.pagehelper.PageInfo;
+import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
+import net.sf.json.util.JSONUtils;
 import org.goshop.common.exception.MapperException;
 import org.goshop.common.exception.PageException;
 import org.goshop.common.utils.PageUtils;
@@ -9,6 +11,7 @@ import org.goshop.goods.i.GoodsClassService;
 import org.goshop.goods.pojo.GsGoodsClass;
 import org.goshop.store.i.*;
 import org.goshop.store.mapper.master.StoreJoinMapper;
+import org.goshop.store.mapper.read.ReadStoreJoinMapper;
 import org.goshop.store.model.JsonManagement;
 import org.goshop.store.model.JsonManagementClass;
 import org.goshop.store.pojo.*;
@@ -35,21 +38,19 @@ public class StoreJoinServiceImpl implements StoreJoinService {
 
     @Autowired
     StoreJoinMapper storeJoinMapper;
-
     @Autowired
     StoreClassService storeClassService;
-
     @Autowired
     StoreGradeService storeGradeService;
-
     @Autowired
     GoodsClassService goodsClassService;
-
     @Autowired
     StoreAreaService storeAreaService;
-
     @Autowired
     StoreService storeService;
+
+    @Autowired
+    ReadStoreJoinMapper readStoreJoinMapper;
 
     @Override
     public void applySeller(User user, StoreJoin storeJoin) {
@@ -85,7 +86,7 @@ public class StoreJoinServiceImpl implements StoreJoinService {
 
     @Override
     public boolean verificationSellerName(String sellerName,Long userId) {
-        List<StoreJoin> list=storeJoinMapper.findBySellerName(sellerName);
+        List<StoreJoin> list=readStoreJoinMapper.findBySellerName(sellerName);
         if(list.size()>1){
             throw new MapperException("数据异常");
         }else if(list.size()==1){
@@ -98,7 +99,7 @@ public class StoreJoinServiceImpl implements StoreJoinService {
 
     @Override
     public boolean verificationStoreName(String storeName,Long userId) {
-        List<StoreJoin> list=storeJoinMapper.findByStoreName(storeName);
+        List<StoreJoin> list=readStoreJoinMapper.findByStoreName(storeName);
         if(list.size()>1){
             throw new MapperException("数据异常");
         }else if(list.size()==1){
@@ -156,27 +157,21 @@ public class StoreJoinServiceImpl implements StoreJoinService {
             }
         }
 
-        storeJoin.setStoreClassIds(JSONObject.fromObject(jsonManagementList).toString());
+        storeJoin.setStoreClassIds(JSONArray.fromObject(jsonManagementList).toString());
         storeJoin.setJoininState(StoreJoinMapper.JOIN_STATIC_APPLY);
         storeJoinMapper.updateByPrimaryKeySelective(storeJoin);
-        return storeJoinMapper.selectByPrimaryKey(user.getId());
+        return readStoreJoinMapper.selectByPrimaryKey(user.getId());
     }
 
     @Override
     public Store getCurrentStore(User user) {
         Store store = storeService.findByMemberId(user.getId());
-        if (store!=null) {
-            if (store.getStoreGrade()!=null)
-                store.setStoreGrade(storeGradeService.findOne(store.getGradeId()));
-            if (store.getAreaId()!=null)
-                store.setArea(storeAreaService.findOne(Long.parseLong(store.getAreaId().toString())));
-        }
         return store;
     }
 
     @Override
     public StoreJoin getCurrentUserStoreJoin(User user) {
-        return storeJoinMapper.selectByPrimaryKey(user.getId());
+        return readStoreJoinMapper.selectByPrimaryKey(user.getId());
     }
 
     @Override
@@ -186,24 +181,24 @@ public class StoreJoinServiceImpl implements StoreJoinService {
     }
 
     private StoreJoin getCurrentUserStoreJoin(Long userId) {
-        return storeJoinMapper.selectByPrimaryKey(userId);
+        return readStoreJoinMapper.selectByPrimaryKey(userId);
     }
 
     @Override
     public PageInfo<StoreJoin> findAll(Integer curPage, Integer pageSize) {
         PageUtils.startPage(curPage,pageSize);
-        List<StoreJoin> list = storeJoinMapper.findAll();
+        List<StoreJoin> list = readStoreJoinMapper.findAll();
         return new PageInfo<>(list);
     }
 
     @Override
     public StoreJoin find(Long memberId) {
-        return storeJoinMapper.selectByPrimaryKey(memberId);
+        return readStoreJoinMapper.selectByPrimaryKey(memberId);
     }
 
     @Override
     public void saveVerify(Long memberId, String verify_type, String join_message, String[] commis_rate) {
-        StoreJoin storeJoin= storeJoinMapper.selectByPrimaryKey(memberId);
+        StoreJoin storeJoin= readStoreJoinMapper.selectByPrimaryKey(memberId);
         storeJoin.setJoininMessage(join_message);
         boolean isStore = false;
         if(storeJoin.getJoininState().equals(storeJoinMapper.JOIN_STATIC_APPLY)) {

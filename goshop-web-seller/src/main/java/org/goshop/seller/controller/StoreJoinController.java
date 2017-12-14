@@ -1,16 +1,16 @@
 package org.goshop.seller.controller;
 
 import org.apache.shiro.SecurityUtils;
-import org.apache.shiro.session.Session;
-import org.apache.shiro.subject.SimplePrincipalCollection;
-import org.apache.shiro.subject.support.DefaultSubjectContext;
-import org.goshop.common.attachment.AttachmentService;
+import org.goshop.common.service.AttachmentService;
 import org.goshop.common.context.CustomTimestampEditor;
 import org.goshop.common.exception.PageException;
-import org.goshop.common.utils.StringUtils;
+import org.goshop.common.utils.DateTimeUtils;
+import org.goshop.common.web.utils.CommUtil;
 import org.goshop.common.web.utils.JsonUtils;
+import org.goshop.goods.i.AccessoryService;
+import org.goshop.goods.pojo.GsAccessory;
+import org.goshop.seller.controller.tools.StoreTools;
 import org.goshop.shiro.bind.annotation.CurrentUser;
-import org.goshop.shiro.service.RedisSessionDAO;
 import org.goshop.shiro.service.UserRealm;
 import org.goshop.store.i.StoreJoinService;
 import org.goshop.store.model.JsonManagement;
@@ -24,6 +24,7 @@ import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.Assert;
+import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.ServletRequestDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
@@ -31,15 +32,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Collection;
+import java.util.Date;
 import java.util.List;
-import java.util.Set;
+import java.util.Map;
+import java.util.UUID;
 
 /**
  * 商家线上店加盟
@@ -50,15 +52,16 @@ public class StoreJoinController {
 
     @Autowired
     StoreJoinService storeJoinService;
-
     @Autowired
-    AttachmentService attachmentService;
-
+    AccessoryService accessoryService;
     @Autowired
     UserService userService;
 
     @Autowired
     UserRealm userRealm;
+
+    @Autowired
+    StoreTools storeTools;
 
     @InitBinder
     protected void initBinder(HttpServletRequest request,
@@ -101,11 +104,11 @@ public class StoreJoinController {
         StoreJoin storeJoin = storeJoinService.getCurrentUserStoreJoin(user);
         if (storeJoin != null) {
             String state = storeJoin.getJoininState();
-            //if (StringUtils.hasText(state) && state.equals("30") && !StringUtils.hasText(statePage)) {
-            //    return "redirect:/store_join/step1.html";
-            //} else if (StringUtils.hasText(state)) {
+            if (StringUtils.hasText(state) && state.equals("30") && !StringUtils.hasText(statePage)) {
+                return "redirect:/store_join/step1.html";
+            } else if (StringUtils.hasText(state)) {
                 return "redirect:/store_join/step4.html";
-           // }
+            }
         }
 
         return null;
@@ -122,7 +125,8 @@ public class StoreJoinController {
     }
 
     @RequestMapping(value = "/step2", method = RequestMethod.POST)
-    public String stepTwo(@CurrentUser User user,StoreJoin storeJoin,
+    public String stepTwo(@CurrentUser User user,
+                          StoreJoin storeJoin,
                           BindingResult result,
                           Model model,
                           @RequestParam("businessLicenceNumber_electronic") MultipartFile businessLicenceNumberFile,//营业执照号电子版
@@ -140,12 +144,12 @@ public class StoreJoinController {
         Assert.isTrue(generalTaxpayerFile.getSize() < 1000000, "一般纳税人证明文件超过了1M，请编辑后重新上传！");
 
         try {
-            String business= attachmentService.upload(businessLicenceNumberFile);
-            String organization =  attachmentService.upload(organizationCodeFile);
-            String generalTaxpayer=attachmentService.upload(generalTaxpayerFile);
-            storeJoin.setBusinessLicenceNumberElectronic(business);
-            storeJoin.setOrganizationCodeElectronic(organization);
-            storeJoin.setGeneralTaxpayer(generalTaxpayer);
+            storeJoin.setBusinessLicenceNumberElectronic(
+                    saveImg(request,(CommonsMultipartFile) businessLicenceNumberFile,user.getId()));
+            storeJoin.setOrganizationCodeElectronic(
+                    saveImg(request,(CommonsMultipartFile) organizationCodeFile,user.getId()));
+            storeJoin.setGeneralTaxpayer(
+                    saveImg(request,(CommonsMultipartFile) generalTaxpayerFile,user.getId()));
         } catch (IOException e) {
             e.printStackTrace();
             throw new PageException("文件保存错误！");
@@ -160,6 +164,7 @@ public class StoreJoinController {
         model.addAttribute("P_SIDEBAR", 2);
         return "store/settled_step_two";
     }
+
 
     @RequestMapping(value = "/step3", method = RequestMethod.POST)
     public String stepThree(@CurrentUser User user,StoreJoin storeJoin,
@@ -177,10 +182,10 @@ public class StoreJoinController {
         Assert.isTrue(taxRegistrationCertificateElectronicFile.getSize() < 1000000, "税务登记证号电子版文件超过了1M，请编辑后重新上传！");
 
         try {
-            String bankLicence= attachmentService.upload(bankLicenceElectronicFile);
-            String taxRegistrationCertificate =  attachmentService.upload(taxRegistrationCertificateElectronicFile);
-            storeJoin.setBankLicenceElectronic(bankLicence);
-            storeJoin.setTaxRegistrationCertificateElectronic(taxRegistrationCertificate);
+            storeJoin.setBankLicenceElectronic(
+                    saveImg(request,(CommonsMultipartFile) bankLicenceElectronicFile,user.getId()));
+            storeJoin.setTaxRegistrationCertificateElectronic(
+                    saveImg(request,(CommonsMultipartFile) taxRegistrationCertificateElectronicFile,user.getId()));
         } catch (IOException e) {
             e.printStackTrace();
             throw new PageException("文件保存错误！");
@@ -270,8 +275,8 @@ public class StoreJoinController {
         Assert.isTrue(certificate.getSize() < 1000000, "付款凭证电子版文件超过了1M，请编辑后重新上传！");
 
         try {
-            String certificateStr= attachmentService.upload(certificate);
-            storeJoin.setPayingMoneyCertificate(certificateStr);
+            storeJoin.setPayingMoneyCertificate(saveImg(
+                    request,(CommonsMultipartFile) certificate,user.getId()));
         } catch (IOException e) {
             e.printStackTrace();
             throw new PageException("文件保存错误！");
@@ -299,4 +304,23 @@ public class StoreJoinController {
 
     }
 
+    /****************************************************************************************************
+     * private
+     ***************************************************************************************************/
+    /**
+     * 保存图片
+     * @param request
+     * @param file
+     * @param userId
+     * @return
+     * @throws IOException
+     */
+    private long saveImg(HttpServletRequest request,CommonsMultipartFile file,Long userId) throws IOException{
+        String path = this.storeTools.createUserFolder(request, null);
+        String url = this.storeTools.createUserFolderURL(null);
+        Map map = CommUtil.saveFileToServer(file, path, null, null);
+        GsAccessory img = this.storeTools.bundleAccessory(map,url,null,userId);
+        long id = accessoryService.save(img);
+        return id;
+    }
 }

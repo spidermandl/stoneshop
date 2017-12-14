@@ -13,26 +13,26 @@
     <result column="store_owner_card" property="storeOwnerCard" jdbcType="VARCHAR" />
     <result column="sc_id" property="scId" jdbcType="INTEGER" />
     <result column="store_company_name" property="storeCompanyName" jdbcType="VARCHAR" />
-    <result column="area_id" property="areaId" jdbcType="INTEGER" />
+    <result column="area_id" property="areaId" jdbcType="BIGINT" />
     <result column="area_info" property="areaInfo" jdbcType="VARCHAR" />
     <result column="store_address" property="storeAddress" jdbcType="VARCHAR" />
     <result column="store_zip" property="storeZip" jdbcType="VARCHAR" />
     <result column="store_tel" property="storeTel" jdbcType="VARCHAR" />
-    <result column="store_image" property="storeImage" jdbcType="VARCHAR" />
-    <result column="store_image1" property="storeImage1" jdbcType="VARCHAR" />
+    <result column="store_image" property="storeImage" jdbcType="BIGINT" />
+    <result column="store_image1" property="storeImage1" jdbcType="BIGINT" />
     <result column="store_state" property="storeState" jdbcType="BIT" />
     <result column="store_close_info" property="storeCloseInfo" jdbcType="VARCHAR" />
     <result column="store_sort" property="storeSort" jdbcType="INTEGER" />
     <result column="store_time" property="storeTime" jdbcType="DATE" />
     <result column="store_end_time" property="storeEndTime" jdbcType="DATE" />
-    <result column="store_label" property="storeLabel" jdbcType="VARCHAR" />
-    <result column="store_banner" property="storeBanner" jdbcType="VARCHAR" />
+    <result column="store_label" property="storeLabel" jdbcType="BIGINT" />
+    <result column="store_banner" property="storeBanner" jdbcType="BIGINT" />
     <result column="store_keywords" property="storeKeywords" jdbcType="VARCHAR" />
     <result column="store_description" property="storeDescription" jdbcType="VARCHAR" />
     <result column="store_qq" property="storeQq" jdbcType="VARCHAR" />
     <result column="store_ww" property="storeWw" jdbcType="VARCHAR" />
     <result column="store_domain" property="storeDomain" jdbcType="VARCHAR" />
-    <result column="store_domain_times" property="storeDomainTimes" jdbcType="BIT" />
+    <result column="store_domain_times" property="storeDomainTimes" jdbcType="INTEGER" />
     <result column="store_recommend" property="storeRecommend" jdbcType="BIT" />
     <result column="store_theme" property="storeTheme" jdbcType="VARCHAR" />
     <result column="store_credit" property="storeCredit" jdbcType="INTEGER" />
@@ -71,14 +71,6 @@
   <sql id="Blob_Column_List" >
     description, store_zy, store_slide, store_slide_url, store_presales, store_aftersales
   </sql>
-  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Long" >
-    select
-    <include refid="Base_Column_List" />
-    ,
-    <include refid="Blob_Column_List" />
-    from gs_store
-    where store_id = #{storeId,jdbcType=BIGINT}
-  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
     delete from gs_store
     where store_id = #{storeId,jdbcType=BIGINT}
@@ -106,14 +98,14 @@
     values (#{storeId,jdbcType=BIGINT}, #{storeName,jdbcType=VARCHAR}, #{storeAuth,jdbcType=BIT},
       #{nameAuth,jdbcType=BIT}, #{gradeId,jdbcType=INTEGER}, #{memberId,jdbcType=BIGINT},
       #{memberName,jdbcType=VARCHAR}, #{sellerName,jdbcType=VARCHAR}, #{storeOwnerCard,jdbcType=VARCHAR},
-      #{scId,jdbcType=INTEGER}, #{storeCompanyName,jdbcType=VARCHAR}, #{areaId,jdbcType=INTEGER},
+      #{scId,jdbcType=INTEGER}, #{storeCompanyName,jdbcType=VARCHAR}, #{areaId,jdbcType=BIGINT},
       #{areaInfo,jdbcType=VARCHAR}, #{storeAddress,jdbcType=VARCHAR}, #{storeZip,jdbcType=VARCHAR},
-      #{storeTel,jdbcType=VARCHAR}, #{storeImage,jdbcType=VARCHAR}, #{storeImage1,jdbcType=VARCHAR},
+      #{storeTel,jdbcType=VARCHAR}, #{storeImage,jdbcType=BIGINT}, #{storeImage1,jdbcType=BIGINT},
       #{storeState,jdbcType=BIT}, #{storeCloseInfo,jdbcType=VARCHAR}, #{storeSort,jdbcType=INTEGER},
-      #{storeTime,jdbcType=DATE}, #{storeEndTime,jdbcType=DATE}, #{storeLabel,jdbcType=VARCHAR},
-      #{storeBanner,jdbcType=VARCHAR}, #{storeKeywords,jdbcType=VARCHAR}, #{storeDescription,jdbcType=VARCHAR},
+      #{storeTime,jdbcType=DATE}, #{storeEndTime,jdbcType=DATE}, #{storeLabel,jdbcType=BIGINT},
+      #{storeBanner,jdbcType=BIGINT}, #{storeKeywords,jdbcType=VARCHAR}, #{storeDescription,jdbcType=VARCHAR},
       #{storeQq,jdbcType=VARCHAR}, #{storeWw,jdbcType=VARCHAR}, #{storeDomain,jdbcType=VARCHAR},
-      #{storeDomainTimes,jdbcType=BIT}, #{storeRecommend,jdbcType=BIT}, #{storeTheme,jdbcType=VARCHAR},
+      #{storeDomainTimes,jdbcType=INTEGER}, #{storeRecommend,jdbcType=BIT}, #{storeTheme,jdbcType=VARCHAR},
       #{storeCredit,jdbcType=INTEGER}, #{praiseRate,jdbcType=REAL}, #{storeDesccredit,jdbcType=REAL},
       #{storeServicecredit,jdbcType=REAL}, #{storeDeliverycredit,jdbcType=REAL}, #{storeCollect,jdbcType=INTEGER},
       #{storeStamp,jdbcType=VARCHAR}, #{storePrintdesc,jdbcType=VARCHAR}, #{storeSales,jdbcType=INTEGER},
@@ -318,7 +310,7 @@
         #{storeCompanyName,jdbcType=VARCHAR},
       </if>
       <if test="areaId != null" >
-        #{areaId,jdbcType=INTEGER},
+        #{areaId,jdbcType=BIGINT},
       </if>
       <if test="areaInfo != null" >
         #{areaInfo,jdbcType=VARCHAR},
@@ -333,10 +325,10 @@
         #{storeTel,jdbcType=VARCHAR},
       </if>
       <if test="storeImage != null" >
-        #{storeImage,jdbcType=VARCHAR},
+        #{storeImage,jdbcType=BIGINT},
       </if>
       <if test="storeImage1 != null" >
-        #{storeImage1,jdbcType=VARCHAR},
+        #{storeImage1,jdbcType=BIGINT},
       </if>
       <if test="storeState != null" >
         #{storeState,jdbcType=BIT},
@@ -354,10 +346,10 @@
         #{storeEndTime,jdbcType=DATE},
       </if>
       <if test="storeLabel != null" >
-        #{storeLabel,jdbcType=VARCHAR},
+        #{storeLabel,jdbcType=BIGINT},
       </if>
       <if test="storeBanner != null" >
-        #{storeBanner,jdbcType=VARCHAR},
+        #{storeBanner,jdbcType=BIGINT},
       </if>
       <if test="storeKeywords != null" >
         #{storeKeywords,jdbcType=VARCHAR},
@@ -375,7 +367,7 @@
         #{storeDomain,jdbcType=VARCHAR},
       </if>
       <if test="storeDomainTimes != null" >
-        #{storeDomainTimes,jdbcType=BIT},
+        #{storeDomainTimes,jdbcType=INTEGER},
       </if>
       <if test="storeRecommend != null" >
         #{storeRecommend,jdbcType=BIT},
@@ -476,7 +468,7 @@
         store_company_name = #{storeCompanyName,jdbcType=VARCHAR},
       </if>
       <if test="areaId != null" >
-        area_id = #{areaId,jdbcType=INTEGER},
+        area_id = #{areaId,jdbcType=BIGINT},
       </if>
       <if test="areaInfo != null" >
         area_info = #{areaInfo,jdbcType=VARCHAR},
@@ -491,10 +483,10 @@
         store_tel = #{storeTel,jdbcType=VARCHAR},
       </if>
       <if test="storeImage != null" >
-        store_image = #{storeImage,jdbcType=VARCHAR},
+        store_image = #{storeImage,jdbcType=BIGINT},
       </if>
       <if test="storeImage1 != null" >
-        store_image1 = #{storeImage1,jdbcType=VARCHAR},
+        store_image1 = #{storeImage1,jdbcType=BIGINT},
       </if>
       <if test="storeState != null" >
         store_state = #{storeState,jdbcType=BIT},
@@ -512,10 +504,10 @@
         store_end_time = #{storeEndTime,jdbcType=DATE},
       </if>
       <if test="storeLabel != null" >
-        store_label = #{storeLabel,jdbcType=VARCHAR},
+        store_label = #{storeLabel,jdbcType=BIGINT},
       </if>
       <if test="storeBanner != null" >
-        store_banner = #{storeBanner,jdbcType=VARCHAR},
+        store_banner = #{storeBanner,jdbcType=BIGINT},
       </if>
       <if test="storeKeywords != null" >
         store_keywords = #{storeKeywords,jdbcType=VARCHAR},
@@ -533,7 +525,7 @@
         store_domain = #{storeDomain,jdbcType=VARCHAR},
       </if>
       <if test="storeDomainTimes != null" >
-        store_domain_times = #{storeDomainTimes,jdbcType=BIT},
+        store_domain_times = #{storeDomainTimes,jdbcType=INTEGER},
       </if>
       <if test="storeRecommend != null" >
         store_recommend = #{storeRecommend,jdbcType=BIT},
@@ -613,26 +605,26 @@
       store_owner_card = #{storeOwnerCard,jdbcType=VARCHAR},
       sc_id = #{scId,jdbcType=INTEGER},
       store_company_name = #{storeCompanyName,jdbcType=VARCHAR},
-      area_id = #{areaId,jdbcType=INTEGER},
+      area_id = #{areaId,jdbcType=BIGINT},
       area_info = #{areaInfo,jdbcType=VARCHAR},
       store_address = #{storeAddress,jdbcType=VARCHAR},
       store_zip = #{storeZip,jdbcType=VARCHAR},
       store_tel = #{storeTel,jdbcType=VARCHAR},
-      store_image = #{storeImage,jdbcType=VARCHAR},
-      store_image1 = #{storeImage1,jdbcType=VARCHAR},
+      store_image = #{storeImage,jdbcType=BIGINT},
+      store_image1 = #{storeImage1,jdbcType=BIGINT},
       store_state = #{storeState,jdbcType=BIT},
       store_close_info = #{storeCloseInfo,jdbcType=VARCHAR},
       store_sort = #{storeSort,jdbcType=INTEGER},
       store_time = #{storeTime,jdbcType=DATE},
       store_end_time = #{storeEndTime,jdbcType=DATE},
-      store_label = #{storeLabel,jdbcType=VARCHAR},
-      store_banner = #{storeBanner,jdbcType=VARCHAR},
+      store_label = #{storeLabel,jdbcType=BIGINT},
+      store_banner = #{storeBanner,jdbcType=BIGINT},
       store_keywords = #{storeKeywords,jdbcType=VARCHAR},
       store_description = #{storeDescription,jdbcType=VARCHAR},
       store_qq = #{storeQq,jdbcType=VARCHAR},
       store_ww = #{storeWw,jdbcType=VARCHAR},
       store_domain = #{storeDomain,jdbcType=VARCHAR},
-      store_domain_times = #{storeDomainTimes,jdbcType=BIT},
+      store_domain_times = #{storeDomainTimes,jdbcType=INTEGER},
       store_recommend = #{storeRecommend,jdbcType=BIT},
       store_theme = #{storeTheme,jdbcType=VARCHAR},
       store_credit = #{storeCredit,jdbcType=INTEGER},
@@ -668,26 +660,26 @@
       store_owner_card = #{storeOwnerCard,jdbcType=VARCHAR},
       sc_id = #{scId,jdbcType=INTEGER},
       store_company_name = #{storeCompanyName,jdbcType=VARCHAR},
-      area_id = #{areaId,jdbcType=INTEGER},
+      area_id = #{areaId,jdbcType=BIGINT},
       area_info = #{areaInfo,jdbcType=VARCHAR},
       store_address = #{storeAddress,jdbcType=VARCHAR},
       store_zip = #{storeZip,jdbcType=VARCHAR},
       store_tel = #{storeTel,jdbcType=VARCHAR},
-      store_image = #{storeImage,jdbcType=VARCHAR},
-      store_image1 = #{storeImage1,jdbcType=VARCHAR},
+      store_image = #{storeImage,jdbcType=BIGINT},
+      store_image1 = #{storeImage1,jdbcType=BIGINT},
       store_state = #{storeState,jdbcType=BIT},
       store_close_info = #{storeCloseInfo,jdbcType=VARCHAR},
       store_sort = #{storeSort,jdbcType=INTEGER},
       store_time = #{storeTime,jdbcType=DATE},
       store_end_time = #{storeEndTime,jdbcType=DATE},
-      store_label = #{storeLabel,jdbcType=VARCHAR},
-      store_banner = #{storeBanner,jdbcType=VARCHAR},
+      store_label = #{storeLabel,jdbcType=BIGINT},
+      store_banner = #{storeBanner,jdbcType=BIGINT},
       store_keywords = #{storeKeywords,jdbcType=VARCHAR},
       store_description = #{storeDescription,jdbcType=VARCHAR},
       store_qq = #{storeQq,jdbcType=VARCHAR},
       store_ww = #{storeWw,jdbcType=VARCHAR},
       store_domain = #{storeDomain,jdbcType=VARCHAR},
-      store_domain_times = #{storeDomainTimes,jdbcType=BIT},
+      store_domain_times = #{storeDomainTimes,jdbcType=INTEGER},
       store_recommend = #{storeRecommend,jdbcType=BIT},
       store_theme = #{storeTheme,jdbcType=VARCHAR},
       store_credit = #{storeCredit,jdbcType=INTEGER},
@@ -706,41 +698,4 @@
     where store_id = #{storeId,jdbcType=BIGINT}
   </update>
 
-  <select id="findByMemberId" resultMap="BaseResultMap" parameterType="java.lang.Long" >
-    select
-    <include refid="Base_Column_List" />
-    from gs_store
-    where member_id = #{memberId,jdbcType=BIGINT}
-  </select>
-
-  <select id="findAll" resultMap="BaseResultMap" >
-    select
-    <include refid="Base_Column_List" />
-    from gs_store
-  </select>
-
-  <select id="find" resultMap="BaseResultMap" >
-    select
-    <include refid="Base_Column_List" />
-    from gs_store
-    where 1=1
-    <if test="gradeId != null" >
-      and grade_id = #{gradeId,jdbcType=INTEGER}
-    </if>
-    <if test="sellerName != null and sellerName !='' " >
-      and seller_name like CONCAT('%',#{sellerName,jdbcType=VARCHAR},'%')
-    </if>
-    <if test="storeName != null and storeName !='' " >
-      and store_name like CONCAT('%',#{storeName,jdbcType=VARCHAR},'%')
-    </if>
-    <if test="storeState != null" >
-      and store_state = #{storeState,jdbcType=INTEGER}
-    </if>
-    <if test="isExpire != null" >
-
-    </if>
-    <if test="isExpired != null" >
-
-    </if>
-  </select>
 </mapper>

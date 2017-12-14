@@ -34,15 +34,15 @@ public class GsGoodsBrand implements Serializable {
 
     private String remark;
 
-    public GsGoodsAccessory getBrandLogo() {
+    public GsAccessory getBrandLogo() {
         return brandLogo;
     }
 
-    public void setBrandLogo(GsGoodsAccessory brandLogo) {
+    public void setBrandLogo(GsAccessory brandLogo) {
         this.brandLogo = brandLogo;
     }
 
-    private GsGoodsAccessory brandLogo;
+    private GsAccessory brandLogo;
 
     public Long getId() {
         return id;

@@ -18,7 +18,7 @@
     select
     <include refid="Base_Column_List" />
     from gs_area
-    where parent_id = #{id,jdbcType=BIGINT}
+    where id = #{id,jdbcType=BIGINT}
   </select>
   <select id="selectByParentId" resultMap="BaseResultMap" parameterType="java.lang.Long" >
     select

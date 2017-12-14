@@ -22,15 +22,7 @@ public interface ReadStoreJoinMapper {
 
     int deleteByPrimaryKey(Long memberId);
 
-    int insert(StoreJoin record);
-
-    int insertSelective(StoreJoin record);
-
     StoreJoin selectByPrimaryKey(Long memberId);
-
-    int updateByPrimaryKeySelective(StoreJoin record);
-
-    int updateByPrimaryKey(StoreJoin record);
 
     List<StoreJoin> findBySellerName(@Param("sellerName") String sellerName);
 

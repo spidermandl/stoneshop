@@ -1,7 +1,7 @@
 package org.goshop.manager.controller;
 
 import com.github.pagehelper.PageInfo;
-import org.goshop.common.attachment.AttachmentService;
+import org.goshop.common.service.AttachmentService;
 import org.goshop.common.exception.PageException;
 import org.goshop.common.pojo.ResponseStatus;
 import org.goshop.common.utils.IDUtils;

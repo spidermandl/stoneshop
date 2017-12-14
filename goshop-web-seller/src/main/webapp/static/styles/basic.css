@@ -214,7 +214,7 @@
 .addnavtable td{padding-top: 10px;padding-bottom: 10px;border: none}
 /**end--------------------------------------***/
 
-/**store设置start--------------------------------------***/
+/**-----------------store设置start-----------------------***/
 .setshop{width:900px;margin-left: auto;margin-right: auto;margin-top: 30px;}
 .setshoptable{width:900px;}
 .setshoptable td{border: none;height: 35px;}
@@ -228,8 +228,8 @@
 .setinput input{height: 22px;width: 220px;border: 1px solid #D3D1D1;line-height: 22px;padding-left: 5px;}
 .setedit input{margin-left: 10px;padding: 2px;}
 .setseo li{line-height: 30px;}
-.setsub input{background: url(../images/usercenter/tijiao.jpg) no-repeat;width: 103px;height: 29px;color: #FFF;font-size: 14px;font-weight: bold;margin-top: 20px;border: 0px;cursor: pointer}
-/**end--------------------------------------***/
+.setsub input{background: url(../images/goods/tijiao.jpg) no-repeat;width: 103px;height: 29px;color: #FFF;font-size: 14px;font-weight: bold;margin-top: 20px;border: 0px;cursor: pointer}
+/**-------------------------end---------------------------***/
 
 /**系统常用按钮样式css3**/
 .button_common{color: #666;display: block;float: left;margin-right: 8px;text-decoration: none;font-weight: lighter;line-height: 1;border: 3px;border: 1px solid #ccc;border-radius: 3px;box-shadow: 0 1px 2px #999;text-shadow: 0 -1px 1px #ccc;cursor: pointer;padding: 5px 5px;}

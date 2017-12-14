@@ -1,8 +1,11 @@
 package org.goshop.store.pojo;
 
+import org.goshop.goods.pojo.GsAccessory;
+
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.List;
 
 public class Store  implements Serializable {
     private Long storeId;
@@ -27,7 +30,7 @@ public class Store  implements Serializable {
 
     private String storeCompanyName;
 
-    private Integer areaId;
+    private Long areaId;
 
     private String areaInfo;
 
@@ -37,9 +40,9 @@ public class Store  implements Serializable {
 
     private String storeTel;
 
-    private String storeImage;
+    private Long storeImage;
 
-    private String storeImage1;
+    private Long storeImage1;
 
     private Integer storeState;
 
@@ -51,9 +54,9 @@ public class Store  implements Serializable {
 
     private Date storeEndTime;
 
-    private String storeLabel;
+    private Long storeLabel;
 
-    private String storeBanner;
+    private Long storeBanner;
 
     private String storeKeywords;
 
@@ -65,7 +68,7 @@ public class Store  implements Serializable {
 
     private String storeDomain;
 
-    private Boolean storeDomainTimes;
+    private Integer storeDomainTimes;
 
     private Boolean storeRecommend;
 
@@ -101,7 +104,35 @@ public class Store  implements Serializable {
     /************手动添加*****************/
     private StoreGrade storeGrade;//店铺等级
     private GsArea area;//店铺地点
+    private GsAccessory logo;//店铺logo
+    private GsAccessory banner;//店铺横幅
+    private List<GsStoreSlide> slides;//店铺slide
     /************end*****************/
+
+    public List<GsStoreSlide> getSlides() {
+        return slides;
+    }
+
+    public void setSlides(List<GsStoreSlide> slides) {
+        this.slides = slides;
+    }
+
+    public GsAccessory getLogo() {
+        return logo;
+    }
+
+    public void setLogo(GsAccessory logo) {
+        this.logo = logo;
+    }
+
+    public GsAccessory getBanner() {
+        return banner;
+    }
+
+    public void setBanner(GsAccessory banner) {
+        this.banner = banner;
+    }
+
     public String getMapType() {
         return mapType;
     }
@@ -206,11 +237,11 @@ public class Store  implements Serializable {
         this.storeCompanyName = storeCompanyName == null ? null : storeCompanyName.trim();
     }
 
-    public Integer getAreaId() {
+    public Long getAreaId() {
         return areaId;
     }
 
-    public void setAreaId(Integer areaId) {
+    public void setAreaId(Long areaId) {
         this.areaId = areaId;
     }
 
@@ -246,20 +277,20 @@ public class Store  implements Serializable {
         this.storeTel = storeTel == null ? null : storeTel.trim();
     }
 
-    public String getStoreImage() {
+    public Long getStoreImage() {
         return storeImage;
     }
 
-    public void setStoreImage(String storeImage) {
-        this.storeImage = storeImage == null ? null : storeImage.trim();
+    public void setStoreImage(Long storeImage) {
+        this.storeImage = storeImage;
     }
 
-    public String getStoreImage1() {
+    public Long getStoreImage1() {
         return storeImage1;
     }
 
-    public void setStoreImage1(String storeImage1) {
-        this.storeImage1 = storeImage1 == null ? null : storeImage1.trim();
+    public void setStoreImage1(Long storeImage1) {
+        this.storeImage1 = storeImage1;
     }
 
     public Integer getStoreState() {
@@ -302,20 +333,20 @@ public class Store  implements Serializable {
         this.storeEndTime = storeEndTime ;
     }
 
-    public String getStoreLabel() {
+    public Long getStoreLabel() {
         return storeLabel;
     }
 
-    public void setStoreLabel(String storeLabel) {
-        this.storeLabel = storeLabel == null ? null : storeLabel.trim();
+    public void setStoreLabel(Long storeLabel) {
+        this.storeLabel = storeLabel;
     }
 
-    public String getStoreBanner() {
+    public Long getStoreBanner() {
         return storeBanner;
     }
 
-    public void setStoreBanner(String storeBanner) {
-        this.storeBanner = storeBanner == null ? null : storeBanner.trim();
+    public void setStoreBanner(Long storeBanner) {
+        this.storeBanner = storeBanner;
     }
 
     public String getStoreKeywords() {
@@ -358,11 +389,11 @@ public class Store  implements Serializable {
         this.storeDomain = storeDomain == null ? null : storeDomain.trim();
     }
 
-    public Boolean getStoreDomainTimes() {
+    public Integer getStoreDomainTimes() {
         return storeDomainTimes;
     }
 
-    public void setStoreDomainTimes(Boolean storeDomainTimes) {
+    public void setStoreDomainTimes(Integer storeDomainTimes) {
         this.storeDomainTimes = storeDomainTimes;
     }
 

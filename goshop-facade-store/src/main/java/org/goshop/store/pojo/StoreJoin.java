@@ -36,13 +36,13 @@ public class StoreJoin  implements Serializable {
 
     private String businessSphere;
 
-    private String businessLicenceNumberElectronic;
+    private Long businessLicenceNumberElectronic;
 
     private String organizationCode;
 
-    private String organizationCodeElectronic;
+    private Long organizationCodeElectronic;
 
-    private String generalTaxpayer;
+    private Long generalTaxpayer;
 
     private String bankAccountName;
 
@@ -54,7 +54,7 @@ public class StoreJoin  implements Serializable {
 
     private String bankAddress;
 
-    private String bankLicenceElectronic;
+    private Long bankLicenceElectronic;
 
     private Boolean isSettlementAccount;
 
@@ -72,7 +72,7 @@ public class StoreJoin  implements Serializable {
 
     private String taxpayerId;
 
-    private String taxRegistrationCertificateElectronic;
+    private Long taxRegistrationCertificateElectronic;
 
     private String sellerName;
 
@@ -96,7 +96,7 @@ public class StoreJoin  implements Serializable {
 
     private String storeClassCommisRates;
 
-    private String payingMoneyCertificate;
+    private Long payingMoneyCertificate;
 
     private String payingMoneyCertificateExplain;
 
@@ -228,12 +228,12 @@ public class StoreJoin  implements Serializable {
         this.businessSphere = businessSphere == null ? null : businessSphere.trim();
     }
 
-    public String getBusinessLicenceNumberElectronic() {
+    public Long getBusinessLicenceNumberElectronic() {
         return businessLicenceNumberElectronic;
     }
 
-    public void setBusinessLicenceNumberElectronic(String businessLicenceNumberElectronic) {
-        this.businessLicenceNumberElectronic = businessLicenceNumberElectronic == null ? null : businessLicenceNumberElectronic.trim();
+    public void setBusinessLicenceNumberElectronic(Long businessLicenceNumberElectronic) {
+        this.businessLicenceNumberElectronic = businessLicenceNumberElectronic;
     }
 
     public String getOrganizationCode() {
@@ -244,20 +244,20 @@ public class StoreJoin  implements Serializable {
         this.organizationCode = organizationCode == null ? null : organizationCode.trim();
     }
 
-    public String getOrganizationCodeElectronic() {
+    public Long getOrganizationCodeElectronic() {
         return organizationCodeElectronic;
     }
 
-    public void setOrganizationCodeElectronic(String organizationCodeElectronic) {
-        this.organizationCodeElectronic = organizationCodeElectronic == null ? null : organizationCodeElectronic.trim();
+    public void setOrganizationCodeElectronic(Long organizationCodeElectronic) {
+        this.organizationCodeElectronic = organizationCodeElectronic;
     }
 
-    public String getGeneralTaxpayer() {
+    public Long getGeneralTaxpayer() {
         return generalTaxpayer;
     }
 
-    public void setGeneralTaxpayer(String generalTaxpayer) {
-        this.generalTaxpayer = generalTaxpayer == null ? null : generalTaxpayer.trim();
+    public void setGeneralTaxpayer(Long generalTaxpayer) {
+        this.generalTaxpayer = generalTaxpayer;
     }
 
     public String getBankAccountName() {
@@ -300,12 +300,12 @@ public class StoreJoin  implements Serializable {
         this.bankAddress = bankAddress == null ? null : bankAddress.trim();
     }
 
-    public String getBankLicenceElectronic() {
+    public Long getBankLicenceElectronic() {
         return bankLicenceElectronic;
     }
 
-    public void setBankLicenceElectronic(String bankLicenceElectronic) {
-        this.bankLicenceElectronic = bankLicenceElectronic == null ? null : bankLicenceElectronic.trim();
+    public void setBankLicenceElectronic(Long bankLicenceElectronic) {
+        this.bankLicenceElectronic = bankLicenceElectronic;
     }
 
     public Boolean getIsSettlementAccount() {
@@ -372,12 +372,12 @@ public class StoreJoin  implements Serializable {
         this.taxpayerId = taxpayerId == null ? null : taxpayerId.trim();
     }
 
-    public String getTaxRegistrationCertificateElectronic() {
+    public Long getTaxRegistrationCertificateElectronic() {
         return taxRegistrationCertificateElectronic;
     }
 
-    public void setTaxRegistrationCertificateElectronic(String taxRegistrationCertificateElectronic) {
-        this.taxRegistrationCertificateElectronic = taxRegistrationCertificateElectronic == null ? null : taxRegistrationCertificateElectronic.trim();
+    public void setTaxRegistrationCertificateElectronic(Long taxRegistrationCertificateElectronic) {
+        this.taxRegistrationCertificateElectronic = taxRegistrationCertificateElectronic;
     }
 
     public String getSellerName() {
@@ -468,12 +468,12 @@ public class StoreJoin  implements Serializable {
         this.storeClassCommisRates = storeClassCommisRates == null ? null : storeClassCommisRates.trim();
     }
 
-    public String getPayingMoneyCertificate() {
+    public Long getPayingMoneyCertificate() {
         return payingMoneyCertificate;
     }
 
-    public void setPayingMoneyCertificate(String payingMoneyCertificate) {
-        this.payingMoneyCertificate = payingMoneyCertificate == null ? null : payingMoneyCertificate.trim();
+    public void setPayingMoneyCertificate(Long payingMoneyCertificate) {
+        this.payingMoneyCertificate = payingMoneyCertificate ;
     }
 
     public String getPayingMoneyCertificateExplain() {

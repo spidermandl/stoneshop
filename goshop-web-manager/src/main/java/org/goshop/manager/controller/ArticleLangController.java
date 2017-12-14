@@ -4,7 +4,7 @@ import com.github.pagehelper.PageInfo;
 import org.goshop.cms.pojo.ArticleLangInfo;
 import org.goshop.cms.pojo.ArticleLangMain;
 import org.goshop.cms.pojo.CmsArticleClass;
-import org.goshop.common.attachment.AttachmentService;
+import org.goshop.common.service.AttachmentService;
 import org.goshop.common.context.CustomTimestampEditor;
 import org.goshop.common.exception.PageException;
 import org.goshop.common.utils.IDUtils;

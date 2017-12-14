@@ -30,7 +30,6 @@
                                     <th class="w150"><i>*</i>商家帐号：</th>
                                     <td><input type="text" class="w200" name="sellerName" id="sellerName">
                                         <span></span>
-
                                         <p class="emphasis">此帐号为日后登录并管理商家中心时使用，注册后不可修改，请牢记。</p></td>
                                 </tr>
                                 <tr>
@@ -45,8 +44,8 @@
                                     <td><select id="sgId" name="sgId">
                                         <option value="0">请选择</option>
                                         <#list P_STOREGRADE as storeGrade>
-                                            <option data-explain="${storeGrade.sgDescription}"
-                                                    value="${storeGrade.sgId}">${storeGrade.sgName}</option>
+                                            <option data-explain="${(storeGrade.sgDescription)!}"
+                                                    value="${(storeGrade.sgId)!}">${(storeGrade.sgName)!}</option>
                                         </#list>
                                     </select>
                                         <input type="hidden" name="sgName" id="sgName">
@@ -60,11 +59,11 @@
                                     <td><select id="scId" name="scId">
                                         <option value="0">请选择</option>
                                         <#list P_PARENT_STORECLASS as storeClass>
-                                            <option value="${storeClass.id}">&nbsp;&nbsp;${storeClass.name}</option>
+                                            <option value="${(storeClass.id)!}">&nbsp;&nbsp;${(storeClass.name)!}</option>
                                             <#if storeClass.children??>
                                                 <#list storeClass.children as storeClassChildren>
-                                                    <option value="${storeClassChildren.id}">
-                                                        &nbsp;&nbsp;&nbsp;&nbsp;${storeClassChildren.name}</option>
+                                                    <option value="${(storeClassChildren.id)!}">
+                                                        &nbsp;&nbsp;&nbsp;&nbsp;${(storeClassChildren.name)!}</option>
                                                 </#list>
                                             </#if>
                                         </#list>
@@ -83,7 +82,7 @@
                                             <select id="gcategory_class1" class="valid">
                                                 <option value="0">请选择</option>
                                                 <#list P_PARENT_GOODSCLASS as goodsClass>
-                                                    <option value="${goodsClass.gcId}">${goodsClass.gcName}</option>
+                                                    <option value="${(goodsClass.id)!}">${(goodsClass.classname)!}</option>
                                                 </#list>
                                             </select>
                                             <input type="button" value="确认" id="btn_add_category">

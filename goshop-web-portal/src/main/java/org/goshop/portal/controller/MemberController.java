@@ -1,6 +1,6 @@
 package org.goshop.portal.controller;
 
-import org.goshop.common.attachment.AttachmentService;
+import org.goshop.common.service.AttachmentService;
 import org.goshop.common.context.CustomTimestampEditor;
 import org.goshop.common.exception.PageException;
 import org.goshop.common.utils.*;

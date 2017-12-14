@@ -13,26 +13,26 @@
     <result column="store_owner_card" property="storeOwnerCard" jdbcType="VARCHAR" />
     <result column="sc_id" property="scId" jdbcType="INTEGER" />
     <result column="store_company_name" property="storeCompanyName" jdbcType="VARCHAR" />
-    <result column="area_id" property="areaId" jdbcType="INTEGER" />
+    <result column="area_id" property="areaId" jdbcType="BIGINT" />
     <result column="area_info" property="areaInfo" jdbcType="VARCHAR" />
     <result column="store_address" property="storeAddress" jdbcType="VARCHAR" />
     <result column="store_zip" property="storeZip" jdbcType="VARCHAR" />
     <result column="store_tel" property="storeTel" jdbcType="VARCHAR" />
-    <result column="store_image" property="storeImage" jdbcType="VARCHAR" />
-    <result column="store_image1" property="storeImage1" jdbcType="VARCHAR" />
+    <result column="store_image" property="storeImage" jdbcType="BIGINT" />
+    <result column="store_image1" property="storeImage1" jdbcType="BIGINT" />
     <result column="store_state" property="storeState" jdbcType="BIT" />
     <result column="store_close_info" property="storeCloseInfo" jdbcType="VARCHAR" />
     <result column="store_sort" property="storeSort" jdbcType="INTEGER" />
     <result column="store_time" property="storeTime" jdbcType="DATE" />
     <result column="store_end_time" property="storeEndTime" jdbcType="DATE" />
-    <result column="store_label" property="storeLabel" jdbcType="VARCHAR" />
-    <result column="store_banner" property="storeBanner" jdbcType="VARCHAR" />
+    <result column="store_label" property="storeLabel" jdbcType="BIGINT" />
+    <result column="store_banner" property="storeBanner" jdbcType="BIGINT" />
     <result column="store_keywords" property="storeKeywords" jdbcType="VARCHAR" />
     <result column="store_description" property="storeDescription" jdbcType="VARCHAR" />
     <result column="store_qq" property="storeQq" jdbcType="VARCHAR" />
     <result column="store_ww" property="storeWw" jdbcType="VARCHAR" />
     <result column="store_domain" property="storeDomain" jdbcType="VARCHAR" />
-    <result column="store_domain_times" property="storeDomainTimes" jdbcType="BIT" />
+    <result column="store_domain_times" property="storeDomainTimes" jdbcType="INTEGER" />
     <result column="store_recommend" property="storeRecommend" jdbcType="BIT" />
     <result column="store_theme" property="storeTheme" jdbcType="VARCHAR" />
     <result column="store_credit" property="storeCredit" jdbcType="INTEGER" />
@@ -79,9 +79,11 @@
     where store_id = #{storeId,jdbcType=BIGINT}
   </select>
 
-  <select id="findByMemberId" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+  <select id="findByMemberId" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Long" >
     select
     <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
     from gs_store
     where member_id = #{memberId,jdbcType=BIGINT}
   </select>

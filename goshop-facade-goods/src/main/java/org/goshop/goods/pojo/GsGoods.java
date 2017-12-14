@@ -125,8 +125,8 @@ public class GsGoods implements Serializable {
     private List<GsGoodsSpecProperty> goodsSpecs = new ArrayList<>();//GsGoodsSpecProperty
     private List<GsGoodsWithBLOBs> combinGoods = new ArrayList<>();
     private GsGoodsClass gc;
-    private GsGoodsAccessory goods_main_photo;//商品主图片
-    private List<GsGoodsAccessory> goodsPhotos = new ArrayList<>();//商品副图片
+    private GsAccessory goods_main_photo;//商品主图片
+    private List<GsAccessory> goodsPhotos = new ArrayList<>();//商品副图片
     private GsTransport transport;//运送地址
 
     public GsTransport getTransport() {
@@ -137,19 +137,19 @@ public class GsGoods implements Serializable {
         this.transport = transport;
     }
 
-    public List<GsGoodsAccessory> getGoodsPhotos() {
+    public List<GsAccessory> getGoodsPhotos() {
         return goodsPhotos;
     }
 
-    public void setGoodsPhotos(List<GsGoodsAccessory> goodsPhotos) {
+    public void setGoodsPhotos(List<GsAccessory> goodsPhotos) {
         this.goodsPhotos = goodsPhotos;
     }
 
-    public GsGoodsAccessory getGoods_main_photo() {
+    public GsAccessory getGoods_main_photo() {
         return goods_main_photo;
     }
 
-    public void setGoods_main_photo(GsGoodsAccessory goods_main_photo) {
+    public void setGoods_main_photo(GsAccessory goods_main_photo) {
         this.goods_main_photo = goods_main_photo;
     }
 

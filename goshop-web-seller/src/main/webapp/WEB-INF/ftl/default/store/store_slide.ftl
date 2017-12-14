@@ -15,11 +15,11 @@
 jQuery(document).ready(function(){
    jQuery("#theForm").validate({
        rules: {
-		       acc1:{accept:"$!config.imageSuffix"},
-			   acc2:{accept:"$!config.imageSuffix"},
-			   acc3:{accept:"$!config.imageSuffix"},
-			   acc4:{accept:"$!config.imageSuffix"},
-			   acc5:{accept:"$!config.imageSuffix"}
+		       acc1:{accept:"${(config.imageSuffix)!}"},
+			   acc2:{accept:"${(config.imageSuffix)!}"},
+			   acc3:{accept:"${(config.imageSuffix)!}"},
+			   acc4:{accept:"${(config.imageSuffix)!}"},
+			   acc5:{accept:"${(config.imageSuffix)!}"}
 	          },
 		messages: {
 			   acc1:{accept:"幻灯格式不正确"},
@@ -52,18 +52,18 @@ jQuery(document).ready(function(){
                   <tr>
                     <td width="98" align="right" valign="top">幻灯1：</td>
                     <td width="607" style="padding-left:30px;"><ul class="setlogo">
-                        #if($!store.slides.size()>=1)
-                          #set($slide1=$!store.slides.get(0))
-                        #end
-                        #if($!slide1)
-                        <li class="shoplogo"><img src="${S_URL}/$!slide1.acc.path/$!slide1.acc.name" width="210" height="104" /></li>
-                        #end
+                        <#if ((store.slides?size)!0) gte 1 >
+                          <#assign slide1= store.slides.get(0)/>
+                        </#if>
+                        <#if slide1?? >
+                        <li class="shoplogo"><img src="${S_URL}/${(slide1.acc.path)!}/${(slide1.acc.name)!}" width="210" height="104" /></li>
+                        </#if>
                         <li>图片：
                           <input name="acc1" type="file" id="acc1" size="30" />
                         </li>
                         <li>
                           URL：
-                            <input name="acc_url1" type="text" id="acc_url1" value="$!slide1.url" size="40" />
+                            <input name="acc_url1" type="text" id="acc_url1" value="${(slide1.url)!}" size="40" />
                         </li>
                         <li class="setinfo">此处为您的店铺首页幻灯，<strong>建议尺寸797*393像素</strong></li>
                       </ul></td>
@@ -71,18 +71,18 @@ jQuery(document).ready(function(){
                  <tr>
                     <td width="98" align="right" valign="top">幻灯2：</td>
                     <td width="607" style="padding-left:30px;"><ul class="setlogo">
-                        #if($!store.slides.size()>=2)
-                          #set($slide2=$!store.slides.get(1))
-                        #end
-                        #if($!slide2)
-                        <li class="shoplogo"><img src="${S_URL}/$!slide2.acc.path/$!slide2.acc.name" width="210" height="104" /></li>
-                        #end
+                        <#if (store.slides?size)!0 gte 2 >
+                          <#assign slide2=store.slides.get(1)/>
+                        </#if>
+                        <#if slide2?? >
+                        <li class="shoplogo"><img src="${S_URL}/${(slide2.acc.path)!}/${(slide2.acc.name)!}" width="210" height="104" /></li>
+                        </#if>
                         <li>图片：
                           <input name="acc2" type="file" id="acc2" size="30" />
                         </li>
                         <li>
                           URL：
-                            <input name="acc_url2" type="text" id="acc_url2" value="$!slide2.url" size="40" />
+                            <input name="acc_url2" type="text" id="acc_url2" value="${(slide2.url)!}" size="40" />
                         </li>
                         <li class="setinfo">此处为您的店铺首页幻灯，<strong>建议尺寸797*393像素</strong></li>
                       </ul></td>
@@ -90,18 +90,18 @@ jQuery(document).ready(function(){
                   <tr>
                     <td width="98" align="right" valign="top">幻灯3：</td>
                     <td width="607" style="padding-left:30px;"><ul class="setlogo">
-                        #if($!store.slides.size()>=3)
-                          #set($slide3=$!store.slides.get(2))
-                        #end
-                        #if($!slide3)
-                        <li class="shoplogo"><img src="${S_URL}/$!slide3.acc.path/$!slide3.acc.name" width="210" height="104" /></li>
-                        #end
+                        <#if (store.slides?size)!0 gte 3 >
+                          <#assign slide3=store.slides.get(2)/>
+                        </#if>
+                        <#if slide3?? >
+                        <li class="shoplogo"><img src="${S_URL}/${(slide3.acc.path)!}/${(slide3.acc.name)!}" width="210" height="104" /></li>
+                        </#if>
                         <li>图片：
                           <input name="acc3" type="file" id="acc3" size="30" />
                         </li>
                         <li>
                           URL：
-                            <input name="acc_url3" type="text" id="acc_url3" value="$!slide3.url" size="40" />
+                            <input name="acc_url3" type="text" id="acc_url3" value="${(slide3.url)!}" size="40" />
                         </li>
                         <li class="setinfo">此处为您的店铺首页幻灯，<strong>建议尺寸797*393像素</strong></li>
                       </ul></td>
@@ -109,18 +109,18 @@ jQuery(document).ready(function(){
                   <tr>
                     <td width="98" align="right" valign="top">幻灯4：</td>
                     <td width="607" style="padding-left:30px;"><ul class="setlogo">
-                        #if($!store.slides.size()>=4)
-                          #set($slide4=$!store.slides.get(3))
-                        #end
-                        #if($!slide4)
-                        <li class="shoplogo"><img src="${S_URL}/$!slide4.acc.path/$!slide4.acc.name" width="210" height="104" /></li>
-                        #end
+                        <#if (store.slides?size)!0 gte 4 >
+                          <#assign slide4=store.slides.get(3) />
+                        </#if>
+                        <#if slide4?? >
+                        <li class="shoplogo"><img src="${S_URL}/${(slide4.acc.path)!}/${(slide4.acc.name)!}" width="210" height="104" /></li>
+                        </#if>
                         <li>图片：
                           <input name="acc4" type="file" id="acc4" size="30" />
                         </li>
                         <li>
                           URL：
-                            <input name="acc_url4" type="text" id="acc_url4" value="$!slide4.url" size="40" />
+                            <input name="acc_url4" type="text" id="acc_url4" value="${(slide4.url)!}" size="40" />
                         </li>
                         <li class="setinfo">此处为您的店铺首页幻灯，<strong>建议尺寸797*393像素</strong></li>
                       </ul></td>
@@ -128,18 +128,18 @@ jQuery(document).ready(function(){
                   <tr>
                     <td width="98" align="right" valign="top">幻灯5：</td>
                     <td width="607" style="padding-left:30px;"><ul class="setlogo">
-                        #if($!store.slides.size()>=5)
-                          #set($slide5=$!store.slides.get(4))
-                        #end
-                        #if($!slide5)
-                        <li class="shoplogo"><img src="${S_URL}/$!slide5.acc.path/$!slide5.acc.name" width="210" height="104" /></li>
-                        #end
+                        <#if (store.slides?size)!0 gte 5 >
+                          <#assign slide5=store.slides.get(4) />
+                        </#if>
+                        <#if slide5?? >
+                        <li class="shoplogo"><img src="${S_URL}/${(slide5.acc.path)!}/${(slide5.acc.name)!}" width="210" height="104" /></li>
+                        </#if>
                         <li>图片：
                           <input name="acc5" type="file" id="acc5" size="30" />
                         </li>
                         <li>
                           URL：
-                            <input name="acc_url5" type="text" id="acc_url5" value="$!slide5.url" size="40" />
+                            <input name="acc_url5" type="text" id="acc_url5" value="${(slide5.url)!}" size="40" />
                         </li>
                         <li class="setinfo">此处为您的店铺首页幻灯，<strong>建议尺寸797*393像素</strong></li>
                       </ul></td>
@@ -148,7 +148,7 @@ jQuery(document).ready(function(){
                     <td width="98" align="right">&nbsp;</td>
                     <td style="padding-left:30px;"><span class="setsub">
                       <input name="" type="submit"  value="提交" style="cursor:pointer;"/>
-                      <input name="store_id" type="hidden" id="store_id" value="$!store.id" />
+                      <input name="store_id" type="hidden" id="store_id" value="${(store.id)!}" />
                     </span></td>
                   </tr>
                 </table>

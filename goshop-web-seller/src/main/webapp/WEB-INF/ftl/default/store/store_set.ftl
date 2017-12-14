@@ -105,9 +105,9 @@
             <div class="ordernav">
               <ul class="orderul">
                 <li class="this"><a href="${S_URL}/seller/store_set.htm">店铺设置</a></li>
-                <li><a href="${S_URL}/seller/store_slide.htm">店铺幻灯</a></li>
-                <li><a href="${S_URL}/seller/store_map.htm">店铺地图</a></li>
-                <li><a href="${S_URL}/seller/store_approve.htm">店铺认证</a></li>
+                <li><a href="${S_URL}/store/store_slide">店铺幻灯</a></li>
+                <li><a href="${S_URL}/store/store_map">店铺地图</a></li>
+                <li><a href="${S_URL}/store/store_approve">店铺认证</a></li>
               </ul>
             </div>
             <form action="${S_URL}/store/store_set_save" method="post" enctype="multipart/form-data" id="theForm">
@@ -119,8 +119,8 @@
                                 <td style="padding-left:30px;">
                                     <ul class="setlogo">
                                         <#assign store_logo="${S_URL}/${(config.storeImage.path)!}/${(config.storeImage.name)!}" />
-                                        <#if (store.store_logo)!?? >
-                                          <#assign store_logo="${S_URL}/${(store.store_logo.path)!}/${(store.store_logo.name)!}"/>
+                                        <#if (store.logo)!?? >
+                                          <#assign store_logo="${S_URL}/${(store.logo.path)!}/${(store.logo.name)!}"/>
                                         </#if>
                                         <li class="shoplogo">
                                             <img src="${store_logo!}" width="105" height="97" /></li>
@@ -149,13 +149,13 @@
                             </tr>
                             <tr>
                                 <td width="98" align="right" >店主名称：</td>
-                                <td style="padding-left:30px; color:#666">${(store.store_ower)!}</td>
+                                <td style="padding-left:30px; color:#666">${(store.sellerName)!}</td>
                             </tr>
                             <tr>
                                 <td width="98" align="right">身份证号：</td>
                                 <td style="padding-left:30px; color:#666">
                                     <span class="setinput">
-                                        <input name="store_ower_card" type="text" id="store_ower_card" value="${(store.store_ower_card)!}" />
+                                        <input name="storeOwnerCard" type="text" id="store_ower_card" value="${(store.storeOwnerCard)!}" />
                                     </span>
                                 </td>
                             </tr>
@@ -163,7 +163,7 @@
                                 <td width="98" align="right">店铺名称： </td>
                                 <td style="padding-left:30px;">
                                     <span class="setinput">
-                                        <input name="store_name" type="text" id="store_name" value="${(store.storeName)!}" />
+                                        <input name="storeName" type="text" id="store_name" value="${(store.storeName)!}" />
                                     </span>
                                     <a href="${S_URL}/store.htm?id=${(user.store.id)!}" target="_blank" class="blue2 px20">我的店铺首页</a></td>
                             </tr>
@@ -176,15 +176,15 @@
                                 <#else>
                                     <#assign modity=1 >
                                 </#if>
-                                <input name="store_second_domain" type="text" id="store_second_domain" value="${(store.store_second_domain)!}"
-                                       <#if (modity!0)==0 > readonly="readonly" </#if>  />填写二级域名前缀即可，如wemall
+                                <input name="storeDomain" type="text" id="store_second_domain" value="${(store.storeDomain)!}"
+                                       <#if (modity!0)==0 > readonly="readonly" </#if>  />填写二级域名前缀即可，如stone
                                   <#if (modity!0)==0 ><span style="color:#F00">[已经超过系统允许次数]</span></#if> </span></td>
                             </tr>
                             </#if>
                             <tr>
                               <td align="right">店铺等级： </td>
                               <td style="padding-left:30px; color:#666">
-                                  <span>${(store.grade.gradeName)!}
+                                  <span>${(store.grade.sgName)!}
                                       <#if (store.update_grade)!??>升级审核中... <#else><a href="${S_URL}/store/store_grade" target="_blank" class="blue2 px20">升级店铺</a> </#if>
                                   </span>
                               </td>
@@ -204,28 +204,28 @@
                                         </select>
                                         <select name="area3" id="area3" style="display:none;width:80px;" level="4">
                                         </select>
-                                        <input name="area_id" type="hidden" id="area_id"  value="${(store.area.id)!}"/>
+                                        <input name="areaId" type="hidden" id="area_id"  value="${(store.area.id)!}"/>
                                   </span>
                               </td>
                             </tr>
                             <tr>
                               <td width="98" align="right">详细地址：</td>
                               <td style="padding-left:30px;"><span class="setinput">
-                                <input name="store_address" type="text" id="store_address" value="${(store.store_address)!}" />
+                                <input name="storeAddress" type="text" id="store_address" value="${(store.storeAddress)!}" />
                                 </span></td>
                             </tr>
                             <tr>
                               <td width="98" align="right">联系电话：</td>
                               <td style="padding-left:30px;">
                                   <span class="setinput">
-                                      <input name="store_telephone" type="text" id="store_telephone" value="${(store.store_telephone)!}" />
+                                      <input name="storeTel" type="text" id="store_telephone" value="${(store.storeTel)!}" />
                                   </span>
                               </td>
                             </tr>
                             <tr>
                               <td align="right" valign="top">联系QQ：</td>
                               <td style="padding-left:30px;"><span class="setinput">
-                                <input name="store_qq" type="text" id="store_qq" value="${(store.store_qq)!}" />
+                                <input name="storeQq" type="text" id="store_qq" value="${(store.storeQq)!}" />
                                 </span></td>
                             </tr>
                             <tr>
@@ -239,7 +239,7 @@
                             <tr>
                               <td align="right" valign="top">阿里旺旺：</td>
                               <td style="padding-left:30px;"><span class="setinput">
-                                <input name="store_ww" type="text" id="store_ww" value="${(store.store_ww)!}" />
+                                <input name="storeWw" type="text" id="store_ww" value="${(store.storeWw)!}" />
                                 </span>
                               </td>
                             </tr>
@@ -247,7 +247,7 @@
                               <td width="98" align="right" valign="top">SEO关键字：</td>
                               <td style="padding-left:30px;"><ul class="setseo">
                                   <li><span class="setinput">
-                                    <input name="store_seo_keywords" type="text" id="store_seo_keywords" value="${(store.store_seo_keywords)!}" />
+                                    <input name="storeKeywords" type="text" id="store_seo_keywords" value="${(store.storeKeywords)!}" />
                                     </span>
                                   </li>
                                   <li style="color:#666">用于店铺搜索引擎的优化，关键字之间请用英文逗号分隔</li>
@@ -257,7 +257,7 @@
                               <td width="98" align="right" valign="top">SEO描述：</td>
                               <td style="padding-left:30px;"><ul class="setseo">
                                   <li><span class="setinput">
-                                    <textarea name="store_seo_description" cols="45" rows="5" id="store_seo_description">${(store.store_seo_description)!}</textarea>
+                                    <textarea name="storeDescription" cols="45" rows="5" id="store_seo_description">${(store.storeDescription)!}</textarea>
                                     </span></li>
                                   <li style="color:#666">用于店铺搜索引擎的优化，关键字之间请用英文逗号分隔</li>
                                 </ul></td>
@@ -267,7 +267,7 @@
                               <td style="padding-left:30px;"><ul class="setseo">
                                   <li>
                                       <span class="setinput">
-                                          <textarea name="store_info" cols="45" rows="5" id="store_info">${(store.store_info)!}</textarea>
+                                          <textarea name="description" cols="45" rows="5" id="store_info">${(store.description)!}</textarea>
                                       </span>
                                   </li>
                                   <li style="color:#666">详细介绍店铺，为买家提供更多的了解</li>

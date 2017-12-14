@@ -22,5 +22,8 @@
                      interface="org.goshop.store.i.AlbumPicService" check="false" />
     <dubbo:reference id="storeAreaService"
                      interface="org.goshop.store.i.StoreAreaService" check="false" />
+    <dubbo:reference id="storeSlideService"
+                     interface="org.goshop.store.i.StoreSlideService" check="false" />
+
 
 </beans>

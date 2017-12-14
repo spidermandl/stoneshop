@@ -26,15 +26,8 @@ public interface StoreJoinMapper {
 
     int insertSelective(StoreJoin record);
 
-    StoreJoin selectByPrimaryKey(Long memberId);
-
     int updateByPrimaryKeySelective(StoreJoin record);
 
     int updateByPrimaryKey(StoreJoin record);
 
-    List<StoreJoin> findBySellerName(@Param("sellerName") String sellerName);
-
-    List<StoreJoin> findByStoreName(@Param("storeName") String storeName);
-
-    List<StoreJoin> findAll();
 }

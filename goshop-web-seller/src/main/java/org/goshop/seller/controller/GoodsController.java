@@ -22,6 +22,7 @@ import org.goshop.goods.i.TransportService;
 import org.goshop.goods.pojo.GsTransportWithBLOBs;
 import org.goshop.store.pojo.Store;
 import org.goshop.store.pojo.StoreJoin;
+import org.goshop.store.pojo.StoreWithBLOBs;
 import org.goshop.users.i.UserService;
 import org.goshop.users.pojo.User;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -62,7 +63,7 @@ public class GoodsController {
     StoreJoinService storeJoinService;
 
     @Autowired
-    GoodsAccessoryService goodsAccessoryService;
+    AccessoryService accessoryService;
 
     @Autowired
     GoodsUserClassService goodsUserClassService;
@@ -189,7 +190,8 @@ public class GoodsController {
 
 
         StoreJoin storeJoin = storeJoinService.getCurrentUserStoreJoin(user);
-        Store store = storeJoinService.getCurrentStore(user);
+        Long storeId = storeJoinService.getCurrentStore(user).getStoreId();
+        StoreWithBLOBs store = storeService.findOne(storeId);
         //已提交申请 "10";
         //缴费完成 "11";
         //审核成功 "20";
@@ -216,8 +218,7 @@ public class GoodsController {
             double img_remain_size = 0.0D;
             if (store.getStoreGrade().getSgSpaceLimit() > 0.0F){
                 img_remain_size = store.getStoreGrade().getSgSpaceLimit()
-                        - CommUtil.div(
-                        Double.valueOf(CommUtil.fileSize(new File(path))), Integer.valueOf(1024));
+                        - CommUtil.div(Double.valueOf(CommUtil.fileSize(new File(path))), Integer.valueOf(1024));
             }
             List ugcs = this.goodsUserClassService.findByUserIdAndParentId(user.getId(),null,true);
             List gbs = this.goodsBrandService.findByUserId(user);
@@ -326,9 +327,9 @@ public class GoodsController {
         GsGoodsClass gc = this.goodsClassService.findOne(Long.valueOf(Long.parseLong(goods_class_id)));
         goods.setGcId(gc.getId());
         //主照片
-        GsGoodsAccessory main_img = null;
+        GsAccessory main_img = null;
         if ((goods_main_img_id != null) && (!goods_main_img_id.equals(""))){
-            main_img = this.goodsAccessoryService.findOne(Long.valueOf(Long.parseLong(goods_main_img_id)));
+            main_img = this.accessoryService.findOne(Long.valueOf(Long.parseLong(goods_main_img_id)));
             goods.setGoodsMainPhotoId(main_img.getId());
         }
 
@@ -340,7 +341,7 @@ public class GoodsController {
         for (int i = 0; i < img_ids.length; i++){
             String img_id = img_ids[i];
             if (!img_id.equals("")){
-                GsGoodsAccessory img = new GsGoodsAccessory();
+                GsAccessory img = new GsAccessory();
                 img.setId(CommUtil.null2Long(img_id));
                 goods.getGoodsPhotos().add(img);
             }
@@ -500,10 +501,10 @@ public class GoodsController {
         String ret = "good_add_step_two";
         GsGoodsWithBLOBs obj = this.goodsService.findOne(Long.valueOf(Long.parseLong(id)));
 
-        Store store = this.storeService.findOne(obj.getGoodsStoreId());
+        Long storeId = this.storeService.findOne(obj.getGoodsStoreId()).getStoreId();
+        StoreWithBLOBs store = storeService.findOne(storeId);
         User member = this.userService.findOne(store.getMemberId());
         if (member.getId().equals(user.getId())){
-            store = this.storeJoinService.getCurrentStore(user);
             String path = request.getSession().getServletContext()
                     .getRealPath("/")
                     + File.separator
@@ -517,7 +518,7 @@ public class GoodsController {
                     Integer.valueOf(1024));
 
             List ugcs = this.goodsUserClassService.findByUserIdAndParentId(user.getId(),null,true);
-            PageInfo<GsGoodsAccessory> pList = this.goodsAccessoryService.findByUserId(user,1,8);
+            PageInfo<GsAccessory> pList = this.accessoryService.findByUserId(user,1,8);
             String photo_url = CommUtil.getURL(request) + "/seller/load_photo.htm";
             List gbs = this.goodsBrandService.findByUserId(user);
             model.addAttribute("gbs", gbs);
@@ -747,9 +748,10 @@ public class GoodsController {
                             HttpServletRequest request,
                             HttpServletResponse response, String album_id){
 
-        Store store = storeJoinService.getCurrentStore(user);
-        String path = this.storeTools.createUserFolder(request, store);
-        String url = this.storeTools.createUserFolderURL(store);
+        Long storeId = storeJoinService.getCurrentStore(user).getStoreId();
+        StoreWithBLOBs store = storeService.findOne(storeId);
+        String path = this.storeTools.createUserFolder(request, store.getStoreId());
+        String url = this.storeTools.createUserFolderURL(store.getStoreId());
 
         MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
         CommonsMultipartFile file = (CommonsMultipartFile) multipartRequest.getFile("imgFile");
@@ -766,40 +768,7 @@ public class GoodsController {
         if (remainSpace > fileSize){
             try {
                 Map map = CommUtil.saveFileToServer(request, "imgFile", path, null, null);
-                Map params = new HashMap();
-                params.put("store_id", store.getStoreId());
-//                List wms = this.waterMarkService
-//                        .query("select obj from WaterMark obj where obj.store.id=:store_id", params, -1, -1);
-//                if (wms.size() > 0){
-//                    WaterMark mark = (WaterMark) wms.get(0);
-//                    if (mark.isWm_image_open()){
-//                        String pressImg = request.getSession().getServletContext().getRealPath("")
-//                                + File.separator + mark.getWm_image().getPath()
-//                                + File.separator + mark.getWm_image().getName();
-//                        String targetImg = path + File.separator + map.get("fileName");
-//                        int pos = mark.getWm_image_pos();
-//                        float alpha = mark.getWm_image_alpha();
-//                        CommUtil.waterMarkWithImage(pressImg, targetImg, pos, alpha);
-//                    }
-//                    if (mark.isWm_text_open()){
-//                        String targetImg = path + File.separator + map.get("fileName");
-//                        int pos = mark.getWm_text_pos();
-//                        String text = mark.getWm_text();
-//                        String markContentColor = mark.getWm_text_color();
-//                        CommUtil.waterMarkWithText(
-//                                targetImg, targetImg, text, markContentColor,
-//                                new Font(mark.getWm_text_font(), 1, mark.getWm_text_font_size()), pos, 100.0F);
-//                    }
-//                }
-                GsGoodsAccessory image = new GsGoodsAccessory();
-                image.setAddtime(new Date());
-                image.setExt((String) map.get("mime"));
-                image.setPath(url);
-                image.setWidth(CommUtil.null2Int(map.get("width")));
-                image.setHeight(CommUtil.null2Int(map.get("height")));
-                image.setName(CommUtil.null2String(map.get("fileName")));
-                image.setUserId(user.getId());
-                image.setSize((float)fileSize);
+                GsAccessory image = this.storeTools.bundleAccessory(map,url,store.getStoreId(),user.getId());
                 GsAlbum album = null;
                 if ((album_id != null) && (!album_id.equals(""))){
                     album = this.goodsAlbumService.findOne(CommUtil.null2Long(album_id));
@@ -816,7 +785,7 @@ public class GoodsController {
                     }
                 }
                 image.setAlbumId(album.getId());
-                long image_id = this.goodsAccessoryService.save(image);
+                long image_id = this.accessoryService.save(image);
                 image.setId(image_id);
                 json_map.put("url", CommUtil.getURL(request) + "/" + url + "/" + image.getName());
                 json_map.put("id", image.getId());
@@ -870,14 +839,15 @@ public class GoodsController {
     public void goods_image_del(@CurrentUser User user,
                                 HttpServletRequest request,
                                 HttpServletResponse response, String image_id){
-        Store store = storeJoinService.getCurrentStore(user);
-        String path = this.storeTools.createUserFolder(request, store);
+        Long storeId = storeJoinService.getCurrentStore(user).getStoreId();
+        StoreWithBLOBs store = storeService.findOne(storeId);
+        String path = this.storeTools.createUserFolder(request, store.getStoreId());
         response.setContentType("text/plain");
         response.setHeader("Cache-Control", "no-cache");
         try {request.setCharacterEncoding("UTF-8");} catch (java.io.UnsupportedEncodingException e1) {e1.printStackTrace();}
         try {
             Map map = new HashMap();
-            GsGoodsAccessory img = this.goodsAccessoryService.findOne(CommUtil.null2Long(image_id));
+            GsAccessory img = this.accessoryService.findOne(CommUtil.null2Long(image_id));
             int ret = 0;
             if (img!=null) {
                 //更新主照片
@@ -889,7 +859,7 @@ public class GoodsController {
                 //删除所有该附件与goods的关联信息
                 this.goodsService.removeLinkByAccessoryId(img);
                 //删除附件记录
-                ret = this.goodsAccessoryService.delete(img);
+                ret = this.accessoryService.delete(img);
                 if (ret > 0) {
                     storeTools.del_acc(request, img);
                 }
@@ -933,7 +903,7 @@ public class GoodsController {
         }catch (Exception e){
         }
 
-        PageInfo<GsGoodsAccessory> pList = goodsAccessoryService.findByUserId(user,page,pageSize);
+        PageInfo<GsAccessory> pList = accessoryService.findByUserId(user,page,pageSize);
         String photo_url = CommUtil.getURL(request)
                 + "/goods/goods_img_album.htm";
         model.addAttribute("photos", pList.getList());
@@ -1183,7 +1153,7 @@ public class GoodsController {
     private void fillGoodsListContent(List<GsGoodsWithBLOBs> list){
         for (GsGoodsWithBLOBs goods : list){
             if (goods.getGoodsMainPhotoId()!=null){//获取主图片
-                goods.setGoods_main_photo(this.goodsAccessoryService.findOne(goods.getGoodsMainPhotoId()));
+                goods.setGoods_main_photo(this.accessoryService.findOne(goods.getGoodsMainPhotoId()));
             }
             if (goods.getGcId()!=null){//获取goods 分类
                 goods.setGc(this.goodsClassService.findOne(goods.getGcId()));

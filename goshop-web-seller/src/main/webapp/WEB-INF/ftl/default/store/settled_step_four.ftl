@@ -14,22 +14,22 @@
         <div id="mainContent" class="main-content">
             <#include "header.ftl"/>
             <div class="main">
-                <#if P_STORE_JOIN.joininState=='10'>
+                <#if ((P_STORE_JOIN.joininState)!'0')=='10'>
                     <div class="explain"><i></i>入驻申请已经提交，请等待管理员审核</div>
                     <div class="bottom"></div>
                 </#if>
-                <#if P_STORE_JOIN.joininState=='11'>
+                <#if ((P_STORE_JOIN.joininState)!'0')=='11'>
                     <div class="explain"><i></i>已经提交，请等待管理员核对后为您开通店铺</div>
                     <div class="bottom"></div>
                 </#if>
-                <#if P_STORE_JOIN.joininState=='30'>
+                <#if ((P_STORE_JOIN.joininState)!'0')=='30'>
                     <div class="explain"><i></i>审核失败:${(P_STORE_JOIN.joininMessage)!}</div>
                     <div class="bottom">
                         <a class="btn" href="${S_URL}/store_join/step1.html">下一步</a>
                     </div>
                 </#if>
 
-                <#if P_STORE_JOIN.joininState=='20'>
+                <#if ((P_STORE_JOIN.joininState)!'0')=='20'>
                     <div class="explain"><i></i>审核成功，请完成付款，付款后点击下一步提交付款凭证</div>
                     <div class="bottom">
                         <a class="btn" href="${S_URL}/store_join/pay.html">下一步</a>
@@ -37,14 +37,14 @@
                 </#if>
 
 
-                <#if P_STORE_JOIN.joininState=='31'>
+                <#if ((P_STORE_JOIN.joininState)!'0')=='31'>
                     <div class="explain"><i></i>付款审核失败:${(P_STORE_JOIN.joininMessage)!}</div>
                     <div class="bottom">
                         <a class="btn" href="${S_URL}/store_join/pay.html">下一步</a>
                     </div>
                 </#if>
 
-                <#if P_STORE_JOIN.joininState=='40'>
+                <#if ((P_STORE_JOIN.joininState)!'0')=='40'>
                     <div class="explain"><i></i>付款审核成功，开店成功</div>
                     <div class="bottom">
                         <a class="btn" href="${S_URL}/store_join/verify.html">完成</a>

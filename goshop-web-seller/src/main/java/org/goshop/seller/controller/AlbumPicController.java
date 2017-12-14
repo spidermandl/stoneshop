@@ -1,7 +1,7 @@
 package org.goshop.seller.controller;
 
 
-import org.goshop.common.attachment.AttachmentService;
+import org.goshop.common.service.AttachmentService;
 import org.goshop.common.exception.PageException;
 import org.goshop.shiro.bind.annotation.CurrentUser;
 import org.goshop.store.i.AlbumPicService;

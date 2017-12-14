@@ -15,7 +15,7 @@
     <dubbo:reference id="goodsTypeService"
                      interface="org.goshop.goods.i.GoodsTypeService" check="false" />
     <dubbo:reference id="goodsAccessoryService"
-                     interface="org.goshop.goods.i.GoodsAccessoryService" check="false" />
+                     interface="org.goshop.goods.i.AccessoryService" check="false" />
     <dubbo:reference id="goodsAlbumService"
                      interface="org.goshop.goods.i.GoodsAlbumService" check="false" />
     <dubbo:reference id="goodsService"

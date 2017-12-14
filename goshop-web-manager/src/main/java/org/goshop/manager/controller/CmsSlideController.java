@@ -1,6 +1,6 @@
 package org.goshop.manager.controller;
 
-import org.goshop.common.attachment.AttachmentService;
+import org.goshop.common.service.AttachmentService;
 import org.goshop.common.exception.PageException;
 import org.goshop.cms.i.CmsSlideService;
 import org.goshop.cms.pojo.CmsSlide;

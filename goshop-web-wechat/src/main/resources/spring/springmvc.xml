@@ -79,9 +79,9 @@
         <property name="maxUploadSize" value="5242880"></property>
     </bean>
     <!--本地文件-->
-    <bean id="attachmentService" class="org.goshop.common.attachment.LocalhostAttachmentImpl" />
+    <bean id="attachmentService" class="org.goshop.common.service.LocalhostAttachmentImpl" />
     <!-- 文件服务器
-    <bean id="attachmentService" class="org.goshop.common.attachment.FastDFSAttachmentImpl" >
+    <bean id="attachmentService" class="org.goshop.common.service.FastDFSAttachmentImpl" >
         <property name="hostName" value="${fastdfs.hostName}" />
         <property name="port" value="${fastdfs.port}" />
         <property name="charset" value="${fastdfs.charset}" />

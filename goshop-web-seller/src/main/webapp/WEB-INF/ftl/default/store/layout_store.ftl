@@ -4,7 +4,7 @@
             <span class="ico-goods">
             </span>
             <h2>
-                <#if P_CURRENT_OP=="StoreAdd" >商家信息提交
+                <#if ((P_CURRENT_OP)!"")=="StoreAdd" >商家信息提交
                 <#else>店铺
                 </#if>
             </h2>

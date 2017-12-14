@@ -3,11 +3,9 @@ package org.goshop.goods.service;
 import com.github.pagehelper.PageInfo;
 import org.apache.commons.collections.map.HashedMap;
 import org.goshop.base.service.SpringBaseTest;
-import org.goshop.goods.i.GoodsAccessoryService;
+import org.goshop.goods.i.AccessoryService;
 import org.goshop.goods.i.GoodsClassService;
 import org.goshop.goods.i.GoodsService;
-import org.goshop.goods.mapper.read.ReadGsGoodsAccessoryMapper;
-import org.goshop.goods.pojo.GoodsClass;
 import org.goshop.goods.pojo.GsGoodsClass;
 import org.goshop.goods.pojo.GsGoodsWithBLOBs;
 import org.junit.Test;
@@ -16,8 +14,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
-
-import static org.junit.Assert.*;
 
 /**
  * Created by Administrator on 2016/6/22.
@@ -30,7 +26,7 @@ public class GoodsClassServiceImplTest extends SpringBaseTest {
     @Autowired
     GoodsService goodsService;
     @Autowired
-    GoodsAccessoryService goodsAccessoryService;
+    AccessoryService accessoryService;
 
     @Test
     public void testFindTreeByGcParentId() throws Exception {
@@ -72,16 +68,16 @@ public class GoodsClassServiceImplTest extends SpringBaseTest {
         goods.setZtcGold(0);
         goods.setZtcPayStatus(0);
 
-        goods.getGoodsPhotos().add(goodsAccessoryService.findOne(426081L));
-        goods.getGoodsPhotos().add(goodsAccessoryService.findOne(426082L));
+        goods.getGoodsPhotos().add(accessoryService.findOne(426081L));
+        goods.getGoodsPhotos().add(accessoryService.findOne(426082L));
 
         long id = goodsService.save(goods);
 
         goods = goodsService.findOne(id);
         goods.setStorePrice(BigDecimal.valueOf(100));
-        goods.setGoodsPhotos(goodsAccessoryService.findByGoodsId(goods.getId()));
+        goods.setGoodsPhotos(accessoryService.findByGoodsId(goods.getId()));
         goods.getGoodsPhotos().remove(0);
-        goods.getGoodsPhotos().add(goodsAccessoryService.findOne(426083L));
+        goods.getGoodsPhotos().add(accessoryService.findOne(426083L));
         goodsService.update(goods);
 
         goodsService.delete(id);

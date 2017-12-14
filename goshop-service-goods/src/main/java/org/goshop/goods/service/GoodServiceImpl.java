@@ -8,7 +8,6 @@ import org.goshop.goods.mapper.read.*;
 import org.goshop.goods.pojo.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
@@ -27,7 +26,7 @@ public class GoodServiceImpl implements GoodsService {
     ReadGsGoodsMapper readGsGoodsMapper;
 
     @Autowired
-    ReadGsGoodsAccessoryMapper readGsGoodsAccessoryMapper;
+    ReadGsAccessoryMapper readGsAccessoryMapper;
     @Autowired
     ReadGsGoodsPhotoMapper readGsGoodsPhotoMapper;
     @Autowired
@@ -56,7 +55,7 @@ public class GoodServiceImpl implements GoodsService {
     public GsGoodsWithBLOBs findOne(Long id) {
         GsGoodsWithBLOBs one = gsGoodsMapper.selectByPrimaryKey(id);
         if (one.getGoodsMainPhotoId()!=null)
-            one.setGoods_main_photo(readGsGoodsAccessoryMapper.selectByPrimaryKey(one.getGoodsMainPhotoId()));
+            one.setGoods_main_photo(readGsAccessoryMapper.selectByPrimaryKey(one.getGoodsMainPhotoId()));
         if (one.getGoodsBrandId()!=null)
             one.setGoodsBrand(readGsGoodsBrandMapper.selectByPrimaryKey(one.getGoodsBrandId()));
         if (one.getGcId()!=null)
@@ -67,17 +66,17 @@ public class GoodServiceImpl implements GoodsService {
     }
 
     @Override
-    public List<GsGoodsWithBLOBs> findGoodsByMainPhoto(GsGoodsAccessory accessory) {
+    public List<GsGoodsWithBLOBs> findGoodsByMainPhoto(GsAccessory accessory) {
         return readGsGoodsMapper.findGoodsByMainPhoto(accessory.getId());
     }
 
     @Override
-    public List<GsGoodsWithBLOBs> findGoodsByAccessoryId(GsGoodsAccessory accessory) {
+    public List<GsGoodsWithBLOBs> findGoodsByAccessoryId(GsAccessory accessory) {
         return null;
     }
 
     @Override
-    public int removeLinkByAccessoryId(GsGoodsAccessory accessory) {
+    public int removeLinkByAccessoryId(GsAccessory accessory) {
         return gsGoodsPhotoMapper.deleteByAccessoryId(accessory.getId());
     }
 
@@ -166,7 +165,7 @@ public class GoodServiceImpl implements GoodsService {
         /*******************************************************/
         List<GsGoodsPhoto> add_photos = new ArrayList<>();
         List<GsGoodsPhoto> db_photos = readGsGoodsPhotoMapper.findByGoodsId(goods.getId());
-        for ( GsGoodsAccessory gAcc : goods.getGoodsPhotos()){
+        for ( GsAccessory gAcc : goods.getGoodsPhotos()){
             GsGoodsPhoto del = null;
             for (GsGoodsPhoto dAcc:db_photos){
                 if (dAcc.getPhotoId().equals(gAcc.getId())){
@@ -257,7 +256,7 @@ public class GoodServiceImpl implements GoodsService {
             gsGoodsCombinMapper.insertBatch(coms);
 
         List<GsGoodsPhoto> photos = new ArrayList<>();
-        for (GsGoodsAccessory accessory:goods.getGoodsPhotos()){
+        for (GsAccessory accessory:goods.getGoodsPhotos()){
             GsGoodsPhoto gph = new GsGoodsPhoto();
             gph.setGoodsId(ret);
             gph.setPhotoId(accessory.getId());

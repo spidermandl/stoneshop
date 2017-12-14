@@ -187,6 +187,20 @@ public class CommUtil {
     throws IOException {
         MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest)request;
         CommonsMultipartFile file = (CommonsMultipartFile)multipartRequest.getFile(filePath);
+        return saveFileToServer(file,saveFilePathName,saveFileName,extendes);
+    }
+
+    /**
+     * 保存文件到服务器
+     * @param file
+     * @param saveFilePathName
+     * @param saveFileName
+     * @param extendes
+     * @return
+     * @throws IOException
+     */
+    public static Map saveFileToServer(CommonsMultipartFile file, String saveFilePathName, String saveFileName, String[] extendes)
+            throws IOException {
         Map map = new HashMap();
         if ((file != null) && (!file.isEmpty())){
             String extend = file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf(".") + 1).toLowerCase();
@@ -213,7 +227,7 @@ public class CommUtil {
                 }
                 SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
                 DataOutputStream out = new DataOutputStream(
-                    new FileOutputStream(saveFilePathName + File.separator + saveFileName));
+                        new FileOutputStream(saveFilePathName + File.separator + saveFileName));
                 InputStream is = null;
                 try {
                     is = file.getInputStream();
@@ -258,10 +272,8 @@ public class CommUtil {
             map.put("fileSize", Float.valueOf(0.0F));
             map.put("oldName", "");
         }
-
         return map;
     }
-
     public static boolean isImg(String extend){
         boolean ret = false;
         List<String> list = new ArrayList<String>();

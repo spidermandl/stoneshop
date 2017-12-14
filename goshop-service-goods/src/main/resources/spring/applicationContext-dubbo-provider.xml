@@ -36,7 +36,7 @@
 
     <dubbo:service  retries="0" interface="org.goshop.goods.i.GoodsCommonService" ref="goodsCommonService"  />
 
-    <dubbo:service  retries="0" interface="org.goshop.goods.i.GoodsAccessoryService" ref="goodsAccessoryService"  />
+    <dubbo:service retries="0" interface="org.goshop.goods.i.AccessoryService" ref="accessoryService"  />
 
     <dubbo:service  retries="0" interface="org.goshop.goods.i.GoodsAlbumService" ref="goodsAlbumService"  />
 

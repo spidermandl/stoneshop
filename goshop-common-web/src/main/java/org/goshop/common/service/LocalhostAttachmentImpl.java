@@ -1,11 +1,14 @@
-package org.goshop.common.attachment;
+package org.goshop.common.service;
 
 import org.goshop.common.utils.DateTimeUtils;
 import org.goshop.common.utils.FileUtils;
+import org.goshop.common.web.utils.CommUtil;
 import org.goshop.common.web.utils.DownloadUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.FileInputStream;
@@ -18,6 +21,9 @@ import java.util.UUID;
  * Created by Administrator on 2016/3/24.
  */
 public class LocalhostAttachmentImpl implements AttachmentService {
+
+    @Autowired
+    SystemConfigService systemConfigService;
 
     @Value("${FILE_PATH}")
     private String filePath;
@@ -78,5 +84,6 @@ public class LocalhostAttachmentImpl implements AttachmentService {
         String filePath=this.getPath()+id;
         return new File(filePath);
     }
+
 
 }

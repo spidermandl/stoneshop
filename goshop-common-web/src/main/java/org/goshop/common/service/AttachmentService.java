@@ -1,4 +1,4 @@
-package org.goshop.common.attachment;
+package org.goshop.common.service;
 
 import org.springframework.web.multipart.MultipartFile;
 
