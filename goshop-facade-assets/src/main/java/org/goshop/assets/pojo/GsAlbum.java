@@ -1,4 +1,4 @@
-package org.goshop.goods.pojo;
+package org.goshop.assets.pojo;
 
 import java.io.Serializable;
 import java.util.Date;

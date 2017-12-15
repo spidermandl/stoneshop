@@ -1,6 +1,6 @@
 package org.goshop.store.pojo;
 
-import org.goshop.goods.pojo.GsAccessory;
+import org.goshop.assets.pojo.GsAccessory;
 
 import java.io.Serializable;
 import java.math.BigDecimal;

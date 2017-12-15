@@ -11,37 +11,11 @@
  Target Server Version : 50716
  File Encoding         : utf-8
 
- Date: 12/11/2017 15:47:56 PM
+ Date: 12/15/2017 17:33:12 PM
 */
 
 SET NAMES utf8mb4;
 SET FOREIGN_KEY_CHECKS = 0;
-
--- ----------------------------
---  Table structure for `gs_album`
--- ----------------------------
-DROP TABLE IF EXISTS `gs_album`;
-CREATE TABLE `gs_album` (
-  `id` bigint(20) NOT NULL AUTO_INCREMENT,
-  `addTime` datetime DEFAULT NULL,
-  `deleteStatus` bit(1) NOT NULL,
-  `alblum_info` longtext,
-  `album_default` bit(1) NOT NULL,
-  `album_name` varchar(255) DEFAULT NULL,
-  `album_sequence` int(11) NOT NULL,
-  `album_cover_id` bigint(20) DEFAULT NULL COMMENT 'gs_goods_accessory表主键',
-  `user_id` bigint(20) DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `FK2FF965FE537B6C51` (`user_id`),
-  KEY `FK2FF965FE58AB9D6E` (`album_cover_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8;
-
--- ----------------------------
---  Records of `gs_album`
--- ----------------------------
-BEGIN;
-INSERT INTO `gs_album` VALUES ('20', '2017-11-24 22:44:53', b'0', null, b'1', '默认相册', '-10000', null, '65');
-COMMIT;
 
 -- ----------------------------
 --  Table structure for `gs_goods`
@@ -63,7 +37,7 @@ CREATE TABLE `gs_goods` (
   `goods_salenum` int(11) NOT NULL,
   `goods_seller_time` datetime DEFAULT NULL,
   `goods_serial` varchar(255) DEFAULT NULL,
-  `goods_status` int(11) NOT NULL,
+  `goods_status` int(11) NOT NULL COMMENT '-2 违规 ; 0 出售中; 1 在仓库; ',
   `goods_transfee` int(11) NOT NULL,
   `goods_weight` decimal(12,2) DEFAULT NULL,
   `inventory_type` varchar(255) DEFAULT NULL,
@@ -83,7 +57,7 @@ CREATE TABLE `gs_goods` (
   `ztc_status` int(11) NOT NULL,
   `gc_id` bigint(20) DEFAULT NULL COMMENT 'gs_goods_class表主键',
   `goods_brand_id` bigint(20) DEFAULT NULL COMMENT 'gs_goods_brand表主键',
-  `goods_main_photo_id` bigint(20) DEFAULT NULL COMMENT 'goods主照片，gs_goods_accessory表主键',
+  `goods_main_photo_id` bigint(20) DEFAULT NULL COMMENT 'goods主照片，gs_accessory表主键',
   `goods_store_id` bigint(20) DEFAULT NULL,
   `ztc_admin_id` bigint(20) DEFAULT NULL,
   `goods_collect` int(11) DEFAULT '0',
@@ -95,9 +69,9 @@ CREATE TABLE `gs_goods` (
   `delivery_status` int(11) DEFAULT '0',
   `goods_current_price` decimal(12,2) DEFAULT NULL,
   `goods_volume` decimal(12,2) DEFAULT NULL,
-  `ems_trans_fee` decimal(12,2) DEFAULT NULL,
-  `express_trans_fee` decimal(12,2) DEFAULT NULL,
-  `mail_trans_fee` decimal(12,2) DEFAULT NULL,
+  `ems_trans_fee` decimal(12,2) DEFAULT NULL COMMENT 'ems固定运输费用',
+  `express_trans_fee` decimal(12,2) DEFAULT NULL COMMENT 'express固定运输费用',
+  `mail_trans_fee` decimal(12,2) DEFAULT NULL COMMENT 'mail固定运输费用',
   `transport_id` bigint(20) DEFAULT NULL COMMENT 'gs_transport表主键',
   `combin_status` int(11) DEFAULT '0',
   `combin_begin_time` date DEFAULT NULL,
@@ -116,44 +90,13 @@ CREATE TABLE `gs_goods` (
   KEY `FK304F7EE5C292B563` (`ztc_admin_id`),
   KEY `FK304F7EE5493829C3` (`group_id`),
   KEY `FK304F7EE5914F1503` (`transport_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=28 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 --  Records of `gs_goods`
 -- ----------------------------
 BEGIN;
-INSERT INTO `gs_goods` VALUES ('2', '2017-12-06 16:16:58', b'0', '1', null, null, '1', null, 'aaa', null, null, b'1', '1', null, null, '0', '1', null, null, null, null, null, b'1', null, null, null, null, '1', '1', '12', '1', '2', '1', null, null, null, '12', null, '0', '0', '0', null, '0', '0', '0', null, null, null, null, null, null, '0', null, null, null, '5', b'0', null, b'0', null), ('4', null, b'0', '0', null, null, '0', null, null, null, null, b'0', '0', null, null, '1', '11', null, null, null, null, null, b'0', null, null, null, null, '0', '0', '0', '0', '0', '0', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null), ('5', null, b'0', '0', null, null, '0', null, null, null, null, b'0', '0', null, null, '1', '11', null, null, null, null, null, b'0', null, null, null, null, '0', '0', '0', '0', '0', '0', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null), ('6', null, b'0', '0', null, null, '0', null, null, null, null, b'0', '0', null, null, '1', '11', null, null, null, null, null, b'0', null, null, null, null, '0', '0', '0', '0', '0', '0', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null), ('7', null, b'0', '0', null, null, '0', null, null, null, null, b'0', '0', null, null, '0', '11', null, null, null, null, null, b'0', null, null, null, null, '0', '0', '0', '0', '0', '0', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null), ('11', '2017-12-09 23:59:54', b'0', '0', 'fggdfgdg', null, '12', null, 'sdasD', null, null, b'1', '0', null, '1234324', '0', '1', '13.00', 'all', 'dfgfdg', 'dfgdfg', '12.00', b'0', null, null, null, null, '0', '0', '0', '0', '0', '0', '164', '4', null, '12', null, null, null, '0', null, null, null, null, null, '12.00', null, null, null, null, null, null, null, null, null, null, null, null, null);
-COMMIT;
-
--- ----------------------------
---  Table structure for `gs_goods_accessory`
--- ----------------------------
-DROP TABLE IF EXISTS `gs_goods_accessory`;
-CREATE TABLE `gs_goods_accessory` (
-  `id` bigint(20) NOT NULL AUTO_INCREMENT,
-  `addTime` datetime DEFAULT NULL,
-  `deleteStatus` bit(1) NOT NULL,
-  `ext` varchar(255) DEFAULT NULL,
-  `height` int(11) NOT NULL,
-  `info` varchar(255) DEFAULT NULL,
-  `name` varchar(255) DEFAULT NULL,
-  `path` varchar(255) DEFAULT NULL,
-  `size` float NOT NULL,
-  `width` int(11) NOT NULL,
-  `album_id` bigint(20) DEFAULT NULL COMMENT 'gs_album表主键',
-  `user_id` bigint(20) DEFAULT NULL,
-  `config_id` bigint(20) DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `FK9BF2D7218D8B425` (`config_id`),
-  KEY `FK9BF2D72130E5FE9C` (`user_id`),
-  KEY `FK9BF2D72155EB9AD8` (`album_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=426126 DEFAULT CHARSET=utf8 COMMENT='物品附件';
-
--- ----------------------------
---  Records of `gs_goods_accessory`
--- ----------------------------
-BEGIN;
-INSERT INTO `gs_goods_accessory` VALUES ('426079', '2017-11-24 15:15:41', b'0', 'jpg', '1206', null, '8e95c220-3459-4b31-b490-b5512f10c5fb.jpg', 'upload/store/12/2017/11/24', '0.19253', '750', null, '65', null), ('426080', '2017-11-24 16:03:08', b'0', 'jpg', '1206', null, 'aba56163-7c9d-4d81-9a76-4d8c1ce117e0.jpg', 'upload/store/12/2017/11/24', '0.0998096', '750', null, '65', null), ('426081', '2017-11-24 16:10:12', b'0', 'jpg', '1206', null, '03cd28f4-be63-4e7a-8a43-fac9410685b9.jpg', 'upload/store/12/2017/11/24', '0.0998096', '750', null, '65', null), ('426082', '2017-11-24 16:10:44', b'0', 'jpg', '1206', null, 'ddf4909c-a437-4b8d-90b5-1849f17a1fa2.jpg', 'upload/store/12/2017/11/24', '0.0998096', '750', null, '65', null), ('426083', '2017-11-24 16:20:33', b'0', 'jpg', '1206', null, 'e0de41d2-dfe8-40f7-8e44-2ce0db9b3984.jpg', 'upload/store/12/2017/11/24', '0.0998096', '750', null, '65', null), ('426084', '2017-11-24 22:18:29', b'0', 'jpg', '1206', null, 'bbf21945-0132-48cf-9cba-c613aafd3448.jpg', 'upload/store/12/2017/11/24', '0.19253', '750', null, '65', null), ('426085', '2017-11-24 22:19:49', b'0', 'jpg', '1206', null, '3d49cc94-bd85-4c4d-99fa-30b0b19aec11.jpg', 'upload/store/12/2017/11/24', '0.0998096', '750', null, '65', null), ('426086', '2017-11-24 22:23:44', b'0', 'jpg', '1206', null, '5978c185-007a-4f76-9110-289a5d3c58ea.jpg', 'upload/store/12/2017/11/24', '0.0998096', '750', null, '65', null), ('426087', '2017-11-24 22:23:53', b'0', 'jpg', '1206', null, '5ebb95d9-2143-4210-93f3-71872c9bdde1.jpg', 'upload/store/12/2017/11/24', '0.19253', '750', null, '65', null), ('426088', '2017-11-24 22:33:35', b'0', 'jpg', '1206', null, '160588ab-0e3a-43f7-9f76-765ce06ada77.jpg', 'upload/store/12/2017/11/24', '0.0998096', '750', null, '65', null), ('426089', '2017-11-24 22:33:50', b'0', 'jpg', '1206', null, 'a08327e8-f924-4960-abee-b306ab32de20.jpg', 'upload/store/12/2017/11/24', '0.19253', '750', null, '65', null), ('426090', '2017-11-24 22:36:26', b'0', 'jpg', '1206', null, 'e9550a65-5a05-4228-afc0-43ae12a1d870.jpg', 'upload/store/12/2017/11/24', '0.19253', '750', null, '65', null), ('426091', '2017-11-24 22:37:38', b'0', 'jpg', '1206', null, 'f11474dd-1bc3-4305-bd56-a9293bec3bd4.jpg', 'upload/store/12/2017/11/24', '0.19253', '750', null, '65', null), ('426092', '2017-11-24 22:44:23', b'0', 'jpg', '1206', null, '74772a89-cfc9-4d53-a8ea-ee81a8a6bbe8.jpg', 'upload/store/12/2017/11/24', '0.0998096', '750', null, '65', null), ('426093', '2017-11-24 22:44:30', b'0', 'jpg', '1206', null, 'c70433d6-fd65-4e86-9eb7-3661e999fbee.jpg', 'upload/store/12/2017/11/24', '0.19253', '750', null, '65', null), ('426094', '2017-11-24 22:44:53', b'0', 'jpg', '1206', null, '7014cda0-9946-4968-92fb-4da0c593ec6b.jpg', 'upload/store/12/2017/11/24', '0.19253', '750', null, '65', null), ('426095', '2017-11-24 22:45:05', b'0', 'jpg', '1206', null, 'f8c2f59f-889f-4f4b-b32a-959de5cbfbe1.jpg', 'upload/store/12/2017/11/24', '0.19253', '750', null, '65', null), ('426096', '2017-11-24 22:55:17', b'0', 'jpg', '1206', null, '2aea37af-2062-40c6-b24a-df2d9cb5cf63.jpg', 'upload/store/12/2017/11/24', '0.19253', '750', '20', '65', null), ('426097', '2017-11-24 22:55:42', b'0', 'jpg', '1206', null, '677d487f-f9b8-4bc0-82e3-c5ad795597a1.jpg', 'upload/store/12/2017/11/24', '0.19253', '750', '20', '65', null), ('426098', '2017-11-25 00:24:52', b'0', 'jpg', '1206', null, '4f857006-ad6e-41e4-a4fe-5ff575faba5f.jpg', 'upload/store/12/2017/11/25', '0.19253', '750', '20', '65', null), ('426099', '2017-11-25 00:53:11', b'0', 'jpg', '1206', null, '2aee7867-3cbc-4e5d-a290-9b16602f550e.jpg', 'upload/store/12/2017/11/25', '0.19253', '750', '20', '65', null), ('426100', '2017-11-25 00:53:23', b'0', 'jpg', '1206', null, 'fb66bdbe-06e4-4d46-97c2-233fca1fbb10.jpg', 'upload/store/12/2017/11/25', '0.19253', '750', '20', '65', null), ('426101', '2017-11-25 01:00:55', b'0', 'jpg', '1206', null, '3cc28e99-bcd4-40e3-8d02-8b0e100b02e5.jpg', 'upload/store/12/2017/11/25', '0.19253', '750', '20', '65', null), ('426102', '2017-11-25 01:02:34', b'0', 'jpg', '1206', null, '5859fb54-a09c-4901-9403-08e629b0418e.jpg', 'upload/store/12/2017/11/25', '0.19253', '750', '20', '65', null), ('426103', '2017-11-25 01:02:46', b'0', 'jpg', '1206', null, '226eb046-baaa-4d52-99f6-4633e5b9ff79.jpg', 'upload/store/12/2017/11/25', '0.19253', '750', '20', '65', null), ('426104', '2017-11-25 01:13:09', b'0', 'jpg', '1206', null, '599cf357-8999-445b-8e5f-91e8908522dd.jpg', 'upload/store/12/2017/11/25', '0.19253', '750', '20', '65', null), ('426105', '2017-11-25 01:23:28', b'0', 'jpg', '1206', null, '91d43475-a8a6-4a13-9d1f-cd606dfd6227.jpg', 'upload/store/12/2017/11/25', '0.19253', '750', '20', '65', null), ('426106', '2017-11-25 01:27:09', b'0', 'jpg', '1206', null, 'c76a096c-0314-49c1-8374-c4e820fdeee9.jpg', 'upload/store/12/2017/11/25', '0.19253', '750', '20', '65', null), ('426108', '2017-11-25 01:38:18', b'0', 'jpg', '1206', null, '70b8ac55-16f0-4397-a3f2-dfddea7dbd89.jpg', 'upload/store/12/2017/11/25', '0.19253', '750', '20', '65', null), ('426109', '2017-11-25 22:13:09', b'0', 'jpg', '1206', null, '32e31e4f-f7fc-4d0e-8323-efe98f8fc791.jpg', 'upload/store/12/2017/11/25', '0.19253', '750', '20', '65', null), ('426111', '2017-11-25 22:44:24', b'0', 'jpg', '1206', null, '2a87f33d-edce-43a4-9d72-84f992e8e417.jpg', 'upload/store/12/2017/11/25', '0.0998096', '750', '20', '65', null), ('426112', '2017-11-25 22:44:50', b'0', 'jpg', '1206', null, 'a3c5f92c-449d-476f-a609-77c287c15658.jpg', 'upload/store/12/2017/11/25', '0.0998096', '750', '20', '65', null), ('426113', '2017-11-25 22:46:57', b'0', 'jpg', '1206', null, '9068cb04-e4a8-4c87-9a84-c6e99d7bebed.jpg', 'upload/store/12/2017/11/25', '0.19253', '750', '20', '65', null), ('426114', '2017-11-25 22:47:23', b'0', 'jpg', '1206', null, 'cec93884-ac05-46d2-b9f9-baf66717c2a9.jpg', 'upload/store/12/2017/11/25', '0.19253', '750', '20', '65', null), ('426118', '2017-12-06 14:34:12', b'0', 'png', '3', null, '95b7d05b-f890-4bfb-8b34-473d61618b40.png', 'upload/brand', '76', '3', null, null, null), ('426119', '2017-12-06 15:02:36', b'0', 'png', '3', null, 'dc112f76-8909-40aa-9eaf-91e9ff65d429.png', 'upload/brand', '76', '3', null, null, null), ('426120', '2017-12-06 15:06:06', b'0', 'png', '3', null, '266e22f2-3dbf-479b-a939-c6cf1fe66278.png', 'upload/brand', '76', '3', null, null, null), ('426121', '2017-12-06 16:01:10', b'0', 'png', '10', null, 'ca1bf8e0-750c-4ddb-88eb-c61d5b35fa8e.png', 'upload/brand', '187', '4', null, null, null), ('426122', '2017-12-06 18:02:22', b'0', 'png', '8', null, '2de70922-a10d-4c50-997e-2e2212368ad2.png', 'upload/brand', '183', '5', null, null, null), ('426123', '2017-12-06 18:07:57', b'0', 'png', '3', null, 'a2cb194e-db0e-41bd-ac0a-53b454677923.png', 'upload/brand', '76', '3', null, null, null);
+INSERT INTO `gs_goods` VALUES ('2', '2017-12-06 16:16:58', b'0', '1', null, null, '1', null, 'aaa', null, null, b'1', '1', null, null, '-2', '1', null, null, null, null, null, b'1', null, null, null, null, '1', '1', '12', '1', '2', '1', null, null, null, '12', null, '0', '0', '0', null, '0', '0', '0', null, null, null, null, null, null, '0', null, null, null, '5', b'0', null, b'0', null), ('4', null, b'0', '0', null, null, '0', null, null, null, null, b'0', '0', null, null, '1', '11', null, null, null, null, null, b'0', null, null, null, null, '0', '0', '0', '0', '0', '0', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null), ('5', null, b'0', '0', null, null, '0', null, null, null, null, b'0', '0', null, null, '1', '11', null, null, null, null, null, b'0', null, null, null, null, '0', '0', '0', '0', '0', '0', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null), ('6', null, b'0', '0', null, null, '0', null, null, null, null, b'0', '0', null, null, '1', '11', null, null, null, null, null, b'0', null, null, null, null, '0', '0', '0', '0', '0', '0', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null), ('7', null, b'0', '0', null, null, '0', null, null, null, null, b'0', '0', null, null, '0', '11', null, null, null, null, null, b'0', null, null, null, null, '0', '0', '0', '0', '0', '0', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null), ('11', '2017-12-09 23:59:54', b'0', '0', 'fggdfgdg', null, '12', null, 'sdasD', '112.00', null, b'1', '0', null, '1234324', '0', '1', '13.00', 'all', 'dfgfdg', 'dfgdfg', '12.00', b'0', null, null, null, null, '0', '0', '0', '0', '0', '0', '164', '4', '426114', '12', null, null, null, '0', null, null, null, null, '12.00', '12.00', null, null, null, null, null, null, null, null, null, null, null, null, null), ('27', '2017-12-12 14:39:23', b'0', '0', 'dsadfasdfasdf', null, '333', null, 'cccc', '190.00', null, b'0', '0', null, '123452342', '1', '0', '33.00', 'all', 'asdfasdf', 'adfasf', '220.00', b'0', null, null, null, null, '0', '0', '0', '0', '0', '0', '506', null, null, '12', null, null, null, '0', null, null, null, null, '220.00', '12.00', null, null, null, null, null, null, null, null, null, null, null, null, null);
 COMMIT;
 
 -- ----------------------------
@@ -168,7 +111,7 @@ CREATE TABLE `gs_goods_brand` (
   `name` varchar(255) DEFAULT NULL,
   `recommend` bit(1) NOT NULL,
   `sequence` int(11) NOT NULL,
-  `brandLogo_id` bigint(20) DEFAULT NULL COMMENT 'gs_goods_accessory表主键',
+  `brandLogo_id` bigint(20) DEFAULT NULL COMMENT 'gs_accessory表主键',
   `category_id` bigint(20) DEFAULT NULL COMMENT 'gs_goods_brand_category表主键',
   `remark` longtext COMMENT '申请备注',
   `userStatus` int(11) DEFAULT '0',
@@ -209,7 +152,7 @@ DROP TABLE IF EXISTS `gs_goods_class`;
 CREATE TABLE `gs_goods_class` (
   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT COMMENT '索引ID',
   `className` varchar(100) DEFAULT NULL COMMENT '分类名称',
-  `goods_type_id` bigint(20) DEFAULT NULL COMMENT '类型id',
+  `goods_type_id` bigint(20) DEFAULT NULL COMMENT 'gs_goods_type表主键',
   `seo_keywords` longtext COMMENT '类型名称',
   `parent_id` bigint(20) DEFAULT NULL COMMENT '父ID',
   `level` int(11) NOT NULL COMMENT '排序',
@@ -217,14 +160,14 @@ CREATE TABLE `gs_goods_class` (
   `addTime` datetime DEFAULT NULL COMMENT '创建时间',
   `icon_sys` varchar(255) DEFAULT NULL,
   `icon_type` int(11) DEFAULT '0',
-  `icon_acc_id` bigint(20) DEFAULT NULL COMMENT 'gs_goods_accessory表主键',
+  `icon_acc_id` bigint(20) DEFAULT NULL COMMENT 'gs_accessory表主键',
   `display` bit(1) NOT NULL,
   `sequence` int(11) NOT NULL,
   `recommend` bit(1) NOT NULL COMMENT '推荐选项',
   `deleteStatus` bit(1) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `store_id` (`parent_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1057 DEFAULT CHARSET=utf8 COMMENT='商品总体分类表';
+) ENGINE=InnoDB AUTO_INCREMENT=1057 DEFAULT CHARSET=utf8 COMMENT='商品名称分类表\n';
 
 -- ----------------------------
 --  Records of `gs_goods_class`
@@ -275,17 +218,24 @@ CREATE TABLE `gs_goods_combin` (
 DROP TABLE IF EXISTS `gs_goods_photo`;
 CREATE TABLE `gs_goods_photo` (
   `goods_id` bigint(20) NOT NULL COMMENT 'gs_goods表主键',
-  `photo_id` bigint(20) NOT NULL COMMENT 'gs_goods_accessory表主键',
+  `photo_id` bigint(20) NOT NULL COMMENT 'gs_accessory表主键',
   KEY `FKC4A3A058A995E663` (`goods_id`),
   KEY `FKC4A3A058E62DDD43` (`photo_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='goods表与accessory表关联表';
+
+-- ----------------------------
+--  Records of `gs_goods_photo`
+-- ----------------------------
+BEGIN;
+INSERT INTO `gs_goods_photo` VALUES ('12', '426081'), ('12', '426082');
+COMMIT;
 
 -- ----------------------------
 --  Table structure for `gs_goods_property`
 -- ----------------------------
 DROP TABLE IF EXISTS `gs_goods_property`;
 CREATE TABLE `gs_goods_property` (
-  `goods_id` bigint(20) NOT NULL COMMENT 'gs_goods_accessory表主键',
+  `goods_id` bigint(20) NOT NULL COMMENT 'gs_goods表主键',
   `spec_id` bigint(20) NOT NULL COMMENT 'gs_goods_spec_property表主键',
   KEY `FK37E5B8D5A995E663` (`goods_id`),
   KEY `FK37E5B8D5F8EE6C2E` (`spec_id`)
@@ -302,7 +252,7 @@ CREATE TABLE `gs_goods_spec_property` (
   `sequence` int(11) NOT NULL,
   `value` varchar(255) DEFAULT NULL,
   `spec_id` bigint(20) DEFAULT NULL COMMENT 'gs_goods_specification表主键',
-  `specImage_id` bigint(20) DEFAULT NULL COMMENT 'gs_goods_accessory表主键',
+  `specImage_id` bigint(20) DEFAULT NULL COMMENT 'gs_accessory表主键',
   PRIMARY KEY (`id`),
   KEY `FK1F5139F5E78D66CA` (`specImage_id`),
   KEY `FK1F5139F566DBAAE` (`spec_id`)
@@ -370,7 +320,7 @@ CREATE TABLE `gs_goods_type` (
   `name` varchar(255) DEFAULT NULL,
   `sequence` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=37 DEFAULT CHARSET=utf8 COMMENT='产品类型总索引';
+) ENGINE=InnoDB AUTO_INCREMENT=37 DEFAULT CHARSET=utf8 COMMENT='产品类型总索引\ngs_goods_class 1->1  gs_goods_type\n\n				一种产品类型有多种规格\ngs_goods_type N—————————————>N gs_goods_specification\n			       gs_goods_type_spec\n\n\n					   一种规格里有多种属性\ngs_goods_specification 1————————————>N gs_goods_spec_property\n\n\n						一个发布产品里可有多种规格属性\ngs_goods_spec_property  N—————————————————>N gs_goods\n							gs_goods_property\n\n\n				';
 
 -- ----------------------------
 --  Records of `gs_goods_type`
@@ -378,6 +328,31 @@ CREATE TABLE `gs_goods_type` (
 BEGIN;
 INSERT INTO `gs_goods_type` VALUES ('34', null, b'1', '服饰鞋/女装/针织衫', '3'), ('35', null, b'1', '服饰鞋帽/女装/雪纺衫', '4'), ('36', null, b'1', '服饰鞋帽/女装/卫衣', '5');
 COMMIT;
+
+-- ----------------------------
+--  Table structure for `gs_goods_type_brand`
+-- ----------------------------
+DROP TABLE IF EXISTS `gs_goods_type_brand`;
+CREATE TABLE `gs_goods_type_brand` (
+  `type_id` bigint(20) NOT NULL,
+  `brand_id` bigint(20) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='产品类型品牌索引';
+
+-- ----------------------------
+--  Table structure for `gs_goods_type_property`
+-- ----------------------------
+DROP TABLE IF EXISTS `gs_goods_type_property`;
+CREATE TABLE `gs_goods_type_property` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `addTime` datetime DEFAULT NULL,
+  `deleteStatus` bit(1) NOT NULL,
+  `display` bit(1) NOT NULL,
+  `name` varchar(255) DEFAULT NULL,
+  `sequence` int(11) NOT NULL,
+  `value` varchar(255) DEFAULT NULL,
+  `goodsType_id` bigint(20) DEFAULT NULL COMMENT 'gs_goods_type表主键',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='商品类型属性表';
 
 -- ----------------------------
 --  Table structure for `gs_goods_type_spec`
@@ -405,7 +380,7 @@ CREATE TABLE `gs_goods_ugc` (
 --  Records of `gs_goods_ugc`
 -- ----------------------------
 BEGIN;
-INSERT INTO `gs_goods_ugc` VALUES ('2', '11'), ('11', '32');
+INSERT INTO `gs_goods_ugc` VALUES ('2', '11');
 COMMIT;
 
 -- ----------------------------

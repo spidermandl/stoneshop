@@ -1,10 +1,10 @@
 package org.goshop.seller.controller;
 
+import org.goshop.assets.i.AccessoryService;
+import org.goshop.assets.pojo.GsAccessory;
 import org.goshop.common.service.SystemConfigService;
 import org.goshop.common.web.utils.CommUtil;
 import org.goshop.common.web.utils.WebForm;
-import org.goshop.goods.i.AccessoryService;
-import org.goshop.goods.pojo.GsAccessory;
 import org.goshop.seller.controller.tools.AreaViewTools;
 import org.goshop.shiro.bind.annotation.CurrentUser;
 import org.goshop.store.i.StoreAreaService;

@@ -3,6 +3,10 @@ package org.goshop.seller.controller;
 import com.github.pagehelper.PageInfo;
 import net.sf.json.JSONObject;
 import org.apache.commons.collections.map.HashedMap;
+import org.goshop.assets.i.AccessoryService;
+import org.goshop.assets.i.AlbumService;
+import org.goshop.assets.pojo.GsAccessory;
+import org.goshop.assets.pojo.GsAlbum;
 import org.goshop.common.pojo.ResponseStatus;
 import org.goshop.common.utils.StringUtils;
 import org.goshop.common.web.utils.WebForm;
@@ -72,7 +76,7 @@ public class GoodsController {
     GoodsService goodsService;
 
     @Autowired
-    GoodsAlbumService goodsAlbumService;
+    AlbumService albumService;
 
     @Autowired
     SystemConfigService systemConfigService;
@@ -518,7 +522,7 @@ public class GoodsController {
                     Integer.valueOf(1024));
 
             List ugcs = this.goodsUserClassService.findByUserIdAndParentId(user.getId(),null,true);
-            PageInfo<GsAccessory> pList = this.accessoryService.findByUserId(user,1,8);
+            PageInfo<GsAccessory> pList = this.accessoryService.findByUserId(user.getId(),1,8);
             String photo_url = CommUtil.getURL(request) + "/seller/load_photo.htm";
             List gbs = this.goodsBrandService.findByUserId(user);
             model.addAttribute("gbs", gbs);
@@ -771,9 +775,9 @@ public class GoodsController {
                 GsAccessory image = this.storeTools.bundleAccessory(map,url,store.getStoreId(),user.getId());
                 GsAlbum album = null;
                 if ((album_id != null) && (!album_id.equals(""))){
-                    album = this.goodsAlbumService.findOne(CommUtil.null2Long(album_id));
+                    album = this.albumService.findOne(CommUtil.null2Long(album_id));
                 }else{
-                    album = this.goodsAlbumService.getDefaultAlbum(user);
+                    album = this.albumService.getDefaultAlbum(user.getId());
                     if (album == null){
                         album = new GsAlbum();
                         album.setAddtime(new Date());
@@ -781,7 +785,7 @@ public class GoodsController {
                         album.setAlbumSequence(-10000);
                         album.setAlbumDefault(true);
                         album.setUserId(user.getId());
-                        this.goodsAlbumService.save(album);
+                        this.albumService.save(album);
                     }
                 }
                 image.setAlbumId(album.getId());
@@ -903,7 +907,7 @@ public class GoodsController {
         }catch (Exception e){
         }
 
-        PageInfo<GsAccessory> pList = accessoryService.findByUserId(user,page,pageSize);
+        PageInfo<GsAccessory> pList = accessoryService.findByUserId(user.getId(),page,pageSize);
         String photo_url = CommUtil.getURL(request)
                 + "/goods/goods_img_album.htm";
         model.addAttribute("photos", pList.getList());

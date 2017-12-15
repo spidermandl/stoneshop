@@ -1,6 +1,6 @@
-package org.goshop.goods.mapper.read;
+package org.goshop.assets.mapper.read;
 
-import org.goshop.goods.pojo.GsAlbum;
+import org.goshop.assets.pojo.GsAlbum;
 
 public interface ReadGsAlbumMapper {
     int deleteByPrimaryKey(Long id);

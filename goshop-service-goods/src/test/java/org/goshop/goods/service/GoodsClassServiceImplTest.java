@@ -3,7 +3,7 @@ package org.goshop.goods.service;
 import com.github.pagehelper.PageInfo;
 import org.apache.commons.collections.map.HashedMap;
 import org.goshop.base.service.SpringBaseTest;
-import org.goshop.goods.i.AccessoryService;
+import org.goshop.assets.i.AccessoryService;
 import org.goshop.goods.i.GoodsClassService;
 import org.goshop.goods.i.GoodsService;
 import org.goshop.goods.pojo.GsGoodsClass;
@@ -75,7 +75,7 @@ public class GoodsClassServiceImplTest extends SpringBaseTest {
 
         goods = goodsService.findOne(id);
         goods.setStorePrice(BigDecimal.valueOf(100));
-        goods.setGoodsPhotos(accessoryService.findByGoodsId(goods.getId()));
+        goods.setGoodsPhotos(goodsService.findPhotoByGoodsId(goods.getId()));
         goods.getGoodsPhotos().remove(0);
         goods.getGoodsPhotos().add(accessoryService.findOne(426083L));
         goodsService.update(goods);

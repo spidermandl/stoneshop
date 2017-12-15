@@ -6,7 +6,7 @@ import org.goshop.common.utils.DateTimeUtils;
 import org.goshop.common.utils.FileUtils;
 import org.goshop.common.web.utils.CommUtil;
 import org.goshop.goods.i.GoodsClassService;
-import org.goshop.goods.pojo.GsAccessory;
+import org.goshop.assets.pojo.GsAccessory;
 import org.goshop.goods.pojo.GsGoodsClass;
 import org.goshop.goods.pojo.GsGoodsSpecProperty;
 import org.goshop.goods.pojo.GsGoodsSpecification;

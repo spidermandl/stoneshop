@@ -8,20 +8,27 @@
        http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
 
     <!-- 提供方应用信息，用于计算依赖关系 -->
-    <dubbo:application name="goshop-web-managet"  />
+    <dubbo:application name="goshop-service-goods"  />
+
     <!-- 使用redis中心暴露发现服务地址-->
-    <dubbo:registry address="${dubbo.address}"  check="false" />
+    <dubbo:registry  address="${dubbo.address}"  check="false" />
     <!-- 使用multicast广播注册中心暴露发现服务地址
     <dubbo:registry address="multicast://224.5.6.7:1234?unicast=false" check="false"/>-->
     <!-- zookeeper注册中心
     <dubbo:registry protocol="zookeeper"  address="127.0.0.1:2181" check="false" />-->
 
     <!-- 监控中心配置，protocol="registry"，表示从注册中心发现监控中心地址
-    <dubbo:monitor protocol="registry" />-->
+    <dubbo:monitor protocol="registry"/>-->
 
-    <!-- 用户信息引用 -->
-    <import resource="dubbo-reference-assets.xml" />
-    <import resource="dubbo-reference-user.xml" />
-    <import resource="dubbo-reference-goods.xml" />
-    <import resource="dubbo-reference-store.xml" />
+
+    <!-- 当ProtocolConfig和ServiceConfig某属性没有配置时,采用此缺省值 -->
+    <dubbo:provider timeout="10000" threadpool="fixed" threads="100" accepts="1000" />
+
+    <!--通讯配置-->
+    <dubbo:protocol name="dubbo"  dispatcher="all" threadpool="fixed" threads="20" port="28885" />
+
+    <!-- 声明需要暴露的服务接口 -->
+    <dubbo:service  retries="0" interface="org.goshop.assets.i.AccessoryService" ref="accessoryService"  />
+
+    <dubbo:service  retries="0" interface="org.goshop.assets.i.AlbumService" ref="albumService"  />
 </beans>

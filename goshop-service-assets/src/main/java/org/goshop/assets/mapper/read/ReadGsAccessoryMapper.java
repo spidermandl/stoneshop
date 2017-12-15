@@ -1,10 +1,10 @@
-package org.goshop.goods.mapper.master;
+package org.goshop.assets.mapper.read;
 
-import org.goshop.goods.pojo.GsAccessory;
+import org.goshop.assets.pojo.GsAccessory;
 
 import java.util.List;
 
-public interface GsAccessoryMapper {
+public interface ReadGsAccessoryMapper {
     int deleteByPrimaryKey(Long id);
 
     int insert(GsAccessory record);
@@ -12,6 +12,8 @@ public interface GsAccessoryMapper {
     int insertSelective(GsAccessory record);
 
     GsAccessory selectByPrimaryKey(Long id);
+
+    List<GsAccessory> selectByPrimaryKeys(List<Long> list);
 
     int updateByPrimaryKeySelective(GsAccessory record);
 

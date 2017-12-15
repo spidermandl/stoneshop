@@ -1,10 +1,7 @@
-package org.goshop.goods.mapper.master;
+package org.goshop.assets.mapper.master;
 
 import org.apache.ibatis.annotations.Param;
-import org.goshop.goods.pojo.GoodsClass;
-import org.goshop.goods.pojo.GsAlbum;
-
-import java.util.List;
+import org.goshop.assets.pojo.GsAlbum;
 
 public interface GsAlbumMapper {
     int deleteByPrimaryKey(Long id);

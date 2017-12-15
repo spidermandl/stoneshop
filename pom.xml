@@ -46,6 +46,8 @@
         <module>goshop-service-goods</module>
         <module>goshop-service-command</module>
         <module>goshop-web-seller</module>
+        <module>goshop-facade-assets</module>
+        <module>goshop-service-assets</module>
     </modules>
     <packaging>pom</packaging>
 
@@ -182,6 +184,12 @@
             <dependency>
                 <groupId>org.goshop</groupId>
                 <artifactId>goshop-facade-goods</artifactId>
+                <version>${goshop.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.goshop</groupId>
+                <artifactId>goshop-facade-assets</artifactId>
                 <version>${goshop.version}</version>
             </dependency>
             <!-- 邮件发送 -->

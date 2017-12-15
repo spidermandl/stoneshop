@@ -1,6 +1,8 @@
 package org.goshop.goods.service;
 
 import com.github.pagehelper.PageInfo;
+import org.goshop.assets.i.AccessoryService;
+import org.goshop.assets.pojo.GsAccessory;
 import org.goshop.common.utils.PageUtils;
 import org.goshop.goods.i.GoodsService;
 import org.goshop.goods.mapper.master.*;
@@ -24,9 +26,6 @@ public class GoodServiceImpl implements GoodsService {
     GsGoodsMapper gsGoodsMapper;
     @Autowired
     ReadGsGoodsMapper readGsGoodsMapper;
-
-    @Autowired
-    ReadGsAccessoryMapper readGsAccessoryMapper;
     @Autowired
     ReadGsGoodsPhotoMapper readGsGoodsPhotoMapper;
     @Autowired
@@ -51,11 +50,14 @@ public class GoodServiceImpl implements GoodsService {
     @Autowired
     GsGoodsPhotoMapper gsGoodsPhotoMapper;
 
+    @Autowired
+    AccessoryService accessoryService;
+
     @Override
     public GsGoodsWithBLOBs findOne(Long id) {
         GsGoodsWithBLOBs one = gsGoodsMapper.selectByPrimaryKey(id);
         if (one.getGoodsMainPhotoId()!=null)
-            one.setGoods_main_photo(readGsAccessoryMapper.selectByPrimaryKey(one.getGoodsMainPhotoId()));
+            one.setGoods_main_photo(accessoryService.findOne(one.getGoodsMainPhotoId()));
         if (one.getGoodsBrandId()!=null)
             one.setGoodsBrand(readGsGoodsBrandMapper.selectByPrimaryKey(one.getGoodsBrandId()));
         if (one.getGcId()!=null)
@@ -323,6 +325,18 @@ public class GoodServiceImpl implements GoodsService {
 //            List<GsGoodsPhoto> photos = readGsGoodsPhotoMapper.findByGoodsId("goods_photos")
 //        }
         return readGsGoodsMapper.findByCondition(condition);
+    }
+
+    @Override
+    public List<GsAccessory> findPhotoByGoodsId(Long goodsId) {
+        List<GsGoodsPhoto> photos = readGsGoodsPhotoMapper.findByGoodsId(goodsId);
+        List<Long> ids = new ArrayList<>();
+        for (GsGoodsPhoto gp:photos){
+            ids.add(gp.getPhotoId());
+        }
+        if (ids.size()==0)
+            return new ArrayList<>();
+        return accessoryService.findByIds(ids);
     }
 
 }

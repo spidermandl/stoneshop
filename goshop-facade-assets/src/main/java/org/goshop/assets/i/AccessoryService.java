@@ -1,8 +1,7 @@
-package org.goshop.goods.i;
+package org.goshop.assets.i;
 
 import com.github.pagehelper.PageInfo;
-import org.goshop.goods.pojo.GsAccessory;
-import org.goshop.users.pojo.User;
+import org.goshop.assets.pojo.GsAccessory;
 
 import java.util.List;
 
@@ -25,17 +24,17 @@ public interface AccessoryService {
 
     /**
      * 根据user分页查找
-     * @param user
+     * @param userId
      * @param curPage
      * @param pageSize
      * @return
      */
-    PageInfo<GsAccessory> findByUserId(User user, Integer curPage, Integer pageSize);
+    PageInfo<GsAccessory> findByUserId(Long userId, Integer curPage, Integer pageSize);
 
     /**
-     * 根据goods id获取
-     * @param goodsId
+     * 批量获取
+     * @param ids
      * @return
      */
-    List<GsAccessory> findByGoodsId(Long goodsId);
+    List<GsAccessory> findByIds(List<Long> ids);
 }

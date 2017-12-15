@@ -36,6 +36,10 @@
             <groupId>org.goshop</groupId>
             <artifactId>goshop-facade-goods</artifactId>
         </dependency>
+        <dependency>
+            <groupId>org.goshop</groupId>
+            <artifactId>goshop-facade-assets</artifactId>
+        </dependency>
 
         <dependency>
             <groupId>com.alibaba</groupId>

@@ -1,12 +1,12 @@
-package org.goshop.goods.i;
+package org.goshop.assets.i;
 
-import org.goshop.goods.pojo.GsAlbum;
-import org.goshop.users.pojo.User;
+
+import org.goshop.assets.pojo.GsAlbum;
 
 /**
  * Created by Desmond on 24/11/2017.
  */
-public interface GoodsAlbumService {
+public interface AlbumService {
 
     /**
      * 根据主键获取album
@@ -24,8 +24,8 @@ public interface GoodsAlbumService {
 
     /**
      * 获取用户默认album
-     * @param user
+     * @param userId
      * @return
      */
-    GsAlbum getDefaultAlbum(User user);
+    GsAlbum getDefaultAlbum(Long userId);
 }

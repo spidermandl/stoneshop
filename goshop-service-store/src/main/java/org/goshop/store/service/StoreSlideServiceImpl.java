@@ -5,12 +5,14 @@ import org.goshop.store.mapper.master.GsStoreSlideMapper;
 import org.goshop.store.mapper.read.ReadGsStoreSlideMapper;
 import org.goshop.store.pojo.GsStoreSlide;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 /**
  * Created by Desmond on 15/12/2017.
  */
+@Service("storeSlideService")
 public class StoreSlideServiceImpl implements StoreSlideService {
 
     @Autowired

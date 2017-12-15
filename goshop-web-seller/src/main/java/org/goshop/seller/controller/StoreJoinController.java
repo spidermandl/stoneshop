@@ -1,14 +1,14 @@
 package org.goshop.seller.controller;
 
 import org.apache.shiro.SecurityUtils;
+import org.goshop.assets.i.AccessoryService;
+import org.goshop.assets.pojo.GsAccessory;
 import org.goshop.common.service.AttachmentService;
 import org.goshop.common.context.CustomTimestampEditor;
 import org.goshop.common.exception.PageException;
 import org.goshop.common.utils.DateTimeUtils;
 import org.goshop.common.web.utils.CommUtil;
 import org.goshop.common.web.utils.JsonUtils;
-import org.goshop.goods.i.AccessoryService;
-import org.goshop.goods.pojo.GsAccessory;
 import org.goshop.seller.controller.tools.StoreTools;
 import org.goshop.shiro.bind.annotation.CurrentUser;
 import org.goshop.shiro.service.UserRealm;

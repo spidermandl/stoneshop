@@ -1,7 +1,7 @@
 package org.goshop.goods.i;
 
 import com.github.pagehelper.PageInfo;
-import org.goshop.goods.pojo.GsAccessory;
+import org.goshop.assets.pojo.GsAccessory;
 import org.goshop.goods.pojo.GsGoodsWithBLOBs;
 
 import java.util.List;
@@ -101,6 +101,14 @@ public interface GoodsService {
      * @return
      */
     List<GsGoodsWithBLOBs> findByCondition(Map condition);
+
+
+    /**
+     * 根据goods id查询相关所有照片
+     * @param goodsId
+     * @return
+     */
+    List<GsAccessory> findPhotoByGoodsId(Long goodsId);
 
 
 }

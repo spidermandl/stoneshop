@@ -1,5 +1,7 @@
 package org.goshop.goods.pojo;
 
+import org.goshop.assets.pojo.GsAccessory;
+
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.ArrayList;

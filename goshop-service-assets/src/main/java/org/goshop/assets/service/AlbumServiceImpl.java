@@ -1,17 +1,16 @@
-package org.goshop.goods.service;
+package org.goshop.assets.service;
 
-import org.goshop.goods.i.GoodsAlbumService;
-import org.goshop.goods.mapper.master.GsAlbumMapper;
-import org.goshop.goods.pojo.GsAlbum;
-import org.goshop.users.pojo.User;
+import org.goshop.assets.i.AlbumService;
+import org.goshop.assets.mapper.master.GsAlbumMapper;
+import org.goshop.assets.pojo.GsAlbum;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 /**
  * Created by Desmond on 24/11/2017.
  */
-@Service("goodsAlbumService")
-public class GoodsAlbumServiceImpl implements GoodsAlbumService {
+@Service("albumService")
+public class AlbumServiceImpl implements AlbumService {
     @Autowired
     GsAlbumMapper gsAlbumMapper;
 
@@ -29,7 +28,7 @@ public class GoodsAlbumServiceImpl implements GoodsAlbumService {
     }
 
     @Override
-    public GsAlbum getDefaultAlbum(User user) {
-        return gsAlbumMapper.getDefaultAlbumByUserId(user.getId(),true);
+    public GsAlbum getDefaultAlbum(Long userId) {
+        return gsAlbumMapper.getDefaultAlbumByUserId(userId,true);
     }
 }

@@ -1,18 +1,14 @@
-package org.goshop.goods.service;
+package org.goshop.assets.service;
 
 import com.github.pagehelper.PageInfo;
 import org.goshop.common.utils.PageUtils;
-import org.goshop.goods.i.AccessoryService;
-import org.goshop.goods.mapper.master.GsAccessoryMapper;
-import org.goshop.goods.mapper.read.ReadGsAccessoryMapper;
-import org.goshop.goods.mapper.read.ReadGsGoodsPhotoMapper;
-import org.goshop.goods.pojo.GsAccessory;
-import org.goshop.goods.pojo.GsGoodsPhoto;
-import org.goshop.users.pojo.User;
+import org.goshop.assets.i.AccessoryService;
+import org.goshop.assets.mapper.master.GsAccessoryMapper;
+import org.goshop.assets.mapper.read.ReadGsAccessoryMapper;
+import org.goshop.assets.pojo.GsAccessory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -26,8 +22,6 @@ public class AccessoryServiceImpl implements AccessoryService {
 
     @Autowired
     ReadGsAccessoryMapper readGsAccessoryMapper;
-    @Autowired
-    ReadGsGoodsPhotoMapper readGsGoodsPhotoMapper;
 
     @Override
     public GsAccessory findOne(Long id) {
@@ -61,21 +55,14 @@ public class AccessoryServiceImpl implements AccessoryService {
     }
 
     @Override
-    public PageInfo<GsAccessory> findByUserId(User user, Integer curPage, Integer pageSize) {
+    public PageInfo<GsAccessory> findByUserId(Long userId, Integer curPage, Integer pageSize) {
         PageUtils.startPage(curPage,pageSize);
-        List<GsAccessory> list = readGsAccessoryMapper.selectByUserId(user.getId());
+        List<GsAccessory> list = readGsAccessoryMapper.selectByUserId(userId);
         return new PageInfo<>(list);
     }
 
     @Override
-    public List<GsAccessory> findByGoodsId(Long goodsId) {
-        List<GsGoodsPhoto> photos = readGsGoodsPhotoMapper.findByGoodsId(goodsId);
-        List<Long> ids = new ArrayList<>();
-        for (GsGoodsPhoto gp:photos){
-            ids.add(gp.getPhotoId());
-        }
-        if (ids.size()==0)
-            return new ArrayList<>();
+    public List<GsAccessory> findByIds(List<Long> ids) {
         return readGsAccessoryMapper.selectByPrimaryKeys(ids);
     }
 
