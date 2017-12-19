@@ -1,22 +1,24 @@
 package org.goshop.users.service;
 
+import com.github.pagehelper.PageInfo;
 import org.goshop.common.exception.MapperException;
+import org.goshop.common.utils.PageUtils;
 import org.goshop.common.utils.RandomUtils;
-import org.goshop.shiro.service.PasswordService;
+import org.goshop.users.i.PasswordService;
 import org.goshop.users.i.UserService;
 import org.goshop.users.mapper.master.UserMapper;
 import org.goshop.users.mapper.master.UserRoleMapper;
+import org.goshop.users.mapper.read.ReadGsPermissionGroupMapper;
+import org.goshop.users.mapper.read.ReadGsUserBanPermMapper;
 import org.goshop.users.mapper.read.ReadRoleMapper;
 import org.goshop.users.mapper.read.ReadUserMapper;
-import org.goshop.users.pojo.Permission;
-import org.goshop.users.pojo.Role;
-import org.goshop.users.pojo.User;
-import org.goshop.users.pojo.UserRole;
+import org.goshop.users.pojo.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
 import java.sql.Timestamp;
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -38,7 +40,13 @@ public class UserServiceImpl implements UserService {
     UserRoleMapper userRoleMapper;
 
     @Autowired
-    private PasswordService passwordService;
+    PasswordService passwordService;
+
+    @Autowired
+    ReadGsUserBanPermMapper readGsUserBanPermMapper;
+
+    @Autowired
+    ReadGsPermissionGroupMapper readGsPermissionGroupMapper;
 
 
     @Override
@@ -48,6 +56,11 @@ public class UserServiceImpl implements UserService {
             throw new MapperException("登录名称重复");
         }
         return userMapper.insertSelective(passWordUser(user));
+    }
+
+    @Override
+    public int update(User user) {
+        return userMapper.updateByPrimaryKey(user);
     }
 
     @Override
@@ -67,6 +80,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public int delete(Long userId ){
+        userRoleMapper.deleteRoleByUId(userId);
         return userMapper.deleteByPrimaryKey(userId);
     }
 
@@ -88,8 +102,20 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<Permission> findPermissionListByUserId(Long userId) {
-        return userMapper.findPermissionListByUserId(userId);
+    public List<GsPermission> findPermissionListByUserId(Long userId) {
+        List<GsPermission> result = readUserMapper.findPermissionListByUserId(userId);
+        List<GsUserBanPerm> bans = readGsUserBanPermMapper.selectByUserId(userId);
+        Iterator<GsPermission> it = result.iterator();
+        while(it.hasNext()){
+            GsPermission p = it.next();
+            for (GsUserBanPerm b:bans){
+                if(b.getPermissionId()==p.getId()){
+                    it.remove();
+                    break;
+                }
+            }
+        }
+        return result;
     }
     @Override
     public List<Role> findByRole(Long userId) {
@@ -124,13 +150,29 @@ public class UserServiceImpl implements UserService {
         return userRoleMapper.insert(userRole);
     }
 
+    @Override
+    public List<User> findChilds(Long parentId) {
+        return readUserMapper.selectByParentId(parentId);
+    }
+
+    @Override
+    public PageInfo<User> findChilds(Long parentId, Integer curPage, Integer pageSize) {
+        PageUtils.startPage(curPage,pageSize);
+        List<User> list = readUserMapper.selectByParentId(parentId);
+        return new PageInfo<>(list);
+    }
+
+    @Override
+    public List<GsPermissionGroup> findPermissionGroupByType(String type, String orderBy, String orderType) {
+        return readGsPermissionGroupMapper.selectByType(type,orderBy,orderType);
+    }
+
     /**
      * 将密码加密
      * @param user
      * @return
      */
     private  User passWordUser(User user){
-
         if(StringUtils.hasText(user.getPassword())){
             String salt= RandomUtils.generateString(5);
             user.setPassword(passwordService.encryptPassword(user.getPassword(),salt));

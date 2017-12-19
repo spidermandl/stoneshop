@@ -1613,4 +1613,44 @@ public class CommUtil {
 
         return system_domain;
     }
+
+    /****************************************************************
+     * *****************private func
+     ****************************************************************/
+    /**
+     * 剔除冗余字符
+     * @param inputString
+     * @return
+     */
+    public static String clearContent(String inputString){
+        String htmlStr = inputString;
+        String textStr = "";
+        try {
+            String regEx_script = "<[//s]*?script[^>]*?>[//s//S]*?<[//s]*?///[//s]*?script[//s]*?>";
+            String regEx_style = "<[//s]*?style[^>]*?>[//s//S]*?<[//s]*?///[//s]*?style[//s]*?>";
+            String regEx_html = "<[^>]+>";
+            String regEx_html1 = "<[^>]+";
+            Pattern p_script = Pattern.compile(regEx_script, 2);
+            Matcher m_script = p_script.matcher(htmlStr);
+            htmlStr = m_script.replaceAll("");
+
+            Pattern p_style = Pattern.compile(regEx_style, 2);
+            Matcher m_style = p_style.matcher(htmlStr);
+            htmlStr = m_style.replaceAll("");
+
+            Pattern p_html = Pattern.compile(regEx_html, 2);
+            Matcher m_html = p_html.matcher(htmlStr);
+            htmlStr = m_html.replaceAll("");
+
+            Pattern p_html1 = Pattern.compile(regEx_html1, 2);
+            Matcher m_html1 = p_html1.matcher(htmlStr);
+            htmlStr = m_html1.replaceAll("");
+
+            textStr = htmlStr;
+        } catch (Exception e){
+            System.err.println("Html2Text: " + e.getMessage());
+        }
+
+        return textStr;
+    }
 }

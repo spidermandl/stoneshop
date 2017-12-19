@@ -25,13 +25,14 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 /**
- * 操作商店控制器
+ * 操作商店基本信息控制器
  */
 @Controller
 @RequestMapping(value =  "/store")
@@ -246,6 +247,32 @@ public class StoreController{
         return "store/"+ret;
     }
 
+    /**
+     * 店铺地图保存
+     * @param request
+     * @param response
+     * @param store_lat
+     * @param store_lng
+     * @return
+     */
+    @RequestMapping({"/seller/store_map_save.htm"})
+    public String store_map_save(@CurrentUser User user,
+                                 Model model,
+                                 HttpServletRequest request,
+                                 HttpServletResponse response,
+                                 String store_lat,
+                                 String store_lng){
+        String ret = "success";
+        Long storeId = this.storeJoinService.getCurrentStore(user).getStoreId();
+        StoreWithBLOBs store = this.storeService.findOne(storeId);
+        store.setStoreLat(BigDecimal.valueOf(CommUtil.null2Double(store_lat)));
+        store.setStoreLng(BigDecimal.valueOf(CommUtil.null2Double(store_lng)));
+        this.storeService.update(store);
+        model.addAttribute("op_title", "店铺设置成功");
+        model.addAttribute("url", CommUtil.getURL(request) + "/seller/store_map.htm");
+
+        return "store/"+ret;
+    }
     /**
      * 店铺认证保存
      * @param request

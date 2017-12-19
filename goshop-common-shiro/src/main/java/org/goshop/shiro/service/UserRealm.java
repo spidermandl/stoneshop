@@ -1,7 +1,7 @@
 package org.goshop.shiro.service;
 
 import org.goshop.users.i.UserService;
-import org.goshop.users.pojo.Permission;
+import org.goshop.users.pojo.GsPermission;
 import org.goshop.users.pojo.Role;
 import org.goshop.users.pojo.User;
 import org.apache.shiro.SecurityUtils;
@@ -102,7 +102,7 @@ public class UserRealm extends AuthorizingRealm {
         }
         //根据身份信息获取权限信息
         //从数据库获取到权限数据
-        List<Permission> permissionList = null;
+        List<GsPermission> permissionList = null;
         try {
             permissionList = userService.findPermissionListByUserId(activeUser.getId());
         } catch (Exception e) {
@@ -112,7 +112,7 @@ public class UserRealm extends AuthorizingRealm {
         //单独定一个集合对象
         List<String> permissions = new ArrayList<String>();
         if(permissionList!=null){
-            for(Permission permission:permissionList){
+            for(GsPermission permission:permissionList){
                 //将数据库中的权限标签 符放入集合
                 permissions.add(permission.getPerCode());
             }

@@ -100,7 +100,9 @@ public class Store  implements Serializable {
 
     private String mapType;
 
+    private BigDecimal storeLat;
 
+    private BigDecimal storeLng;
     /************手动添加*****************/
     private StoreGrade storeGrade;//店铺等级
     private GsArea area;//店铺地点
@@ -135,6 +137,22 @@ public class Store  implements Serializable {
 
     public String getMapType() {
         return mapType;
+    }
+
+    public BigDecimal getStoreLat() {
+        return storeLat;
+    }
+
+    public void setStoreLat(BigDecimal storeLat) {
+        this.storeLat = storeLat;
+    }
+
+    public BigDecimal getStoreLng() {
+        return storeLng;
+    }
+
+    public void setStoreLng(BigDecimal storeLng) {
+        this.storeLng = storeLng;
     }
 
     public void setMapType(String mapType) {

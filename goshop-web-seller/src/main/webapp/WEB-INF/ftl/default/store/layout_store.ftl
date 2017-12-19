@@ -33,29 +33,44 @@
                         申请状态
                     </a>
                 <#else>
+                    <li <#if (P_CURRENT_OP!"")=="StoreInfo">class="current"</#if>>
+                        <a href="${S_URL}/store/">
+                            我的店铺
+                        </a>
+                    </li>
                     <li <#if (P_CURRENT_OP!"")=="StoreSetting">class="current"</#if>>
                         <a href="${S_URL}/store/store_set">
                             店铺设置
                         </a>
                     </li>
-                    <li <#if (P_CURRENT_OP!"")=="StoreNav">class="current"</#if>>
-                        <a href="${S_URL}/store/">
+                    <li <#if (P_CURRENT_OP!"")=="StoreNavigation">class="current"</#if>>
+                        <a href="${S_URL}/store/store_nav">
                             店铺导航
                         </a>
                     </li>
-                    <li <#if (P_CURRENT_OP!"")=="StoreInfo">class="current"</#if>>
-                        <a href="${S_URL}/store/">
-                            店铺信息
-                        </a>
-                    </li>
                     <li <#if (P_CURRENT_OP!"")=="StoreClassify">class="current"</#if>>
-                        <a href="${S_URL}/store/">
+                        <a href="${S_URL}/store/aaa">
                             店铺分类
                         </a>
                     </li>
-                    <li <#if (P_CURRENT_OP!"")=="StoreBrand">class="current"</#if>>
-                        <a href="${S_URL}/store/">
+                    <li <#if (P_CURRENT_OP!"")=="StoreSubAccount">class="current"</#if>>
+                        <a href="${S_URL}/store/sub_account_list">
+                            子账户管理
+                        </a>
+                    </li>
+                    <li <#if (P_CURRENT_OP!"")=="StoreTheme">class="current"</#if>>
+                        <a href="${S_URL}/store/store_theme">
+                            主题设置
+                        </a>
+                    </li>
+                    <li <#if (P_CURRENT_OP!"")=="GoodsBrandRequest">class="current"</#if>>
+                        <a href="${S_URL}/brand/usergoodsbrand_list">
                             品牌申请
+                        </a>
+                    </li>
+                    <li <#if (P_CURRENT_OP!"")=="StorePartner">class="current"</#if>>
+                        <a href="${S_URL}/store/store_partner">
+                            友情链接
                         </a>
                     </li>
 

@@ -16,6 +16,7 @@
     <result column="old_login_time" property="oldLoginTime" jdbcType="TIME" />
     <result column="login_ip" property="loginIp" jdbcType="VARCHAR" />
     <result column="old_login_ip" property="oldLoginIp" jdbcType="VARCHAR" />
+    <result column="parent_id" property="parentId" jdbcType="BIGINT" />
     <collection property="roleList" ofType="org.goshop.users.pojo.Role">
       <id column="r_id" property="id" jdbcType="BIGINT" />
       <result column="r_name" property="name" jdbcType="VARCHAR" />
@@ -24,7 +25,7 @@
       <result column="r_type" property="type" jdbcType="INTEGER" />
     </collection>
   </resultMap>
-  <resultMap id="permissionResultMap" type="org.goshop.users.pojo.Permission" >
+  <resultMap id="permissionResultMap" type="org.goshop.users.pojo.GsPermission" >
     <id column="id" property="id" jdbcType="BIGINT" />
     <result column="name" property="name" jdbcType="VARCHAR" />
     <result column="type" property="type" jdbcType="INTEGER" />
@@ -35,16 +36,16 @@
     <result column="enable" property="enable" jdbcType="INTEGER" />
   </resultMap>
 
-    <resultMap id="roleResultMap" type="org.goshop.users.pojo.Role" >
-        <id column="id" property="id" jdbcType="BIGINT" />
-        <result column="name" property="name" jdbcType="VARCHAR" />
-        <result column="alias" property="alias" jdbcType="VARCHAR" />
-        <result column="enable" property="enable" jdbcType="INTEGER" />
-        <result column="type" property="type" jdbcType="INTEGER" />
-    </resultMap>
+  <resultMap id="roleResultMap" type="org.goshop.users.pojo.Role" >
+      <id column="id" property="id" jdbcType="BIGINT" />
+      <result column="name" property="name" jdbcType="VARCHAR" />
+      <result column="alias" property="alias" jdbcType="VARCHAR" />
+      <result column="enable" property="enable" jdbcType="INTEGER" />
+      <result column="type" property="type" jdbcType="INTEGER" />
+  </resultMap>
   <sql id="Base_Column_List" >
     id, user_name, login_name, password, salt, enable, type, created, upcreated,login_num,login_time,
-    old_login_time, login_ip,old_login_ip
+    old_login_time, login_ip,old_login_ip,parent_id
   </sql>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
     delete from gs_user
@@ -54,12 +55,12 @@
     insert into gs_user (id, user_name, login_name,
       password, salt, enable,
       type, created, upcreated,login_num,login_time,
-    old_login_time, login_ip,old_login_ip)
+    old_login_time, login_ip,old_login_ip,parent_id)
     values (#{id,jdbcType=BIGINT}, #{userName,jdbcType=VARCHAR}, #{loginName,jdbcType=VARCHAR},
       #{password,jdbcType=VARCHAR}, #{salt,jdbcType=VARCHAR}, #{enable,jdbcType=INTEGER},
       #{type,jdbcType=INTEGER}, #{created,jdbcType=DATE}, #{upcreated,jdbcType=DATE},
       #{loginNum,jdbcType=INTEGER},#{loginTime,jdbcType=TIME},#{oldLoginTime,jdbcType=TIME},
-      #{loginIp,jdbcType=VARCHAR},#{oldLoginIp,jdbcType=VARCHAR})
+      #{loginIp,jdbcType=VARCHAR},#{oldLoginIp,jdbcType=VARCHAR},#{parentId,jdbcType=BIGINT})
   </insert>
   <insert id="insertSelective" parameterType="org.goshop.users.pojo.User" useGeneratedKeys="true" keyProperty="id">
     insert into gs_user
@@ -106,6 +107,9 @@
       <if test="oldLoginIp != null" >
         old_login_ip,
       </if>
+      <if test="parentId != null" >
+        parent_id,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -149,6 +153,9 @@
       </if>
       <if test="oldLoginIp != null" >
         #{oldLoginIp,jdbcType=VARCHAR},
+      </if>
+      <if test="parentId != null" >
+        #{parentId,jdbcType=BIGINT},
       </if>
     </trim>
   </insert>
@@ -194,6 +201,9 @@
       <if test="oldLoginIp != null" >
         old_login_ip = #{oldLoginIp,jdbcType=VARCHAR},
       </if>
+      <if test="parentId != null" >
+        parent_id = #{parentId,jdbcType=BIGINT},
+      </if>
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
@@ -211,7 +221,8 @@
       login_time = #{loginTime,jdbcType=TIME},
       old_login_time = #{oldLoginTime,jdbcType=TIME},
       login_ip = #{loginIp,jdbcType=VARCHAR},
-      old_login_ip = #{oldLoginIp,jdbcType=VARCHAR}
+      old_login_ip = #{oldLoginIp,jdbcType=VARCHAR},
+      parent_id = #{parentId,jdbcType=BIGINT}
     where id = #{id,jdbcType=BIGINT}
   </update>
 
@@ -233,22 +244,11 @@
       <if test="oldLoginIp != null" >
         old_login_ip = #{oldLoginIp,jdbcType=VARCHAR},
       </if>
+      <if test="parentId != null" >
+        parent_id = #{parentId,jdbcType=BIGINT},
+      </if>
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
 
-  <select id="findPermissionListByUserId" resultMap="permissionResultMap" parameterType="java.lang.Long" >
-    SELECT
-    p.*
-    FROM
-    gs_user u	LEFT JOIN gs_user_role o ON u.id = o.u_id
-
-    LEFT JOIN gs_role r ON o.r_id = r.id
-
-    LEFT JOIN gs_role_permission rp ON  r.id = rp.r_id
-
-    LEFT JOIN gs_permission p ON rp.per_id = p.id
-    WHERE
-    u.id  =  #{id,jdbcType=BIGINT} and p.id  IS NOT NULL
-  </select>
 </mapper>

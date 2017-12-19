@@ -257,11 +257,14 @@
             <dt><a href="${S_URL}${SELLER_ROOT}/store/store_set">店铺</a></dt>
             <dd>
                 <ul>
-                    <li><a href="${S_URL}${SELLER_ROOT}/store/store_set"> 店铺设置 </a></li>
-                    <li><a href="${S_URL}${SELLER_ROOT}/storenav/list"> 店铺导航 </a></li>
-                    <li><a href="${S_URL}${SELLER_ROOT}/store/info"> 店铺信息 </a></li>
-                    <li><a href="${S_URL}${SELLER_ROOT}/storegoodsclass/list"> 店铺分类 </a></li>
-                    <li><a href="${S_URL}${SELLER_ROOT}/brandApply/list"> 品牌申请 </a></li>
+                    <li><a href="${S_URL}${SELLER_ROOT}/store/">我的店铺</a></li>
+                    <li><a href="${S_URL}${SELLER_ROOT}/store/store_set">店铺设置</a></li>
+                    <li><a href="${S_URL}${SELLER_ROOT}/store/store_nav">店铺导航</a></li>
+                    <li><a href="${S_URL}${SELLER_ROOT}/store/aaa">店铺分类</a></li>
+                    <li><a href="${S_URL}${SELLER_ROOT}/store/sub_account_list">子账户管理</a></li>
+                    <li><a href="${S_URL}${SELLER_ROOT}/store/store_theme">主题设置</a></li>
+                    <li><a href="${S_URL}${SELLER_ROOT}/brand/usergoodsbrand_list">品牌申请</a></li>
+                    <li><a href="${S_URL}${SELLER_ROOT}/store/store_partner">友情链接</a></li>
                 </ul>
             </dd>
             <dd class="arrow"></dd>

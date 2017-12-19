@@ -26,11 +26,14 @@
             <groupId>org.goshop</groupId>
             <artifactId>goshop-common-service</artifactId>
         </dependency>
+        <!--<dependency>-->
+            <!--<groupId>org.goshop</groupId>-->
+            <!--<artifactId>goshop-common-shiro</artifactId>-->
+        <!--</dependency>-->
         <dependency>
             <groupId>org.goshop</groupId>
-            <artifactId>goshop-common-shiro</artifactId>
+            <artifactId>goshop-facade-assets</artifactId>
         </dependency>
-
         <!-- Mybatis -->
         <dependency>
             <groupId>org.mybatis</groupId>

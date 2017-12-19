@@ -16,13 +16,13 @@ public class Role implements Serializable {
 
     private List<User> userList;
 
-    private List<Permission> permissionList;
+    private List<GsPermission> permissionList;
 
-    public List<Permission> getPermissionList() {
+    public List<GsPermission> getPermissionList() {
         return permissionList;
     }
 
-    public void setPermissionList(List<Permission> permissionList) {
+    public void setPermissionList(List<GsPermission> permissionList) {
         this.permissionList = permissionList;
     }
 

@@ -8,12 +8,9 @@ import org.goshop.common.utils.RandomUtils;
 import org.goshop.common.utils.RegexValidateUtil;
 import org.goshop.email.i.EMailService;
 import org.goshop.email.pojo.MailParam;
-import org.goshop.shiro.service.PasswordService;
-import org.goshop.users.i.AdminService;
-import org.goshop.users.i.FindPasswordService;
-import org.goshop.users.i.MemberService;
-import org.goshop.users.i.UserService;
+import org.goshop.users.i.*;
 import org.goshop.users.mapper.master.MemberMapper;
+import org.goshop.users.mapper.read.ReadMemberMapper;
 import org.goshop.users.pojo.Member;
 import org.goshop.users.pojo.User;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,6 +30,9 @@ public class MemberServiceImpl implements MemberService {
 
     @Autowired
     MemberMapper memberMapper;
+
+    @Autowired
+    ReadMemberMapper readMemberMapper;
 
     @Autowired
     UserService userService;
@@ -56,25 +56,25 @@ public class MemberServiceImpl implements MemberService {
     @Override
     public PageInfo<Member> findAll(Integer curPage, Integer pageSize) {
         PageUtils.startPage(curPage,pageSize);
-        List<Member> list = memberMapper.findAll();
+        List<Member> list = readMemberMapper.findAll();
         return new PageInfo<>(list);
     }
 
     @Override
     public PageInfo<Member> findUserAll(Integer curPage, Integer pageSize) {
         PageUtils.startPage(curPage,pageSize);
-        List<Member> list = memberMapper.findUserAll();
+        List<Member> list = readMemberMapper.findUserAll();
         return new PageInfo<>(list);
     }
 
     @Override
     public Member findOne(Long memberId) {
-        return memberMapper.selectByPrimaryKey(memberId);
+        return readMemberMapper.selectByPrimaryKey(memberId);
     }
 
     @Override
     public Boolean checkEmail(String memberEmail, Long memberId) {
-        Member member=memberMapper.findByMemberEmail(memberEmail);
+        Member member=readMemberMapper.findByMemberEmail(memberEmail);
         if(member==null){
             return true;
         }else if(member.getMemberId()==memberId){
@@ -171,13 +171,13 @@ public class MemberServiceImpl implements MemberService {
                     break;
             }
         }
-        List<Member> list = memberMapper.query(loginName, memberEmail, memberTruename, informAllow, isBuy, isAllowtalk, memberState, sort);
+        List<Member> list = readMemberMapper.query(loginName, memberEmail, memberTruename, informAllow, isBuy, isAllowtalk, memberState, sort);
         return new PageInfo<>(list);
     }
 
     @Override
     public Boolean checkLoginNameByEmail(String loginName, String email) {
-        int count=memberMapper.checkLoginNameByEmail(loginName, email);
+        int count=readMemberMapper.checkLoginNameByEmail(loginName, email);
         if(count>0){
             return false;
         }
@@ -238,7 +238,7 @@ public class MemberServiceImpl implements MemberService {
 
     @Override
     public Member findUserByUserId(Long userId) {
-        return memberMapper.findUserByUserId(userId);
+        return readMemberMapper.findUserByUserId(userId);
     }
 
     @Override
@@ -268,7 +268,7 @@ public class MemberServiceImpl implements MemberService {
 
     @Override
     public Boolean checkEmail(String memberEmail) {
-        int count=memberMapper.findByMemberEmailCount(memberEmail);
+        int count=readMemberMapper.findByMemberEmailCount(memberEmail);
         if(count>0){
             return false;
         }

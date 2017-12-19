@@ -35,6 +35,18 @@ public class StoreGrade implements Serializable {
 
     private String sgDescription;
 
+    private Integer sgAccountNum;
+
+    public Integer getSgAccountNum() {
+        if (sgAccountNum == null)
+            return 0;
+        return sgAccountNum;
+    }
+
+    public void setSgAccountNum(Integer sgAccountNum) {
+        this.sgAccountNum = sgAccountNum;
+    }
+
     public Integer getSgId() {
         return sgId;
     }

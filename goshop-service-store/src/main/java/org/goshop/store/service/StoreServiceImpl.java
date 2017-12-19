@@ -126,7 +126,7 @@ public class StoreServiceImpl implements StoreService {
                 store.setArea(readGsAreaMapper.selectByPrimaryKey(store.getAreaId()));
             if (store.getStoreLabel()!=null)
                 store.setLogo(accessoryService.findOne(store.getStoreLabel()));
-            if (store.getBanner()!=null)
+            if (store.getStoreBanner()!=null)
                 store.setBanner(accessoryService.findOne(store.getStoreBanner()));
         }
     }

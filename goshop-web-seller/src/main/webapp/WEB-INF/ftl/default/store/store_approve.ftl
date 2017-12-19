@@ -21,10 +21,10 @@ jQuery(document).ready(function(){
  jQuery("#theForm").validate({
     rules:{
 	  card_img:{
-	    accept :"$!config.imageSuffix"
+	    accept :"${(config.imageSuffix)!}"
 	  },
 	  license_img:{
-	    accept:"$!config.imageSuffix"
+	    accept:"${(config.imageSuffix)!}"
 	  }
 	 },
 	messages:{
@@ -56,13 +56,22 @@ jQuery(document).ready(function(){
                     <td width="98" align="right" valign="top">身份证：</td>
                     <td width="607" style="padding-left:30px;">
                       <ul class="setlogo">
-                        <li class="shoplogo"> #if($!store.card) #if($!store.card_approve)<img src="${S_URL}/$!store.card.path/$!store.card.name" width="200" height="140" />#else 认证审核中[<a href="${S_URL}/$!store.card.path/$!store.card.name" target="_blank">查看认证文件</a>] #end #else 尚未认证 #end</li>
+                        <li class="shoplogo">
+                            <#if (store.card)??>
+                                <#if (store.card_approve)?? >
+                                    <img src="${S_URL}/${(store.card.path)!}/${(store.card.name)!}" width="200" height="140" />
+                                <#else> 认证审核中[
+                                    <a href="${S_URL}/${(store.card.path)!}/${(store.card.name)!}" target="_blank">查看认证文件</a>]
+                                </#if>
+                            <#else> 尚未认证
+                            </#if>
+                        </li>
                         <li>
-                        #if($!store.card_approve)
-                          审核通过
-                        #else
-                           <input name="card_img" type="file" id="card_img" size="30" />
-                        #end
+                            <#if (store.card_approve)?? >
+                              审核通过
+                            <#else>
+                               <input name="card_img" type="file" id="card_img" size="30" />
+                            </#if>
                         </li>
                         <li class="setinfo">上传个人第二代身份扫描件或者数码件<strong></strong></li>
                       </ul>
@@ -72,13 +81,22 @@ jQuery(document).ready(function(){
                     <td width="98" align="right" valign="top">营业执照：</td>
                     <td style="padding-left:30px;">
                       <ul class="setbanner">
-                        <li class="shopbanner"> #if($!store.store_license) #if($!store.realstore_approve)<img src="$!banner" width="400" height="300" />#else 认证审核中[<a href="${S_URL}/$!store.store_license.path/$!store.store_license.name" target="_blank">查看认证文件</a>]   #end #else 尚未认证 #end</li>
+                        <li class="shopbanner">
+                            <#if (store.store_license)??>
+                                <#if (store.realstore_approve)??>
+                                    <img src="${banner!}" width="400" height="300" />
+                                <#else> 认证审核中[
+                                    <a href="${S_URL}/${(store.store_license.path)!}/${(store.store_license.name)!}" target="_blank">查看认证文件</a>]
+                                </#if>
+                            <#else> 尚未认证
+                            </#if>
+                        </li>
                         <li>
-                        #if($!store.realstore_approve)
+                        <#if (store.realstore_approve)??>
                           审核通过
-                        #else
+                        <#else>
                           <input name="license_img" type="file" id="license_img" size="30" />
-                        #end
+                        </#if>
                         </li>
                         <li class="setinfo">上传实体店铺营业执照，获取更多的卖家信任</li>
                       </ul>
@@ -86,9 +104,11 @@ jQuery(document).ready(function(){
                   </tr>
                   <tr>
                     <td width="98" align="right">&nbsp;</td>
-                    <td style="padding-left:30px;"><span class="setsub">
-                      <input name="" type="submit"  value="提交" style="cursor:pointer;"/>
-                      </span></td>
+                    <td style="padding-left:30px;">
+                        <span class="setsub">
+                            <input name="" type="submit"  value="提交" style="cursor:pointer;"/>
+                        </span>
+                    </td>
                   </tr>
                 </table>
               </div>

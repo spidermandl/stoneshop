@@ -48,6 +48,8 @@
     <result column="store_free_price" property="storeFreePrice" jdbcType="DECIMAL" />
     <result column="store_storage_alarm" property="storeStorageAlarm" jdbcType="TINYINT" />
     <result column="map_type" property="mapType" jdbcType="VARCHAR" />
+    <result column="store_lat" property="storeLat" jdbcType="DECIMAL" />
+    <result column="store_lng" property="storeLng" jdbcType="DECIMAL" />
   </resultMap>
   <resultMap id="ResultMapWithBLOBs" type="org.goshop.store.pojo.StoreWithBLOBs" extends="BaseResultMap" >
     <result column="description" property="description" jdbcType="LONGVARCHAR" />
@@ -65,7 +67,7 @@
     store_qq, store_ww, store_domain, store_domain_times, store_recommend, store_theme,
     store_credit, praise_rate, store_desccredit, store_servicecredit, store_deliverycredit,
     store_collect, store_stamp, store_printdesc, store_sales, store_workingtime, store_free_price,
-    store_storage_alarm,map_type
+    store_storage_alarm,map_type,store_lat,store_lng
   </sql>
   <sql id="Blob_Column_List" >
     description, store_zy, store_slide, store_slide_url, store_presales, store_aftersales
@@ -110,12 +112,6 @@
     </if>
     <if test="storeState != null" >
       and store_state = #{storeState,jdbcType=INTEGER}
-    </if>
-    <if test="isExpire != null" >
-
-    </if>
-    <if test="isExpired != null" >
-
     </if>
   </select>
 </mapper>

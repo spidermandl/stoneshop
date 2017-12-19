@@ -1,7 +1,9 @@
 package org.goshop.users.i;
 
 
-import org.goshop.users.pojo.Permission;
+import com.github.pagehelper.PageInfo;
+import org.goshop.users.pojo.GsPermission;
+import org.goshop.users.pojo.GsPermissionGroup;
 import org.goshop.users.pojo.Role;
 import org.goshop.users.pojo.User;
 
@@ -18,6 +20,8 @@ public interface UserService {
      */
     int save(User user);
 
+
+    int update(User user);
     //int updateByPrimaryKey(User user);
 
     int updateByPrimaryKeySelective(User user);
@@ -30,7 +34,12 @@ public interface UserService {
 
     User findOfRoleOne(Long userId);
 
-    List<Permission> findPermissionListByUserId(Long userId);
+    /**
+     * 获取用户的权限
+     * @param userId
+     * @return
+     */
+    List<GsPermission> findPermissionListByUserId(Long userId);
 
     void updateLoginInfo(User user, String ip);
 
@@ -43,4 +52,22 @@ public interface UserService {
     int insert(User user);
 
     int addRole2User(User user,String role_name);
+
+    /**
+     * 获取子用户
+     * @param parentId
+     * @return
+     */
+    List<User> findChilds(Long parentId);
+
+    PageInfo<User> findChilds(Long parentId,Integer curpage,Integer pages);
+
+    /**
+     * 获取permission组
+     * @param type
+     * @param orderBy
+     * @param orderType
+     * @return
+     */
+    List<GsPermissionGroup> findPermissionGroupByType(String type,String orderBy,String orderType);
 }

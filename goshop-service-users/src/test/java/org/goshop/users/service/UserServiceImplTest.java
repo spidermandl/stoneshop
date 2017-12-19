@@ -39,7 +39,7 @@ public class UserServiceImplTest extends SpringBaseTest {
     }
 
 
-   @Test
+    @Test
     public void testFindByLoginName() throws Exception {
        User user = userService.findByLoginName("admin");
        assertNotNull("读数据错误",user);

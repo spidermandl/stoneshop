@@ -166,6 +166,9 @@ public class StoreJoinServiceImpl implements StoreJoinService {
     @Override
     public Store getCurrentStore(User user) {
         Store store = storeService.findByMemberId(user.getId());
+        if (store==null&&user.getParentId()!=null){//子账户获取store
+            store = storeService.findByMemberId(user.getParentId());
+        }
         return store;
     }
 

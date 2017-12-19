@@ -104,7 +104,7 @@
         <div class="productmain">
             <div class="ordernav">
               <ul class="orderul">
-                <li class="this"><a href="${S_URL}/seller/store_set.htm">店铺设置</a></li>
+                <li class="this"><a href="${S_URL}/store/store_set">店铺设置</a></li>
                 <li><a href="${S_URL}/store/store_slide">店铺幻灯</a></li>
                 <li><a href="${S_URL}/store/store_map">店铺地图</a></li>
                 <li><a href="${S_URL}/store/store_approve">店铺认证</a></li>
@@ -119,7 +119,7 @@
                                 <td style="padding-left:30px;">
                                     <ul class="setlogo">
                                         <#assign store_logo="${S_URL}/${(config.storeImage.path)!}/${(config.storeImage.name)!}" />
-                                        <#if (store.logo)!?? >
+                                        <#if (store.logo)?? >
                                           <#assign store_logo="${S_URL}/${(store.logo.path)!}/${(store.logo.name)!}"/>
                                         </#if>
                                         <li class="shoplogo">
@@ -136,8 +136,8 @@
                                 <td style="padding-left:30px;">
                                     <ul class="setbanner">
                                         <#assign banner="${S_URL}/resources/style/shop/${(store.template)!}/images/banner.jpg"/>
-                                        <#if (store.store_banner)!?? >
-                                          <#assign banner="${S_URL}/${(store.store_banner.path)!}/${(store.store_banner.name)!}"/>
+                                        <#if (store.banner)?? >
+                                          <#assign banner="${S_URL}/${(store.banner.path)!}/${(store.banner.name)!}"/>
                                         </#if>
                                         <li class="shopbanner"><img src="${banner!}" width="400" height="100" /></li>
                                         <li>
@@ -167,7 +167,7 @@
                                     </span>
                                     <a href="${S_URL}/store.htm?id=${(user.store.id)!}" target="_blank" class="blue2 px20">我的店铺首页</a></td>
                             </tr>
-                            <#if (config.second_domain_open)!?? >
+                            <#if (config.second_domain_open)?? >
                             <tr>
                               <td align="right">二级域名：</td>
                               <td style="padding-left:30px; color:#666"><span class="setinput">
@@ -185,7 +185,7 @@
                               <td align="right">店铺等级： </td>
                               <td style="padding-left:30px; color:#666">
                                   <span>${(store.grade.sgName)!}
-                                      <#if (store.update_grade)!??>升级审核中... <#else><a href="${S_URL}/store/store_grade" target="_blank" class="blue2 px20">升级店铺</a> </#if>
+                                      <#if (store.update_grade)??>升级审核中... <#else><a href="${S_URL}/store/store_grade" target="_blank" class="blue2 px20">升级店铺</a> </#if>
                                   </span>
                               </td>
                             </tr>

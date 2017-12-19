@@ -13,13 +13,14 @@
     <result column="sg_confirm" property="sgConfirm" jdbcType="BIT" />
     <result column="sg_function" property="sgFunction" jdbcType="VARCHAR" />
     <result column="sg_sort" property="sgSort" jdbcType="TINYINT" />
+    <result column="sg_account_num" property="sgAccountNum" jdbcType="INTEGER" />
   </resultMap>
   <resultMap id="ResultMapWithBLOBs" type="org.goshop.store.pojo.StoreGrade" extends="BaseResultMap" >
     <result column="sg_description" property="sgDescription" jdbcType="LONGVARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
     sg_id, sg_name, sg_goods_limit, sg_album_limit, sg_space_limit, sg_template_number,
-    sg_template, sg_price, sg_confirm, sg_function, sg_sort
+    sg_template, sg_price, sg_confirm, sg_function, sg_sort,sg_account_num
   </sql>
   <sql id="Blob_Column_List" >
     sg_description
@@ -40,12 +41,14 @@
     insert into gs_store_grade (sg_id, sg_name, sg_goods_limit,
       sg_album_limit, sg_space_limit, sg_template_number,
       sg_template, sg_price, sg_confirm,
-      sg_function, sg_sort, sg_description
+      sg_function, sg_sort, sg_description,
+      sg_account_num
       )
     values (#{sgId,jdbcType=INTEGER}, #{sgName,jdbcType=CHAR}, #{sgstoreLimit,jdbcType=INTEGER},
       #{sgAlbumLimit,jdbcType=INTEGER}, #{sgSpaceLimit,jdbcType=INTEGER}, #{sgTemplateNumber,jdbcType=INTEGER},
       #{sgTemplate,jdbcType=VARCHAR}, #{sgPrice,jdbcType=VARCHAR}, #{sgConfirm,jdbcType=BIT},
-      #{sgFunction,jdbcType=VARCHAR}, #{sgSort,jdbcType=INTEGER}, #{sgDescription,jdbcType=LONGVARCHAR}
+      #{sgFunction,jdbcType=VARCHAR}, #{sgSort,jdbcType=INTEGER}, #{sgDescription,jdbcType=LONGVARCHAR},
+      #{sgAccountNum,jdbcType=INTEGER}
       )
   </insert>
   <insert id="insertSelective" parameterType="org.goshop.store.pojo.StoreGrade" >
@@ -87,6 +90,9 @@
       <if test="sgDescription != null" >
         sg_description,
       </if>
+      <if test="sg_account_num != null" >
+        sg_account_num,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="sgId != null" >
@@ -124,6 +130,9 @@
       </if>
       <if test="sgDescription != null" >
         #{sgDescription,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="sgAccountNum != null" >
+        #{sgAccountNum,jdbcType=INTEGER},
       </if>
     </trim>
   </insert>
@@ -163,6 +172,9 @@
       <if test="sgDescription != null" >
         sg_description = #{sgDescription,jdbcType=LONGVARCHAR},
       </if>
+      <if test="sgAccountNum != null" >
+        sg_account_num = #{sgAccountNum,jdbcType=INTEGER},
+      </if>
     </set>
     where sg_id = #{sgId,jdbcType=INTEGER}
   </update>
@@ -178,7 +190,8 @@
       sg_confirm = #{sgConfirm,jdbcType=BIT},
       sg_function = #{sgFunction,jdbcType=VARCHAR},
       sg_sort = #{sgSort,jdbcType=INTEGER},
-      sg_description = #{sgDescription,jdbcType=LONGVARCHAR}
+      sg_description = #{sgDescription,jdbcType=LONGVARCHAR},
+      sg_account_num = #{sgAccountNum,jdbcType=INTEGER}
     where sg_id = #{sgId,jdbcType=INTEGER}
   </update>
   <update id="updateByPrimaryKey" parameterType="org.goshop.store.pojo.StoreGrade" >
@@ -192,7 +205,8 @@
       sg_price = #{sgPrice,jdbcType=VARCHAR},
       sg_confirm = #{sgConfirm,jdbcType=BIT},
       sg_function = #{sgFunction,jdbcType=VARCHAR},
-      sg_sort = #{sgSort,jdbcType=INTEGER}
+      sg_sort = #{sgSort,jdbcType=INTEGER},
+      sg_account_num = #{sgAccountNum,jdbcType=INTEGER}
     where sg_id = #{sgId,jdbcType=INTEGER}
   </update>
 

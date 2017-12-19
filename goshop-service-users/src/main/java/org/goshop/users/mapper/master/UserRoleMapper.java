@@ -11,4 +11,6 @@ public interface UserRoleMapper {
     UserRole findByUIdAndRId(@Param("uId") Long userId, @Param("rId") Long roleId);
 
     void deleteByUIdAndRId(@Param("uId") Long userId, @Param("rId") Long roleId);
+
+    int deleteRoleByUId(@Param("uId") Long uId);
 }

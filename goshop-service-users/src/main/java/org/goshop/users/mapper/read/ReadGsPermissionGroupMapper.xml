@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="org.goshop.users.mapper.read.ReadGsPermissionGroupMapper" >
+  <resultMap id="BaseResultMap" type="org.goshop.users.pojo.GsPermissionGroup" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="addTime" property="addtime" jdbcType="TIMESTAMP" />
+    <result column="deleteStatus" property="deletestatus" jdbcType="BIT" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="sequence" property="sequence" jdbcType="INTEGER" />
+    <result column="type" property="type" jdbcType="VARCHAR" />
+    <collection property="perms" ofType="org.goshop.users.pojo.GsPermission" column="id">
+      <id column="p_id" property="id" jdbcType="BIGINT" />
+      <result column="p_addTime" property="addtime" jdbcType="TIMESTAMP" />
+      <result column="p_deleteStatus" property="deletestatus" jdbcType="BIT" />
+      <result column="p_display" property="display" jdbcType="BIT" />
+      <result column="p_info" property="info" jdbcType="VARCHAR" />
+      <result column="p_per_code" property="perCode" jdbcType="VARCHAR" />
+      <result column="p_name" property="name" jdbcType="VARCHAR" />
+      <result column="p_sort" property="sort" jdbcType="INTEGER" />
+      <result column="p_type" property="type" jdbcType="VARCHAR" />
+      <result column="p_pg_id" property="pgId" jdbcType="BIGINT" />
+      <result column="p_parent_id" property="parentId" jdbcType="BIGINT" />
+    </collection>
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, addTime, deleteStatus, name, sequence, type
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select
+    <include refid="Base_Column_List" />
+    from gs_permission_group
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <select id="selectByType" resultMap="BaseResultMap" >
+    select
+    g.id,
+    g.addTime,
+    g.addTime,
+    g.deleteStatus,
+    g.name,
+    g.sequence,
+    g.type,
+    perm.id AS p_id,
+    perm.addTime AS p_addTime,
+    perm.deleteStatus AS p_deleteStatus,
+    perm.display AS p_display,
+    perm.info AS p_info,
+    perm.per_code AS p_per_code,
+    perm.name AS p_name,
+    perm.sort AS p_sort,
+    perm.type AS p_type,
+    perm.pg_id AS p_pg_id,
+    perm.parent_id AS p_parent_id
+    FROM
+    gs_permission_group g
+    LEFT JOIN gs_permission perm ON (perm.pg_id = g.id)
+    where g.type = #{type,jdbcType=VARCHAR}
+    order by #{orderBy} #{orderType}
+  </select>
+
+</mapper>

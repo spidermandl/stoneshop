@@ -18,7 +18,7 @@
 jQuery(document).ready(function(){
   jQuery(":radio[name=map_type]").click(function(){
      var map_type=jQuery(this).val();
-	 window.location.href="${S_URL}/seller/store_map.htm?map_type="+map_type;	 
+	 window.location.href="${S_URL}/store/store_map?map_type="+map_type;
   });
 });
 </script>
@@ -49,8 +49,8 @@ jQuery(document).ready(function(){
                           Google地图 </label></td>
                     </tr>
                      <tr>
-                      <td height="30" align="right" valign="middle"><input name="store_lat" type="hidden" id="store_lat" value="$!store.store_lat" />
-                        <input name="store_lng" type="hidden" id="store_lng" value="$!store.store_lng" />
+                      <td height="30" align="right" valign="middle"><input name="store_lat" type="hidden" id="store_lat" value="${(store.store_lat)!}" />
+                        <input name="store_lng" type="hidden" id="store_lng" value="${(store.store_lng)!}" />
                         输入地址：</td>
                       <td align="left" valign="middle"><input name="location" type="text" id="location" size="40" />
                         <input type="button" name="button" id="button" value="搜索位置" onclick="search_location();"  style="cursor:pointer;" /></td>
@@ -60,22 +60,22 @@ jQuery(document).ready(function(){
                     </tr>
 
 <script type="text/javascript">
-    #set($store_logo="${S_URL}/$!config.storeImage.path/$!config.storeImage.name")
-    #if($!store.store_logo)
-       #set($store_logo="${S_URL}/$!store.store_logo.path/$!store.store_logo.name")
-    #end
+    <#assign store_logo="${S_URL}/${(config.storeImage.path)!}/${(config.storeImage.name)!}" />
+    <#if (store.store_logo)?? >
+       <#assign store_logo="${S_URL}/${(store.store_logo.path)!}/${(store.store_logo.name)!}" />
+    </#if>
    var map = new BMap.Map("map");
    var marker;
-   var sContent ="<h4 style='margin:0 0 5px 0;padding:0.2em 0'>$!{store.store_name}</h4>" + 
-"<img style='float:right;margin:4px' id='imgDemo' src='$!store_logo' width='100' height='100' title='$!{store.store_name}'/>";
+   var sContent ="<h4 style='margin:0 0 5px 0;padding:0.2em 0'>${(store.store_name)!}</h4>" +
+"<img style='float:right;margin:4px' id='imgDemo' src='${(store_logo)!}' width='100' height='100' title='${(store.store_name)!}'/>";
    map.addControl(new BMap.NavigationControl());    
  //  map.addControl(new BMap.ScaleControl());    
 //   map.addControl(new BMap.OverviewMapControl());    
    //map.addControl(new BMap.MapTypeControl());   
    var point_add=0;//标注是否Add标注点
-   #if($!{store.store_lng}&&$!{store.store_lat})
-   map.centerAndZoom(new BMap.Point($!{store.store_lng},$!{store.store_lat}), 16);
-    var point = new BMap.Point($!{store.store_lng},$!{store.store_lat});
+   <#if (store.store_lng)?? && (store.store_lat)?? >
+   map.centerAndZoom(new BMap.Point(${(store.store_lng)!},${(store.store_lat)!}, 16));
+   var point = new BMap.Point(${(store.store_lng)!},${(store.store_lat)!});
     marker = new BMap.Marker(point);
     var infoWindow = new BMap.InfoWindow(sContent);  // 创建 Info窗口对象
     map.centerAndZoom(point, 15);
@@ -92,9 +92,9 @@ jQuery(document).ready(function(){
 	  jQuery("#store_lat").val(e.point.lat);
     });
     point_add=1;
-   #else
+   <#else>
    map.centerAndZoom(new BMap.Point(123.425329,41.792454), 11);
-   #end
+   </#if>
    map.enableScrollWheelZoom(); 
    map.addControl(new BMap.NavigationControl());  //Add默认缩放平移控件
    map.addEventListener("click",function(e){

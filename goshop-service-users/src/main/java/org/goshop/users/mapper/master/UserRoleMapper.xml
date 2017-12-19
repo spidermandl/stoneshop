@@ -41,4 +41,10 @@
     delete from gs_user_role
     where u_id = #{uId,jdbcType=BIGINT} and r_id = #{rId,jdbcType=BIGINT}
   </delete>
+
+
+  <delete id="deleteRoleByUId" parameterType="java.lang.Long">
+    delete from gs_user_role
+    where u_id = #{uId,jdbcType=BIGINT}
+  </delete>
 </mapper>

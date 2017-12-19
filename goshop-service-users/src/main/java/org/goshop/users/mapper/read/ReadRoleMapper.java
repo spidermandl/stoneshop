@@ -19,4 +19,5 @@ public interface ReadRoleMapper {
     Role findByName(String name);
 
     Role findOfUserOne(Long id);
+
 }

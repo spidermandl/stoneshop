@@ -40,6 +40,16 @@ public class User implements Serializable {
 
     private String oldLoginIp;
 
+    private Long parentId;
+
+    public Long getParentId() {
+        return parentId;
+    }
+
+    public void setParentId(Long parentId) {
+        this.parentId = parentId;
+    }
+
     public Integer getLoginNum() {
         return loginNum;
     }

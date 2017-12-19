@@ -1,7 +1,7 @@
 package org.goshop.users.mapper.master;
 
 import org.apache.ibatis.annotations.Param;
-import org.goshop.users.pojo.Permission;
+import org.goshop.users.pojo.GsPermission;
 import org.goshop.users.pojo.Role;
 import org.goshop.users.pojo.User;
 
@@ -20,5 +20,4 @@ public interface UserMapper {
 
     void updateLoginInfo(User user);
 
-    List<Permission> findPermissionListByUserId(Long userId);
 }

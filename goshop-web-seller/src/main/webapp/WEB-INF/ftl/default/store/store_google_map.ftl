@@ -13,12 +13,11 @@
 <#--<script src="${S_URL}/resources/js/jquery.shop.common.js"></script>-->
 <link type="text/css" rel="stylesheet" href="${S_URL}/static/styles/public.css">
 <link type="text/css" rel="stylesheet" href="${S_URL}/static/styles/basic.css">
-<script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=true&libraries=places"></script>
 <script>
 jQuery(document).ready(function(){
   jQuery(":radio[name=map_type]").click(function(){
      var map_type=jQuery(this).val();
-	 window.location.href="${S_URL}/seller/store_map.htm?map_type="+map_type;	 
+	 window.location.href="${S_URL}/store/store_map?map_type="+map_type;
   });
 });
 </script>
@@ -31,13 +30,13 @@ jQuery(document).ready(function(){
         <div class="productmain">
             <div class="ordernav">
               <ul class="orderul">
-                <li><a href="${S_URL}/seller/store_set.htm">店铺设置</a></li>
-                <li><a href="${S_URL}/seller/store_slide.htm">店铺幻灯</a></li>
-                <li class="this"><a href="${S_URL}/seller/store_map.htm">店铺地图</a></li>
-                <li><a href="${S_URL}/seller/store_approve.htm">店铺认证</a></li>
+                <li><a href="${S_URL}/store/store_set">店铺设置</a></li>
+                <li><a href="${S_URL}/store/store_slide">店铺幻灯</a></li>
+                <li class="this"><a href="${S_URL}/store/store_map">店铺地图</a></li>
+                <li><a href="${S_URL}/store/store_approve">店铺认证</a></li>
               </ul>
             </div>
-            <form action="${S_URL}/seller/store_map_save.htm" method="post" enctype="multipart/form-data" id="theForm">
+            <form action="${S_URL}/store/store_map_save" method="post" enctype="multipart/form-data" id="theForm">
               <div class="ordercon">
                 <div class="setshop">
                   <table width="100%" border="0" cellspacing="0" cellpadding="0" class="setshoptable">
@@ -51,8 +50,8 @@ jQuery(document).ready(function(){
                           Google地图 </label></td>
                     </tr>
                     <tr>
-                      <td height="30" align="right" valign="middle"><input name="store_lat" type="hidden" id="store_lat" value="$!store.store_lat" />
-                        <input name="store_lng" type="hidden" id="store_lng" value="$!store.store_lng" />
+                      <td height="30" align="right" valign="middle"><input name="store_lat" type="hidden" id="store_lat" value="${(store.store_lat)!}" />
+                        <input name="store_lng" type="hidden" id="store_lng" value="${(store.store_lng)!}" />
                         输入地址：</td>
                       <td align="left" valign="middle"><input name="location" type="text" id="location" size="40" />
                         </td>
@@ -64,11 +63,11 @@ jQuery(document).ready(function(){
 var map;
 var marker;
 function initialize() {
-#if($!{store.store_lng}&&$!{store.store_lat})
-   var pyrmont = new google.maps.LatLng($!{store.store_lat},$!{store.store_lng});
-#else
+<#if (store.store_lng)?? && (store.store_lat)?? >
+   var pyrmont = new google.maps.LatLng(${(store.store_lat)!},${(store.store_lng)!});
+<#else>
    var pyrmont = new google.maps.LatLng(39.92,116.46);
-#end
+</#if>
   map = new google.maps.Map(document.getElementById('g_map'), {
       mapTypeId: google.maps.MapTypeId.ROADMAP,
       center: pyrmont,
@@ -76,7 +75,7 @@ function initialize() {
     });
     marker = new google.maps.Marker({
       position: pyrmont,
-      title:"$!{store.store_name}"
+      title:"${(store.store_name)!}"
     });
 // To add the marker to the map, call setMap();
 marker.setMap(map);
@@ -88,7 +87,7 @@ google.maps.event.addListener(marker, 'dragend', function() {
    jQuery("#store_lat").val(lat);
 }); 
 var infowindow = new google.maps.InfoWindow({
-    content:"<h4 style='margin:0 0 5px 0;padding:0.2em 0'>$!{store.store_name}</h4><img style='float:right;margin:4px' id='imgDemo' src='$!store_logo' width='100' height='100' title='$!{store.store_name}'/>"
+    content:"<h4 style='margin:0 0 5px 0;padding:0.2em 0'>${(store.store_name)!}</h4><img style='float:right;margin:4px' id='imgDemo' src='${(store_logo)!}' width='100' height='100' title='${(store.store_name)!}'/>"
 });
 google.maps.event.addListener(marker, 'click', function() {
     infowindow.open(marker.get('map'), marker);
@@ -102,7 +101,7 @@ google.maps.event.addListener(marker, 'click', function() {
 	   map.setCenter(places[0].geometry.location);	
        marker = new google.maps.Marker({
          position: places[0].geometry.location,
-         title:"$!{store.store_name}"
+         title:"${(store.store_name)!}"
        });
 	   marker.setMap(map);
        marker.setDraggable(true);
@@ -113,7 +112,7 @@ google.maps.event.addListener(marker, 'click', function() {
          jQuery("#store_lat").val(lat);
        }); 
        var infowindow = new google.maps.InfoWindow({
-         content:"<h4 style='margin:0 0 5px 0;padding:0.2em 0'>$!{store.store_name}</h4><img style='float:right;margin:4px' id='imgDemo' src='$!store_logo' width='100' height='100' title='$!{store.store_name}'/>"
+         content:"<h4 style='margin:0 0 5px 0;padding:0.2em 0'>${(store.store_name)!}</h4><img style='float:right;margin:4px' id='imgDemo' src='${store_logo!}' width='100' height='100' title='${(store.store_name)!}'/>"
        });
       google.maps.event.addListener(marker, 'click', function() {
           infowindow.open(marker.get('map'), marker);
@@ -128,6 +127,7 @@ google.maps.event.addListener(marker, 'click', function() {
 }
 google.maps.event.addDomListener(window, 'load', initialize);
 </script>
+<script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=true&libraries=places"></script>
                     <tr>
                       <td width="103" align="right">&nbsp;</td>
                       <td width="897" style="padding-left:30px;"><span class="setsub">

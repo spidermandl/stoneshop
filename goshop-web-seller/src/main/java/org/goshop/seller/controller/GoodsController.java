@@ -327,7 +327,7 @@ public class GoodsController {
                 && (!Integer.valueOf(2).equals(goods.getActivityStatus()))){
             goods.setGoodsCurrentPrice(goods.getStorePrice());
         }
-        goods.setGoodsName(clearContent(goods.getGoodsName()));
+        goods.setGoodsName(CommUtil.clearContent(goods.getGoodsName()));
         GsGoodsClass gc = this.goodsClassService.findOne(Long.valueOf(Long.parseLong(goods_class_id)));
         goods.setGcId(gc.getId());
         //主照片
@@ -1107,47 +1107,6 @@ public class GoodsController {
         model.addAttribute("goodsViewTools", this.goodsViewTools);
 
         return "goods/"+ret;
-    }
-
-
-    /****************************************************************
-     * *****************private func
-     ****************************************************************/
-    /**
-     * 剔除冗余字符
-     * @param inputString
-     * @return
-     */
-    private String clearContent(String inputString){
-        String htmlStr = inputString;
-        String textStr = "";
-        try {
-            String regEx_script = "<[//s]*?script[^>]*?>[//s//S]*?<[//s]*?///[//s]*?script[//s]*?>";
-            String regEx_style = "<[//s]*?style[^>]*?>[//s//S]*?<[//s]*?///[//s]*?style[//s]*?>";
-            String regEx_html = "<[^>]+>";
-            String regEx_html1 = "<[^>]+";
-            Pattern p_script = Pattern.compile(regEx_script, 2);
-            Matcher m_script = p_script.matcher(htmlStr);
-            htmlStr = m_script.replaceAll("");
-
-            Pattern p_style = Pattern.compile(regEx_style, 2);
-            Matcher m_style = p_style.matcher(htmlStr);
-            htmlStr = m_style.replaceAll("");
-
-            Pattern p_html = Pattern.compile(regEx_html, 2);
-            Matcher m_html = p_html.matcher(htmlStr);
-            htmlStr = m_html.replaceAll("");
-
-            Pattern p_html1 = Pattern.compile(regEx_html1, 2);
-            Matcher m_html1 = p_html1.matcher(htmlStr);
-            htmlStr = m_html1.replaceAll("");
-
-            textStr = htmlStr;
-        } catch (Exception e){
-            System.err.println("Html2Text: " + e.getMessage());
-        }
-
-        return textStr;
     }
 
     /**
