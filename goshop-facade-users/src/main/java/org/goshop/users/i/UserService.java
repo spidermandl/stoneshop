@@ -2,10 +2,7 @@ package org.goshop.users.i;
 
 
 import com.github.pagehelper.PageInfo;
-import org.goshop.users.pojo.GsPermission;
-import org.goshop.users.pojo.GsPermissionGroup;
-import org.goshop.users.pojo.Role;
-import org.goshop.users.pojo.User;
+import org.goshop.users.pojo.*;
 
 import java.util.List;
 
@@ -18,7 +15,7 @@ public interface UserService {
      * @param user
      * @return
      */
-    int save(User user);
+    long save(User user);
 
 
     int update(User user);
@@ -40,6 +37,9 @@ public interface UserService {
      * @return
      */
     List<GsPermission> findPermissionListByUserId(Long userId);
+    List<GsPermission> findPermissionListByIds(List<Long> ids);
+    List<GsPermission> findPermissionListByType(String type);
+    int addBanPermission(List<GsUserBanPerm> bans);
 
     void updateLoginInfo(User user, String ip);
 
@@ -49,7 +49,7 @@ public interface UserService {
 
     User selectByPrimaryKey(Long userId);
 
-    int insert(User user);
+    long insert(User user);
 
     int addRole2User(User user,String role_name);
 

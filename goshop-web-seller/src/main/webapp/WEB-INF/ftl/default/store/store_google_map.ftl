@@ -11,6 +11,7 @@
 <#--<script src="${S_URL}/resources/js/jquery-ui-1.8.21.js"></script>-->
 <#--<script src="${S_URL}/resources/js/jquery.poshytip.min.js"></script>-->
 <#--<script src="${S_URL}/resources/js/jquery.shop.common.js"></script>-->
+<script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=true&libraries=places"></script>
 <link type="text/css" rel="stylesheet" href="${S_URL}/static/styles/public.css">
 <link type="text/css" rel="stylesheet" href="${S_URL}/static/styles/basic.css">
 <script>
@@ -50,8 +51,8 @@ jQuery(document).ready(function(){
                           Google地图 </label></td>
                     </tr>
                     <tr>
-                      <td height="30" align="right" valign="middle"><input name="store_lat" type="hidden" id="store_lat" value="${(store.store_lat)!}" />
-                        <input name="store_lng" type="hidden" id="store_lng" value="${(store.store_lng)!}" />
+                      <td height="30" align="right" valign="middle"><input name="store_lat" type="hidden" id="store_lat" value="${(store.storeLat)!}" />
+                        <input name="store_lng" type="hidden" id="store_lng" value="${(store.storeLng)!}" />
                         输入地址：</td>
                       <td align="left" valign="middle"><input name="location" type="text" id="location" size="40" />
                         </td>
@@ -63,8 +64,8 @@ jQuery(document).ready(function(){
 var map;
 var marker;
 function initialize() {
-<#if (store.store_lng)?? && (store.store_lat)?? >
-   var pyrmont = new google.maps.LatLng(${(store.store_lat)!},${(store.store_lng)!});
+<#if (store.storeLng)?? && (store.storeLat)?? >
+   var pyrmont = new google.maps.LatLng(${(store.storeLat)!},${(store.storeLng)!});
 <#else>
    var pyrmont = new google.maps.LatLng(39.92,116.46);
 </#if>
@@ -75,19 +76,19 @@ function initialize() {
     });
     marker = new google.maps.Marker({
       position: pyrmont,
-      title:"${(store.store_name)!}"
+      title:"${(store.storeName)!}"
     });
 // To add the marker to the map, call setMap();
 marker.setMap(map);
 marker.setDraggable(true);
-google.maps.event.addListener(marker, 'dragend', function() {      
+google.maps.event.addListener(marker, 'dragend', function() {
    var lat=marker.getPosition().lat();
    var lng=marker.getPosition().lng();
    jQuery("#store_lng").val(lng);
    jQuery("#store_lat").val(lat);
-}); 
+});
 var infowindow = new google.maps.InfoWindow({
-    content:"<h4 style='margin:0 0 5px 0;padding:0.2em 0'>${(store.store_name)!}</h4><img style='float:right;margin:4px' id='imgDemo' src='${(store_logo)!}' width='100' height='100' title='${(store.store_name)!}'/>"
+    content:"<h4 style='margin:0 0 5px 0;padding:0.2em 0'>${(store.storeName)!}</h4><img style='float:right;margin:4px' id='imgDemo' src='${(storeLogo)!}' width='100' height='100' title='${(store.storeName)!}'/>"
 });
 google.maps.event.addListener(marker, 'click', function() {
     infowindow.open(marker.get('map'), marker);
@@ -98,36 +99,35 @@ google.maps.event.addListener(marker, 'click', function() {
   google.maps.event.addListener(searchBox, 'places_changed', function() {
     var places = searchBox.getPlaces();
 	if(places.length>0){
-	   map.setCenter(places[0].geometry.location);	
+	   map.setCenter(places[0].geometry.location);
        marker = new google.maps.Marker({
          position: places[0].geometry.location,
-         title:"${(store.store_name)!}"
+         title:"${(store.storeName)!}"
        });
 	   marker.setMap(map);
        marker.setDraggable(true);
-       google.maps.event.addListener(marker, 'dragend', function() {      
+       google.maps.event.addListener(marker, 'dragend', function() {
          var lat=marker.getPosition().lat();
          var lng=marker.getPosition().lng();
          jQuery("#store_lng").val(lng);
          jQuery("#store_lat").val(lat);
-       }); 
+       });
        var infowindow = new google.maps.InfoWindow({
-         content:"<h4 style='margin:0 0 5px 0;padding:0.2em 0'>${(store.store_name)!}</h4><img style='float:right;margin:4px' id='imgDemo' src='${store_logo!}' width='100' height='100' title='${(store.store_name)!}'/>"
+         content:"<h4 style='margin:0 0 5px 0;padding:0.2em 0'>${(store.storeName)!}</h4><img style='float:right;margin:4px' id='imgDemo' src='${storeLogo!}' width='100' height='100' title='${(store.storeName)!}'/>"
        });
       google.maps.event.addListener(marker, 'click', function() {
           infowindow.open(marker.get('map'), marker);
-      });	   
+      });
 	}
  });
 
   google.maps.event.addListener(map, 'bounds_changed', function() {
     var bounds = map.getBounds();
     searchBox.setBounds(bounds);
-  }); 
+  });
 }
 google.maps.event.addDomListener(window, 'load', initialize);
 </script>
-<script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=true&libraries=places"></script>
                     <tr>
                       <td width="103" align="right">&nbsp;</td>
                       <td width="897" style="padding-left:30px;"><span class="setsub">

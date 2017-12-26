@@ -28,4 +28,19 @@
       </if>
     </trim>
   </insert>
+
+  <!-- 批量插入生成的兑换码 -->
+  <insert id ="insertBatch" useGeneratedKeys="true" parameterType="java.util.List" >
+    <selectKey resultType="java.lang.Long" keyProperty="id" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into gs_user_ban_perm
+    (u_id, permission_id)
+    values
+    <foreach collection ="list" item="ban" index= "index" separator =",">
+      (
+      #{ban.uId}, #{ban.permissionId}
+      )
+    </foreach >
+  </insert >
 </mapper>

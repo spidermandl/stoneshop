@@ -817,7 +817,7 @@ public class GoodsController {
             json_map.put("remainSpace", Integer.valueOf(0));
         }
 
-        response.setContentType("text/plain");
+        response.setContentType("text/plain; charset=UTF-8");
         response.setHeader("Cache-Control", "no-cache");
         try {request.setCharacterEncoding("UTF-8");}
         catch (java.io.UnsupportedEncodingException e1) {
@@ -846,7 +846,7 @@ public class GoodsController {
         Long storeId = storeJoinService.getCurrentStore(user).getStoreId();
         StoreWithBLOBs store = storeService.findOne(storeId);
         String path = this.storeTools.createUserFolder(request, store.getStoreId());
-        response.setContentType("text/plain");
+        response.setContentType("text/plain; charset=UTF-8");
         response.setHeader("Cache-Control", "no-cache");
         try {request.setCharacterEncoding("UTF-8");} catch (java.io.UnsupportedEncodingException e1) {e1.printStackTrace();}
         try {

@@ -82,11 +82,11 @@ jQuery(document).ready(function(){
                     <td style="padding-left:30px;">
                       <ul class="setbanner">
                         <li class="shopbanner">
-                            <#if (store.store_license)??>
+                            <#if (store.license)??>
                                 <#if (store.realstore_approve)??>
                                     <img src="${banner!}" width="400" height="300" />
                                 <#else> 认证审核中[
-                                    <a href="${S_URL}/${(store.store_license.path)!}/${(store.store_license.name)!}" target="_blank">查看认证文件</a>]
+                                    <a href="${S_URL}/${(store.license.path)!}/${(store.license.name)!}" target="_blank">查看认证文件</a>]
                                 </#if>
                             <#else> 尚未认证
                             </#if>

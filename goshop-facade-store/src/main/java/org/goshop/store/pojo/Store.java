@@ -4,6 +4,7 @@ import org.goshop.assets.pojo.GsAccessory;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -40,9 +41,9 @@ public class Store  implements Serializable {
 
     private String storeTel;
 
-    private Long storeImage;
+    private Long storeImage;//用户身份证
 
-    private Long storeImage1;
+    private Long storeImage1;//店铺营业执照
 
     private Integer storeState;
 
@@ -108,8 +109,26 @@ public class Store  implements Serializable {
     private GsArea area;//店铺地点
     private GsAccessory logo;//店铺logo
     private GsAccessory banner;//店铺横幅
-    private List<GsStoreSlide> slides;//店铺slide
+    private GsAccessory card;//店主身份证
+    private GsAccessory license;//店铺
+    private List<GsStoreSlide> slides = new ArrayList<>();//店铺slide
     /************end*****************/
+
+    public GsAccessory getCard() {
+        return card;
+    }
+
+    public void setCard(GsAccessory card) {
+        this.card = card;
+    }
+
+    public GsAccessory getLicense() {
+        return license;
+    }
+
+    public void setLicense(GsAccessory license) {
+        this.license = license;
+    }
 
     public List<GsStoreSlide> getSlides() {
         return slides;

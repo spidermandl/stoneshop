@@ -6,8 +6,10 @@ import org.goshop.common.utils.PageUtils;
 import org.goshop.store.i.StoreService;
 import org.goshop.store.mapper.master.StoreMapper;
 import org.goshop.store.mapper.read.ReadGsAreaMapper;
+import org.goshop.store.mapper.read.ReadGsStoreSlideMapper;
 import org.goshop.store.mapper.read.ReadStoreGradeMapper;
 import org.goshop.store.mapper.read.ReadStoreMapper;
+import org.goshop.store.pojo.GsStoreSlide;
 import org.goshop.store.pojo.Store;
 import org.goshop.store.pojo.StoreJoin;
 import org.goshop.store.pojo.StoreWithBLOBs;
@@ -30,6 +32,8 @@ public class StoreServiceImpl implements StoreService {
     ReadStoreGradeMapper readStoreGradeMapper;
     @Autowired
     ReadGsAreaMapper readGsAreaMapper;
+    @Autowired
+    ReadGsStoreSlideMapper readGsStoreSlideMapper;
 
     @Autowired
     AccessoryService accessoryService;
@@ -128,6 +132,15 @@ public class StoreServiceImpl implements StoreService {
                 store.setLogo(accessoryService.findOne(store.getStoreLabel()));
             if (store.getStoreBanner()!=null)
                 store.setBanner(accessoryService.findOne(store.getStoreBanner()));
+            if (store.getStoreImage()!=null)
+                store.setCard(accessoryService.findOne(store.getStoreImage()));
+            if (store.getStoreImage1()!=null)
+                store.setLicense(accessoryService.findOne(store.getStoreImage1()));
+            List<GsStoreSlide> slides = readGsStoreSlideMapper.selectByStoreId(store.getStoreId());
+            for (GsStoreSlide s:slides){
+                s.setAcc(accessoryService.findOne(s.getAccId()));
+            }
+            store.setSlides(slides);
         }
     }
 }

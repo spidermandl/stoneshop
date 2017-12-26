@@ -8,34 +8,11 @@
   <sql id="Base_Column_List" >
     u_id, permission_id
   </sql>
-  <insert id="insert" parameterType="org.goshop.users.pojo.GsUserBanPerm" >
-    insert into gs_user_ban_perm (u_id, permission_id)
-    values (#{uId,jdbcType=BIGINT}, #{permissionId,jdbcType=BIGINT})
-  </insert>
-  <insert id="insertSelective" parameterType="org.goshop.users.pojo.GsUserBanPerm" >
-    insert into gs_user_ban_perm
-    <trim prefix="(" suffix=")" suffixOverrides="," >
-      <if test="uId != null" >
-        u_id,
-      </if>
-      <if test="permissionId != null" >
-        permission_id,
-      </if>
-    </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides="," >
-      <if test="uId != null" >
-        #{uId,jdbcType=BIGINT},
-      </if>
-      <if test="permissionId != null" >
-        #{permissionId,jdbcType=BIGINT},
-      </if>
-    </trim>
-  </insert>
 
   <select id="selectByUserId" resultMap="BaseResultMap" parameterType="java.lang.Long" >
     select
     <include refid="Base_Column_List" />
-    from gs_permission
+    from gs_user_ban_perm
     where u_id = #{uId,jdbcType=BIGINT}
   </select>
 </mapper>

@@ -109,7 +109,8 @@ public class StoreController{
                             HttpServletRequest request,
                             HttpServletResponse response,
                             String map_type){
-        Store store = this.storeJoinService.getCurrentStore(user);
+        Long storeId = this.storeJoinService.getCurrentStore(user).getStoreId();
+        StoreWithBLOBs store = this.storeService.findOne(storeId);
         if (CommUtil.null2String(map_type).equals("")){
             if ((store.getMapType() != null) && (!store.getMapType().equals(""))){
                 map_type = store.getMapType();
@@ -135,7 +136,8 @@ public class StoreController{
                                 HttpServletRequest request,
                                 HttpServletResponse response){
         String ret = "store_approve";
-        Store store = this.storeJoinService.getCurrentStore(user);
+        Long storeId = this.storeJoinService.getCurrentStore(user).getStoreId();
+        StoreWithBLOBs store = this.storeService.findOne(storeId);
         model.addAttribute("store", store);
 
         return "store/"+ret;
@@ -255,7 +257,7 @@ public class StoreController{
      * @param store_lng
      * @return
      */
-    @RequestMapping({"/seller/store_map_save.htm"})
+    @RequestMapping({"/store_map_save"})
     public String store_map_save(@CurrentUser User user,
                                  Model model,
                                  HttpServletRequest request,
@@ -269,7 +271,7 @@ public class StoreController{
         store.setStoreLng(BigDecimal.valueOf(CommUtil.null2Double(store_lng)));
         this.storeService.update(store);
         model.addAttribute("op_title", "店铺设置成功");
-        model.addAttribute("url", CommUtil.getURL(request) + "/seller/store_map.htm");
+        model.addAttribute("url", CommUtil.getURL(request) + "/store/store_map");
 
         return "store/"+ret;
     }
@@ -291,68 +293,68 @@ public class StoreController{
         String uploadFilePath = this.systemConfigService.getConfig().getUploadFilePath();
         String saveFilePathName = request.getSession().getServletContext().getRealPath("/") + uploadFilePath;
         Map map = new HashMap();
-//        try {
-//            String fileName = store.getCard() == null ? "" : store.getCard().getName();
-//            map = CommUtil.saveFileToServer(request, "card_img", saveFilePathName + File.separator + "card", fileName, null);
-//            if (fileName.equals("")){
-//                if (map.get("fileName") != ""){
-//                    GsAccessory card = new GsAccessory();
-//                    card.setName(CommUtil.null2String(map.get("fileName")));
-//                    card.setExt(CommUtil.null2String(map.get("mime")));
-//                    card.setSize(CommUtil.null2Float(map.get("fileSize")));
-//                    card.setPath(uploadFilePath + "/card");
-//                    card.setWidth(CommUtil.null2Int(map.get("width")));
-//                    card.setHeight(CommUtil.null2Int(map.get("height")));
-//                    card.setAddtime(new Date());
-//                    this.accessoryService.save(card);
-//                    store.setCard(card);
-//                }
-//            }else if (map.get("fileName") != ""){
-//                GsAccessory card = store.getCard();
-//                card.setName(CommUtil.null2String(map.get("fileName")));
-//                card.setExt(CommUtil.null2String(map.get("mime")));
-//                card.setSize(CommUtil.null2Float(map.get("fileSize")));
-//                card.setPath(uploadFilePath + "/card");
-//                card.setWidth(CommUtil.null2Int(map.get("width")));
-//                card.setHeight(CommUtil.null2Int(map.get("height")));
-//                this.accessoryService.update(card);
-//            }
-//        } catch (IOException e){
-//            e.printStackTrace();
-//        }
-//        try {
-//            String fileName = store.getStore_license() == null ? "" : store.getStore_license().getName();
-//            map = CommUtil.saveFileToServer(request,
-//                    "license_img",
-//                    saveFilePathName + File.separator + "license",
-//                    fileName, null);
-//            if (fileName.equals("")){
-//                if (map.get("fileName") != ""){
-//                    GsAccessory store_license = new GsAccessory();
-//                    store_license.setName(CommUtil.null2String(map.get("fileName")));
-//                    store_license.setExt(CommUtil.null2String(map.get("mime")));
-//                    store_license.setSize(CommUtil.null2Float(map.get("fileSize")));
-//                    store_license.setPath(uploadFilePath + "/license");
-//                    store_license.setWidth(CommUtil.null2Int(map.get("width")));
-//                    store_license.setHeight(CommUtil.null2Int(map.get("height")));
-//                    store_license.setAddtime(new Date());
-//                    this.accessoryService.save(store_license);
-//                    store.setStore_license(store_license);
-//                }
-//            }else if (map.get("fileName") != ""){
-//                GsAccessory store_license = store.getStore_license();
-//                store_license.setName(CommUtil.null2String(map.get("fileName")));
-//                store_license.setExt(CommUtil.null2String(map.get("mime")));
-//                store_license.setSize(CommUtil.null2Float(map.get("fileSize")));
-//                store_license.setPath(uploadFilePath + "/license");
-//                store_license.setWidth(CommUtil.null2Int(map.get("width")));
-//                store_license.setHeight(CommUtil.null2Int(map.get("height")));
-//                this.accessoryService.update(store_license);
-//            }
-//        } catch (IOException e){
-//            e.printStackTrace();
-//        }
-//        this.storeService.update(store);
+        try {
+            String fileName = store.getCard() == null ? "" : store.getCard().getName();
+            map = CommUtil.saveFileToServer(request, "card_img", saveFilePathName + File.separator + "card", fileName, null);
+            if (fileName.equals("")){
+                if (map.get("fileName") != ""){
+                    GsAccessory card = new GsAccessory();
+                    card.setName(CommUtil.null2String(map.get("fileName")));
+                    card.setExt(CommUtil.null2String(map.get("mime")));
+                    card.setSize(CommUtil.null2Float(map.get("fileSize")));
+                    card.setPath(uploadFilePath + "/card");
+                    card.setWidth(CommUtil.null2Int(map.get("width")));
+                    card.setHeight(CommUtil.null2Int(map.get("height")));
+                    card.setAddtime(new Date());
+                    long id = this.accessoryService.save(card);
+                    store.setStoreImage(id);
+                }
+            }else if (map.get("fileName") != ""){
+                GsAccessory card = store.getCard();
+                card.setName(CommUtil.null2String(map.get("fileName")));
+                card.setExt(CommUtil.null2String(map.get("mime")));
+                card.setSize(CommUtil.null2Float(map.get("fileSize")));
+                card.setPath(uploadFilePath + "/card");
+                card.setWidth(CommUtil.null2Int(map.get("width")));
+                card.setHeight(CommUtil.null2Int(map.get("height")));
+                this.accessoryService.update(card);
+            }
+        } catch (IOException e){
+            e.printStackTrace();
+        }
+        try {
+            String fileName = store.getLicense() == null ? "" : store.getLicense().getName();
+            map = CommUtil.saveFileToServer(request,
+                    "license_img",
+                    saveFilePathName + File.separator + "license",
+                    fileName, null);
+            if (fileName.equals("")){
+                if (map.get("fileName") != ""){
+                    GsAccessory store_license = new GsAccessory();
+                    store_license.setName(CommUtil.null2String(map.get("fileName")));
+                    store_license.setExt(CommUtil.null2String(map.get("mime")));
+                    store_license.setSize(CommUtil.null2Float(map.get("fileSize")));
+                    store_license.setPath(uploadFilePath + "/license");
+                    store_license.setWidth(CommUtil.null2Int(map.get("width")));
+                    store_license.setHeight(CommUtil.null2Int(map.get("height")));
+                    store_license.setAddtime(new Date());
+                    long id = this.accessoryService.save(store_license);
+                    store.setStoreImage1(id);
+                }
+            }else if (map.get("fileName") != ""){
+                GsAccessory store_license = store.getLicense();
+                store_license.setName(CommUtil.null2String(map.get("fileName")));
+                store_license.setExt(CommUtil.null2String(map.get("mime")));
+                store_license.setSize(CommUtil.null2Float(map.get("fileSize")));
+                store_license.setPath(uploadFilePath + "/license");
+                store_license.setWidth(CommUtil.null2Int(map.get("width")));
+                store_license.setHeight(CommUtil.null2Int(map.get("height")));
+                this.accessoryService.update(store_license);
+            }
+        } catch (IOException e){
+            e.printStackTrace();
+        }
+        this.storeService.update(store);
 
         return "redirect:/store/"+ret;
     }
@@ -369,64 +371,66 @@ public class StoreController{
                                    HttpServletRequest request,
                                    HttpServletResponse response){
         String ret = "store_slide";
-        Store store = this.storeJoinService.getCurrentStore(user);
+        Long storeId = this.storeJoinService.getCurrentStore(user).getStoreId();
+        StoreWithBLOBs store = this.storeService.findOne(storeId);
         String uploadFilePath = this.systemConfigService.getConfig().getUploadFilePath();
         String saveFilePathName = request.getSession().getServletContext().getRealPath("/") + uploadFilePath + File.separator + "store_slide";
 
-//        for (int i = 1; i <= 5; i++){
-//            Map map = new HashMap();
-//            String fileName = "";
-//            GsStoreSlide slide = null;
-//            if (store.getSlides().size() >= i){
-//                fileName = store.getSlides().get(i - 1).getAcc().getName();
-//                slide = store.getSlides().get(i - 1);
-//            }
-//            try {
-//                map = CommUtil.saveFileToServer(request, "acc" + i,saveFilePathName, fileName, null);
-//                GsAccessory acc = null;
-//                if (fileName.equals("")){
-//                    if (map.get("fileName") != ""){
-//                        acc = new GsAccessory();
-//                        acc.setName(CommUtil.null2String(map.get("fileName")));
-//                        acc.setExt(CommUtil.null2String(map.get("mime")));
-//                        acc.setSize(CommUtil.null2Float(map.get("fileSize")));
-//                        acc.setPath(uploadFilePath + "/store_slide");
-//                        acc.setWidth(CommUtil.null2Int(map.get("width")));
-//                        acc.setHeight(CommUtil.null2Int(map.get("height")));
-//                        acc.setAddtime(new Date());
-//                        this.accessoryService.save(acc);
-//                    }
-//                }else if (map.get("fileName") != ""){
-//                    acc = slide.getAcc();
-//                    acc.setName(CommUtil.null2String(map.get("fileName")));
-//                    acc.setExt(CommUtil.null2String(map.get("mime")));
-//                    acc.setSize(CommUtil.null2Float(map.get("fileSize")));
-//                    acc.setPath(uploadFilePath + "/store_slide");
-//                    acc.setWidth(CommUtil.null2Int(map.get("width")));
-//                    acc.setHeight(CommUtil.null2Int(map.get("height")));
-//                    acc.setAddtime(new Date());
-//                    this.accessoryService.update(acc);
-//                }
-//
-//                if (acc != null){
-//                    if (slide == null){
-//                        slide = new GsStoreSlide();
-//                        slide.setAccId(acc.getId());
-//                        slide.setAddtime(new Date());
-//                        slide.setStoreId(store.getStoreId());
-//                    }
-//                    slide.setUrl(request.getParameter("acc_url" + i));
-//                    if (slide == null)
-//                        this.storeSlideService.save(slide);
-//                    else
-//                        this.storeSlideService.update(slide);
-//                }
-//            } catch (IOException e){
-//                e.printStackTrace();
-//            }
-//        }
-//        model.addAttribute("store", store);
+        for (int i = 1; i <= 5; i++){
+            Map map = null;
+            String fileName = "";
+            GsStoreSlide slide = null;
+            if (store.getSlides().size() >= i){
+                fileName = store.getSlides().get(i - 1).getAcc().getName();
+                slide = store.getSlides().get(i - 1);
+            }
+            try {
+                map = CommUtil.saveFileToServer(request, "acc" + i,saveFilePathName, fileName, null);
+                GsAccessory acc = null;
+                if (fileName.equals("")){
+                    if (map.get("fileName") != ""){
+                        acc = new GsAccessory();
+                        acc.setName(CommUtil.null2String(map.get("fileName")));
+                        acc.setExt(CommUtil.null2String(map.get("mime")));
+                        acc.setSize(CommUtil.null2Float(map.get("fileSize")));
+                        acc.setPath(uploadFilePath + "/store_slide");
+                        acc.setWidth(CommUtil.null2Int(map.get("width")));
+                        acc.setHeight(CommUtil.null2Int(map.get("height")));
+                        acc.setAddtime(new Date());
+                        long id = this.accessoryService.save(acc);
+                        acc.setId(id);
+                    }
+                }else if (map.get("fileName") != ""){
+                    acc = slide.getAcc();
+                    acc.setName(CommUtil.null2String(map.get("fileName")));
+                    acc.setExt(CommUtil.null2String(map.get("mime")));
+                    acc.setSize(CommUtil.null2Float(map.get("fileSize")));
+                    acc.setPath(uploadFilePath + "/store_slide");
+                    acc.setWidth(CommUtil.null2Int(map.get("width")));
+                    acc.setHeight(CommUtil.null2Int(map.get("height")));
+                    acc.setAddtime(new Date());
+                    this.accessoryService.update(acc);
+                }
 
-        return "store/"+ret;
+                if (acc != null){
+                    if (slide == null){
+                        slide = new GsStoreSlide();
+                        slide.setAccId(acc.getId());
+                        slide.setAddtime(new Date());
+                        slide.setStoreId(store.getStoreId());
+                        slide.setUrl(request.getParameter("acc_url" + i));
+                        this.storeSlideService.save(slide);
+                    } else{
+                        slide.setUrl(request.getParameter("acc_url" + i));
+                        this.storeSlideService.update(slide);
+                    }
+                }
+            } catch (IOException e){
+                e.printStackTrace();
+            }
+        }
+        model.addAttribute("store", store);
+
+        return "redirect:/store/"+ret;
     }
 }

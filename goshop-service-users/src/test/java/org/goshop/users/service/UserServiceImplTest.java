@@ -31,8 +31,8 @@ public class UserServiceImplTest extends SpringBaseTest {
         user.setLoginName(loginName);
         user.setUserName("管理员_"+r);
         user.setPassword("1111");
-        int i= userService.save(user);
-        assertThat("保存失败",i,is(1));
+        long i= userService.save(user);
+        assertThat("保存失败",i,is(1L));
 
         User userDataBase = userService.findByLoginName(loginName);
         assertNotNull("读数据错误",userDataBase);

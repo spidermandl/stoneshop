@@ -13,8 +13,8 @@ public class RolePermissionTest {
     @Test
     public void addDefaultPerm() throws  Exception{
         String sql = "insert into gs_role_permission values";
-        for (int i=1;i<68;i++){
-            sql+=" ('"+i+"','2'),";
+        for (int i=105;i<110;i++){
+            sql+=" ('"+i+"','4'),";
         }
         System.out.println(sql);
     }

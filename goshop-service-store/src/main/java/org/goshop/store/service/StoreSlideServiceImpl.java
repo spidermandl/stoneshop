@@ -28,6 +28,8 @@ public class StoreSlideServiceImpl implements StoreSlideService {
 
     @Override
     public int save(GsStoreSlide slide) {
+        if (slide.getDeletestatus()==null)
+            slide.setDeletestatus(false);
         return gsStoreSlideMapper.insert(slide);
     }
 
@@ -37,7 +39,7 @@ public class StoreSlideServiceImpl implements StoreSlideService {
     }
 
     @Override
-    public List<GsStoreSlide> findByStoreId(Long StoreId) {
-        return null;
+    public List<GsStoreSlide> findByStoreId(Long storeId) {
+        return readGsStoreSlideMapper.selectByStoreId(storeId);
     }
 }

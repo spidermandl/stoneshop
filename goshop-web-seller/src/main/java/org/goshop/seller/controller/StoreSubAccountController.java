@@ -12,6 +12,8 @@ import org.goshop.store.i.StoreJoinService;
 import org.goshop.store.i.StoreService;
 import org.goshop.store.pojo.Store;
 import org.goshop.users.i.UserService;
+import org.goshop.users.pojo.GsPermission;
+import org.goshop.users.pojo.GsUserBanPerm;
 import org.goshop.users.pojo.Member;
 import org.goshop.users.pojo.User;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,10 +26,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Timestamp;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * 店铺导航控制器
@@ -64,6 +63,7 @@ public class StoreSubAccountController {
         Long storeId = this.storeJoinService.getCurrentStore(user).getStoreId();
         Store store = this.storeService.findOne(storeId);
         model.addAttribute("store", store);
+        model.addAttribute("CommUtil",new CommUtil());
         PageInfo<User> pList = this.userService.findChilds(user.getId(),CommUtil.null2Int(currentPage),12);
         CommUtil.saveIPageList2ModelAndView("", "", "", pList, model);
 
@@ -111,12 +111,12 @@ public class StoreSubAccountController {
      * @return
      */
     @RequestMapping({"/sub_account_edit"})
-    public String sub_account_edit(@CurrentUser User user,
-                                     Model model,
+    public String sub_account_edit(Model model,
                                      HttpServletRequest request,
                                      HttpServletResponse response,
                                      String id){
         String ret = "sub_account_add";
+        User user = this.userService.findOne(CommUtil.null2Long(id));
         Store store = this.storeJoinService.getCurrentStore(user);
         if (store == null){
             ret = "error";
@@ -125,8 +125,11 @@ public class StoreSubAccountController {
         }
         model.addAttribute("store", store);
         List rgs = this.userService.findPermissionGroupByType("SELLER","addTime","asc");
+        List perms = this.userService.findPermissionListByUserId(user.getId());
+        user.setPerms(perms);
+
         model.addAttribute("rgs", rgs);
-        model.addAttribute("obj", this.userService.findOne(CommUtil.null2Long(id)));
+        model.addAttribute("obj", user);
 
         return "store/"+ret;
     }
@@ -175,6 +178,8 @@ public class StoreSubAccountController {
             User user = new User();
             user.setCreated(new Timestamp(new Date().getTime()));
             user.setUserName(userName);
+            user.setLoginName(userName);
+            user.setParentId(parent.getId());
 //            user.setTrueName(trueName);
 //            user.setSex(CommUtil.null2Int(sex));
 //            user.setBirthday(CommUtil.formatDate(birthday));
@@ -183,16 +188,19 @@ public class StoreSubAccountController {
 //            user.setTelephone(telephone);
 //            user.setParent(parent);
 //            user.setUserRole("BUYER_SELLER");
-//            user.setPassword(Md5Encrypt.md5(password).toLowerCase());
-            /**
-             * 修改用户角色
-             */
-            userService.addRole2User(user,"seller");
+            user.setPassword(password);
 
-            this.userService.save(user);
+            /**** 插入用户 ****/
+            long uId = this.userService.save(user);
+            user.setId(uId);
+            /*** 修改用户角色 ****/
+            userService.addRole2User(user,"seller");
+            /*** 过滤权限 ****/
+            banPermission(uId,role_ids.split(","));
         }else{
             User user = this.userService.findOne(CommUtil.null2Long(id));
             user.setUserName(userName);
+            user.setLoginName(userName);
             user.setUpcreated(new Timestamp(new Date().getTime()));
 //            user.setTrueName(trueName);
 //            user.setSex(CommUtil.null2Int(sex));
@@ -201,10 +209,12 @@ public class StoreSubAccountController {
 //            user.setMobile(mobile);
 //            user.setTelephone(telephone);
 //            user.getRoles().clear();
-            /**
-             * 修改用户角色
-             */
+
+            /*** 过滤权限 ****/
+            banPermission(user.getId(),role_ids.split(","));
+            /*** 修改用户角色 ****/
             userService.addRole2User(user,"seller");
+            /**** 更新用户 ****/
             this.userService.update(user);
             msg = "更新成功";
         }
@@ -212,7 +222,7 @@ public class StoreSubAccountController {
         Map map = new HashMap();
         map.put("ret", Boolean.valueOf(ret));
         map.put("msg", msg);
-        response.setContentType("text/plain");
+        response.setContentType("text/plain; charset=UTF-8");
         response.setHeader("Cache-Control", "no-cache");
         try {
             request.setCharacterEncoding("UTF-8");
@@ -242,5 +252,42 @@ public class StoreSubAccountController {
         this.userService.delete(user.getId());
 
         return "redirect:sub_account_list";
+    }
+
+    /****************************************************************************************************
+     * private
+     ***************************************************************************************************/
+    /**
+     * 增加禁止权限
+     * @param userId
+     * @param str_p_ids
+     */
+    private void banPermission(Long userId,String[] str_p_ids){
+        List<GsPermission> all = this.userService.findPermissionListByType("SELLER");
+        List<Long> permIds = new ArrayList<>();
+        for (String s_id : str_p_ids){
+            Long id = CommUtil.null2Long(s_id);
+            if (id!=-1)
+                permIds.add(id);
+        }
+        List<GsPermission> checks = this.userService.findPermissionListByIds(permIds);
+        Iterator<GsPermission> it = all.iterator();
+        while(it.hasNext()){
+            GsPermission a = it.next();
+            for (GsPermission g:checks){
+                if(a.getId()==g.getId()){
+                    it.remove();
+                    break;
+                }
+            }
+        }
+        List<GsUserBanPerm> bans = new ArrayList<>();
+        for (int i=0;i<all.size();i++){
+            GsUserBanPerm ban = new GsUserBanPerm();
+            ban.setuId(userId);
+            ban.setPermissionId(all.get(i).getId());
+            bans.add(ban);
+        }
+        this.userService.addBanPermission(bans);
     }
 }

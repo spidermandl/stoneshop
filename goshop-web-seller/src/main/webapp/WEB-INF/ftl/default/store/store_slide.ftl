@@ -52,8 +52,8 @@ jQuery(document).ready(function(){
                   <tr>
                     <td width="98" align="right" valign="top">幻灯1：</td>
                     <td width="607" style="padding-left:30px;"><ul class="setlogo">
-                        <#if ((store.slides?size)!0) gte 1 >
-                          <#assign slide1= store.slides.get(0)/>
+                        <#if store.slides?size gte 1 >
+                          <#assign slide1= store.slides[0]/>
                         </#if>
                         <#if slide1?? >
                         <li class="shoplogo"><img src="${S_URL}/${(slide1.acc.path)!}/${(slide1.acc.name)!}" width="210" height="104" /></li>
@@ -71,8 +71,8 @@ jQuery(document).ready(function(){
                  <tr>
                     <td width="98" align="right" valign="top">幻灯2：</td>
                     <td width="607" style="padding-left:30px;"><ul class="setlogo">
-                        <#if (store.slides?size)!0 gte 2 >
-                          <#assign slide2=store.slides.get(1)/>
+                        <#if store.slides?size gte 2 >
+                          <#assign slide2=store.slides[1]/>
                         </#if>
                         <#if slide2?? >
                         <li class="shoplogo"><img src="${S_URL}/${(slide2.acc.path)!}/${(slide2.acc.name)!}" width="210" height="104" /></li>
@@ -90,8 +90,8 @@ jQuery(document).ready(function(){
                   <tr>
                     <td width="98" align="right" valign="top">幻灯3：</td>
                     <td width="607" style="padding-left:30px;"><ul class="setlogo">
-                        <#if (store.slides?size)!0 gte 3 >
-                          <#assign slide3=store.slides.get(2)/>
+                        <#if store.slides?size gte 3 >
+                          <#assign slide3=store.slides[2]/>
                         </#if>
                         <#if slide3?? >
                         <li class="shoplogo"><img src="${S_URL}/${(slide3.acc.path)!}/${(slide3.acc.name)!}" width="210" height="104" /></li>
@@ -109,8 +109,8 @@ jQuery(document).ready(function(){
                   <tr>
                     <td width="98" align="right" valign="top">幻灯4：</td>
                     <td width="607" style="padding-left:30px;"><ul class="setlogo">
-                        <#if (store.slides?size)!0 gte 4 >
-                          <#assign slide4=store.slides.get(3) />
+                        <#if store.slides?size gte 4 >
+                          <#assign slide4=store.slides[3] />
                         </#if>
                         <#if slide4?? >
                         <li class="shoplogo"><img src="${S_URL}/${(slide4.acc.path)!}/${(slide4.acc.name)!}" width="210" height="104" /></li>
@@ -128,8 +128,8 @@ jQuery(document).ready(function(){
                   <tr>
                     <td width="98" align="right" valign="top">幻灯5：</td>
                     <td width="607" style="padding-left:30px;"><ul class="setlogo">
-                        <#if (store.slides?size)!0 gte 5 >
-                          <#assign slide5=store.slides.get(4) />
+                        <#if store.slides?size gte 5 >
+                          <#assign slide5=store.slides[4] />
                         </#if>
                         <#if slide5?? >
                         <li class="shoplogo"><img src="${S_URL}/${(slide5.acc.path)!}/${(slide5.acc.name)!}" width="210" height="104" /></li>

@@ -91,11 +91,13 @@
         //
         jQuery(":checkbox[id^=rg_ck_]").click(function () {
             var val = jQuery(this).attr("id").substring(6);
-            var ck = jQuery(this).attr("checked");
+            var ck = jQuery(this).prop("checked");
             var expr = "ul[id=rg_" + val + "] :checkbox";
-            if (ck == "checked") {
-                jQuery(expr).attr("checked", true);
-            } else jQuery(expr).attr("checked", false);
+            if (ck == true) {
+                jQuery(expr).prop("checked", true);
+            } else {
+                jQuery(expr).prop("checked", false);
+            }
         });
 
         jQuery('#birthday').datepicker({
@@ -105,7 +107,7 @@
             changeYear: true
         });
 
-        jQuery(":radio[value=${(obj.sex)!}]").attr("checked", true);
+        jQuery(":radio[value=${(obj.sex)!}]").prop("checked", true);
 
 
     });
@@ -223,7 +225,8 @@
                                         </span>
                                     </td>
                                 </tr>
-                                <#if (obj!false)==false >
+                                <#if obj?? >
+                                <#else>
                                 <tr>
                                     <td align="right" valign="top">密码：</td>
                                     <td class="px10">
@@ -256,16 +259,16 @@
                                                 <ul id="rg_${(rg.id)!}">
                                                     <#list (rg.perms)! as perm >
                                                         <#assign r=0 />
-                                                        <#list (obj.roles)! as info >
-                                                        <#if (perm.id == info.id)! >
+                                                        <#list (obj.perms)! as info >
+                                                        <#if (perm.id == info.id)!false >
                                                             <#assign r=1 />
                                                         </#if>
                                                         </#list>
                                                     <li>
                                                         <label>
                                                             <input name="role_${(perm.id)!}" type="checkbox"
-                                                                      id="role_${(perm.id)!}" value="${(perm.id)!}"
-                                                                      <#if r==1> checked="checked" </#if>/>
+                                                                   id="role_${(perm.id)!}" value="${(perm.id)!}"
+                                                                <#if r==1> checked="checked" </#if>/>
                                                             ${(perm.name)!}
                                                         </label>
                                                     </li>

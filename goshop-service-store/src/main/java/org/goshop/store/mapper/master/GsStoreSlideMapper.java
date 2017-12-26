@@ -9,8 +9,6 @@ public interface GsStoreSlideMapper {
 
     int insertSelective(GsStoreSlide record);
 
-    GsStoreSlide selectByPrimaryKey(Long id);
-
     int updateByPrimaryKeySelective(GsStoreSlide record);
 
     int updateByPrimaryKey(GsStoreSlide record);

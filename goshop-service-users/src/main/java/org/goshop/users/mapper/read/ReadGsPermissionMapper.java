@@ -2,6 +2,8 @@ package org.goshop.users.mapper.read;
 
 import org.goshop.users.pojo.GsPermission;
 
+import java.util.List;
+
 public interface ReadGsPermissionMapper {
     int deleteByPrimaryKey(Long id);
 
@@ -14,4 +16,8 @@ public interface ReadGsPermissionMapper {
     int updateByPrimaryKeySelective(GsPermission record);
 
     int updateByPrimaryKey(GsPermission record);
+
+    List<GsPermission> selectByPrimaryKeys(List<Long> ids);
+
+    List<GsPermission> selectByType(String type);
 }

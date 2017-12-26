@@ -3,6 +3,7 @@ package org.goshop.users.pojo;
 import java.io.Serializable;
 import java.security.Principal;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.List;
 
 public class User implements Serializable {
@@ -41,6 +42,20 @@ public class User implements Serializable {
     private String oldLoginIp;
 
     private Long parentId;
+
+    /*********************************
+     ***** 手动添加
+     *********************************/
+    private List<GsPermission> perms = new ArrayList<>();//应用权限
+
+    /*********************************/
+    public List<GsPermission> getPerms() {
+        return perms;
+    }
+
+    public void setPerms(List<GsPermission> perms) {
+        this.perms = perms;
+    }
 
     public Long getParentId() {
         return parentId;

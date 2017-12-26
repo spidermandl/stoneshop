@@ -48,7 +48,7 @@
                   <td width="115">${(obj.trueName)!}</td>
                   <#assign address="${(obj.area.parent.parent.areaName)!} ${(obj.area.parent.areaName)!} ${(obj.area.areaName)!}" />
                   <td width="162" area_info_id="${(obj.id)!}">
-                      <#if (obj.lastLoginDate)!>${(CommUtil.formatLongDate(obj.lastLoginDate))!}
+                      <#if (obj.oldLoginTime)??>${(CommUtil.formatLongDate(obj.oldLoginTime))!}
                       <#else> 暂无登录记录
                       </#if>
                   </td>

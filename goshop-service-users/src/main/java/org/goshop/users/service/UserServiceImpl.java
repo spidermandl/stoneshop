@@ -6,12 +6,10 @@ import org.goshop.common.utils.PageUtils;
 import org.goshop.common.utils.RandomUtils;
 import org.goshop.users.i.PasswordService;
 import org.goshop.users.i.UserService;
+import org.goshop.users.mapper.master.GsUserBanPermMapper;
 import org.goshop.users.mapper.master.UserMapper;
 import org.goshop.users.mapper.master.UserRoleMapper;
-import org.goshop.users.mapper.read.ReadGsPermissionGroupMapper;
-import org.goshop.users.mapper.read.ReadGsUserBanPermMapper;
-import org.goshop.users.mapper.read.ReadRoleMapper;
-import org.goshop.users.mapper.read.ReadUserMapper;
+import org.goshop.users.mapper.read.*;
 import org.goshop.users.pojo.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -48,14 +46,20 @@ public class UserServiceImpl implements UserService {
     @Autowired
     ReadGsPermissionGroupMapper readGsPermissionGroupMapper;
 
+    @Autowired
+    ReadGsPermissionMapper readGsPermissionMapper;
+
+    @Autowired
+    GsUserBanPermMapper gsUserBanPermMapper;
 
     @Override
-    public int save(User user) {
+    public long save(User user) {
         User userDataBase=this.findByLoginName(user.getLoginName());
         if(userDataBase!=null){
             throw new MapperException("登录名称重复");
         }
-        return userMapper.insertSelective(passWordUser(user));
+        userMapper.insertSelective(passWordUser(user));
+        return user.getId();
     }
 
     @Override
@@ -117,6 +121,22 @@ public class UserServiceImpl implements UserService {
         }
         return result;
     }
+
+    @Override
+    public List<GsPermission> findPermissionListByIds(List<Long> ids) {
+        return readGsPermissionMapper.selectByPrimaryKeys(ids);
+    }
+
+    @Override
+    public List<GsPermission> findPermissionListByType(String type) {
+        return readGsPermissionMapper.selectByType(type);
+    }
+
+    @Override
+    public int addBanPermission(List<GsUserBanPerm> bans) {
+        return gsUserBanPermMapper.insertBatch(bans);
+    }
+
     @Override
     public List<Role> findByRole(Long userId) {
         return readUserMapper.findByRole(userId);
@@ -133,8 +153,9 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public int insert(User user) {
-        return userMapper.insert(user);
+    public long insert(User user) {
+        userMapper.insert(user);
+        return user.getId();
     }
 
 

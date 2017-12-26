@@ -20,7 +20,8 @@
 <script>
     jQuery.validator.addMethod("transportId",
         function(value, element) {
-            if (jQuery(':radio[name=goodsTransfee][value=0]').attr('checked') && jQuery(':radio[name=transport_type][value=0]').attr('checked')){
+            if (jQuery(':radio[name=goodsTransfee][value=0]').attr('checked') &&
+                    jQuery(':radio[name=transport_type][value=0]').attr('checked')){
                 if (jQuery('#transport_id').val() == ''){
                     return false;
                 }else{

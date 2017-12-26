@@ -49,8 +49,8 @@ jQuery(document).ready(function(){
                           Google地图 </label></td>
                     </tr>
                      <tr>
-                      <td height="30" align="right" valign="middle"><input name="store_lat" type="hidden" id="store_lat" value="${(store.store_lat)!}" />
-                        <input name="store_lng" type="hidden" id="store_lng" value="${(store.store_lng)!}" />
+                      <td height="30" align="right" valign="middle"><input name="store_lat" type="hidden" id="store_lat" value="${(store.storeLat)!}" />
+                        <input name="store_lng" type="hidden" id="store_lng" value="${(store.storeLng)!}" />
                         输入地址：</td>
                       <td align="left" valign="middle"><input name="location" type="text" id="location" size="40" />
                         <input type="button" name="button" id="button" value="搜索位置" onclick="search_location();"  style="cursor:pointer;" /></td>
@@ -61,29 +61,29 @@ jQuery(document).ready(function(){
 
 <script type="text/javascript">
     <#assign store_logo="${S_URL}/${(config.storeImage.path)!}/${(config.storeImage.name)!}" />
-    <#if (store.store_logo)?? >
-       <#assign store_logo="${S_URL}/${(store.store_logo.path)!}/${(store.store_logo.name)!}" />
+    <#if (store.logo)?? >
+       <#assign store_logo="${S_URL}/${(store.logo.path)!}/${(store.logo.name)!}" />
     </#if>
    var map = new BMap.Map("map");
    var marker;
-   var sContent ="<h4 style='margin:0 0 5px 0;padding:0.2em 0'>${(store.store_name)!}</h4>" +
-"<img style='float:right;margin:4px' id='imgDemo' src='${(store_logo)!}' width='100' height='100' title='${(store.store_name)!}'/>";
-   map.addControl(new BMap.NavigationControl());    
- //  map.addControl(new BMap.ScaleControl());    
-//   map.addControl(new BMap.OverviewMapControl());    
-   //map.addControl(new BMap.MapTypeControl());   
+   var sContent ="<h4 style='margin:0 0 5px 0;padding:0.2em 0'>${(store.storeName)!}</h4>" +
+"<img style='float:right;margin:4px' id='imgDemo' src='${store_logo!}' width='100' height='100' title='${(store.storeName)!}'/>";
+   map.addControl(new BMap.NavigationControl());
+ //  map.addControl(new BMap.ScaleControl());
+//   map.addControl(new BMap.OverviewMapControl());
+   //map.addControl(new BMap.MapTypeControl());
    var point_add=0;//标注是否Add标注点
-   <#if (store.store_lng)?? && (store.store_lat)?? >
-   map.centerAndZoom(new BMap.Point(${(store.store_lng)!},${(store.store_lat)!}, 16));
-   var point = new BMap.Point(${(store.store_lng)!},${(store.store_lat)!});
+   <#if (store.storeLng)?? && (store.storeLat)?? >
+   map.centerAndZoom(new BMap.Point(${(store.storeLng)!},${(store.storeLat)!}, 16));
+   var point = new BMap.Point(${(store.storeLng)!},${(store.storeLat)!});
     marker = new BMap.Marker(point);
     var infoWindow = new BMap.InfoWindow(sContent);  // 创建 Info窗口对象
     map.centerAndZoom(point, 15);
     map.addOverlay(marker);
 	marker.enableDragging();
-	marker.setAnimation(BMAP_ANIMATION_BOUNCE); 
+	marker.setAnimation(BMAP_ANIMATION_BOUNCE);
 	marker.openInfoWindow(infoWindow);
-	marker.addEventListener("click", function(){          
+	marker.addEventListener("click", function(){
       this.openInfoWindow(infoWindow);
     });
 	//
@@ -95,11 +95,11 @@ jQuery(document).ready(function(){
    <#else>
    map.centerAndZoom(new BMap.Point(123.425329,41.792454), 11);
    </#if>
-   map.enableScrollWheelZoom(); 
+   map.enableScrollWheelZoom();
    map.addControl(new BMap.NavigationControl());  //Add默认缩放平移控件
    map.addEventListener("click",function(e){
    // alert(e.point.lng + "," + e.point.lat);
-  if(point_add==0){ 
+  if(point_add==0){
    if(confirm("确认添加店铺地图位置吗？")){
     var point = new BMap.Point(e.point.lng, e.point.lat);
 	jQuery("#store_lng").val(e.point.lng);
@@ -109,9 +109,9 @@ jQuery(document).ready(function(){
     map.centerAndZoom(point, 15);
     map.addOverlay(marker);
 	marker.enableDragging();
-	marker.setAnimation(BMAP_ANIMATION_BOUNCE); 
+	marker.setAnimation(BMAP_ANIMATION_BOUNCE);
 	point_add=1;
-    marker.addEventListener("click", function(){          
+    marker.addEventListener("click", function(){
     this.openInfoWindow(infoWindow);
    //Picture加载完毕重绘infowindow
      document.getElementById('imgDemo').onload = function (){
@@ -127,24 +127,24 @@ jQuery(document).ready(function(){
  }
 });
    function search_location(){
-	 var options = {    
-       onSearchComplete: function(results){    
-       if (local.getStatus() == BMAP_STATUS_SUCCESS){    
-       // 判断状态是否正确      
+	 var options = {
+       onSearchComplete: function(results){
+       if (local.getStatus() == BMAP_STATUS_SUCCESS){
+       // 判断状态是否正确
 	   map.clearOverlays();
 	   if(results.getCurrentNumPois()>0){
 	    var point=results.getPoi(0).point;
-		  marker= new BMap.Marker(point); 
+		  marker= new BMap.Marker(point);
 		  map.addOverlay(marker);
 	      marker.enableDragging();
-          marker.setAnimation(BMAP_ANIMATION_BOUNCE); 
+          marker.setAnimation(BMAP_ANIMATION_BOUNCE);
 		  var infoWindow = new BMap.InfoWindow(sContent);  // 创建 Info窗口对象
 		  map.centerAndZoom(point, 15);
 		  marker.openInfoWindow(infoWindow);
 	      point_add=1;
 		  jQuery("#store_lng").val(point.lng);
 	      jQuery("#store_lat").val(point.lat);
-          marker.addEventListener("click", function(){          
+          marker.addEventListener("click", function(){
              this.openInfoWindow(infoWindow);
              //Picture加载完毕重绘infowindow
              document.getElementById('imgDemo').onload = function (){
@@ -155,17 +155,17 @@ jQuery(document).ready(function(){
          marker.addEventListener("dragend",function(e){
 	      jQuery("#store_lng").val(e.point.lng);
 	      jQuery("#store_lat").val(e.point.lat);
-         });		  
-	   }  
-      }    
-    }    
-   };    
+         });
+	   }
+      }
+    }
+   };
      var local = new BMap.LocalSearch(map,options);
 	 var location=jQuery("#location").val();
-     local.search(location);	 
+     local.search(location);
 }
   </script>
-                   
+
                     <tr>
                       <td width="103" align="right">&nbsp;</td>
                       <td width="897" style="padding-left:30px;"><span class="setsub">

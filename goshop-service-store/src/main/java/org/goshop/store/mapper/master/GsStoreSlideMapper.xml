@@ -12,12 +12,6 @@
   <sql id="Base_Column_List" >
     id, addTime, deleteStatus, url, acc_id, store_id
   </sql>
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
-    select
-    <include refid="Base_Column_List" />
-    from gs_store_slide
-    where id = #{id,jdbcType=BIGINT}
-  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
     delete from gs_store_slide
     where id = #{id,jdbcType=BIGINT}

@@ -184,7 +184,7 @@
                             <tr>
                               <td align="right">店铺等级： </td>
                               <td style="padding-left:30px; color:#666">
-                                  <span>${(store.grade.sgName)!}
+                                  <span>${(store.storeGrade.sgName)!}
                                       <#if (store.update_grade)??>升级审核中... <#else><a href="${S_URL}/store/store_grade" target="_blank" class="blue2 px20">升级店铺</a> </#if>
                                   </span>
                               </td>

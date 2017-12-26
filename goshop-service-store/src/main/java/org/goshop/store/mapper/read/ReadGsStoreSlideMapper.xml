@@ -18,87 +18,11 @@
     from gs_store_slide
     where id = #{id,jdbcType=BIGINT}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
-    delete from gs_store_slide
-    where id = #{id,jdbcType=BIGINT}
-  </delete>
-  <insert id="insert" parameterType="org.goshop.store.pojo.GsStoreSlide" >
-    <selectKey resultType="java.lang.Long" keyProperty="id" order="AFTER" >
-      SELECT LAST_INSERT_ID()
-    </selectKey>
-    insert into gs_store_slide (addTime, deleteStatus, url,
-      acc_id, store_id)
-    values (#{addtime,jdbcType=TIMESTAMP}, #{deletestatus,jdbcType=BIT}, #{url,jdbcType=VARCHAR},
-      #{accId,jdbcType=BIGINT}, #{storeId,jdbcType=BIGINT})
-  </insert>
-  <insert id="insertSelective" parameterType="org.goshop.store.pojo.GsStoreSlide" >
-    <selectKey resultType="java.lang.Long" keyProperty="id" order="AFTER" >
-      SELECT LAST_INSERT_ID()
-    </selectKey>
-    insert into gs_store_slide
-    <trim prefix="(" suffix=")" suffixOverrides="," >
-      <if test="addtime != null" >
-        addTime,
-      </if>
-      <if test="deletestatus != null" >
-        deleteStatus,
-      </if>
-      <if test="url != null" >
-        url,
-      </if>
-      <if test="accId != null" >
-        acc_id,
-      </if>
-      <if test="storeId != null" >
-        store_id,
-      </if>
-    </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides="," >
-      <if test="addtime != null" >
-        #{addtime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="deletestatus != null" >
-        #{deletestatus,jdbcType=BIT},
-      </if>
-      <if test="url != null" >
-        #{url,jdbcType=VARCHAR},
-      </if>
-      <if test="accId != null" >
-        #{accId,jdbcType=BIGINT},
-      </if>
-      <if test="storeId != null" >
-        #{storeId,jdbcType=BIGINT},
-      </if>
-    </trim>
-  </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="org.goshop.store.pojo.GsStoreSlide" >
-    update gs_store_slide
-    <set >
-      <if test="addtime != null" >
-        addTime = #{addtime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="deletestatus != null" >
-        deleteStatus = #{deletestatus,jdbcType=BIT},
-      </if>
-      <if test="url != null" >
-        url = #{url,jdbcType=VARCHAR},
-      </if>
-      <if test="accId != null" >
-        acc_id = #{accId,jdbcType=BIGINT},
-      </if>
-      <if test="storeId != null" >
-        store_id = #{storeId,jdbcType=BIGINT},
-      </if>
-    </set>
-    where id = #{id,jdbcType=BIGINT}
-  </update>
-  <update id="updateByPrimaryKey" parameterType="org.goshop.store.pojo.GsStoreSlide" >
-    update gs_store_slide
-    set addTime = #{addtime,jdbcType=TIMESTAMP},
-      deleteStatus = #{deletestatus,jdbcType=BIT},
-      url = #{url,jdbcType=VARCHAR},
-      acc_id = #{accId,jdbcType=BIGINT},
-      store_id = #{storeId,jdbcType=BIGINT}
-    where id = #{id,jdbcType=BIGINT}
-  </update>
+  <select id="selectByStoreId" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select
+    <include refid="Base_Column_List" />
+    from gs_store_slide
+    where store_id = #{storeId,jdbcType=BIGINT}
+  </select>
+
 </mapper>

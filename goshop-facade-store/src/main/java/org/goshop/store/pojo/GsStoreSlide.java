@@ -1,8 +1,11 @@
 package org.goshop.store.pojo;
 
+import org.goshop.assets.pojo.GsAccessory;
+
+import java.io.Serializable;
 import java.util.Date;
 
-public class GsStoreSlide {
+public class GsStoreSlide implements Serializable{
     private Long id;
 
     private Date addtime;
@@ -15,12 +18,24 @@ public class GsStoreSlide {
 
     private Long storeId;
 
+    /***** 手动加入 *******/
+    private GsAccessory acc;
+    /***** end *******/
+
     public Long getId() {
         return id;
     }
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public GsAccessory getAcc() {
+        return acc;
+    }
+
+    public void setAcc(GsAccessory acc) {
+        this.acc = acc;
     }
 
     public Date getAddtime() {

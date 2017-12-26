@@ -11,7 +11,7 @@
  Target Server Version : 50716
  File Encoding         : utf-8
 
- Date: 12/15/2017 03:12:31 AM
+ Date: 12/20/2017 18:05:31 PM
 */
 
 SET NAMES utf8mb4;
@@ -149,6 +149,8 @@ CREATE TABLE `gs_store` (
   `store_free_price` decimal(10,2) unsigned DEFAULT '0.00' COMMENT '超出该金额免运费，大于0才表示该值有效',
   `store_storage_alarm` tinyint(3) unsigned DEFAULT '10' COMMENT '库存警报',
   `map_type` varchar(255) DEFAULT NULL COMMENT '显示地图类型',
+  `store_lat` decimal(6,2) DEFAULT NULL COMMENT '坐标经度',
+  `store_lng` decimal(6,2) DEFAULT NULL COMMENT '坐标维度',
   PRIMARY KEY (`store_id`),
   KEY `store_name` (`store_name`),
   KEY `sc_id` (`sc_id`),
@@ -160,7 +162,7 @@ CREATE TABLE `gs_store` (
 --  Records of `gs_store`
 -- ----------------------------
 BEGIN;
-INSERT INTO `gs_store` VALUES ('1', '古古', '0', '0', '1', '66', 'gugu', 'gugu_shop', null, '7', '公司名称', null, null, null, null, '联系人电话', null, '1', '1', '关闭原因1', '0', '2016-04-17', '2026-04-30', null, null, '', '', null, null, null, null, null, '0', '0', 'default', '0', '0', '0', '0', '0', '0', null, null, null, null, '0', null, null, null, '0.00', '10', null), ('12', 'sadfa', '0', '0', '1', '65', 'dddd', '11223344', '123424123421342134', '2', 'asf', '4522514', null, 'asdfasdf', null, '1234897324', null, '2', '1', null, '0', '2017-11-19', null, '426143', null, 'aaaa', 'asdfasdfasd', '333445566', 'asdsf', 'dsfsadfsadf', null, 'sert', '0', '0', 'default', '0', '0', '0', '0', '0', '0', null, null, null, null, '0', null, null, null, '0.00', '10', null), ('13', 'asdfasdf', '0', '0', '1', '46', 'bbbb', 'asdfasdf', null, '9', 'asf', null, null, null, null, '1234897324', null, '426138', '1', null, '0', '2017-12-14', null, null, null, '', '', null, null, null, null, null, '0', '0', 'default', '0', '0', '0', '0', '0', '0', null, null, null, null, '0', null, null, null, '0.00', '10', null);
+INSERT INTO `gs_store` VALUES ('1', '古古', '0', '0', '1', '66', 'gugu', 'gugu_shop', null, '7', '公司名称', null, null, null, null, '联系人电话', null, '1', '1', '关闭原因1', '0', '2016-04-17', '2026-04-30', null, null, '', '', null, null, null, null, null, '0', '0', 'default', '0', '0', '0', '0', '0', '0', null, null, null, null, '0', null, null, null, '0.00', '10', null, null, null), ('12', 'sadfa', '0', '0', '1', '65', 'dddd', '11223344', '123424123421342134', '2', 'asf', '4522514', null, 'asdfasdf', null, '1234897324', null, '2', '1', null, '0', '2017-11-19', null, '426143', '426146', 'aaaa', 'asdfasdfasd', '333445566', 'asdsf', 'dsfsadfsadf', null, 'sert', '0', '0', 'default', '0', '0', '0', '0', '0', '0', null, null, null, null, '0', null, null, null, '0.00', '10', null, null, null), ('13', 'asdfasdf', '0', '0', '1', '46', 'bbbb', 'asdfasdf', null, '9', 'asf', null, null, null, null, '1234897324', null, '426138', '1', null, '0', '2017-12-14', null, null, null, '', '', null, null, null, null, null, '0', '0', 'default', '0', '0', '0', '0', '0', '0', null, null, null, null, '0', null, null, null, '0.00', '10', null, null, null);
 COMMIT;
 
 -- ----------------------------
@@ -224,6 +226,7 @@ CREATE TABLE `gs_store_grade` (
   `sg_description` text COMMENT '申请说明',
   `sg_function` varchar(255) DEFAULT NULL COMMENT '附加功能',
   `sg_sort` tinyint(3) unsigned NOT NULL DEFAULT '0' COMMENT '级别，数目越大级别越高',
+  `sg_account_num` int(10) DEFAULT NULL COMMENT '能开子账号的数量',
   PRIMARY KEY (`sg_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COMMENT='店铺等级表';
 
@@ -231,7 +234,7 @@ CREATE TABLE `gs_store_grade` (
 --  Records of `gs_store_grade`
 -- ----------------------------
 BEGIN;
-INSERT INTO `gs_store_grade` VALUES ('1', '系统默认', '100', '500', '100', '6', 'default|style1|style2|style3|style4|style5', '100元/年', '0', '用户选择“默认等级”，可以立即开通。', '', '0'), ('2', '白金店铺', '200', '1000', '100', '6', 'default|style1|style2|style3|style4|style5', '200元/年', '1', '享受更多特权', 'editor_multimedia', '2'), ('3', '钻石店铺', '1000', '1000', '100', '6', 'default|style1|style2|style3|style4|style5', '1000元/年', '0', '', 'editor_multimedia', '100');
+INSERT INTO `gs_store_grade` VALUES ('1', '系统默认', '100', '500', '100', '6', 'default|style1|style2|style3|style4|style5', '100元/年', '0', '用户选择“默认等级”，可以立即开通。', '', '0', '2'), ('2', '白金店铺', '200', '1000', '100', '6', 'default|style1|style2|style3|style4|style5', '200元/年', '1', '享受更多特权', 'editor_multimedia', '2', '2'), ('3', '钻石店铺', '1000', '1000', '100', '6', 'default|style1|style2|style3|style4|style5', '1000元/年', '0', '', 'editor_multimedia', '100', '2');
 COMMIT;
 
 -- ----------------------------
@@ -302,27 +305,25 @@ COMMIT;
 -- ----------------------------
 DROP TABLE IF EXISTS `gs_store_nav`;
 CREATE TABLE `gs_store_nav` (
-  `id` varchar(255) NOT NULL,
-  `created` datetime DEFAULT NULL,
-  `creator` varchar(255) DEFAULT NULL,
-  `lastUpdater` varchar(255) DEFAULT NULL,
-  `updated` datetime DEFAULT NULL,
-  `version` bigint(20) DEFAULT NULL,
-  `snIfShow` varchar(255) DEFAULT NULL,
-  `snNewOpen` varchar(255) DEFAULT NULL,
-  `snSort` varchar(255) DEFAULT NULL,
-  `snTitle` varchar(255) DEFAULT NULL,
-  `snUrl` varchar(255) DEFAULT NULL,
-  `storeId` varchar(255) DEFAULT NULL,
-  `snContent` longtext,
-  PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `addTime` datetime DEFAULT NULL,
+  `deleteStatus` bit(1) NOT NULL,
+  `content` longtext,
+  `display` bit(1) NOT NULL,
+  `sequence` varchar(255) DEFAULT NULL,
+  `title` varchar(255) DEFAULT NULL,
+  `url` varchar(255) DEFAULT NULL,
+  `win_type` varchar(255) DEFAULT NULL,
+  `store_id` bigint(20) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `FK7EE200D4920D7683` (`store_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 --  Records of `gs_store_nav`
 -- ----------------------------
 BEGIN;
-INSERT INTO `gs_store_nav` VALUES ('4028978151334697015133481cb10000', '2015-11-23 15:39:02', 'administrator', 'administrator', '2015-12-23 10:23:57', '8', '1', '0', '2', '多肉繁殖', '', '402897815123d77f015123dee3910001', '<div id=\"J_DivItemDesc\" class=\"content\" style=\"margin:0px;padding:10px 0px 0px;\">\r\n	<p>\r\n		温馨提醒：\r\n	</p>\r\n	<p style=\"text-align:left;background-color:#FFFFFF;text-indent:0px;color:#000000;\">\r\n		<strong><span style=\"color:#FF0000;\"><span style=\"color:#000000;\">1.由于植物的特殊性，不支持退货，换货，15天内有问题我们都会帮您退款，请放心购买！</span></span></strong> \r\n	</p>\r\n	<p style=\"background-color:#FFFFFF;text-indent:0px;color:#000000;\">\r\n		<strong><span style=\"color:#FF0000;\"><span style=\"color:#000000;\">2.收到货需自己栽种，不是栽种好发货，栽种步骤参考本页面下方。</span></span></strong> \r\n	</p>\r\n	<p style=\"background-color:#FFFFFF;text-indent:0px;color:#000000;\">\r\n		<strong><span style=\"color:#FF0000;\"><span style=\"color:#000000;\">3.<strong>玻璃盆是人工吹制而成，会有气泡等现象，属正常，尽请谅解，不能接受的亲请勿拍！</strong></span></span></strong> \r\n	</p>\r\n	<p style=\"background-color:#FFFFFF;text-indent:0px;color:#000000;\">\r\n		<strong><span style=\"color:#FF0000;\"></span></strong><strong>4.</strong><span style=\"font-size:14px;\"><strong><span style=\"color:#FF0000;\">因光照，温度，环境等各方面因素影响</span></strong><span style=\"color:#FF0000;\"><strong>夏季植物颜色普遍变绿，对多肉了解的买家都知道这个常识，四季颜色不同，下面图片是春季拍的，现在虹之玉，火祭或红叶</strong></span><strong>祭</strong><span style=\"color:#FF0000;\"><strong>，初恋，姬胧月，秋丽，黄丽，紫珍珠颜色都变绿或者颜色变淡不红了，秋季植物又会变红，请新手买家们知悉，不要因此给中差评，只能说明您对多肉不是那么热爱。<img src=\"https://img.alicdn.com/imgextra/i4/2274072695/TB21noYeFXXXXX6XpXXXXXXXXXX_!!2274072695.jpg\" class=\"\" style=\"border:0px;\" align=\"middle\" height=\"559\" width=\"750\" /><img src=\"https://img.alicdn.com/imgextra/i3/2274072695/TB2xV4ceVXXXXaGXXXXXXXXXXXX_!!2274072695.jpg\" class=\"\" style=\"border:0px;\" align=\"middle\" height=\"705\" width=\"750\" /><img src=\"https://img.alicdn.com/imgextra/i4/2274072695/TB2wltaeVXXXXaOXXXXXXXXXXXX_!!2274072695.jpg\" class=\"\" style=\"border:0px;\" align=\"middle\" height=\"615\" width=\"750\" /><img src=\"https://img.alicdn.com/imgextra/i1/2274072695/TB2rt2XfFXXXXc6XXXXXXXXXXXX_!!2274072695.jpg\" class=\"\" style=\"border:0px;\" align=\"middle\" height=\"376\" width=\"750\" /><img src=\"https://img.alicdn.com/imgextra/i1/2274072695/TB2B7q.fFXXXXXAXpXXXXXXXXXX_!!2274072695.jpg\" class=\"\" style=\"border:0px;\" align=\"middle\" height=\"310\" width=\"750\" /><img src=\"https://img.alicdn.com/imgextra/i2/2274072695/TB2FYaZfFXXXXaLXpXXXXXXXXXX_!!2274072695.jpg\" class=\"\" style=\"border:0px;\" align=\"middle\" height=\"310\" width=\"750\" /><img src=\"https://img.alicdn.com/imgextra/i1/2274072695/TB2sprcfFXXXXcWXXXXXXXXXXXX_!!2274072695.jpg\" class=\"\" style=\"border:0px;\" align=\"middle\" height=\"309\" width=\"750\" /><img src=\"https://img.alicdn.com/imgextra/i3/2274072695/TB2ox2kfFXXXXazXXXXXXXXXXXX_!!2274072695.jpg\" class=\"\" style=\"border:0px;\" align=\"middle\" height=\"310\" width=\"750\" /><img src=\"https://img.alicdn.com/imgextra/i3/2274072695/TB24su4fFXXXXaIXpXXXXXXXXXX_!!2274072695.jpg\" class=\"\" style=\"border:0px;\" align=\"middle\" height=\"310\" width=\"750\" /><img src=\"https://img.alicdn.com/imgextra/i4/2274072695/TB2uwMTeFXXXXbCXpXXXXXXXXXX_!!2274072695.jpg\" class=\"\" style=\"border:0px;\" align=\"middle\" height=\"514\" width=\"750\" /><img src=\"https://img.alicdn.com/imgextra/i2/2274072695/TB2A1k7eFXXXXbZXXXXXXXXXXXX_!!2274072695.jpg\" class=\"\" style=\"border:0px;\" align=\"middle\" height=\"463\" width=\"750\" /><img src=\"https://img.alicdn.com/imgextra/i4/2274072695/TB2ppo0eFXXXXX3XpXXXXXXXXXX_!!2274072695.jpg\" class=\"\" style=\"border:0px;\" align=\"middle\" height=\"478\" width=\"750\" /><img src=\"https://img.alicdn.com/imgextra/i3/2274072695/TB2bt._eFXXXXbEXXXXXXXXXXXX_!!2274072695.jpg\" class=\"\" style=\"border:0px;\" align=\"middle\" height=\"462\" width=\"750\" /><img src=\"https://img.alicdn.com/imgextra/i1/2274072695/TB2jPgWeFXXXXaGXpXXXXXXXXXX_!!2274072695.jpg\" class=\"\" style=\"border:0px;\" align=\"middle\" height=\"478\" width=\"750\" /><img src=\"https://img.alicdn.com/imgextra/i2/2274072695/TB2wUNfeVXXXXXSXXXXXXXXXXXX_!!2274072695.jpg\" class=\"\" style=\"border:0px;\" align=\"middle\" height=\"472\" width=\"750\" /><img src=\"https://img.alicdn.com/imgextra/i2/2274072695/TB2_VA9eFXXXXb9XXXXXXXXXXXX_!!2274072695.jpg\" class=\"\" style=\"border:0px;\" align=\"middle\" height=\"472\" width=\"750\" /><img src=\"https://img.alicdn.com/imgextra/i4/2274072695/TB2Vaw8eFXXXXb.XXXXXXXXXXXX_!!2274072695.jpg\" class=\"\" style=\"border:0px;\" align=\"middle\" height=\"472\" width=\"750\" /><img src=\"https://img.alicdn.com/imgextra/i3/2274072695/TB2MgIMeFXXXXcKXpXXXXXXXXXX_!!2274072695.jpg\" class=\"\" style=\"border:0px;\" align=\"middle\" height=\"465\" width=\"750\" /><img src=\"https://img.alicdn.com/imgextra/i2/2274072695/TB2fHo7eFXXXXcxXXXXXXXXXXXX_!!2274072695.jpg\" class=\"\" style=\"border:0px;\" align=\"middle\" height=\"464\" width=\"750\" /><img src=\"https://img.alicdn.com/imgextra/i1/2274072695/TB2dqQ_eFXXXXbzXXXXXXXXXXXX_!!2274072695.jpg\" class=\"\" style=\"border:0px;\" align=\"middle\" height=\"462\" width=\"750\" /><img src=\"https://img.alicdn.com/imgextra/i4/2274072695/TB28ipgeVXXXXXLXXXXXXXXXXXX_!!2274072695.jpg\" class=\"\" style=\"border:0px;\" align=\"middle\" height=\"478\" width=\"750\" /><img src=\"https://img.alicdn.com/imgextra/i4/2274072695/TB245A0eFXXXXX2XpXXXXXXXXXX_!!2274072695.jpg\" class=\"\" style=\"border:0px;\" align=\"middle\" height=\"462\" width=\"750\" /><img src=\"https://img.alicdn.com/imgextra/i2/2274072695/TB2ej.PeFXXXXcbXpXXXXXXXXXX_!!2274072695.jpg\" class=\"\" style=\"border:0px;\" align=\"middle\" height=\"478\" width=\"750\" /><img src=\"https://img.alicdn.com/imgextra/i3/2274072695/TB2qc7_eFXXXXaIXXXXXXXXXXXX_!!2274072695.jpg\" class=\"\" style=\"border:0px;\" align=\"middle\" height=\"671\" width=\"750\" /><img src=\"https://img.alicdn.com/imgextra/i1/2274072695/TB2X7s8eFXXXXb3XXXXXXXXXXXX_!!2274072695.jpg\" class=\"\" style=\"border:0px;\" align=\"middle\" height=\"185\" width=\"750\" /><img src=\"https://img.alicdn.com/imgextra/i4/2274072695/TB2nG.NeFXXXXb4XpXXXXXXXXXX_!!2274072695.jpg\" class=\"\" style=\"border:0px;\" align=\"middle\" height=\"464\" width=\"750\" /><img src=\"https://img.alicdn.com/imgextra/i1/2274072695/TB2LqoUeFXXXXbnXpXXXXXXXXXX_!!2274072695.jpg\" class=\"\" style=\"border:0px;\" align=\"middle\" height=\"521\" width=\"750\" /><img src=\"https://img.alicdn.com/imgextra/i3/2274072695/TB2yQ.6eFXXXXckXXXXXXXXXXXX_!!2274072695.jpg\" class=\"\" style=\"border:0px;\" align=\"middle\" height=\"480\" width=\"750\" /><img src=\"https://img.alicdn.com/imgextra/i2/2274072695/TB2qD.TeFXXXXbrXpXXXXXXXXXX_!!2274072695.jpg\" class=\"\" style=\"border:0px;\" align=\"middle\" height=\"468\" width=\"750\" /><img src=\"https://img.alicdn.com/imgextra/i4/2274072695/TB2GORgeVXXXXXAXXXXXXXXXXXX_!!2274072695.jpg\" class=\"\" style=\"border:0px;\" align=\"middle\" height=\"1897\" width=\"750\" /></strong></span></span> \r\n	</p>\r\n</div>');
+INSERT INTO `gs_store_nav` VALUES ('1', '2017-12-16 11:38:48', b'0', 'sfasdfasdf', b'0', '1', 'aaaa', 'http://www.it165.net/admin/html/201409/3754.html', 'cur_win', '12');
 COMMIT;
 
 -- ----------------------------

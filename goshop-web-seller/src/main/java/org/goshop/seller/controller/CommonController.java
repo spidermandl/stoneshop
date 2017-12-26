@@ -60,7 +60,7 @@ public class CommonController {
             obj.put("message", e.getMessage());
             e.printStackTrace();
         }
-        response.setContentType("text/html");
+        response.setContentType("text/html; charset=UTF-8");
         response.setHeader("Cache-Control", "no-cache");
         try {request.setCharacterEncoding("UTF-8");} catch (java.io.UnsupportedEncodingException e1) {e1.printStackTrace();}
         try {

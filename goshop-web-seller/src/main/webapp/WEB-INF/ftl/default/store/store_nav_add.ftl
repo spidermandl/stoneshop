@@ -40,8 +40,8 @@
             }
         });
         //
-        jQuery(":radio[value=${(obj.display)!}]").attr("checked", true);
-        jQuery(":radio[value='${(obj.win_type)!}']").attr("checked", true);
+        jQuery(":radio[value=${((obj.display)!false)?string('true','false')}]").prop("checked", true);
+        jQuery(":radio[value='${((obj.win_type)!false)?string('true','false')}']").prop("checked", true);
     });
 </script>
 <div class="ncsc-layout wrapper">
