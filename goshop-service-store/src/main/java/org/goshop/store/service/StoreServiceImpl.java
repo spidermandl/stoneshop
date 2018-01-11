@@ -5,10 +5,7 @@ import org.goshop.assets.i.AccessoryService;
 import org.goshop.common.utils.PageUtils;
 import org.goshop.store.i.StoreService;
 import org.goshop.store.mapper.master.StoreMapper;
-import org.goshop.store.mapper.read.ReadGsAreaMapper;
-import org.goshop.store.mapper.read.ReadGsStoreSlideMapper;
-import org.goshop.store.mapper.read.ReadStoreGradeMapper;
-import org.goshop.store.mapper.read.ReadStoreMapper;
+import org.goshop.store.mapper.read.*;
 import org.goshop.store.pojo.GsStoreSlide;
 import org.goshop.store.pojo.Store;
 import org.goshop.store.pojo.StoreJoin;
@@ -20,6 +17,7 @@ import org.springframework.util.StringUtils;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 @Service("storeService")
 public class StoreServiceImpl implements StoreService {
@@ -34,6 +32,8 @@ public class StoreServiceImpl implements StoreService {
     ReadGsAreaMapper readGsAreaMapper;
     @Autowired
     ReadGsStoreSlideMapper readGsStoreSlideMapper;
+    @Autowired
+    ReadGsStorePointMapper readGsStorePointMapper;
 
     @Autowired
     AccessoryService accessoryService;
@@ -58,7 +58,7 @@ public class StoreServiceImpl implements StoreService {
         store.setStoreAddress(storeJoin.getCompanyAddressDetail());
         store.setStoreTel(storeJoin.getContactsPhone());
         store.setStoreImage1(storeJoin.getBusinessLicenceNumberElectronic());
-        store.setStoreState(1);
+        store.setStoreState(2);
         store.setStoreTime(new Date());
         return this.save(store);
     }
@@ -122,6 +122,20 @@ public class StoreServiceImpl implements StoreService {
         return store;
     }
 
+    @Override
+    public Store findBySecondDomain(String domain) {
+        Store store = readStoreMapper.selectBySecondDomain(domain);
+        fillForeignTable(store);
+        return store;
+    }
+
+    @Override
+    public PageInfo<Store> findByCondition(Map map, Integer curPage, Integer pageSize) {
+        PageUtils.startPage(curPage,pageSize);
+        List<Store> list=readStoreMapper.selectByCondition(map);
+        return new PageInfo<>(list);
+    }
+
     private void fillForeignTable(Store store){
         if (store!=null) {
             if (store.getGradeId()!=null)
@@ -136,6 +150,7 @@ public class StoreServiceImpl implements StoreService {
                 store.setCard(accessoryService.findOne(store.getStoreImage()));
             if (store.getStoreImage1()!=null)
                 store.setLicense(accessoryService.findOne(store.getStoreImage1()));
+            store.setPoint(readGsStorePointMapper.selectByStoreId(store.getStoreId()));
             List<GsStoreSlide> slides = readGsStoreSlideMapper.selectByStoreId(store.getStoreId());
             for (GsStoreSlide s:slides){
                 s.setAcc(accessoryService.findOne(s.getAccId()));

@@ -39,23 +39,23 @@
             <dt>性别：</dt>
             <dd><span class="w340">
           <label>
-              <input type="radio" <#if (P_MEMBER.memberSex==0)!>checked="checked"</#if> value="0" name="memberSex"/>
+              <input type="radio" <#if (P_MEMBER.memberSex==0)!??>checked="checked"</#if> value="0" name="memberSex"/>
               保密</label>
           &nbsp;&nbsp;
           <label>
-              <input type="radio" <#if (P_MEMBER.memberSex==2)!>checked="checked"</#if> value="2" name="memberSex"/>
+              <input type="radio" <#if (P_MEMBER.memberSex==2)!??>checked="checked"</#if> value="2" name="memberSex"/>
               女</label>
           &nbsp;&nbsp;
           <label>
-              <input type="radio" <#if (P_MEMBER.memberSex==1)!>checked="checked"</#if> value="1" name="memberSex"/>
+              <input type="radio" <#if (P_MEMBER.memberSex==1)!??>checked="checked"</#if> value="1" name="memberSex"/>
               男</label>
           </span><span>
           <select name="privacyModel.sex">
-              <option <#if (P_PRIVACY.sex??&&P_PRIVACY.sex==0)||(!P_PRIVACY.sex??)>selected="selected"</#if> value="0">
+              <option <#if (P_PRIVACY.sex??&&P_PRIVACY.sex==0)?? ||(!P_PRIVACY.sex??)>selected="selected"</#if> value="0">
                   公开
               </option>
-              <option <#if P_PRIVACY.sex??&&P_PRIVACY.sex==1>selected="selected"</#if> value="1">好友可见</option>
-              <option <#if P_PRIVACY.sex??&&P_PRIVACY.sex==2>selected="selected"</#if> value="2">保密</option>
+              <option <#if (P_PRIVACY.sex)!??&& (P_PRIVACY.sex==1)!??>selected="selected"</#if> value="1">好友可见</option>
+              <option <#if (P_PRIVACY.sex)!??&& (P_PRIVACY.sex==2)!??>selected="selected"</#if> value="2">保密</option>
           </select>
           </span></dd>
         </dl>

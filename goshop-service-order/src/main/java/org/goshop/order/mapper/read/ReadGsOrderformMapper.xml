@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="org.goshop.order.mapper.read.ReadGsOrderformMapper" >
+  <resultMap id="BaseResultMap" type="org.goshop.order.pojo.GsOrderform" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="addTime" property="addtime" jdbcType="TIMESTAMP" />
+    <result column="deleteStatus" property="deletestatus" jdbcType="BIT" />
+    <result column="finishTime" property="finishtime" jdbcType="TIMESTAMP" />
+    <result column="goods_amount" property="goodsAmount" jdbcType="DECIMAL" />
+    <result column="invoice" property="invoice" jdbcType="VARCHAR" />
+    <result column="invoiceType" property="invoicetype" jdbcType="INTEGER" />
+    <result column="order_id" property="orderId" jdbcType="VARCHAR" />
+    <result column="order_status" property="orderStatus" jdbcType="INTEGER" />
+    <result column="payTime" property="paytime" jdbcType="TIMESTAMP" />
+    <result column="refund" property="refund" jdbcType="DECIMAL" />
+    <result column="refund_type" property="refundType" jdbcType="VARCHAR" />
+    <result column="shipCode" property="shipcode" jdbcType="VARCHAR" />
+    <result column="shipTime" property="shiptime" jdbcType="TIMESTAMP" />
+    <result column="ship_price" property="shipPrice" jdbcType="DECIMAL" />
+    <result column="totalPrice" property="totalprice" jdbcType="DECIMAL" />
+    <result column="addr_id" property="addrId" jdbcType="BIGINT" />
+    <result column="payment_id" property="paymentId" jdbcType="BIGINT" />
+    <result column="store_id" property="storeId" jdbcType="BIGINT" />
+    <result column="user_id" property="userId" jdbcType="BIGINT" />
+    <result column="auto_confirm_email" property="autoConfirmEmail" jdbcType="BIT" />
+    <result column="auto_confirm_sms" property="autoConfirmSms" jdbcType="BIT" />
+    <result column="transport" property="transport" jdbcType="VARCHAR" />
+    <result column="out_order_id" property="outOrderId" jdbcType="VARCHAR" />
+    <result column="ec_id" property="ecId" jdbcType="BIGINT" />
+    <result column="ci_id" property="ciId" jdbcType="BIGINT" />
+    <result column="return_shipCode" property="returnShipcode" jdbcType="VARCHAR" />
+    <result column="return_ec_id" property="returnEcId" jdbcType="BIGINT" />
+    <result column="return_shipTime" property="returnShiptime" jdbcType="TIMESTAMP" />
+    <result column="order_type" property="orderType" jdbcType="VARCHAR" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="org.goshop.order.pojo.GsOrderformWithBLOBs" extends="BaseResultMap" >
+    <result column="msg" property="msg" jdbcType="LONGVARCHAR" />
+    <result column="pay_msg" property="payMsg" jdbcType="LONGVARCHAR" />
+    <result column="order_seller_intro" property="orderSellerIntro" jdbcType="LONGVARCHAR" />
+    <result column="return_content" property="returnContent" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, addTime, deleteStatus, finishTime, goods_amount, invoice, invoiceType, order_id,
+    order_status, payTime, refund, refund_type, shipCode, shipTime, ship_price, totalPrice,
+    addr_id, payment_id, store_id, user_id, auto_confirm_email, auto_confirm_sms, transport,
+    out_order_id, ec_id, ci_id, return_shipCode, return_ec_id, return_shipTime, order_type
+  </sql>
+  <sql id="Blob_Column_List" >
+    msg, pay_msg, order_seller_intro, return_content
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Long" >
+    select
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from gs_orderform
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <select id="selectByStoreId" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from gs_orderform
+    where store_id = #{storeId,jdbcType=BIGINT}
+  </select>
+</mapper>

@@ -26,6 +26,7 @@
                      interface="org.goshop.store.i.StoreSlideService" check="false" />
     <dubbo:reference id="storeNavigationService"
                      interface="org.goshop.store.i.StoreNavigationService" check="false" />
-
+    <dubbo:reference id="storeCartService"
+                     interface="org.goshop.order.i.StoreCartService" check="false" />
 
 </beans>

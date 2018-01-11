@@ -1,6 +1,5 @@
 package org.goshop.goods.i;
 
-import org.goshop.goods.pojo.GoodsClass;
 import org.goshop.goods.pojo.GoodsClassStaple;
 import org.goshop.goods.pojo.GsGoodsClass;
 import org.goshop.goods.pojo.JsonGoodsClass;

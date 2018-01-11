@@ -8,19 +8,8 @@ import java.util.List;
 import java.util.Map;
 
 public interface ReadGsGoodsMapper {
-    int deleteByPrimaryKey(Long id);
-
-    int insert(GsGoodsWithBLOBs record);
-
-    int insertSelective(GsGoodsWithBLOBs record);
 
     GsGoodsWithBLOBs selectByPrimaryKey(Long id);
-
-    int updateByPrimaryKeySelective(GsGoodsWithBLOBs record);
-
-    int updateByPrimaryKeyWithBLOBs(GsGoodsWithBLOBs record);
-
-    int updateByPrimaryKey(GsGoods record);
 
     List<GsGoodsWithBLOBs> findGoodsByMainPhoto(Long id);
 

@@ -1,32 +1,41 @@
 package org.goshop.goods.i;
 
 import com.github.pagehelper.PageInfo;
-import org.goshop.goods.pojo.GoodsClass;
 import org.goshop.goods.pojo.GsGoodsClass;
-import org.goshop.goods.pojo.GsGoodsWithBLOBs;
+import org.goshop.goods.pojo.GsGoodsClassWithBLOBs;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Administrator on 2016/4/12.
  */
 public interface GoodsClassService {
 
-    List<GoodsClass> findTreeByGcParentId(Integer gcParentId);
+    List<GsGoodsClass> findTreeByGcParentId(Long gcParentId);
 
     List<GsGoodsClass> findByGcParentId(Long gcParentId);
 
-    int save(GoodsClass goodsClass);
+    int save(GsGoodsClassWithBLOBs goodsClass);
 
-    boolean checkByIdNameParentId(Integer gcId, String gcName, Integer gcParentId);
+    boolean checkByIdNameParentId(Long gcId, String gcName, Long gcParentId);
 
-    PageInfo<GoodsClass> findAll(Integer curPage, Integer size);
+    PageInfo<GsGoodsClass> findAll(Integer curPage, Integer size);
 
-    PageInfo<GoodsClass> findGradeByGcParentId(Integer gcParentId, Integer curPage, Integer size);
+    PageInfo<GsGoodsClass> findGradeByGcParentId(Long gcParentId, Integer curPage, Integer size);
 
-    List<GoodsClass> findGradeByGcParentId(Integer gcParentId);
+    PageInfo<GsGoodsClass> findByParentIdAndDisplay(Long gcParentId,
+                                                    Boolean display,
+                                                    String orderBy,
+                                                    String orderType,
+                                                    Integer curPage,
+                                                    Integer size);
+
+    List<GsGoodsClass> findGradeByGcParentId(Long gcParentId);
 
     GsGoodsClass findOne(Long gcId);
 
-    int delete(Integer id);
+    List<GsGoodsClass> findByCondition(Map condition);
+
+    int delete(Long id);
 }

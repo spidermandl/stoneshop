@@ -11,7 +11,7 @@
  Target Server Version : 50716
  File Encoding         : utf-8
 
- Date: 12/20/2017 18:06:07 PM
+ Date: 01/05/2018 02:20:51 AM
 */
 
 SET NAMES utf8mb4;
@@ -454,7 +454,7 @@ CREATE TABLE `gs_transport` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `id` (`id`),
   KEY `FK58C67F38920D7683` (`store_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COMMENT='货物运输表';
 
 -- ----------------------------
 --  Records of `gs_transport`

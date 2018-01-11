@@ -1,4 +1,4 @@
-<#assign S_URL=request.contextPath />
+<#assign S_URL=request.contextPath  />
 <!DOCTYPE html>
 <html>
 <head>

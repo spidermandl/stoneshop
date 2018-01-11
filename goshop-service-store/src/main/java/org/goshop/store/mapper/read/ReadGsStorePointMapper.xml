@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.goshop.store.mapper.read.ReadGsStorePointMapper">
+  <resultMap id="BaseResultMap" type="org.goshop.store.pojo.GsStorePoint">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="addTime" jdbcType="TIMESTAMP" property="addtime" />
+    <result column="deleteStatus" jdbcType="BIT" property="deletestatus" />
+    <result column="description_evaluate" jdbcType="DECIMAL" property="descriptionEvaluate" />
+    <result column="description_evaluate_halfyear" jdbcType="DECIMAL" property="descriptionEvaluateHalfyear" />
+    <result column="description_evaluate_halfyear_count1" jdbcType="INTEGER" property="descriptionEvaluateHalfyearCount1" />
+    <result column="description_evaluate_halfyear_count2" jdbcType="INTEGER" property="descriptionEvaluateHalfyearCount2" />
+    <result column="description_evaluate_halfyear_count3" jdbcType="INTEGER" property="descriptionEvaluateHalfyearCount3" />
+    <result column="description_evaluate_halfyear_count4" jdbcType="INTEGER" property="descriptionEvaluateHalfyearCount4" />
+    <result column="description_evaluate_halfyear_count5" jdbcType="INTEGER" property="descriptionEvaluateHalfyearCount5" />
+    <result column="service_evaluate" jdbcType="DECIMAL" property="serviceEvaluate" />
+    <result column="service_evaluate_halfyear" jdbcType="DECIMAL" property="serviceEvaluateHalfyear" />
+    <result column="service_evaluate_halfyear_count1" jdbcType="INTEGER" property="serviceEvaluateHalfyearCount1" />
+    <result column="service_evaluate_halfyear_count2" jdbcType="INTEGER" property="serviceEvaluateHalfyearCount2" />
+    <result column="service_evaluate_halfyear_count3" jdbcType="INTEGER" property="serviceEvaluateHalfyearCount3" />
+    <result column="service_evaluate_halfyear_count4" jdbcType="INTEGER" property="serviceEvaluateHalfyearCount4" />
+    <result column="service_evaluate_halfyear_count5" jdbcType="INTEGER" property="serviceEvaluateHalfyearCount5" />
+    <result column="ship_evaluate" jdbcType="DECIMAL" property="shipEvaluate" />
+    <result column="ship_evaluate_halfyear" jdbcType="DECIMAL" property="shipEvaluateHalfyear" />
+    <result column="ship_evaluate_halfyear_count1" jdbcType="INTEGER" property="shipEvaluateHalfyearCount1" />
+    <result column="ship_evaluate_halfyear_count2" jdbcType="INTEGER" property="shipEvaluateHalfyearCount2" />
+    <result column="ship_evaluate_halfyear_count3" jdbcType="INTEGER" property="shipEvaluateHalfyearCount3" />
+    <result column="ship_evaluate_halfyear_count4" jdbcType="INTEGER" property="shipEvaluateHalfyearCount4" />
+    <result column="ship_evaluate_halfyear_count5" jdbcType="INTEGER" property="shipEvaluateHalfyearCount5" />
+    <result column="store_evaluate1" jdbcType="DECIMAL" property="storeEvaluate1" />
+    <result column="store_id" jdbcType="BIGINT" property="storeId" />
+    <result column="statTime" jdbcType="TIMESTAMP" property="stattime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, addTime, deleteStatus, description_evaluate, description_evaluate_halfyear, description_evaluate_halfyear_count1,
+    description_evaluate_halfyear_count2, description_evaluate_halfyear_count3, description_evaluate_halfyear_count4,
+    description_evaluate_halfyear_count5, service_evaluate, service_evaluate_halfyear,
+    service_evaluate_halfyear_count1, service_evaluate_halfyear_count2, service_evaluate_halfyear_count3,
+    service_evaluate_halfyear_count4, service_evaluate_halfyear_count5, ship_evaluate,
+    ship_evaluate_halfyear, ship_evaluate_halfyear_count1, ship_evaluate_halfyear_count2,
+    ship_evaluate_halfyear_count3, ship_evaluate_halfyear_count4, ship_evaluate_halfyear_count5,
+    store_evaluate1, store_id, statTime
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from gs_store_point
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+
+  <select id="selectByStoreId" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from gs_store_point
+    where store_id = #{storeId,jdbcType=BIGINT}
+  </select>
+</mapper>

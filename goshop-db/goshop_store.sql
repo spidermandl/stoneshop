@@ -11,7 +11,7 @@
  Target Server Version : 50716
  File Encoding         : utf-8
 
- Date: 12/20/2017 18:05:31 PM
+ Date: 01/05/2018 02:20:33 AM
 */
 
 SET NAMES utf8mb4;
@@ -102,7 +102,7 @@ CREATE TABLE `gs_store` (
   `store_auth` tinyint(1) DEFAULT '0' COMMENT '店铺认证',
   `name_auth` tinyint(1) DEFAULT '0' COMMENT '店主认证',
   `grade_id` int(11) NOT NULL COMMENT '店铺等级',
-  `member_id` bigint(20) NOT NULL COMMENT '会员id',
+  `member_id` bigint(20) NOT NULL COMMENT '会员id gs_user表id',
   `member_name` varchar(50) NOT NULL COMMENT '会员名称',
   `seller_name` varchar(50) DEFAULT NULL COMMENT '店主卖家用户名',
   `store_owner_card` varchar(50) DEFAULT NULL COMMENT '身份证',
@@ -151,6 +151,7 @@ CREATE TABLE `gs_store` (
   `map_type` varchar(255) DEFAULT NULL COMMENT '显示地图类型',
   `store_lat` decimal(6,2) DEFAULT NULL COMMENT '坐标经度',
   `store_lng` decimal(6,2) DEFAULT NULL COMMENT '坐标维度',
+  `template` varchar(255) DEFAULT NULL COMMENT '店铺页面模板',
   PRIMARY KEY (`store_id`),
   KEY `store_name` (`store_name`),
   KEY `sc_id` (`sc_id`),
@@ -162,7 +163,7 @@ CREATE TABLE `gs_store` (
 --  Records of `gs_store`
 -- ----------------------------
 BEGIN;
-INSERT INTO `gs_store` VALUES ('1', '古古', '0', '0', '1', '66', 'gugu', 'gugu_shop', null, '7', '公司名称', null, null, null, null, '联系人电话', null, '1', '1', '关闭原因1', '0', '2016-04-17', '2026-04-30', null, null, '', '', null, null, null, null, null, '0', '0', 'default', '0', '0', '0', '0', '0', '0', null, null, null, null, '0', null, null, null, '0.00', '10', null, null, null), ('12', 'sadfa', '0', '0', '1', '65', 'dddd', '11223344', '123424123421342134', '2', 'asf', '4522514', null, 'asdfasdf', null, '1234897324', null, '2', '1', null, '0', '2017-11-19', null, '426143', '426146', 'aaaa', 'asdfasdfasd', '333445566', 'asdsf', 'dsfsadfsadf', null, 'sert', '0', '0', 'default', '0', '0', '0', '0', '0', '0', null, null, null, null, '0', null, null, null, '0.00', '10', null, null, null), ('13', 'asdfasdf', '0', '0', '1', '46', 'bbbb', 'asdfasdf', null, '9', 'asf', null, null, null, null, '1234897324', null, '426138', '1', null, '0', '2017-12-14', null, null, null, '', '', null, null, null, null, null, '0', '0', 'default', '0', '0', '0', '0', '0', '0', null, null, null, null, '0', null, null, null, '0.00', '10', null, null, null);
+INSERT INTO `gs_store` VALUES ('1', '古古', '0', '0', '1', '66', 'gugu', 'gugu_shop', null, '7', '公司名称', null, null, null, null, '联系人电话', null, '1', '1', '关闭原因1', '0', '2016-04-17', '2026-04-30', null, null, '', '', null, null, null, null, null, '0', '0', 'default', '0', '0', '0', '0', '0', '0', null, null, null, null, '0', null, null, null, '0.00', '10', null, null, null, 'default'), ('12', 'sadfa', '0', '0', '1', '65', 'dddd', '11223344', '123424123421342134', '2', 'asf', '4522514', null, 'asdfasdf', null, '1234897324', '426160', '426161', '1', null, '0', '2017-11-19', null, '426143', '426146', 'aaaa', 'asdfasdfasd', '333445566', 'asdsf', 'dsfsadfsadf', null, 'sert', '0', '0', 'default', '0', '0', '0', '0', '0', '0', null, null, null, null, '0', null, null, null, '0.00', '10', null, '31.30', '121.52', 'default'), ('13', 'asdfasdf', '0', '0', '1', '46', 'bbbb', 'asdfasdf', null, '9', 'asf', null, null, null, null, '1234897324', null, '426138', '1', null, '0', '2017-12-14', null, null, null, '', '', null, null, null, null, null, '0', '0', 'default', '0', '0', '0', '0', '0', '0', null, null, null, null, '0', null, null, null, '0.00', '10', null, null, null, 'default');
 COMMIT;
 
 -- ----------------------------
@@ -174,16 +175,21 @@ CREATE TABLE `gs_store_class` (
   `sort` int(11) DEFAULT NULL,
   `name` varchar(255) DEFAULT NULL,
   `PARENT_ID` bigint(20) DEFAULT NULL,
+  `addTime` datetime DEFAULT NULL,
+  `deleteStatus` bit(1) DEFAULT NULL,
+  `level` int(11) DEFAULT NULL,
+  `description_evaluate` decimal(4,1) DEFAULT NULL,
+  `service_evaluate` decimal(4,1) DEFAULT NULL,
+  `ship_evaluate` decimal(4,1) DEFAULT NULL,
   PRIMARY KEY (`id`),
-  KEY `FK_k8are5foo7cgj6ytmlqulgsu7` (`PARENT_ID`) USING BTREE,
-  CONSTRAINT `gs_store_class_ibfk_1` FOREIGN KEY (`PARENT_ID`) REFERENCES `gs_store_class` (`id`) ON DELETE CASCADE
+  KEY `FK_k8are5foo7cgj6ytmlqulgsu7` (`PARENT_ID`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 --  Records of `gs_store_class`
 -- ----------------------------
 BEGIN;
-INSERT INTO `gs_store_class` VALUES ('1', '1', '女装', '9'), ('2', '1', 'T恤', '9'), ('3', '3', '衬衫', '9'), ('4', '4', '针织衫', '9'), ('5', '5', '雪纺衫', '9'), ('6', '6', '卫衣', '9'), ('7', '1', '礼品箱包', null), ('9', '0', '服饰鞋帽', null), ('17', '2', '3C数码', null), ('18', '3', '美容护理', null), ('19', '8', '家居用品', null);
+INSERT INTO `gs_store_class` VALUES ('1', '1', '女装', '9', null, null, null, null, null, null), ('2', '1', 'T恤', '9', null, null, null, null, null, null), ('3', '3', '衬衫', '9', null, null, null, null, null, null), ('4', '4', '针织衫', '9', null, null, null, null, null, null), ('5', '5', '雪纺衫', '9', null, null, null, null, null, null), ('6', '6', '卫衣', '9', null, null, null, null, null, null), ('7', '1', '礼品箱包', null, null, null, null, null, null, null), ('9', '0', '服饰鞋帽', null, null, null, null, null, null, null), ('17', '2', '3C数码', null, null, null, null, null, null, null), ('18', '3', '美容护理', null, null, null, null, null, null, null), ('19', '8', '家居用品', null, null, null, null, null, null, null);
 COMMIT;
 
 -- ----------------------------
@@ -352,6 +358,50 @@ INSERT INTO `gs_store_plate` VALUES ('402897814f8185bc014f818a31150000', '2015-0
 COMMIT;
 
 -- ----------------------------
+--  Table structure for `gs_store_point`
+-- ----------------------------
+DROP TABLE IF EXISTS `gs_store_point`;
+CREATE TABLE `gs_store_point` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `addTime` datetime DEFAULT NULL,
+  `deleteStatus` bit(1) NOT NULL,
+  `description_evaluate` decimal(4,1) DEFAULT NULL,
+  `description_evaluate_halfyear` decimal(4,1) DEFAULT NULL,
+  `description_evaluate_halfyear_count1` int(11) NOT NULL,
+  `description_evaluate_halfyear_count2` int(11) NOT NULL,
+  `description_evaluate_halfyear_count3` int(11) NOT NULL,
+  `description_evaluate_halfyear_count4` int(11) NOT NULL,
+  `description_evaluate_halfyear_count5` int(11) NOT NULL,
+  `service_evaluate` decimal(4,1) DEFAULT NULL,
+  `service_evaluate_halfyear` decimal(4,1) DEFAULT NULL,
+  `service_evaluate_halfyear_count1` int(11) NOT NULL,
+  `service_evaluate_halfyear_count2` int(11) NOT NULL,
+  `service_evaluate_halfyear_count3` int(11) NOT NULL,
+  `service_evaluate_halfyear_count4` int(11) NOT NULL,
+  `service_evaluate_halfyear_count5` int(11) NOT NULL,
+  `ship_evaluate` decimal(4,1) DEFAULT NULL,
+  `ship_evaluate_halfyear` decimal(4,1) DEFAULT NULL,
+  `ship_evaluate_halfyear_count1` int(11) NOT NULL,
+  `ship_evaluate_halfyear_count2` int(11) NOT NULL,
+  `ship_evaluate_halfyear_count3` int(11) NOT NULL,
+  `ship_evaluate_halfyear_count4` int(11) NOT NULL,
+  `ship_evaluate_halfyear_count5` int(11) NOT NULL,
+  `store_evaluate1` decimal(4,1) DEFAULT NULL,
+  `store_id` bigint(20) DEFAULT NULL,
+  `statTime` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `id` (`id`),
+  KEY `FK4E878501920D7683` (`store_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COMMENT='打分表';
+
+-- ----------------------------
+--  Records of `gs_store_point`
+-- ----------------------------
+BEGIN;
+INSERT INTO `gs_store_point` VALUES ('1', null, b'0', '0.0', '0.0', '0', '0', '0', '0', '0', '0.0', '0.0', '0', '0', '0', '0', '0', '0.0', '0.0', '0', '0', '0', '0', '0', '0.0', '1', '2017-12-27 22:30:00'), ('2', null, b'0', '0.0', '0.0', '0', '0', '0', '0', '0', '0.0', '0.0', '0', '0', '0', '0', '0', '0.0', '0.0', '0', '0', '0', '0', '0', '0.0', '2', '2017-12-27 22:30:00');
+COMMIT;
+
+-- ----------------------------
 --  Table structure for `gs_store_slide`
 -- ----------------------------
 DROP TABLE IF EXISTS `gs_store_slide`;
@@ -365,7 +415,14 @@ CREATE TABLE `gs_store_slide` (
   PRIMARY KEY (`id`),
   KEY `FK4EB06D22920D7683` (`store_id`),
   KEY `FK4EB06D22DD494C94` (`acc_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='店铺slide图片';
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8 COMMENT='店铺slide图片';
+
+-- ----------------------------
+--  Records of `gs_store_slide`
+-- ----------------------------
+BEGIN;
+INSERT INTO `gs_store_slide` VALUES ('2', '2017-12-26 21:56:46', b'0', '', '426154', '12'), ('3', '2017-12-26 22:12:23', b'0', '', '426155', '12'), ('7', '2017-12-26 22:56:20', b'0', '', '426159', '12');
+COMMIT;
 
 -- ----------------------------
 --  Table structure for `gs_store_warning`

@@ -1,38 +1,45 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="org.goshop.store.mapper.master.StoreClassMapper" >
-  <resultMap id="BaseResultMap" type="org.goshop.store.pojo.StoreClass" >
+  <resultMap id="BaseResultMap" type="org.goshop.store.pojo.GsStoreClass" >
     <id column="id" property="id" jdbcType="BIGINT" />
     <result column="sort" property="sort" jdbcType="INTEGER" />
     <result column="name" property="name" jdbcType="VARCHAR" />
     <result column="PARENT_ID" property="parentId" jdbcType="BIGINT" />
-    <result column="grade" property="grade" jdbcType="INTEGER" />
-    <collection property="children" ofType="org.goshop.store.pojo.StoreClass" column="PARENT_ID">
+    <result column="addTime" property="addtime" jdbcType="TIMESTAMP" />
+    <result column="deleteStatus" property="deletestatus" jdbcType="BIT" />
+    <result column="level" property="level" jdbcType="INTEGER" />
+    <result column="description_evaluate" property="descriptionEvaluate" jdbcType="DECIMAL" />
+    <result column="service_evaluate" property="serviceEvaluate" jdbcType="DECIMAL" />
+    <result column="ship_evaluate" property="shipEvaluate" jdbcType="DECIMAL" />
+    <collection property="children" ofType="org.goshop.store.pojo.GsStoreClass" column="PARENT_ID">
       <id column="c_id" property="id" jdbcType="BIGINT" />
       <result column="c_sort" property="sort" jdbcType="INTEGER" />
       <result column="c_name" property="name" jdbcType="VARCHAR" />
+      <result column="c_addTime" property="addtime" jdbcType="TIMESTAMP" />
+      <result column="c_deleteStatus" property="deletestatus" jdbcType="BIT" />
+      <result column="c_level" property="level" jdbcType="INTEGER" />
+      <result column="c_description_evaluate" property="descriptionEvaluate" jdbcType="DECIMAL" />
+      <result column="c_service_evaluate" property="serviceEvaluate" jdbcType="DECIMAL" />
+      <result column="c_ship_evaluate" property="shipEvaluate" jdbcType="DECIMAL" />
     </collection>
   </resultMap>
   <sql id="Base_Column_List" >
-    id, sort, name, PARENT_ID
+    id, sort, name, PARENT_ID,addTime,deleteStatus,level,description_evaluate,service_evaluate,ship_evaluate
   </sql>
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
-    select 
-    <include refid="Base_Column_List" />
-    from gs_store_class
-    where id = #{id,jdbcType=BIGINT}
-  </select>
+
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
     delete from gs_store_class
     where id = #{id,jdbcType=BIGINT}
   </delete>
-  <insert id="insert" parameterType="org.goshop.store.pojo.StoreClass"  useGeneratedKeys="true" keyProperty="id">
-    insert into gs_store_class (id, sort, name, 
-      PARENT_ID)
-    values (#{id,jdbcType=BIGINT}, #{sort,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, 
-      #{parentId,jdbcType=BIGINT})
+  <insert id="insert" parameterType="org.goshop.store.pojo.GsStoreClass"  useGeneratedKeys="true" keyProperty="id">
+    insert into gs_store_class (id, sort, name,PARENT_ID,addTime,deleteStatus,level,description_evaluate,service_evaluate,ship_evaluate)
+    values (#{id,jdbcType=BIGINT}, #{sort,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR},
+      #{parentId,jdbcType=BIGINT},#{addTime,jdbcType=TIMESTAMP},#{deleteStatus,jdbcType=BIT},
+      #{level,jdbcType=INTEGER},#{description_evaluate,jdbcType=DECIMAL},
+      #{service_evaluate,jdbcType=DECIMAL},#{shipEvaluate,jdbcType=DECIMAL})
   </insert>
-  <insert id="insertSelective" parameterType="org.goshop.store.pojo.StoreClass"  useGeneratedKeys="true" keyProperty="id">
+  <insert id="insertSelective" parameterType="org.goshop.store.pojo.GsStoreClass"  useGeneratedKeys="true" keyProperty="id">
     insert into gs_store_class
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -46,6 +53,24 @@
       </if>
       <if test="parentId != null" >
         PARENT_ID,
+      </if>
+      <if test="addtime != null" >
+        addTime,
+      </if>
+      <if test="deletestatus != null" >
+        deleteStatus,
+      </if>
+      <if test="level != null" >
+        level,
+      </if>
+      <if test="descriptionEvaluate != null" >
+        description_evaluate,
+      </if>
+      <if test="serviceEvaluate != null" >
+        service_evaluate,
+      </if>
+      <if test="shipEvaluate != null" >
+        ship_evaluate,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
@@ -61,9 +86,27 @@
       <if test="parentId != null" >
         #{parentId,jdbcType=BIGINT},
       </if>
+      <if test="addtime != null" >
+        #{addtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="deletestatus != null" >
+        #{deletestatus,jdbcType=BIT},
+      </if>
+      <if test="level != null" >
+        #{level,jdbcType=INTEGER},
+      </if>
+      <if test="descriptionEvaluate != null" >
+        #{descriptionEvaluate,jdbcType=DECIMAL},
+      </if>
+      <if test="serviceEvaluate != null" >
+        #{serviceEvaluate,jdbcType=DECIMAL},
+      </if>
+      <if test="shipEvaluate != null" >
+        #{shipEvaluate,jdbcType=DECIMAL},
+      </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="org.goshop.store.pojo.StoreClass" >
+  <update id="updateByPrimaryKeySelective" parameterType="org.goshop.store.pojo.GsStoreClass" >
     update gs_store_class
     <set >
       <if test="sort != null" >
@@ -75,72 +118,40 @@
       <if test="parentId != null" >
         PARENT_ID = #{parentId,jdbcType=BIGINT},
       </if>
+      <if test="addtime != null" >
+        addTime = #{addtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="deletestatus != null" >
+        deleteStatus = #{deletestatus,jdbcType=BIT},
+      </if>
+      <if test="level != null" >
+        level = #{level,jdbcType=INTEGER},
+      </if>
+      <if test="descriptionEvaluate != null" >
+        description_evaluate = #{descriptionEvaluate,jdbcType=DECIMAL},
+      </if>
+      <if test="serviceEvaluate != null" >
+        service_evaluate = #{serviceEvaluate,jdbcType=DECIMAL},
+      </if>
+      <if test="shipEvaluate != null" >
+        ship_evaluate = #{shipEvaluate,jdbcType=DECIMAL},
+      </if>
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
-  <update id="updateByPrimaryKey" parameterType="org.goshop.store.pojo.StoreClass" >
+  <update id="updateByPrimaryKey" parameterType="org.goshop.store.pojo.GsStoreClass" >
     update gs_store_class
     set sort = #{sort,jdbcType=INTEGER},
       name = #{name,jdbcType=VARCHAR},
-      PARENT_ID = #{parentId,jdbcType=BIGINT}
+      PARENT_ID = #{parentId,jdbcType=BIGINT},
+      addTime = #{addtime,jdbcType=TIMESTAMP},
+      deleteStatus = #{deletestatus,jdbcType=BIT},
+      level = #{level,jdbcType=INTEGER},
+      description_evaluate = #{descriptionEvaluate,jdbcType=DECIMAL},
+      service_evaluate = #{serviceEvaluate,jdbcType=DECIMAL},
+      ship_evaluate = #{shipEvaluate,jdbcType=DECIMAL}
     where id = #{id,jdbcType=BIGINT}
   </update>
-
-  <select id="findAllOrderBySort" resultMap="BaseResultMap" >
-    select
-    <include refid="Base_Column_List" />
-    from gs_store_class order by sort
-  </select>
-
-  <select id="findByNameParentId" resultMap="BaseResultMap" >
-    select
-    <include refid="Base_Column_List" />
-    from gs_store_class
-    where name = #{name,jdbcType=VARCHAR} and
-    <if test="parentId != null" >
-      PARENT_ID = #{parentId,jdbcType=BIGINT}
-    </if>
-    <if test="parentId == null" >
-      PARENT_ID is null
-    </if>
-  </select>
-
-  <select id="findCountByNameParentId" resultType="int" >
-    SELECT
-    count(*)
-    FROM  gs_store_class
-    where name = #{name,jdbcType=VARCHAR} and
-    <if test="parentId != null" >
-      PARENT_ID = #{parentId,jdbcType=BIGINT}
-    </if>
-    <if test="parentId == null" >
-      PARENT_ID is null
-    </if>
-  </select>
-
-
-  <select id="findTreeByParentId" parameterType="long" resultMap="BaseResultMap">
-    SELECT
-    t.id ,
-    t. NAME,
-    t.sort ,
-    t.PARENT_ID,
-    child.id AS c_id,
-    child. NAME AS c_name,
-    child.sort AS c_sort,
-    child.PARENT_ID AS c_parent_id
-    FROM
-    gs_store_class t
-    left join gs_store_class child ON (child.parent_id = t.id)
-    WHERE
-    <if test="parentId != null" >
-      child.PARENT_ID = #{parentId,jdbcType=BIGINT}
-    </if>
-    <if test="parentId == null" >
-      t.PARENT_ID is null
-    </if>
-    order by t.sort
-  </select>
 
   <update id="updateSort" >
     update gs_store_class
@@ -154,35 +165,4 @@
     where id = #{id,jdbcType=BIGINT}
   </update>
 
-  <select id="findByParentId" resultMap="BaseResultMap" parameterType="java.lang.Long"  >
-    select
-    <include refid="Base_Column_List" />
-    from gs_store_class
-    where
-    <if test="parentId != null" >
-      PARENT_ID = #{parentId,jdbcType=BIGINT}
-    </if>
-    <if test="parentId == null" >
-      PARENT_ID is null
-    </if>
-    order by sort
-  </select>
-
-  <select id="findGradeByParentId" resultMap="BaseResultMap" parameterType="java.lang.Long" >
-    SELECT
-	leaf.*, COUNT(entity.id) AS grade
-FROM
-	gs_store_class leaf
-LEFT JOIN gs_store_class entity ON leaf.id = entity.PARENT_ID
-WHERE
-    <if test="parentId == null" >
-      leaf.PARENT_ID  is null
-    </if>
-    <if test="parentId != null" >
-      leaf.PARENT_ID  = #{parentId,jdbcType=BIGINT}
-    </if>
-GROUP BY
-	leaf.id
-    order by leaf.sort,leaf.id
-  </select>
 </mapper>

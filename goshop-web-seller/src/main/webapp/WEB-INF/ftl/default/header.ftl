@@ -203,37 +203,37 @@
         </div>
         <nav class="ncsc-nav">
             <dl <#if P_CURRENT_TOP=='home'> class="current" </#if>>
-            <dt><a href="${S_URL}${SELLER_ROOT}/">首页</a></dt>
+            <dt><a href="${S_URL}/">首页</a></dt>
             <dd class="arrow"></dd>
             </dl>
             <dl  <#if P_CURRENT_TOP=='goods'> class="current" </#if>>
-            <dt><a href="${S_URL}${SELLER_ROOT}/goods/step_one">商品</a></dt>
+            <dt><a href="${S_URL}/goods/step_one">商品</a></dt>
             <dd>
                 <ul>
-                    <li><a href="${S_URL}${SELLER_ROOT}/goods/step_one"> 商品发布 </a></li>
-                    <li><a href="${S_URL}${SELLER_ROOT}/goods/forsell_list"> 出售中的商品 </a></li>
-                    <li><a href="${S_URL}${SELLER_ROOT}/goods/goods_storage"> 仓库中的商品 </a></li>
-                    <li><a href="${S_URL}${SELLER_ROOT}/goods/goods_out"> 违规下架商品 </a></li>
-                    <li><a href="${S_URL}${SELLER_ROOT}/goods_category/goods_user_class_list"> 商品分类 </a></li>
-                    <li><a href="${S_URL}${SELLER_ROOT}/brand/usergoodsbrand_list"> 品牌申请 </a></li>
-                    <li><a href="${S_URL}${SELLER_ROOT}/se/warning/edit"> 库存警报 </a></li>
-                    <li><a href="${S_URL}${SELLER_ROOT}/se/plate/list"> 关联板式 </a></li>
-                    <li><a href="${S_URL}${SELLER_ROOT}/se/spec/list"> 商品规格 </a></li>
-                    <li><a href="${S_URL}${SELLER_ROOT}/album/space"> 图片空间 </a></li>
+                    <li><a href="${S_URL}/goods/step_one"> 商品发布 </a></li>
+                    <li><a href="${S_URL}/goods/forsell_list"> 出售中的商品 </a></li>
+                    <li><a href="${S_URL}/goods/goods_storage"> 仓库中的商品 </a></li>
+                    <li><a href="${S_URL}/goods/goods_out"> 违规下架商品 </a></li>
+                    <li><a href="${S_URL}/goods_category/goods_user_class_list"> 商品分类 </a></li>
+                    <li><a href="${S_URL}/brand/usergoodsbrand_list"> 品牌申请 </a></li>
+                    <li><a href="${S_URL}/se/warning/edit"> 库存警报 </a></li>
+                    <li><a href="${S_URL}/se/plate/list"> 关联板式 </a></li>
+                    <li><a href="${S_URL}/se/spec/list"> 商品规格 </a></li>
+                    <li><a href="${S_URL}/album/space"> 图片空间 </a></li>
                 </ul>
             </dd>
 
             <dd class="arrow"></dd>
             </dl>
             <dl class="">
-                <dt><a href="${S_URL}${SELLER_ROOT}/order/orderQuery"> 订单 </a></dt>
+                <dt><a href="${S_URL}/order/orderQuery"> 订单 </a></dt>
                 <dd>
                     <ul>
-                        <li><a href="${S_URL}${SELLER_ROOT}/order/orderQuery"> 订单管理 </a></li>
-                        <li><a href="${S_URL}${SELLER_ROOT}/deliver/deliverQuery"> 发货 </a></li>
-                        <li><a href="${S_URL}${SELLER_ROOT}/deliver/deliverSetQuery"> 发货设置 </a></li>
-                        <li><a href="${S_URL}${SELLER_ROOT}/evaluate/evaluateQuery"> 评价管理 </a></li>
-                        <li><a href="${S_URL}${SELLER_ROOT}/printsetup/printsetupQuery"> 打印设置 </a></li>
+                        <li><a href="${S_URL}/order/orderQuery"> 订单管理 </a></li>
+                        <li><a href="${S_URL}/deliver/deliverQuery"> 发货 </a></li>
+                        <li><a href="${S_URL}/deliver/deliverSetQuery"> 发货设置 </a></li>
+                        <li><a href="${S_URL}/evaluate/evaluateQuery"> 评价管理 </a></li>
+                        <li><a href="${S_URL}/printsetup/printsetupQuery"> 打印设置 </a></li>
                     </ul>
                 </dd>
                 <dd class="arrow"></dd>
@@ -254,27 +254,27 @@
                 <dd class="arrow"></dd>
             </dl>
             <dl  <#if P_CURRENT_TOP=='store'> class="current" </#if>>
-            <dt><a href="${S_URL}${SELLER_ROOT}/store/store_set">店铺</a></dt>
+            <dt><a href="${S_URL}/store/store_set">店铺</a></dt>
             <dd>
                 <ul>
-                    <li><a href="${S_URL}${SELLER_ROOT}/store/">我的店铺</a></li>
-                    <li><a href="${S_URL}${SELLER_ROOT}/store/store_set">店铺设置</a></li>
-                    <li><a href="${S_URL}${SELLER_ROOT}/store/store_nav">店铺导航</a></li>
-                    <li><a href="${S_URL}${SELLER_ROOT}/store/aaa">店铺分类</a></li>
-                    <li><a href="${S_URL}${SELLER_ROOT}/store/sub_account_list">子账户管理</a></li>
-                    <li><a href="${S_URL}${SELLER_ROOT}/store/store_theme">主题设置</a></li>
-                    <li><a href="${S_URL}${SELLER_ROOT}/brand/usergoodsbrand_list">品牌申请</a></li>
-                    <li><a href="${S_URL}${SELLER_ROOT}/store/store_partner">友情链接</a></li>
+                    <li><a href="${S_URL}/store/">我的店铺</a></li>
+                    <li><a href="${S_URL}/store/store_set">店铺设置</a></li>
+                    <li><a href="${S_URL}/store/store_nav">店铺导航</a></li>
+                    <li><a href="${S_URL}/store/aaa">店铺分类</a></li>
+                    <li><a href="${S_URL}/store/sub_account_list">子账户管理</a></li>
+                    <li><a href="${S_URL}/store/store_theme">主题设置</a></li>
+                    <li><a href="${S_URL}/brand/usergoodsbrand_list">品牌申请</a></li>
+                    <li><a href="${S_URL}/store/store_partner">友情链接</a></li>
                 </ul>
             </dd>
             <dd class="arrow"></dd>
             </dl>
             <dl class="">
-                <dt><a href="${S_URL}${SELLER_ROOT}/transport/transport_list">物流</a></dt>
+                <dt><a href="${S_URL}/transport/transport_list">物流</a></dt>
                 <dd>
                     <ul>
-                        <li><a href="${S_URL}${SELLER_ROOT}/transport/transport_list"> 物流工具 </a></li>
-                        <li><a href="${S_URL}${SELLER_ROOT}/lgsTools/feeSet"> 免运费额度 </a></li>
+                        <li><a href="${S_URL}/transport/transport_list"> 物流工具 </a></li>
+                        <li><a href="${S_URL}/lgsTools/feeSet"> 免运费额度 </a></li>
                     </ul>
                 </dd>
                 <dd class="arrow"></dd>
@@ -294,8 +294,8 @@
                 <dt><a href="index.php?act=store_refund&amp;op=index">售后</a></dt>
                 <dd>
                     <ul>
-                        <li><a href="${S_URL}${SELLER_ROOT}/refund/refundQuery"> 退款记录 </a></li>
-                        <li><a href="${S_URL}${SELLER_ROOT}/refund/returnQuery"> 退货记录 </a></li>
+                        <li><a href="${S_URL}/refund/refundQuery"> 退款记录 </a></li>
+                        <li><a href="${S_URL}/refund/returnQuery"> 退货记录 </a></li>
                     </ul>
                 </dd>
                 <dd class="arrow"></dd>

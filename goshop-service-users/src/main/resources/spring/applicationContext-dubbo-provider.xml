@@ -34,4 +34,6 @@
 
     <dubbo:service  retries="0" interface="org.goshop.users.i.AdminService" ref="adminService"  />
 
+    <dubbo:service  retries="0" interface="org.goshop.users.i.MessageService" ref="messageService"  />
+
 </beans>

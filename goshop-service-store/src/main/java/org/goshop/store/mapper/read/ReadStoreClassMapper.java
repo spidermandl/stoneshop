@@ -1,36 +1,23 @@
 package org.goshop.store.mapper.read;
 
-import org.goshop.store.pojo.StoreClass;
+import org.goshop.store.pojo.GsStoreClass;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
 public interface ReadStoreClassMapper {
-    int deleteByPrimaryKey(Long id);
 
-    int insert(StoreClass record);
+    GsStoreClass selectByPrimaryKey(Long id);
 
-    int insertSelective(StoreClass record);
-
-    StoreClass selectByPrimaryKey(Long id);
-
-    int updateByPrimaryKeySelective(StoreClass record);
-
-    int updateByPrimaryKey(StoreClass record);
-
-    List<StoreClass> findAllOrderBySort();
+    List<GsStoreClass> findAllOrderBySort();
 
     int findCountByNameParentId(@Param("name") String name, @Param("parentId") Long parentId);
 
-    List<StoreClass> findTreeByParentId(Long parentId);
+    List<GsStoreClass> findTreeByParentId(Long parentId);
 
-    List<StoreClass> findByNameParentId(@Param("name") String name, @Param("parentId") Long parentId);
+    List<GsStoreClass> findByNameParentId(@Param("name") String name, @Param("parentId") Long parentId);
 
-    int updateSort(@Param("id") Long id, @Param("sort") Integer sort);
+    List<GsStoreClass> findByParentId(@Param("parentId") Long parentId);
 
-    int updateName(@Param("id") Long id, @Param("name") String name);
-
-    List<StoreClass> findByParentId(@Param("parentId") Long parentId);
-
-    List<StoreClass> findGradeByParentId(@Param("parentId") Long parentId);
+    List<GsStoreClass> findGradeByParentId(@Param("parentId") Long parentId);
 }

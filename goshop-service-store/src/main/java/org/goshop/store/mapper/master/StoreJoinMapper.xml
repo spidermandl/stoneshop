@@ -44,7 +44,7 @@
     <result column="joinin_state" property="joininState" jdbcType="VARCHAR" />
     <result column="joinin_message" property="joininMessage" jdbcType="VARCHAR" />
     <result column="sg_name" property="sgName" jdbcType="VARCHAR" />
-    <result column="sg_id" property="sgId" jdbcType="INTEGER" />
+    <result column="sg_id" property="sgId" jdbcType="BIGINT" />
     <result column="sc_name" property="scName" jdbcType="VARCHAR" />
     <result column="sc_id" property="scId" jdbcType="INTEGER" />
     <result column="store_class_commis_rates" property="storeClassCommisRates" jdbcType="VARCHAR" />
@@ -532,7 +532,7 @@
         sg_name = #{sgName,jdbcType=VARCHAR},
       </if>
       <if test="sgId != null" >
-        sg_id = #{sgId,jdbcType=INTEGER},
+        sg_id = #{sgId,jdbcType=BIGINT},
       </if>
       <if test="scName != null" >
         sc_name = #{scName,jdbcType=VARCHAR},
@@ -595,7 +595,7 @@
       joinin_state = #{joininState,jdbcType=VARCHAR},
       joinin_message = #{joininMessage,jdbcType=VARCHAR},
       sg_name = #{sgName,jdbcType=VARCHAR},
-      sg_id = #{sgId,jdbcType=INTEGER},
+      sg_id = #{sgId,jdbcType=BIGINT},
       sc_name = #{scName,jdbcType=VARCHAR},
       sc_id = #{scId,jdbcType=INTEGER},
       store_class_commis_rates = #{storeClassCommisRates,jdbcType=VARCHAR},

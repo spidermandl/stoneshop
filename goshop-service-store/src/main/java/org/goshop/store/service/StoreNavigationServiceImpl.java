@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Desmond on 16/12/2017.
@@ -50,5 +51,10 @@ public class StoreNavigationServiceImpl implements StoreNavigationService {
     @Override
     public int delete(GsStoreNav nav) {
         return gsStoreNavMapper.deleteByPrimaryKey(nav.getId());
+    }
+
+    @Override
+    public List<GsStoreNav> findByCondition(Map condition) {
+        return readGsStoreNavMapper.selectByCondition(condition);
     }
 }

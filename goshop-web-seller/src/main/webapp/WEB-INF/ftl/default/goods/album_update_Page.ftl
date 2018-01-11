@@ -1,4 +1,4 @@
-<#assign S_URL=request.contextPath />
+<#assign S_URL=request.contextPath  />
 <div class="eject_con">
     <div id="warning"></div>
     <form id="category_form" method="post" target="_parent" action="album/update_class?for=xml">

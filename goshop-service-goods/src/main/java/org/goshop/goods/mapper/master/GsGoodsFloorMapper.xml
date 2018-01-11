@@ -1,0 +1,243 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="org.goshop.goods.mapper.master.GsGoodsFloorMapper" >
+  <resultMap id="BaseResultMap" type="org.goshop.goods.pojo.GsGoodsFloor" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="addTime" property="addtime" jdbcType="TIMESTAMP" />
+    <result column="deleteStatus" property="deletestatus" jdbcType="BIT" />
+    <result column="gf_css" property="gfCss" jdbcType="VARCHAR" />
+    <result column="gf_display" property="gfDisplay" jdbcType="BIT" />
+    <result column="gf_goods_count" property="gfGoodsCount" jdbcType="INTEGER" />
+    <result column="gf_level" property="gfLevel" jdbcType="INTEGER" />
+    <result column="gf_name" property="gfName" jdbcType="VARCHAR" />
+    <result column="gf_sequence" property="gfSequence" jdbcType="INTEGER" />
+    <result column="parent_id" property="parentId" jdbcType="BIGINT" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="org.goshop.goods.pojo.GsGoodsFloorWithBLOBs" extends="BaseResultMap" >
+    <result column="gf_gc_goods" property="gfGcGoods" jdbcType="LONGVARCHAR" />
+    <result column="gf_gc_list" property="gfGcList" jdbcType="LONGVARCHAR" />
+    <result column="gf_left_adv" property="gfLeftAdv" jdbcType="LONGVARCHAR" />
+    <result column="gf_list_goods" property="gfListGoods" jdbcType="LONGVARCHAR" />
+    <result column="gf_right_adv" property="gfRightAdv" jdbcType="LONGVARCHAR" />
+    <result column="gf_brand_list" property="gfBrandList" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, addTime, deleteStatus, gf_css, gf_display, gf_goods_count, gf_level, gf_name,
+    gf_sequence, parent_id
+  </sql>
+  <sql id="Blob_Column_List" >
+    gf_gc_goods, gf_gc_list, gf_left_adv, gf_list_goods, gf_right_adv, gf_brand_list
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Long" >
+    select
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from gs_goods_floor
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from gs_goods_floor
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="org.goshop.goods.pojo.GsGoodsFloorWithBLOBs" >
+    <selectKey resultType="java.lang.Long" keyProperty="id" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into gs_goods_floor (addTime, deleteStatus, gf_css,
+      gf_display, gf_goods_count, gf_level,
+      gf_name, gf_sequence, parent_id,
+      gf_gc_goods, gf_gc_list, gf_left_adv,
+      gf_list_goods, gf_right_adv, gf_brand_list
+      )
+    values (#{addtime,jdbcType=TIMESTAMP}, #{deletestatus,jdbcType=BIT}, #{gfCss,jdbcType=VARCHAR},
+      #{gfDisplay,jdbcType=BIT}, #{gfGoodsCount,jdbcType=INTEGER}, #{gfLevel,jdbcType=INTEGER},
+      #{gfName,jdbcType=VARCHAR}, #{gfSequence,jdbcType=INTEGER}, #{parentId,jdbcType=BIGINT},
+      #{gfGcGoods,jdbcType=LONGVARCHAR}, #{gfGcList,jdbcType=LONGVARCHAR}, #{gfLeftAdv,jdbcType=LONGVARCHAR},
+      #{gfListGoods,jdbcType=LONGVARCHAR}, #{gfRightAdv,jdbcType=LONGVARCHAR}, #{gfBrandList,jdbcType=LONGVARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="org.goshop.goods.pojo.GsGoodsFloorWithBLOBs" >
+    <selectKey resultType="java.lang.Long" keyProperty="id" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into gs_goods_floor
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="addtime != null" >
+        addTime,
+      </if>
+      <if test="deletestatus != null" >
+        deleteStatus,
+      </if>
+      <if test="gfCss != null" >
+        gf_css,
+      </if>
+      <if test="gfDisplay != null" >
+        gf_display,
+      </if>
+      <if test="gfGoodsCount != null" >
+        gf_goods_count,
+      </if>
+      <if test="gfLevel != null" >
+        gf_level,
+      </if>
+      <if test="gfName != null" >
+        gf_name,
+      </if>
+      <if test="gfSequence != null" >
+        gf_sequence,
+      </if>
+      <if test="parentId != null" >
+        parent_id,
+      </if>
+      <if test="gfGcGoods != null" >
+        gf_gc_goods,
+      </if>
+      <if test="gfGcList != null" >
+        gf_gc_list,
+      </if>
+      <if test="gfLeftAdv != null" >
+        gf_left_adv,
+      </if>
+      <if test="gfListGoods != null" >
+        gf_list_goods,
+      </if>
+      <if test="gfRightAdv != null" >
+        gf_right_adv,
+      </if>
+      <if test="gfBrandList != null" >
+        gf_brand_list,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="addtime != null" >
+        #{addtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="deletestatus != null" >
+        #{deletestatus,jdbcType=BIT},
+      </if>
+      <if test="gfCss != null" >
+        #{gfCss,jdbcType=VARCHAR},
+      </if>
+      <if test="gfDisplay != null" >
+        #{gfDisplay,jdbcType=BIT},
+      </if>
+      <if test="gfGoodsCount != null" >
+        #{gfGoodsCount,jdbcType=INTEGER},
+      </if>
+      <if test="gfLevel != null" >
+        #{gfLevel,jdbcType=INTEGER},
+      </if>
+      <if test="gfName != null" >
+        #{gfName,jdbcType=VARCHAR},
+      </if>
+      <if test="gfSequence != null" >
+        #{gfSequence,jdbcType=INTEGER},
+      </if>
+      <if test="parentId != null" >
+        #{parentId,jdbcType=BIGINT},
+      </if>
+      <if test="gfGcGoods != null" >
+        #{gfGcGoods,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="gfGcList != null" >
+        #{gfGcList,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="gfLeftAdv != null" >
+        #{gfLeftAdv,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="gfListGoods != null" >
+        #{gfListGoods,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="gfRightAdv != null" >
+        #{gfRightAdv,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="gfBrandList != null" >
+        #{gfBrandList,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="org.goshop.goods.pojo.GsGoodsFloorWithBLOBs" >
+    update gs_goods_floor
+    <set >
+      <if test="addtime != null" >
+        addTime = #{addtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="deletestatus != null" >
+        deleteStatus = #{deletestatus,jdbcType=BIT},
+      </if>
+      <if test="gfCss != null" >
+        gf_css = #{gfCss,jdbcType=VARCHAR},
+      </if>
+      <if test="gfDisplay != null" >
+        gf_display = #{gfDisplay,jdbcType=BIT},
+      </if>
+      <if test="gfGoodsCount != null" >
+        gf_goods_count = #{gfGoodsCount,jdbcType=INTEGER},
+      </if>
+      <if test="gfLevel != null" >
+        gf_level = #{gfLevel,jdbcType=INTEGER},
+      </if>
+      <if test="gfName != null" >
+        gf_name = #{gfName,jdbcType=VARCHAR},
+      </if>
+      <if test="gfSequence != null" >
+        gf_sequence = #{gfSequence,jdbcType=INTEGER},
+      </if>
+      <if test="parentId != null" >
+        parent_id = #{parentId,jdbcType=BIGINT},
+      </if>
+      <if test="gfGcGoods != null" >
+        gf_gc_goods = #{gfGcGoods,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="gfGcList != null" >
+        gf_gc_list = #{gfGcList,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="gfLeftAdv != null" >
+        gf_left_adv = #{gfLeftAdv,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="gfListGoods != null" >
+        gf_list_goods = #{gfListGoods,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="gfRightAdv != null" >
+        gf_right_adv = #{gfRightAdv,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="gfBrandList != null" >
+        gf_brand_list = #{gfBrandList,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="org.goshop.goods.pojo.GsGoodsFloorWithBLOBs" >
+    update gs_goods_floor
+    set addTime = #{addtime,jdbcType=TIMESTAMP},
+      deleteStatus = #{deletestatus,jdbcType=BIT},
+      gf_css = #{gfCss,jdbcType=VARCHAR},
+      gf_display = #{gfDisplay,jdbcType=BIT},
+      gf_goods_count = #{gfGoodsCount,jdbcType=INTEGER},
+      gf_level = #{gfLevel,jdbcType=INTEGER},
+      gf_name = #{gfName,jdbcType=VARCHAR},
+      gf_sequence = #{gfSequence,jdbcType=INTEGER},
+      parent_id = #{parentId,jdbcType=BIGINT},
+      gf_gc_goods = #{gfGcGoods,jdbcType=LONGVARCHAR},
+      gf_gc_list = #{gfGcList,jdbcType=LONGVARCHAR},
+      gf_left_adv = #{gfLeftAdv,jdbcType=LONGVARCHAR},
+      gf_list_goods = #{gfListGoods,jdbcType=LONGVARCHAR},
+      gf_right_adv = #{gfRightAdv,jdbcType=LONGVARCHAR},
+      gf_brand_list = #{gfBrandList,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="org.goshop.goods.pojo.GsGoodsFloor" >
+    update gs_goods_floor
+    set addTime = #{addtime,jdbcType=TIMESTAMP},
+      deleteStatus = #{deletestatus,jdbcType=BIT},
+      gf_css = #{gfCss,jdbcType=VARCHAR},
+      gf_display = #{gfDisplay,jdbcType=BIT},
+      gf_goods_count = #{gfGoodsCount,jdbcType=INTEGER},
+      gf_level = #{gfLevel,jdbcType=INTEGER},
+      gf_name = #{gfName,jdbcType=VARCHAR},
+      gf_sequence = #{gfSequence,jdbcType=INTEGER},
+      parent_id = #{parentId,jdbcType=BIGINT}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

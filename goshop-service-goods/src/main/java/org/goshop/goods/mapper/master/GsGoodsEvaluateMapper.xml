@@ -1,0 +1,276 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="org.goshop.goods.mapper.master.GsGoodsEvaluateMapper" >
+  <resultMap id="BaseResultMap" type="org.goshop.goods.pojo.GsGoodsEvaluate" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="addTime" property="addtime" jdbcType="TIMESTAMP" />
+    <result column="deleteStatus" property="deletestatus" jdbcType="BIT" />
+    <result column="evaluate_buyer_val" property="evaluateBuyerVal" jdbcType="INTEGER" />
+    <result column="evaluate_seller_time" property="evaluateSellerTime" jdbcType="TIMESTAMP" />
+    <result column="evaluate_seller_val" property="evaluateSellerVal" jdbcType="INTEGER" />
+    <result column="evaluate_status" property="evaluateStatus" jdbcType="INTEGER" />
+    <result column="evaluate_type" property="evaluateType" jdbcType="VARCHAR" />
+    <result column="evaluate_goods_id" property="evaluateGoodsId" jdbcType="BIGINT" />
+    <result column="evaluate_seller_user_id" property="evaluateSellerUserId" jdbcType="BIGINT" />
+    <result column="evaluate_user_id" property="evaluateUserId" jdbcType="BIGINT" />
+    <result column="of_id" property="ofId" jdbcType="BIGINT" />
+    <result column="description_evaluate" property="descriptionEvaluate" jdbcType="DECIMAL" />
+    <result column="service_evaluate" property="serviceEvaluate" jdbcType="DECIMAL" />
+    <result column="ship_evaluate" property="shipEvaluate" jdbcType="DECIMAL" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="org.goshop.goods.pojo.GsGoodsEvaluateWithBLOBs" extends="BaseResultMap" >
+    <result column="evaluate_admin_info" property="evaluateAdminInfo" jdbcType="LONGVARCHAR" />
+    <result column="evaluate_info" property="evaluateInfo" jdbcType="LONGVARCHAR" />
+    <result column="evaluate_seller_info" property="evaluateSellerInfo" jdbcType="LONGVARCHAR" />
+    <result column="goods_spec" property="goodsSpec" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, addTime, deleteStatus, evaluate_buyer_val, evaluate_seller_time, evaluate_seller_val,
+    evaluate_status, evaluate_type, evaluate_goods_id, evaluate_seller_user_id, evaluate_user_id,
+    of_id, description_evaluate, service_evaluate, ship_evaluate
+  </sql>
+  <sql id="Blob_Column_List" >
+    evaluate_admin_info, evaluate_info, evaluate_seller_info, goods_spec
+  </sql>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from gs_goods_evaluate
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="org.goshop.goods.pojo.GsGoodsEvaluateWithBLOBs" >
+    <selectKey resultType="java.lang.Long" keyProperty="id" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into gs_goods_evaluate (addTime, deleteStatus, evaluate_buyer_val,
+      evaluate_seller_time, evaluate_seller_val,
+      evaluate_status, evaluate_type, evaluate_goods_id,
+      evaluate_seller_user_id, evaluate_user_id, of_id,
+      description_evaluate, service_evaluate, ship_evaluate,
+      evaluate_admin_info, evaluate_info,
+      evaluate_seller_info, goods_spec)
+    values (#{addtime,jdbcType=TIMESTAMP}, #{deletestatus,jdbcType=BIT}, #{evaluateBuyerVal,jdbcType=INTEGER},
+      #{evaluateSellerTime,jdbcType=TIMESTAMP}, #{evaluateSellerVal,jdbcType=INTEGER},
+      #{evaluateStatus,jdbcType=INTEGER}, #{evaluateType,jdbcType=VARCHAR}, #{evaluateGoodsId,jdbcType=BIGINT},
+      #{evaluateSellerUserId,jdbcType=BIGINT}, #{evaluateUserId,jdbcType=BIGINT}, #{ofId,jdbcType=BIGINT},
+      #{descriptionEvaluate,jdbcType=DECIMAL}, #{serviceEvaluate,jdbcType=DECIMAL}, #{shipEvaluate,jdbcType=DECIMAL},
+      #{evaluateAdminInfo,jdbcType=LONGVARCHAR}, #{evaluateInfo,jdbcType=LONGVARCHAR},
+      #{evaluateSellerInfo,jdbcType=LONGVARCHAR}, #{goodsSpec,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="org.goshop.goods.pojo.GsGoodsEvaluateWithBLOBs" >
+    <selectKey resultType="java.lang.Long" keyProperty="id" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into gs_goods_evaluate
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="addtime != null" >
+        addTime,
+      </if>
+      <if test="deletestatus != null" >
+        deleteStatus,
+      </if>
+      <if test="evaluateBuyerVal != null" >
+        evaluate_buyer_val,
+      </if>
+      <if test="evaluateSellerTime != null" >
+        evaluate_seller_time,
+      </if>
+      <if test="evaluateSellerVal != null" >
+        evaluate_seller_val,
+      </if>
+      <if test="evaluateStatus != null" >
+        evaluate_status,
+      </if>
+      <if test="evaluateType != null" >
+        evaluate_type,
+      </if>
+      <if test="evaluateGoodsId != null" >
+        evaluate_goods_id,
+      </if>
+      <if test="evaluateSellerUserId != null" >
+        evaluate_seller_user_id,
+      </if>
+      <if test="evaluateUserId != null" >
+        evaluate_user_id,
+      </if>
+      <if test="ofId != null" >
+        of_id,
+      </if>
+      <if test="descriptionEvaluate != null" >
+        description_evaluate,
+      </if>
+      <if test="serviceEvaluate != null" >
+        service_evaluate,
+      </if>
+      <if test="shipEvaluate != null" >
+        ship_evaluate,
+      </if>
+      <if test="evaluateAdminInfo != null" >
+        evaluate_admin_info,
+      </if>
+      <if test="evaluateInfo != null" >
+        evaluate_info,
+      </if>
+      <if test="evaluateSellerInfo != null" >
+        evaluate_seller_info,
+      </if>
+      <if test="goodsSpec != null" >
+        goods_spec,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="addtime != null" >
+        #{addtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="deletestatus != null" >
+        #{deletestatus,jdbcType=BIT},
+      </if>
+      <if test="evaluateBuyerVal != null" >
+        #{evaluateBuyerVal,jdbcType=INTEGER},
+      </if>
+      <if test="evaluateSellerTime != null" >
+        #{evaluateSellerTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="evaluateSellerVal != null" >
+        #{evaluateSellerVal,jdbcType=INTEGER},
+      </if>
+      <if test="evaluateStatus != null" >
+        #{evaluateStatus,jdbcType=INTEGER},
+      </if>
+      <if test="evaluateType != null" >
+        #{evaluateType,jdbcType=VARCHAR},
+      </if>
+      <if test="evaluateGoodsId != null" >
+        #{evaluateGoodsId,jdbcType=BIGINT},
+      </if>
+      <if test="evaluateSellerUserId != null" >
+        #{evaluateSellerUserId,jdbcType=BIGINT},
+      </if>
+      <if test="evaluateUserId != null" >
+        #{evaluateUserId,jdbcType=BIGINT},
+      </if>
+      <if test="ofId != null" >
+        #{ofId,jdbcType=BIGINT},
+      </if>
+      <if test="descriptionEvaluate != null" >
+        #{descriptionEvaluate,jdbcType=DECIMAL},
+      </if>
+      <if test="serviceEvaluate != null" >
+        #{serviceEvaluate,jdbcType=DECIMAL},
+      </if>
+      <if test="shipEvaluate != null" >
+        #{shipEvaluate,jdbcType=DECIMAL},
+      </if>
+      <if test="evaluateAdminInfo != null" >
+        #{evaluateAdminInfo,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="evaluateInfo != null" >
+        #{evaluateInfo,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="evaluateSellerInfo != null" >
+        #{evaluateSellerInfo,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="goodsSpec != null" >
+        #{goodsSpec,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="org.goshop.goods.pojo.GsGoodsEvaluateWithBLOBs" >
+    update gs_goods_evaluate
+    <set >
+      <if test="addtime != null" >
+        addTime = #{addtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="deletestatus != null" >
+        deleteStatus = #{deletestatus,jdbcType=BIT},
+      </if>
+      <if test="evaluateBuyerVal != null" >
+        evaluate_buyer_val = #{evaluateBuyerVal,jdbcType=INTEGER},
+      </if>
+      <if test="evaluateSellerTime != null" >
+        evaluate_seller_time = #{evaluateSellerTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="evaluateSellerVal != null" >
+        evaluate_seller_val = #{evaluateSellerVal,jdbcType=INTEGER},
+      </if>
+      <if test="evaluateStatus != null" >
+        evaluate_status = #{evaluateStatus,jdbcType=INTEGER},
+      </if>
+      <if test="evaluateType != null" >
+        evaluate_type = #{evaluateType,jdbcType=VARCHAR},
+      </if>
+      <if test="evaluateGoodsId != null" >
+        evaluate_goods_id = #{evaluateGoodsId,jdbcType=BIGINT},
+      </if>
+      <if test="evaluateSellerUserId != null" >
+        evaluate_seller_user_id = #{evaluateSellerUserId,jdbcType=BIGINT},
+      </if>
+      <if test="evaluateUserId != null" >
+        evaluate_user_id = #{evaluateUserId,jdbcType=BIGINT},
+      </if>
+      <if test="ofId != null" >
+        of_id = #{ofId,jdbcType=BIGINT},
+      </if>
+      <if test="descriptionEvaluate != null" >
+        description_evaluate = #{descriptionEvaluate,jdbcType=DECIMAL},
+      </if>
+      <if test="serviceEvaluate != null" >
+        service_evaluate = #{serviceEvaluate,jdbcType=DECIMAL},
+      </if>
+      <if test="shipEvaluate != null" >
+        ship_evaluate = #{shipEvaluate,jdbcType=DECIMAL},
+      </if>
+      <if test="evaluateAdminInfo != null" >
+        evaluate_admin_info = #{evaluateAdminInfo,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="evaluateInfo != null" >
+        evaluate_info = #{evaluateInfo,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="evaluateSellerInfo != null" >
+        evaluate_seller_info = #{evaluateSellerInfo,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="goodsSpec != null" >
+        goods_spec = #{goodsSpec,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="org.goshop.goods.pojo.GsGoodsEvaluateWithBLOBs" >
+    update gs_goods_evaluate
+    set addTime = #{addtime,jdbcType=TIMESTAMP},
+      deleteStatus = #{deletestatus,jdbcType=BIT},
+      evaluate_buyer_val = #{evaluateBuyerVal,jdbcType=INTEGER},
+      evaluate_seller_time = #{evaluateSellerTime,jdbcType=TIMESTAMP},
+      evaluate_seller_val = #{evaluateSellerVal,jdbcType=INTEGER},
+      evaluate_status = #{evaluateStatus,jdbcType=INTEGER},
+      evaluate_type = #{evaluateType,jdbcType=VARCHAR},
+      evaluate_goods_id = #{evaluateGoodsId,jdbcType=BIGINT},
+      evaluate_seller_user_id = #{evaluateSellerUserId,jdbcType=BIGINT},
+      evaluate_user_id = #{evaluateUserId,jdbcType=BIGINT},
+      of_id = #{ofId,jdbcType=BIGINT},
+      description_evaluate = #{descriptionEvaluate,jdbcType=DECIMAL},
+      service_evaluate = #{serviceEvaluate,jdbcType=DECIMAL},
+      ship_evaluate = #{shipEvaluate,jdbcType=DECIMAL},
+      evaluate_admin_info = #{evaluateAdminInfo,jdbcType=LONGVARCHAR},
+      evaluate_info = #{evaluateInfo,jdbcType=LONGVARCHAR},
+      evaluate_seller_info = #{evaluateSellerInfo,jdbcType=LONGVARCHAR},
+      goods_spec = #{goodsSpec,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="org.goshop.goods.pojo.GsGoodsEvaluate" >
+    update gs_goods_evaluate
+    set addTime = #{addtime,jdbcType=TIMESTAMP},
+      deleteStatus = #{deletestatus,jdbcType=BIT},
+      evaluate_buyer_val = #{evaluateBuyerVal,jdbcType=INTEGER},
+      evaluate_seller_time = #{evaluateSellerTime,jdbcType=TIMESTAMP},
+      evaluate_seller_val = #{evaluateSellerVal,jdbcType=INTEGER},
+      evaluate_status = #{evaluateStatus,jdbcType=INTEGER},
+      evaluate_type = #{evaluateType,jdbcType=VARCHAR},
+      evaluate_goods_id = #{evaluateGoodsId,jdbcType=BIGINT},
+      evaluate_seller_user_id = #{evaluateSellerUserId,jdbcType=BIGINT},
+      evaluate_user_id = #{evaluateUserId,jdbcType=BIGINT},
+      of_id = #{ofId,jdbcType=BIGINT},
+      description_evaluate = #{descriptionEvaluate,jdbcType=DECIMAL},
+      service_evaluate = #{serviceEvaluate,jdbcType=DECIMAL},
+      ship_evaluate = #{shipEvaluate,jdbcType=DECIMAL}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

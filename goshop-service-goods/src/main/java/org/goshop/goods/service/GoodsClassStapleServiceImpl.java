@@ -1,10 +1,8 @@
 package org.goshop.goods.service;
 
 import org.goshop.goods.i.GoodsClassStapleService;
-import org.goshop.goods.mapper.master.GoodsClassMapper;
 import org.goshop.goods.mapper.master.GoodsClassStapleMapper;
-import org.goshop.goods.mapper.master.GsGoodsClassMapper;
-import org.goshop.goods.pojo.GoodsClass;
+import org.goshop.goods.mapper.read.ReadGsGoodsClassMapper;
 import org.goshop.goods.pojo.GoodsClassStaple;
 import org.goshop.goods.pojo.GsGoodsClass;
 import org.goshop.goods.pojo.JsonGoodsClass;
@@ -23,7 +21,7 @@ public class GoodsClassStapleServiceImpl implements GoodsClassStapleService {
     GoodsClassStapleMapper goodsClassStapleMapper;
 
     @Autowired
-    GsGoodsClassMapper gsGoodsClassMapper;
+    ReadGsGoodsClassMapper readGsGoodsClassMapper;
 
     @Override
     public List<GoodsClassStaple> findByMemberId(Long memberId) {
@@ -38,9 +36,9 @@ public class GoodsClassStapleServiceImpl implements GoodsClassStapleService {
     @Override
     public int checkSaveStaple(User user, GsGoodsClass goodsClass) {
         Assert.notNull(goodsClass, "商品3级分类不能为空！");
-        GsGoodsClass goodsClass2 = gsGoodsClassMapper.selectByPrimaryKey(goodsClass.getParentId());
+        GsGoodsClass goodsClass2 = readGsGoodsClassMapper.selectByPrimaryKey(goodsClass.getParentId());
         Assert.notNull(goodsClass2, "商品2级分类不能为空！");
-        GsGoodsClass goodsClass1 = gsGoodsClassMapper.selectByPrimaryKey(goodsClass2.getParentId());
+        GsGoodsClass goodsClass1 = readGsGoodsClassMapper.selectByPrimaryKey(goodsClass2.getParentId());
         Assert.notNull(goodsClass1, "商品1级分类不能为空！");
 
         GoodsClassStaple goodsClassStaple=goodsClassStapleMapper.findOneByGcId3AndMemberId(goodsClass.getId(), user.getId());
@@ -72,9 +70,9 @@ public class GoodsClassStapleServiceImpl implements GoodsClassStapleService {
     public JsonGoodsClass selectGoodsClassStaple(Long stapleId) {
         GoodsClassStaple goodsClassStaple=goodsClassStapleMapper.selectByPrimaryKey(stapleId);
 
-        List<GsGoodsClass> one=gsGoodsClassMapper.findByGcParentId(0L);
-        List<GsGoodsClass> two = gsGoodsClassMapper.findByGcParentId(goodsClassStaple.getGcId1());
-        List<GsGoodsClass> three = gsGoodsClassMapper.findByGcParentId(goodsClassStaple.getGcId2());
+        List<GsGoodsClass> one=readGsGoodsClassMapper.findByGcParentId(0L);
+        List<GsGoodsClass> two = readGsGoodsClassMapper.findByGcParentId(goodsClassStaple.getGcId1());
+        List<GsGoodsClass> three = readGsGoodsClassMapper.findByGcParentId(goodsClassStaple.getGcId2());
 
         JsonGoodsClass json = new JsonGoodsClass();
         json.setGc_id(goodsClassStaple.getGcId3()+"");

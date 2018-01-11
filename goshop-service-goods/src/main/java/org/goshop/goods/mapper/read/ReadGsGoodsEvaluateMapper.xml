@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="org.goshop.goods.mapper.read.ReadGsGoodsEvaluateMapper" >
+  <resultMap id="BaseResultMap" type="org.goshop.goods.pojo.GsGoodsEvaluate" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="addTime" property="addtime" jdbcType="TIMESTAMP" />
+    <result column="deleteStatus" property="deletestatus" jdbcType="BIT" />
+    <result column="evaluate_buyer_val" property="evaluateBuyerVal" jdbcType="INTEGER" />
+    <result column="evaluate_seller_time" property="evaluateSellerTime" jdbcType="TIMESTAMP" />
+    <result column="evaluate_seller_val" property="evaluateSellerVal" jdbcType="INTEGER" />
+    <result column="evaluate_status" property="evaluateStatus" jdbcType="INTEGER" />
+    <result column="evaluate_type" property="evaluateType" jdbcType="VARCHAR" />
+    <result column="evaluate_goods_id" property="evaluateGoodsId" jdbcType="BIGINT" />
+    <result column="evaluate_seller_user_id" property="evaluateSellerUserId" jdbcType="BIGINT" />
+    <result column="evaluate_user_id" property="evaluateUserId" jdbcType="BIGINT" />
+    <result column="of_id" property="ofId" jdbcType="BIGINT" />
+    <result column="description_evaluate" property="descriptionEvaluate" jdbcType="DECIMAL" />
+    <result column="service_evaluate" property="serviceEvaluate" jdbcType="DECIMAL" />
+    <result column="ship_evaluate" property="shipEvaluate" jdbcType="DECIMAL" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="org.goshop.goods.pojo.GsGoodsEvaluateWithBLOBs" extends="BaseResultMap" >
+    <result column="evaluate_admin_info" property="evaluateAdminInfo" jdbcType="LONGVARCHAR" />
+    <result column="evaluate_info" property="evaluateInfo" jdbcType="LONGVARCHAR" />
+    <result column="evaluate_seller_info" property="evaluateSellerInfo" jdbcType="LONGVARCHAR" />
+    <result column="goods_spec" property="goodsSpec" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, addTime, deleteStatus, evaluate_buyer_val, evaluate_seller_time, evaluate_seller_val,
+    evaluate_status, evaluate_type, evaluate_goods_id, evaluate_seller_user_id, evaluate_user_id,
+    of_id, description_evaluate, service_evaluate, ship_evaluate
+  </sql>
+  <sql id="Blob_Column_List" >
+    evaluate_admin_info, evaluate_info, evaluate_seller_info, goods_spec
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Long" >
+    select
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from gs_goods_evaluate
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+
+  <select id="selectByCondition" parameterType="java.util.Map" resultMap="ResultMapWithBLOBs">
+    select
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from gs_goods_evaluate
+    <where>
+        <if test="evaluate_buyer_val !=null">
+          and evaluate_buyer_val = #{evaluate_buyer_val}
+        </if>
+        --       item表示集合中每一个元素进行迭代时的别名，
+        --       index指 定一个名字，用于表示在迭代过程中，每次迭代到的位置，
+        --       open表示该语句以什么开始，
+        --       separator表示在每次进行迭代之间以什么符号作为分隔 符，
+        --       close表示以什么结束。
+        <if test="of_ids !=null">
+          and of_id IN
+          <foreach collection="of_ids" index="index" item="item" open="(" separator="," close=")">
+            #{item}
+          </foreach>
+        </if>
+    </where>
+    <if test="orderBy !=null">
+      order BY #{orderBy} #{orderType}
+    </if>
+  </select>
+</mapper>

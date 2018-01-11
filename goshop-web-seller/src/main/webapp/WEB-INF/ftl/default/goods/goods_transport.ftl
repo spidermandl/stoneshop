@@ -1,4 +1,4 @@
-<#assign S_URL=request.contextPath />
+<#assign S_URL=request.contextPath  />
 <script>
 function select_template(name,id){
   jQuery("#transport_template_name").html(name);

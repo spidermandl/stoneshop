@@ -31,4 +31,6 @@
     <dubbo:service  retries="0" interface="org.goshop.assets.i.AccessoryService" ref="accessoryService"  />
 
     <dubbo:service  retries="0" interface="org.goshop.assets.i.AlbumService" ref="albumService"  />
+
+    <dubbo:service  retries="0" interface="org.goshop.assets.i.NavigationService" ref="navigationService"  />
 </beans>

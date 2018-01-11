@@ -50,7 +50,7 @@
     <result column="map_type" property="mapType" jdbcType="VARCHAR" />
     <result column="store_lat" property="storeLat" jdbcType="DECIMAL" />
     <result column="store_lng" property="storeLng" jdbcType="DECIMAL" />
-
+    <result column="template" property="template" jdbcType="VARCHAR" />
   </resultMap>
   <resultMap id="ResultMapWithBLOBs" type="org.goshop.store.pojo.StoreWithBLOBs" extends="BaseResultMap" >
     <result column="description" property="description" jdbcType="LONGVARCHAR" />
@@ -68,7 +68,7 @@
     store_qq, store_ww, store_domain, store_domain_times, store_recommend, store_theme,
     store_credit, praise_rate, store_desccredit, store_servicecredit, store_deliverycredit,
     store_collect, store_stamp, store_printdesc, store_sales, store_workingtime, store_free_price,
-    store_storage_alarm,map_type,store_lat,store_lng
+    store_storage_alarm,map_type,store_lat,store_lng,template
   </sql>
   <sql id="Blob_Column_List" >
     description, store_zy, store_slide, store_slide_url, store_presales, store_aftersales
@@ -95,7 +95,7 @@
       store_workingtime, store_free_price, store_storage_alarm,
       description, store_zy, store_slide,
       store_slide_url, store_presales, store_aftersales,
-      map_type,store_lat,store_lng
+      map_type,store_lat,store_lng,template
       )
     values (#{storeId,jdbcType=BIGINT}, #{storeName,jdbcType=VARCHAR}, #{storeAuth,jdbcType=BIT},
       #{nameAuth,jdbcType=BIT}, #{gradeId,jdbcType=INTEGER}, #{memberId,jdbcType=BIGINT},
@@ -114,7 +114,7 @@
       #{storeWorkingtime,jdbcType=VARCHAR}, #{storeFreePrice,jdbcType=DECIMAL}, #{storeStorageAlarm,jdbcType=TINYINT},
       #{description,jdbcType=LONGVARCHAR}, #{storeZy,jdbcType=LONGVARCHAR}, #{storeSlide,jdbcType=LONGVARCHAR},
       #{storeSlideUrl,jdbcType=LONGVARCHAR}, #{storePresales,jdbcType=LONGVARCHAR}, #{storeAftersales,jdbcType=LONGVARCHAR}
-      #{mapType,jdbcType=VARCHAR},#{store_lat,jdbcType=DECIMAL},#{store_lng,jdbcType=DECIMAL}
+      #{mapType,jdbcType=VARCHAR},#{store_lat,jdbcType=DECIMAL},#{store_lng,jdbcType=DECIMAL},#{template,jdbcType=VARCHAR}
       )
   </insert>
   <insert id="insertSelective" parameterType="org.goshop.store.pojo.StoreWithBLOBs" >
@@ -282,6 +282,9 @@
       <if test="storeLng != null" >
         store_lng,
       </if>
+      <if test="template != null" >
+        template,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="storeId != null" >
@@ -445,6 +448,9 @@
       </if>
       <if test="storeLng != null" >
         #{storeLng,jdbcType=DECIMAL},
+      </if>
+      <if test="template != null" >
+        #{template,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -610,6 +616,9 @@
       <if test="storeLng != null" >
         #{storeLng,jdbcType=DECIMAL},
       </if>
+      <if test="template != null" >
+        #{template,jdbcType=VARCHAR},
+      </if>
     </set>
     where store_id = #{storeId,jdbcType=BIGINT}
   </update>
@@ -667,7 +676,8 @@
       store_aftersales = #{storeAftersales,jdbcType=LONGVARCHAR},
       map_type = #{mapType,jdbcType=VARCHAR},
       store_lat = #{storeLat,jdbcType=VARCHAR},
-      store_lng = #{storeLng,jdbcType=VARCHAR}
+      store_lng = #{storeLng,jdbcType=VARCHAR},
+      template = #{template,jdbcType=VARCHAR}
     where store_id = #{storeId,jdbcType=BIGINT}
   </update>
   <update id="updateByPrimaryKey" parameterType="org.goshop.store.pojo.Store" >
@@ -718,7 +728,8 @@
       store_storage_alarm = #{storeStorageAlarm,jdbcType=TINYINT},
       map_type = #{mapType,jdbcType=VARCHAR},
       store_lat = #{storeLat,jdbcType=VARCHAR},
-      store_lng = #{storeLng,jdbcType=VARCHAR}
+      store_lng = #{storeLng,jdbcType=VARCHAR},
+      template = #{template,jdbcType=VARCHAR}
     where store_id = #{storeId,jdbcType=BIGINT}
   </update>
 

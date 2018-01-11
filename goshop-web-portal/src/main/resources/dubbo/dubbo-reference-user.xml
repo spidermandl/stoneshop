@@ -12,4 +12,6 @@
                      interface="org.goshop.users.i.MemberService" check="false" />
     <dubbo:reference id="adminService"
                      interface="org.goshop.users.i.AdminService" check="false" />
+    <dubbo:reference id="messageService"
+                     interface="org.goshop.users.i.MessageService" check="false" />
 </beans>

@@ -5,7 +5,6 @@ import org.goshop.assets.pojo.GsAccessory;
 import org.goshop.common.service.SystemConfigService;
 import org.goshop.common.web.utils.CommUtil;
 import org.goshop.common.web.utils.WebForm;
-import org.goshop.seller.controller.tools.AreaViewTools;
 import org.goshop.shiro.bind.annotation.CurrentUser;
 import org.goshop.store.i.StoreAreaService;
 import org.goshop.store.i.StoreJoinService;
@@ -13,21 +12,19 @@ import org.goshop.store.i.StoreService;
 import org.goshop.store.i.StoreSlideService;
 import org.goshop.store.pojo.GsArea;
 import org.goshop.store.pojo.GsStoreSlide;
-import org.goshop.store.pojo.Store;
 import org.goshop.store.pojo.StoreWithBLOBs;
 import org.goshop.users.pojo.User;
+import org.goshop.tools.service.AreaViewTools;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -56,15 +53,11 @@ public class StoreController{
 
     /**
      * 店铺设置
-     * @param request
-     * @param response
      * @return
      */
     @RequestMapping({"/store_set"})
     public String store_set(@CurrentUser User user,
-                            Model model,
-                            HttpServletRequest request,
-                            HttpServletResponse response){
+                            Model model){
         String ret = "store_set";
         Long storeId = this.storeJoinService.getCurrentStore(user).getStoreId();
         StoreWithBLOBs store = this.storeService.findOne(storeId);
@@ -72,6 +65,7 @@ public class StoreController{
         model.addAttribute("areaViewTools", this.areaViewTools);
         List areas = this.storeAreaService.findByParentId(null);
         model.addAttribute("areas", areas);
+        model.addAttribute("config",this.systemConfigService.getConfig());
 
         return "store/"+ret;
     }
@@ -79,15 +73,11 @@ public class StoreController{
 
     /**
      * 店铺幻灯
-     * @param request
-     * @param response
      * @return
      */
     @RequestMapping({"/store_slide"})
     public String store_slide(@CurrentUser User user,
-                              Model model,
-                              HttpServletRequest request,
-                              HttpServletResponse response){
+                              Model model){
         String ret="store_slide";
         Long storeId = this.storeJoinService.getCurrentStore(user).getStoreId();
         StoreWithBLOBs store = this.storeService.findOne(storeId);
@@ -98,16 +88,12 @@ public class StoreController{
 
     /**
      * 店铺地图
-     * @param request
-     * @param response
      * @param map_type
      * @return
      */
     @RequestMapping({"/store_map"})
     public String store_map(@CurrentUser User user,
                             Model model,
-                            HttpServletRequest request,
-                            HttpServletResponse response,
                             String map_type){
         Long storeId = this.storeJoinService.getCurrentStore(user).getStoreId();
         StoreWithBLOBs store = this.storeService.findOne(storeId);
@@ -126,15 +112,11 @@ public class StoreController{
 
     /**
      * 店铺认证
-     * @param request
-     * @param response
      * @return
      */
     @RequestMapping({"/store_approve"})
     public String store_approve(@CurrentUser User user,
-                                Model model,
-                                HttpServletRequest request,
-                                HttpServletResponse response){
+                                Model model){
         String ret = "store_approve";
         Long storeId = this.storeJoinService.getCurrentStore(user).getStoreId();
         StoreWithBLOBs store = this.storeService.findOne(storeId);
@@ -146,7 +128,6 @@ public class StoreController{
     /**
      * 店铺设置保存
      * @param request
-     * @param response
      * @param area_id
      * @param store_second_domain
      * @return
@@ -155,7 +136,6 @@ public class StoreController{
     public String store_set_save(@CurrentUser User user,
                                  Model model,
                                  HttpServletRequest request,
-                                 HttpServletResponse response,
                                  String area_id,
                                  String store_second_domain){
         String ret = "success";
@@ -168,7 +148,7 @@ public class StoreController{
         String saveFilePathName = request.getSession().getServletContext()
                 .getRealPath("/") +
                 uploadFilePath + "/store_logo";
-        Map map = new HashMap();
+        Map map;
         try {
             String fileName = store.getLogo() == null ? "" : store.getLogo().getName();
             map = CommUtil.saveFileToServer(request, "logo", saveFilePathName, fileName, null);
@@ -252,7 +232,6 @@ public class StoreController{
     /**
      * 店铺地图保存
      * @param request
-     * @param response
      * @param store_lat
      * @param store_lng
      * @return
@@ -261,7 +240,6 @@ public class StoreController{
     public String store_map_save(@CurrentUser User user,
                                  Model model,
                                  HttpServletRequest request,
-                                 HttpServletResponse response,
                                  String store_lat,
                                  String store_lng){
         String ret = "success";
@@ -278,21 +256,18 @@ public class StoreController{
     /**
      * 店铺认证保存
      * @param request
-     * @param response
      * @return
      */
     @RequestMapping({"/store_approve_save"})
     public String store_approve_save(@CurrentUser User user,
-                                     Model model,
-                                     HttpServletRequest request,
-                                     HttpServletResponse response){
+                                     HttpServletRequest request){
         String ret = "store_approve";
         Long storeId = this.storeJoinService.getCurrentStore(user).getStoreId();
         StoreWithBLOBs store = this.storeService.findOne(storeId);
 
         String uploadFilePath = this.systemConfigService.getConfig().getUploadFilePath();
         String saveFilePathName = request.getSession().getServletContext().getRealPath("/") + uploadFilePath;
-        Map map = new HashMap();
+        Map map;
         try {
             String fileName = store.getCard() == null ? "" : store.getCard().getName();
             map = CommUtil.saveFileToServer(request, "card_img", saveFilePathName + File.separator + "card", fileName, null);
@@ -362,14 +337,12 @@ public class StoreController{
     /**
      * 店铺幻灯保存
      * @param request
-     * @param response
      * @return
      */
     @RequestMapping({"/store_slide_save"})
     public String store_slide_save(@CurrentUser User user,
                                    Model model,
-                                   HttpServletRequest request,
-                                   HttpServletResponse response){
+                                   HttpServletRequest request){
         String ret = "store_slide";
         Long storeId = this.storeJoinService.getCurrentStore(user).getStoreId();
         StoreWithBLOBs store = this.storeService.findOne(storeId);
@@ -377,7 +350,7 @@ public class StoreController{
         String saveFilePathName = request.getSession().getServletContext().getRealPath("/") + uploadFilePath + File.separator + "store_slide";
 
         for (int i = 1; i <= 5; i++){
-            Map map = null;
+            Map map;
             String fileName = "";
             GsStoreSlide slide = null;
             if (store.getSlides().size() >= i){
@@ -401,15 +374,17 @@ public class StoreController{
                         acc.setId(id);
                     }
                 }else if (map.get("fileName") != ""){
-                    acc = slide.getAcc();
-                    acc.setName(CommUtil.null2String(map.get("fileName")));
-                    acc.setExt(CommUtil.null2String(map.get("mime")));
-                    acc.setSize(CommUtil.null2Float(map.get("fileSize")));
-                    acc.setPath(uploadFilePath + "/store_slide");
-                    acc.setWidth(CommUtil.null2Int(map.get("width")));
-                    acc.setHeight(CommUtil.null2Int(map.get("height")));
-                    acc.setAddtime(new Date());
-                    this.accessoryService.update(acc);
+                    if (slide!=null) {
+                        acc = slide.getAcc();
+                        acc.setName(CommUtil.null2String(map.get("fileName")));
+                        acc.setExt(CommUtil.null2String(map.get("mime")));
+                        acc.setSize(CommUtil.null2Float(map.get("fileSize")));
+                        acc.setPath(uploadFilePath + "/store_slide");
+                        acc.setWidth(CommUtil.null2Int(map.get("width")));
+                        acc.setHeight(CommUtil.null2Int(map.get("height")));
+                        acc.setAddtime(new Date());
+                        this.accessoryService.update(acc);
+                    }
                 }
 
                 if (acc != null){

@@ -71,7 +71,7 @@ public class StoreJoinServiceImpl implements StoreJoinService {
         storeJoin.setMemberId(user.getId());
         storeJoinMapper.updateByPrimaryKeySelective(storeJoin);
         //店铺分类
-        List<StoreClass> storeClassParentList = storeClassService.findTreeByParentId(null);
+        List<GsStoreClass> storeClassParentList = storeClassService.findTreeByParentId(null);
         //店铺等级
         List<StoreGrade> storeGradeList = storeGradeService.findAll();
         //经营类目

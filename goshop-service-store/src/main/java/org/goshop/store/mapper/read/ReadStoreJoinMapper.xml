@@ -44,7 +44,7 @@
     <result column="joinin_state" property="joininState" jdbcType="VARCHAR" />
     <result column="joinin_message" property="joininMessage" jdbcType="VARCHAR" />
     <result column="sg_name" property="sgName" jdbcType="VARCHAR" />
-    <result column="sg_id" property="sgId" jdbcType="INTEGER" />
+    <result column="sg_id" property="sgId" jdbcType="BIGINT" />
     <result column="sc_name" property="scName" jdbcType="VARCHAR" />
     <result column="sc_id" property="scId" jdbcType="INTEGER" />
     <result column="store_class_commis_rates" property="storeClassCommisRates" jdbcType="VARCHAR" />

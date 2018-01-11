@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Desmond on 30/11/2017.
@@ -40,6 +41,11 @@ public class GoodsUserClassServiceImpl implements GoodsUserClassService {
         if (parentId == null)
             return readGsGoodsUserClassMapper.selectByUserIdAndNullParent(userId,display);
         return readGsGoodsUserClassMapper.selectByUserIdAndParentId(userId,parentId);
+    }
+
+    @Override
+    public List<GsGoodsUserClass> findByCondition(Map condition) {
+        return readGsGoodsUserClassMapper.selectByCondition(condition);
     }
 
     @Override

@@ -27,7 +27,7 @@ public class Store  implements Serializable {
 
     private String storeOwnerCard;
 
-    private Integer scId;
+    private Long scId;
 
     private String storeCompanyName;
 
@@ -104,6 +104,9 @@ public class Store  implements Serializable {
     private BigDecimal storeLat;
 
     private BigDecimal storeLng;
+
+    private String template;
+
     /************手动添加*****************/
     private StoreGrade storeGrade;//店铺等级
     private GsArea area;//店铺地点
@@ -112,8 +115,24 @@ public class Store  implements Serializable {
     private GsAccessory card;//店主身份证
     private GsAccessory license;//店铺
     private List<GsStoreSlide> slides = new ArrayList<>();//店铺slide
+    private GsStorePoint point;//店铺打分
     /************end*****************/
 
+    public String getTemplate() {
+        return template;
+    }
+
+    public void setTemplate(String template) {
+        this.template = template;
+    }
+
+    public GsStorePoint getPoint() {
+        return point;
+    }
+
+    public void setPoint(GsStorePoint point) {
+        this.point = point;
+    }
     public GsAccessory getCard() {
         return card;
     }
@@ -258,11 +277,11 @@ public class Store  implements Serializable {
         this.storeOwnerCard = storeOwnerCard == null ? null : storeOwnerCard.trim();
     }
 
-    public Integer getScId() {
+    public Long getScId() {
         return scId;
     }
 
-    public void setScId(Integer scId) {
+    public void setScId(Long scId) {
         this.scId = scId;
     }
 

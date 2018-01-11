@@ -1,4 +1,4 @@
-<#assign S_URL=request.contextPath />
+<#assign S_URL=request.contextPath  />
 <#if P_CLASS_COUNT<20>
 
         <div class="eject_con">

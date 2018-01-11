@@ -3,13 +3,10 @@ package org.goshop.seller.controller;
 import org.apache.shiro.SecurityUtils;
 import org.goshop.assets.i.AccessoryService;
 import org.goshop.assets.pojo.GsAccessory;
-import org.goshop.common.service.AttachmentService;
 import org.goshop.common.context.CustomTimestampEditor;
 import org.goshop.common.exception.PageException;
-import org.goshop.common.utils.DateTimeUtils;
 import org.goshop.common.web.utils.CommUtil;
 import org.goshop.common.web.utils.JsonUtils;
-import org.goshop.seller.controller.tools.StoreTools;
 import org.goshop.shiro.bind.annotation.CurrentUser;
 import org.goshop.shiro.service.UserRealm;
 import org.goshop.store.i.StoreJoinService;
@@ -19,6 +16,7 @@ import org.goshop.store.pojo.Store;
 import org.goshop.store.pojo.StoreJoin;
 import org.goshop.users.i.UserService;
 import org.goshop.users.pojo.User;
+import org.goshop.tools.service.StoreTools;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.stereotype.Controller;
@@ -38,10 +36,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
-import java.util.UUID;
 
 /**
  * 商家线上店加盟
@@ -86,9 +82,9 @@ public class StoreJoinController {
                             @RequestParam(value = "state", required = false) String statePage,
                             HttpServletRequest request,
                             HttpServletResponse response) {
-        String jump = jump(user,statePage);
-        if (jump != null) {
-            return jump;
+        String res_url = jump(user,statePage);
+        if (res_url != null) {
+            return res_url;
         }
         model.addAttribute("P_STEP", 1);
         return "store/store_agreement";
@@ -99,7 +95,7 @@ public class StoreJoinController {
                        String statePage) {
         Store store = storeJoinService.getCurrentStore(user);
         if (store != null) {
-            return "goods/step_one";
+            return "redirect:/goods/step_one";
         }
         StoreJoin storeJoin = storeJoinService.getCurrentUserStoreJoin(user);
         if (storeJoin != null) {

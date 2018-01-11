@@ -38,5 +38,7 @@
     <dubbo:service  retries="0" interface="org.goshop.store.i.StoreAreaService" ref="storeAreaService"  />
     <dubbo:service  retries="0" interface="org.goshop.store.i.StoreSlideService" ref="storeSlideService"  />
     <dubbo:service  retries="0" interface="org.goshop.store.i.StoreNavigationService" ref="storeNavigationService"  />
+    <dubbo:service  retries="0" interface="org.goshop.store.i.StorePartnerService" ref="storePartnerService"  />
+
 
 </beans>

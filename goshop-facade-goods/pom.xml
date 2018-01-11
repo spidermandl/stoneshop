@@ -22,6 +22,10 @@
             <artifactId>goshop-facade-users</artifactId>
         </dependency>
         <dependency>
+            <groupId>org.goshop</groupId>
+            <artifactId>goshop-facade-assets</artifactId>
+        </dependency>
+        <dependency>
             <groupId>com.github.pagehelper</groupId>
             <artifactId>pagehelper</artifactId>
         </dependency>

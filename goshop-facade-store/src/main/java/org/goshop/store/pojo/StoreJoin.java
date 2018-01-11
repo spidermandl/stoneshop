@@ -1,5 +1,7 @@
 package org.goshop.store.pojo;
 
+import org.goshop.assets.pojo.GsAccessory;
+
 import java.io.Serializable;
 import java.util.Date;
 
@@ -36,13 +38,13 @@ public class StoreJoin  implements Serializable {
 
     private String businessSphere;
 
-    private Long businessLicenceNumberElectronic;
+    private Long businessLicenceNumberElectronic;//营业执照电子版
 
     private String organizationCode;
 
-    private Long organizationCodeElectronic;
+    private Long organizationCodeElectronic;//组织机构代码电子版
 
-    private Long generalTaxpayer;
+    private Long generalTaxpayer;//一般纳税人证明
 
     private String bankAccountName;
 
@@ -54,7 +56,7 @@ public class StoreJoin  implements Serializable {
 
     private String bankAddress;
 
-    private Long bankLicenceElectronic;
+    private Long bankLicenceElectronic;//开户银行许可证电子版
 
     private Boolean isSettlementAccount;
 
@@ -72,7 +74,7 @@ public class StoreJoin  implements Serializable {
 
     private String taxpayerId;
 
-    private Long taxRegistrationCertificateElectronic;
+    private Long taxRegistrationCertificateElectronic;//税务登记证号电子版
 
     private String sellerName;
 
@@ -92,13 +94,14 @@ public class StoreJoin  implements Serializable {
 
     private String scName;
 
-    private Integer scId;
+    private Long scId;
 
     private String storeClassCommisRates;
 
-    private Long payingMoneyCertificate;
+    private Long payingMoneyCertificate;//付款凭证
 
     private String payingMoneyCertificateExplain;
+
 
     public Long getMemberId() {
         return memberId;
@@ -452,11 +455,11 @@ public class StoreJoin  implements Serializable {
         this.scName = scName == null ? null : scName.trim();
     }
 
-    public Integer getScId() {
+    public Long getScId() {
         return scId;
     }
 
-    public void setScId(Integer scId) {
+    public void setScId(Long scId) {
         this.scId = scId;
     }
 

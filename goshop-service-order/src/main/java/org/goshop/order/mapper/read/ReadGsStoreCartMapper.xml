@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="org.goshop.order.mapper.read.ReadGsStoreCartMapper" >
+  <resultMap id="BaseResultMap" type="org.goshop.order.pojo.GsStoreCart" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="addTime" property="addtime" jdbcType="TIMESTAMP" />
+    <result column="deleteStatus" property="deletestatus" jdbcType="BIT" />
+    <result column="cart_session_id" property="cartSessionId" jdbcType="VARCHAR" />
+    <result column="total_price" property="totalPrice" jdbcType="DECIMAL" />
+    <result column="store_id" property="storeId" jdbcType="BIGINT" />
+    <result column="user_id" property="userId" jdbcType="BIGINT" />
+    <result column="sc_status" property="scStatus" jdbcType="INTEGER" />
+    <collection property="gcs" ofType="org.goshop.order.pojo.GsGoodsCart"
+                column="id" javaType="java.util.ArrayList" select="selectGoodsCartByStoreCartId"/>
+  </resultMap>
+  <resultMap id="BaseGoodsResultMap" type="org.goshop.order.pojo.GsGoodsCart" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="addTime" property="addtime" jdbcType="TIMESTAMP" />
+    <result column="deleteStatus" property="deletestatus" jdbcType="BIT" />
+    <result column="count" property="count" jdbcType="INTEGER" />
+    <result column="price" property="price" jdbcType="DECIMAL" />
+    <result column="goods_id" property="goodsId" jdbcType="BIGINT" />
+    <result column="of_id" property="ofId" jdbcType="BIGINT" />
+    <result column="cart_type" property="cartType" jdbcType="VARCHAR" />
+    <result column="sc_id" property="scId" jdbcType="BIGINT" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, addTime, deleteStatus, cart_session_id, total_price, store_id, user_id, sc_status
+  </sql>
+  <sql id="Base_Goods_Column_List" >
+    id, addTime, deleteStatus, count, price, goods_id, of_id, cart_type, sc_id
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select
+    <include refid="Base_Column_List" />
+    from gs_store_cart
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <select id="selectOwnCartByCondition" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select
+    <include refid="Base_Column_List" />
+    from gs_store_cart
+    <choose>
+      <when test="cart_session_id !=null and user_id!=null">
+        where (cart_session_id = #{cart_session_id} or user_id = #{user_id})
+        and sc_status = #{sc_status} and store_id = #{store_id}
+      </when>
+      <otherwise>
+        <where>
+          <if test="cart_session_id != null">
+            and cart_session_id=#{cart_session_id}
+          </if>
+          <if test="user_id != null">
+            and user_id=#{user_id}
+          </if>
+          <if test="store_id != null">
+            and store_id != #{store_id}
+          </if>
+          <if test="sc_status != null">
+            and sc_status=#{sc_status}
+          </if>
+        </where>
+      </otherwise>
+    </choose>
+  </select>
+
+  <select id="selectGoodsCartByStoreCartId" resultMap="BaseGoodsResultMap" parameterType="java.lang.Long" >
+    select
+    <include refid="Base_Goods_Column_List" />
+    from gs_goods_cart
+    where sc_id = #{scId,jdbcType=BIGINT}
+  </select>
+</mapper>

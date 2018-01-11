@@ -5,6 +5,7 @@ import org.goshop.goods.pojo.GsGoodsUserClass;
 import org.goshop.users.pojo.User;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Desmond on 30/11/2017.
@@ -16,6 +17,8 @@ public interface GoodsUserClassService {
     PageInfo<GsGoodsUserClass> findRootClassByUserId(User user, Integer currentPage, Integer pageSize);
 
     List<GsGoodsUserClass> findByUserIdAndParentId(Long userId,Long parentId,Boolean display);
+
+    List<GsGoodsUserClass> findByCondition(Map condition);
 
     Long save(GsGoodsUserClass userClass);
 

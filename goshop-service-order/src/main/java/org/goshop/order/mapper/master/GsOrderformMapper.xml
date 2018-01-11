@@ -1,0 +1,475 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="org.goshop.order.mapper.master.GsOrderformMapper" >
+  <resultMap id="BaseResultMap" type="org.goshop.order.pojo.GsOrderform" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="addTime" property="addtime" jdbcType="TIMESTAMP" />
+    <result column="deleteStatus" property="deletestatus" jdbcType="BIT" />
+    <result column="finishTime" property="finishtime" jdbcType="TIMESTAMP" />
+    <result column="goods_amount" property="goodsAmount" jdbcType="DECIMAL" />
+    <result column="invoice" property="invoice" jdbcType="VARCHAR" />
+    <result column="invoiceType" property="invoicetype" jdbcType="INTEGER" />
+    <result column="order_id" property="orderId" jdbcType="VARCHAR" />
+    <result column="order_status" property="orderStatus" jdbcType="INTEGER" />
+    <result column="payTime" property="paytime" jdbcType="TIMESTAMP" />
+    <result column="refund" property="refund" jdbcType="DECIMAL" />
+    <result column="refund_type" property="refundType" jdbcType="VARCHAR" />
+    <result column="shipCode" property="shipcode" jdbcType="VARCHAR" />
+    <result column="shipTime" property="shiptime" jdbcType="TIMESTAMP" />
+    <result column="ship_price" property="shipPrice" jdbcType="DECIMAL" />
+    <result column="totalPrice" property="totalprice" jdbcType="DECIMAL" />
+    <result column="addr_id" property="addrId" jdbcType="BIGINT" />
+    <result column="payment_id" property="paymentId" jdbcType="BIGINT" />
+    <result column="store_id" property="storeId" jdbcType="BIGINT" />
+    <result column="user_id" property="userId" jdbcType="BIGINT" />
+    <result column="auto_confirm_email" property="autoConfirmEmail" jdbcType="BIT" />
+    <result column="auto_confirm_sms" property="autoConfirmSms" jdbcType="BIT" />
+    <result column="transport" property="transport" jdbcType="VARCHAR" />
+    <result column="out_order_id" property="outOrderId" jdbcType="VARCHAR" />
+    <result column="ec_id" property="ecId" jdbcType="BIGINT" />
+    <result column="ci_id" property="ciId" jdbcType="BIGINT" />
+    <result column="return_shipCode" property="returnShipcode" jdbcType="VARCHAR" />
+    <result column="return_ec_id" property="returnEcId" jdbcType="BIGINT" />
+    <result column="return_shipTime" property="returnShiptime" jdbcType="TIMESTAMP" />
+    <result column="order_type" property="orderType" jdbcType="VARCHAR" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="org.goshop.order.pojo.GsOrderformWithBLOBs" extends="BaseResultMap" >
+    <result column="msg" property="msg" jdbcType="LONGVARCHAR" />
+    <result column="pay_msg" property="payMsg" jdbcType="LONGVARCHAR" />
+    <result column="order_seller_intro" property="orderSellerIntro" jdbcType="LONGVARCHAR" />
+    <result column="return_content" property="returnContent" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, addTime, deleteStatus, finishTime, goods_amount, invoice, invoiceType, order_id,
+    order_status, payTime, refund, refund_type, shipCode, shipTime, ship_price, totalPrice,
+    addr_id, payment_id, store_id, user_id, auto_confirm_email, auto_confirm_sms, transport,
+    out_order_id, ec_id, ci_id, return_shipCode, return_ec_id, return_shipTime, order_type
+  </sql>
+  <sql id="Blob_Column_List" >
+    msg, pay_msg, order_seller_intro, return_content
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Long" >
+    select
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from gs_orderform
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from gs_orderform
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="org.goshop.order.pojo.GsOrderformWithBLOBs" >
+    <selectKey resultType="java.lang.Long" keyProperty="id" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into gs_orderform (addTime, deleteStatus, finishTime,
+      goods_amount, invoice, invoiceType,
+      order_id, order_status, payTime,
+      refund, refund_type, shipCode,
+      shipTime, ship_price, totalPrice,
+      addr_id, payment_id, store_id,
+      user_id, auto_confirm_email, auto_confirm_sms,
+      transport, out_order_id, ec_id,
+      ci_id, return_shipCode, return_ec_id,
+      return_shipTime, order_type, msg,
+      pay_msg, order_seller_intro, return_content
+      )
+    values (#{addtime,jdbcType=TIMESTAMP}, #{deletestatus,jdbcType=BIT}, #{finishtime,jdbcType=TIMESTAMP},
+      #{goodsAmount,jdbcType=DECIMAL}, #{invoice,jdbcType=VARCHAR}, #{invoicetype,jdbcType=INTEGER},
+      #{orderId,jdbcType=VARCHAR}, #{orderStatus,jdbcType=INTEGER}, #{paytime,jdbcType=TIMESTAMP},
+      #{refund,jdbcType=DECIMAL}, #{refundType,jdbcType=VARCHAR}, #{shipcode,jdbcType=VARCHAR},
+      #{shiptime,jdbcType=TIMESTAMP}, #{shipPrice,jdbcType=DECIMAL}, #{totalprice,jdbcType=DECIMAL},
+      #{addrId,jdbcType=BIGINT}, #{paymentId,jdbcType=BIGINT}, #{storeId,jdbcType=BIGINT},
+      #{userId,jdbcType=BIGINT}, #{autoConfirmEmail,jdbcType=BIT}, #{autoConfirmSms,jdbcType=BIT},
+      #{transport,jdbcType=VARCHAR}, #{outOrderId,jdbcType=VARCHAR}, #{ecId,jdbcType=BIGINT},
+      #{ciId,jdbcType=BIGINT}, #{returnShipcode,jdbcType=VARCHAR}, #{returnEcId,jdbcType=BIGINT},
+      #{returnShiptime,jdbcType=TIMESTAMP}, #{orderType,jdbcType=VARCHAR}, #{msg,jdbcType=LONGVARCHAR},
+      #{payMsg,jdbcType=LONGVARCHAR}, #{orderSellerIntro,jdbcType=LONGVARCHAR}, #{returnContent,jdbcType=LONGVARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="org.goshop.order.pojo.GsOrderformWithBLOBs" >
+    <selectKey resultType="java.lang.Long" keyProperty="id" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into gs_orderform
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="addtime != null" >
+        addTime,
+      </if>
+      <if test="deletestatus != null" >
+        deleteStatus,
+      </if>
+      <if test="finishtime != null" >
+        finishTime,
+      </if>
+      <if test="goodsAmount != null" >
+        goods_amount,
+      </if>
+      <if test="invoice != null" >
+        invoice,
+      </if>
+      <if test="invoicetype != null" >
+        invoiceType,
+      </if>
+      <if test="orderId != null" >
+        order_id,
+      </if>
+      <if test="orderStatus != null" >
+        order_status,
+      </if>
+      <if test="paytime != null" >
+        payTime,
+      </if>
+      <if test="refund != null" >
+        refund,
+      </if>
+      <if test="refundType != null" >
+        refund_type,
+      </if>
+      <if test="shipcode != null" >
+        shipCode,
+      </if>
+      <if test="shiptime != null" >
+        shipTime,
+      </if>
+      <if test="shipPrice != null" >
+        ship_price,
+      </if>
+      <if test="totalprice != null" >
+        totalPrice,
+      </if>
+      <if test="addrId != null" >
+        addr_id,
+      </if>
+      <if test="paymentId != null" >
+        payment_id,
+      </if>
+      <if test="storeId != null" >
+        store_id,
+      </if>
+      <if test="userId != null" >
+        user_id,
+      </if>
+      <if test="autoConfirmEmail != null" >
+        auto_confirm_email,
+      </if>
+      <if test="autoConfirmSms != null" >
+        auto_confirm_sms,
+      </if>
+      <if test="transport != null" >
+        transport,
+      </if>
+      <if test="outOrderId != null" >
+        out_order_id,
+      </if>
+      <if test="ecId != null" >
+        ec_id,
+      </if>
+      <if test="ciId != null" >
+        ci_id,
+      </if>
+      <if test="returnShipcode != null" >
+        return_shipCode,
+      </if>
+      <if test="returnEcId != null" >
+        return_ec_id,
+      </if>
+      <if test="returnShiptime != null" >
+        return_shipTime,
+      </if>
+      <if test="orderType != null" >
+        order_type,
+      </if>
+      <if test="msg != null" >
+        msg,
+      </if>
+      <if test="payMsg != null" >
+        pay_msg,
+      </if>
+      <if test="orderSellerIntro != null" >
+        order_seller_intro,
+      </if>
+      <if test="returnContent != null" >
+        return_content,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="addtime != null" >
+        #{addtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="deletestatus != null" >
+        #{deletestatus,jdbcType=BIT},
+      </if>
+      <if test="finishtime != null" >
+        #{finishtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="goodsAmount != null" >
+        #{goodsAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="invoice != null" >
+        #{invoice,jdbcType=VARCHAR},
+      </if>
+      <if test="invoicetype != null" >
+        #{invoicetype,jdbcType=INTEGER},
+      </if>
+      <if test="orderId != null" >
+        #{orderId,jdbcType=VARCHAR},
+      </if>
+      <if test="orderStatus != null" >
+        #{orderStatus,jdbcType=INTEGER},
+      </if>
+      <if test="paytime != null" >
+        #{paytime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="refund != null" >
+        #{refund,jdbcType=DECIMAL},
+      </if>
+      <if test="refundType != null" >
+        #{refundType,jdbcType=VARCHAR},
+      </if>
+      <if test="shipcode != null" >
+        #{shipcode,jdbcType=VARCHAR},
+      </if>
+      <if test="shiptime != null" >
+        #{shiptime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="shipPrice != null" >
+        #{shipPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="totalprice != null" >
+        #{totalprice,jdbcType=DECIMAL},
+      </if>
+      <if test="addrId != null" >
+        #{addrId,jdbcType=BIGINT},
+      </if>
+      <if test="paymentId != null" >
+        #{paymentId,jdbcType=BIGINT},
+      </if>
+      <if test="storeId != null" >
+        #{storeId,jdbcType=BIGINT},
+      </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="autoConfirmEmail != null" >
+        #{autoConfirmEmail,jdbcType=BIT},
+      </if>
+      <if test="autoConfirmSms != null" >
+        #{autoConfirmSms,jdbcType=BIT},
+      </if>
+      <if test="transport != null" >
+        #{transport,jdbcType=VARCHAR},
+      </if>
+      <if test="outOrderId != null" >
+        #{outOrderId,jdbcType=VARCHAR},
+      </if>
+      <if test="ecId != null" >
+        #{ecId,jdbcType=BIGINT},
+      </if>
+      <if test="ciId != null" >
+        #{ciId,jdbcType=BIGINT},
+      </if>
+      <if test="returnShipcode != null" >
+        #{returnShipcode,jdbcType=VARCHAR},
+      </if>
+      <if test="returnEcId != null" >
+        #{returnEcId,jdbcType=BIGINT},
+      </if>
+      <if test="returnShiptime != null" >
+        #{returnShiptime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="orderType != null" >
+        #{orderType,jdbcType=VARCHAR},
+      </if>
+      <if test="msg != null" >
+        #{msg,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="payMsg != null" >
+        #{payMsg,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="orderSellerIntro != null" >
+        #{orderSellerIntro,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="returnContent != null" >
+        #{returnContent,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="org.goshop.order.pojo.GsOrderformWithBLOBs" >
+    update gs_orderform
+    <set >
+      <if test="addtime != null" >
+        addTime = #{addtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="deletestatus != null" >
+        deleteStatus = #{deletestatus,jdbcType=BIT},
+      </if>
+      <if test="finishtime != null" >
+        finishTime = #{finishtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="goodsAmount != null" >
+        goods_amount = #{goodsAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="invoice != null" >
+        invoice = #{invoice,jdbcType=VARCHAR},
+      </if>
+      <if test="invoicetype != null" >
+        invoiceType = #{invoicetype,jdbcType=INTEGER},
+      </if>
+      <if test="orderId != null" >
+        order_id = #{orderId,jdbcType=VARCHAR},
+      </if>
+      <if test="orderStatus != null" >
+        order_status = #{orderStatus,jdbcType=INTEGER},
+      </if>
+      <if test="paytime != null" >
+        payTime = #{paytime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="refund != null" >
+        refund = #{refund,jdbcType=DECIMAL},
+      </if>
+      <if test="refundType != null" >
+        refund_type = #{refundType,jdbcType=VARCHAR},
+      </if>
+      <if test="shipcode != null" >
+        shipCode = #{shipcode,jdbcType=VARCHAR},
+      </if>
+      <if test="shiptime != null" >
+        shipTime = #{shiptime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="shipPrice != null" >
+        ship_price = #{shipPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="totalprice != null" >
+        totalPrice = #{totalprice,jdbcType=DECIMAL},
+      </if>
+      <if test="addrId != null" >
+        addr_id = #{addrId,jdbcType=BIGINT},
+      </if>
+      <if test="paymentId != null" >
+        payment_id = #{paymentId,jdbcType=BIGINT},
+      </if>
+      <if test="storeId != null" >
+        store_id = #{storeId,jdbcType=BIGINT},
+      </if>
+      <if test="userId != null" >
+        user_id = #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="autoConfirmEmail != null" >
+        auto_confirm_email = #{autoConfirmEmail,jdbcType=BIT},
+      </if>
+      <if test="autoConfirmSms != null" >
+        auto_confirm_sms = #{autoConfirmSms,jdbcType=BIT},
+      </if>
+      <if test="transport != null" >
+        transport = #{transport,jdbcType=VARCHAR},
+      </if>
+      <if test="outOrderId != null" >
+        out_order_id = #{outOrderId,jdbcType=VARCHAR},
+      </if>
+      <if test="ecId != null" >
+        ec_id = #{ecId,jdbcType=BIGINT},
+      </if>
+      <if test="ciId != null" >
+        ci_id = #{ciId,jdbcType=BIGINT},
+      </if>
+      <if test="returnShipcode != null" >
+        return_shipCode = #{returnShipcode,jdbcType=VARCHAR},
+      </if>
+      <if test="returnEcId != null" >
+        return_ec_id = #{returnEcId,jdbcType=BIGINT},
+      </if>
+      <if test="returnShiptime != null" >
+        return_shipTime = #{returnShiptime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="orderType != null" >
+        order_type = #{orderType,jdbcType=VARCHAR},
+      </if>
+      <if test="msg != null" >
+        msg = #{msg,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="payMsg != null" >
+        pay_msg = #{payMsg,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="orderSellerIntro != null" >
+        order_seller_intro = #{orderSellerIntro,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="returnContent != null" >
+        return_content = #{returnContent,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="org.goshop.order.pojo.GsOrderformWithBLOBs" >
+    update gs_orderform
+    set addTime = #{addtime,jdbcType=TIMESTAMP},
+      deleteStatus = #{deletestatus,jdbcType=BIT},
+      finishTime = #{finishtime,jdbcType=TIMESTAMP},
+      goods_amount = #{goodsAmount,jdbcType=DECIMAL},
+      invoice = #{invoice,jdbcType=VARCHAR},
+      invoiceType = #{invoicetype,jdbcType=INTEGER},
+      order_id = #{orderId,jdbcType=VARCHAR},
+      order_status = #{orderStatus,jdbcType=INTEGER},
+      payTime = #{paytime,jdbcType=TIMESTAMP},
+      refund = #{refund,jdbcType=DECIMAL},
+      refund_type = #{refundType,jdbcType=VARCHAR},
+      shipCode = #{shipcode,jdbcType=VARCHAR},
+      shipTime = #{shiptime,jdbcType=TIMESTAMP},
+      ship_price = #{shipPrice,jdbcType=DECIMAL},
+      totalPrice = #{totalprice,jdbcType=DECIMAL},
+      addr_id = #{addrId,jdbcType=BIGINT},
+      payment_id = #{paymentId,jdbcType=BIGINT},
+      store_id = #{storeId,jdbcType=BIGINT},
+      user_id = #{userId,jdbcType=BIGINT},
+      auto_confirm_email = #{autoConfirmEmail,jdbcType=BIT},
+      auto_confirm_sms = #{autoConfirmSms,jdbcType=BIT},
+      transport = #{transport,jdbcType=VARCHAR},
+      out_order_id = #{outOrderId,jdbcType=VARCHAR},
+      ec_id = #{ecId,jdbcType=BIGINT},
+      ci_id = #{ciId,jdbcType=BIGINT},
+      return_shipCode = #{returnShipcode,jdbcType=VARCHAR},
+      return_ec_id = #{returnEcId,jdbcType=BIGINT},
+      return_shipTime = #{returnShiptime,jdbcType=TIMESTAMP},
+      order_type = #{orderType,jdbcType=VARCHAR},
+      msg = #{msg,jdbcType=LONGVARCHAR},
+      pay_msg = #{payMsg,jdbcType=LONGVARCHAR},
+      order_seller_intro = #{orderSellerIntro,jdbcType=LONGVARCHAR},
+      return_content = #{returnContent,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="org.goshop.order.pojo.GsOrderform" >
+    update gs_orderform
+    set addTime = #{addtime,jdbcType=TIMESTAMP},
+      deleteStatus = #{deletestatus,jdbcType=BIT},
+      finishTime = #{finishtime,jdbcType=TIMESTAMP},
+      goods_amount = #{goodsAmount,jdbcType=DECIMAL},
+      invoice = #{invoice,jdbcType=VARCHAR},
+      invoiceType = #{invoicetype,jdbcType=INTEGER},
+      order_id = #{orderId,jdbcType=VARCHAR},
+      order_status = #{orderStatus,jdbcType=INTEGER},
+      payTime = #{paytime,jdbcType=TIMESTAMP},
+      refund = #{refund,jdbcType=DECIMAL},
+      refund_type = #{refundType,jdbcType=VARCHAR},
+      shipCode = #{shipcode,jdbcType=VARCHAR},
+      shipTime = #{shiptime,jdbcType=TIMESTAMP},
+      ship_price = #{shipPrice,jdbcType=DECIMAL},
+      totalPrice = #{totalprice,jdbcType=DECIMAL},
+      addr_id = #{addrId,jdbcType=BIGINT},
+      payment_id = #{paymentId,jdbcType=BIGINT},
+      store_id = #{storeId,jdbcType=BIGINT},
+      user_id = #{userId,jdbcType=BIGINT},
+      auto_confirm_email = #{autoConfirmEmail,jdbcType=BIT},
+      auto_confirm_sms = #{autoConfirmSms,jdbcType=BIT},
+      transport = #{transport,jdbcType=VARCHAR},
+      out_order_id = #{outOrderId,jdbcType=VARCHAR},
+      ec_id = #{ecId,jdbcType=BIGINT},
+      ci_id = #{ciId,jdbcType=BIGINT},
+      return_shipCode = #{returnShipcode,jdbcType=VARCHAR},
+      return_ec_id = #{returnEcId,jdbcType=BIGINT},
+      return_shipTime = #{returnShiptime,jdbcType=TIMESTAMP},
+      order_type = #{orderType,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

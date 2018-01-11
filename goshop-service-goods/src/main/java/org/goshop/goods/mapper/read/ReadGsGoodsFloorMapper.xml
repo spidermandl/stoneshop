@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="org.goshop.goods.mapper.read.ReadGsGoodsFloorMapper" >
+  <resultMap id="BaseResultMap" type="org.goshop.goods.pojo.GsGoodsFloor" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="addTime" property="addtime" jdbcType="TIMESTAMP" />
+    <result column="deleteStatus" property="deletestatus" jdbcType="BIT" />
+    <result column="gf_css" property="gfCss" jdbcType="VARCHAR" />
+    <result column="gf_display" property="gfDisplay" jdbcType="BIT" />
+    <result column="gf_goods_count" property="gfGoodsCount" jdbcType="INTEGER" />
+    <result column="gf_level" property="gfLevel" jdbcType="INTEGER" />
+    <result column="gf_name" property="gfName" jdbcType="VARCHAR" />
+    <result column="gf_sequence" property="gfSequence" jdbcType="INTEGER" />
+    <result column="parent_id" property="parentId" jdbcType="BIGINT" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="org.goshop.goods.pojo.GsGoodsFloorWithBLOBs" extends="BaseResultMap" >
+    <result column="gf_gc_goods" property="gfGcGoods" jdbcType="LONGVARCHAR" />
+    <result column="gf_gc_list" property="gfGcList" jdbcType="LONGVARCHAR" />
+    <result column="gf_left_adv" property="gfLeftAdv" jdbcType="LONGVARCHAR" />
+    <result column="gf_list_goods" property="gfListGoods" jdbcType="LONGVARCHAR" />
+    <result column="gf_right_adv" property="gfRightAdv" jdbcType="LONGVARCHAR" />
+    <result column="gf_brand_list" property="gfBrandList" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, addTime, deleteStatus, gf_css, gf_display, gf_goods_count, gf_level, gf_name,
+    gf_sequence, parent_id
+  </sql>
+  <sql id="Blob_Column_List" >
+    gf_gc_goods, gf_gc_list, gf_left_adv, gf_list_goods, gf_right_adv, gf_brand_list
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Long" >
+    select
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from gs_goods_floor
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <select id="selectByCondition" parameterType="java.util.Map" resultMap="ResultMapWithBLOBs">
+    select
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from gs_goods_floor
+    <where>
+      <if test="gf_display != null">
+        and gf_display = #{gf_display}
+      </if>
+      <if test="parent_id != null">
+        and parent_id = #{parent_id}
+      </if>
+      <if test="parent_id == null">
+        and parent_id IS NULL
+      </if>
+    </where>
+    order BY #{orderBy} #{orderType}
+  </select>
+</mapper>

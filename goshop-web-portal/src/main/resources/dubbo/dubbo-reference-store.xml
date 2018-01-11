@@ -16,4 +16,13 @@
                      interface="org.goshop.store.i.StoreJoinService" check="false" />
     <dubbo:reference id="storeService"
                      interface="org.goshop.store.i.StoreService" check="false" />
+    <dubbo:reference id="storeAreaService"
+                     interface="org.goshop.store.i.StoreAreaService" check="false" />
+    <dubbo:reference id="storeSlideService"
+                     interface="org.goshop.store.i.StoreSlideService" check="false" />
+    <dubbo:reference id="storeNavigationService"
+                     interface="org.goshop.store.i.StoreNavigationService" check="false" />
+    <dubbo:reference id="storePartnerService"
+                     interface="org.goshop.store.i.StorePartnerService" check="false" />
+
 </beans>

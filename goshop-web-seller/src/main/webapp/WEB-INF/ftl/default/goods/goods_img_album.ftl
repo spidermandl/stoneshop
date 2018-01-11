@@ -1,4 +1,4 @@
-<#assign S_URL=request.contextPath />
+<#assign S_URL=request.contextPath  />
 <h1> <i>图片列表</i></h1>
 <script>
 function goods_photo_set(obj){

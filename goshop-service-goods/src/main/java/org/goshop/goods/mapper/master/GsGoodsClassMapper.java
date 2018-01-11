@@ -12,13 +12,9 @@ public interface GsGoodsClassMapper {
 
     int insertSelective(GsGoodsClassWithBLOBs record);
 
-    GsGoodsClassWithBLOBs selectByPrimaryKey(Long id);
-
     int updateByPrimaryKeySelective(GsGoodsClassWithBLOBs record);
 
     int updateByPrimaryKeyWithBLOBs(GsGoodsClassWithBLOBs record);
 
     int updateByPrimaryKey(GsGoodsClass record);
-
-    List<GsGoodsClass> findByGcParentId(Long parent_id);
 }

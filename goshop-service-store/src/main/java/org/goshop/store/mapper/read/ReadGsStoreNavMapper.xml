@@ -40,5 +40,23 @@
       order by #{orderBy} #{orderType}
     </if>
   </select>
+  <select id="selectByCondition" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from gs_store_nav
+    <where>
+      <if test = "store_id != null" >
+        and store_id = #{store_id}
+      </if>
+      <if test = "display != null" >
+        and display = #{display}
+      </if>
+    </where>
+    <if test = "orderBy != null" >
+      order by #{orderBy} #{orderType}
+    </if>
+  </select>
 
 </mapper>

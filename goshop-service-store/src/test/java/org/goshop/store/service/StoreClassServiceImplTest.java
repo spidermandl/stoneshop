@@ -2,9 +2,7 @@ package org.goshop.store.service;
 
 import org.goshop.base.service.SpringBaseTest;
 import org.goshop.store.i.StoreAreaService;
-import org.goshop.store.i.StoreClassService;
 import org.goshop.store.pojo.GsArea;
-import org.goshop.store.pojo.StoreClass;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 

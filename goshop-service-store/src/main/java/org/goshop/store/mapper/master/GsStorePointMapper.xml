@@ -1,0 +1,358 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.goshop.store.mapper.master.GsStorePointMapper">
+  <resultMap id="BaseResultMap" type="org.goshop.store.pojo.GsStorePoint">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="addTime" jdbcType="TIMESTAMP" property="addtime" />
+    <result column="deleteStatus" jdbcType="BIT" property="deletestatus" />
+    <result column="description_evaluate" jdbcType="DECIMAL" property="descriptionEvaluate" />
+    <result column="description_evaluate_halfyear" jdbcType="DECIMAL" property="descriptionEvaluateHalfyear" />
+    <result column="description_evaluate_halfyear_count1" jdbcType="INTEGER" property="descriptionEvaluateHalfyearCount1" />
+    <result column="description_evaluate_halfyear_count2" jdbcType="INTEGER" property="descriptionEvaluateHalfyearCount2" />
+    <result column="description_evaluate_halfyear_count3" jdbcType="INTEGER" property="descriptionEvaluateHalfyearCount3" />
+    <result column="description_evaluate_halfyear_count4" jdbcType="INTEGER" property="descriptionEvaluateHalfyearCount4" />
+    <result column="description_evaluate_halfyear_count5" jdbcType="INTEGER" property="descriptionEvaluateHalfyearCount5" />
+    <result column="service_evaluate" jdbcType="DECIMAL" property="serviceEvaluate" />
+    <result column="service_evaluate_halfyear" jdbcType="DECIMAL" property="serviceEvaluateHalfyear" />
+    <result column="service_evaluate_halfyear_count1" jdbcType="INTEGER" property="serviceEvaluateHalfyearCount1" />
+    <result column="service_evaluate_halfyear_count2" jdbcType="INTEGER" property="serviceEvaluateHalfyearCount2" />
+    <result column="service_evaluate_halfyear_count3" jdbcType="INTEGER" property="serviceEvaluateHalfyearCount3" />
+    <result column="service_evaluate_halfyear_count4" jdbcType="INTEGER" property="serviceEvaluateHalfyearCount4" />
+    <result column="service_evaluate_halfyear_count5" jdbcType="INTEGER" property="serviceEvaluateHalfyearCount5" />
+    <result column="ship_evaluate" jdbcType="DECIMAL" property="shipEvaluate" />
+    <result column="ship_evaluate_halfyear" jdbcType="DECIMAL" property="shipEvaluateHalfyear" />
+    <result column="ship_evaluate_halfyear_count1" jdbcType="INTEGER" property="shipEvaluateHalfyearCount1" />
+    <result column="ship_evaluate_halfyear_count2" jdbcType="INTEGER" property="shipEvaluateHalfyearCount2" />
+    <result column="ship_evaluate_halfyear_count3" jdbcType="INTEGER" property="shipEvaluateHalfyearCount3" />
+    <result column="ship_evaluate_halfyear_count4" jdbcType="INTEGER" property="shipEvaluateHalfyearCount4" />
+    <result column="ship_evaluate_halfyear_count5" jdbcType="INTEGER" property="shipEvaluateHalfyearCount5" />
+    <result column="store_evaluate1" jdbcType="DECIMAL" property="storeEvaluate1" />
+    <result column="store_id" jdbcType="BIGINT" property="storeId" />
+    <result column="statTime" jdbcType="TIMESTAMP" property="stattime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, addTime, deleteStatus, description_evaluate, description_evaluate_halfyear, description_evaluate_halfyear_count1,
+    description_evaluate_halfyear_count2, description_evaluate_halfyear_count3, description_evaluate_halfyear_count4,
+    description_evaluate_halfyear_count5, service_evaluate, service_evaluate_halfyear,
+    service_evaluate_halfyear_count1, service_evaluate_halfyear_count2, service_evaluate_halfyear_count3,
+    service_evaluate_halfyear_count4, service_evaluate_halfyear_count5, ship_evaluate,
+    ship_evaluate_halfyear, ship_evaluate_halfyear_count1, ship_evaluate_halfyear_count2,
+    ship_evaluate_halfyear_count3, ship_evaluate_halfyear_count4, ship_evaluate_halfyear_count5,
+    store_evaluate1, store_id, statTime
+  </sql>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from gs_store_point
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="org.goshop.store.pojo.GsStorePoint">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into gs_store_point (addTime, deleteStatus, description_evaluate,
+      description_evaluate_halfyear, description_evaluate_halfyear_count1,
+      description_evaluate_halfyear_count2, description_evaluate_halfyear_count3,
+      description_evaluate_halfyear_count4, description_evaluate_halfyear_count5,
+      service_evaluate, service_evaluate_halfyear,
+      service_evaluate_halfyear_count1, service_evaluate_halfyear_count2,
+      service_evaluate_halfyear_count3, service_evaluate_halfyear_count4,
+      service_evaluate_halfyear_count5, ship_evaluate,
+      ship_evaluate_halfyear, ship_evaluate_halfyear_count1,
+      ship_evaluate_halfyear_count2, ship_evaluate_halfyear_count3,
+      ship_evaluate_halfyear_count4, ship_evaluate_halfyear_count5,
+      store_evaluate1, store_id, statTime
+      )
+    values (#{addtime,jdbcType=TIMESTAMP}, #{deletestatus,jdbcType=BIT}, #{descriptionEvaluate,jdbcType=DECIMAL},
+      #{descriptionEvaluateHalfyear,jdbcType=DECIMAL}, #{descriptionEvaluateHalfyearCount1,jdbcType=INTEGER},
+      #{descriptionEvaluateHalfyearCount2,jdbcType=INTEGER}, #{descriptionEvaluateHalfyearCount3,jdbcType=INTEGER},
+      #{descriptionEvaluateHalfyearCount4,jdbcType=INTEGER}, #{descriptionEvaluateHalfyearCount5,jdbcType=INTEGER},
+      #{serviceEvaluate,jdbcType=DECIMAL}, #{serviceEvaluateHalfyear,jdbcType=DECIMAL},
+      #{serviceEvaluateHalfyearCount1,jdbcType=INTEGER}, #{serviceEvaluateHalfyearCount2,jdbcType=INTEGER},
+      #{serviceEvaluateHalfyearCount3,jdbcType=INTEGER}, #{serviceEvaluateHalfyearCount4,jdbcType=INTEGER},
+      #{serviceEvaluateHalfyearCount5,jdbcType=INTEGER}, #{shipEvaluate,jdbcType=DECIMAL},
+      #{shipEvaluateHalfyear,jdbcType=DECIMAL}, #{shipEvaluateHalfyearCount1,jdbcType=INTEGER},
+      #{shipEvaluateHalfyearCount2,jdbcType=INTEGER}, #{shipEvaluateHalfyearCount3,jdbcType=INTEGER},
+      #{shipEvaluateHalfyearCount4,jdbcType=INTEGER}, #{shipEvaluateHalfyearCount5,jdbcType=INTEGER},
+      #{storeEvaluate1,jdbcType=DECIMAL}, #{storeId,jdbcType=BIGINT}, #{stattime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="org.goshop.store.pojo.GsStorePoint">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into gs_store_point
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="addtime != null">
+        addTime,
+      </if>
+      <if test="deletestatus != null">
+        deleteStatus,
+      </if>
+      <if test="descriptionEvaluate != null">
+        description_evaluate,
+      </if>
+      <if test="descriptionEvaluateHalfyear != null">
+        description_evaluate_halfyear,
+      </if>
+      <if test="descriptionEvaluateHalfyearCount1 != null">
+        description_evaluate_halfyear_count1,
+      </if>
+      <if test="descriptionEvaluateHalfyearCount2 != null">
+        description_evaluate_halfyear_count2,
+      </if>
+      <if test="descriptionEvaluateHalfyearCount3 != null">
+        description_evaluate_halfyear_count3,
+      </if>
+      <if test="descriptionEvaluateHalfyearCount4 != null">
+        description_evaluate_halfyear_count4,
+      </if>
+      <if test="descriptionEvaluateHalfyearCount5 != null">
+        description_evaluate_halfyear_count5,
+      </if>
+      <if test="serviceEvaluate != null">
+        service_evaluate,
+      </if>
+      <if test="serviceEvaluateHalfyear != null">
+        service_evaluate_halfyear,
+      </if>
+      <if test="serviceEvaluateHalfyearCount1 != null">
+        service_evaluate_halfyear_count1,
+      </if>
+      <if test="serviceEvaluateHalfyearCount2 != null">
+        service_evaluate_halfyear_count2,
+      </if>
+      <if test="serviceEvaluateHalfyearCount3 != null">
+        service_evaluate_halfyear_count3,
+      </if>
+      <if test="serviceEvaluateHalfyearCount4 != null">
+        service_evaluate_halfyear_count4,
+      </if>
+      <if test="serviceEvaluateHalfyearCount5 != null">
+        service_evaluate_halfyear_count5,
+      </if>
+      <if test="shipEvaluate != null">
+        ship_evaluate,
+      </if>
+      <if test="shipEvaluateHalfyear != null">
+        ship_evaluate_halfyear,
+      </if>
+      <if test="shipEvaluateHalfyearCount1 != null">
+        ship_evaluate_halfyear_count1,
+      </if>
+      <if test="shipEvaluateHalfyearCount2 != null">
+        ship_evaluate_halfyear_count2,
+      </if>
+      <if test="shipEvaluateHalfyearCount3 != null">
+        ship_evaluate_halfyear_count3,
+      </if>
+      <if test="shipEvaluateHalfyearCount4 != null">
+        ship_evaluate_halfyear_count4,
+      </if>
+      <if test="shipEvaluateHalfyearCount5 != null">
+        ship_evaluate_halfyear_count5,
+      </if>
+      <if test="storeEvaluate1 != null">
+        store_evaluate1,
+      </if>
+      <if test="storeId != null">
+        store_id,
+      </if>
+      <if test="stattime != null">
+        statTime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="addtime != null">
+        #{addtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="deletestatus != null">
+        #{deletestatus,jdbcType=BIT},
+      </if>
+      <if test="descriptionEvaluate != null">
+        #{descriptionEvaluate,jdbcType=DECIMAL},
+      </if>
+      <if test="descriptionEvaluateHalfyear != null">
+        #{descriptionEvaluateHalfyear,jdbcType=DECIMAL},
+      </if>
+      <if test="descriptionEvaluateHalfyearCount1 != null">
+        #{descriptionEvaluateHalfyearCount1,jdbcType=INTEGER},
+      </if>
+      <if test="descriptionEvaluateHalfyearCount2 != null">
+        #{descriptionEvaluateHalfyearCount2,jdbcType=INTEGER},
+      </if>
+      <if test="descriptionEvaluateHalfyearCount3 != null">
+        #{descriptionEvaluateHalfyearCount3,jdbcType=INTEGER},
+      </if>
+      <if test="descriptionEvaluateHalfyearCount4 != null">
+        #{descriptionEvaluateHalfyearCount4,jdbcType=INTEGER},
+      </if>
+      <if test="descriptionEvaluateHalfyearCount5 != null">
+        #{descriptionEvaluateHalfyearCount5,jdbcType=INTEGER},
+      </if>
+      <if test="serviceEvaluate != null">
+        #{serviceEvaluate,jdbcType=DECIMAL},
+      </if>
+      <if test="serviceEvaluateHalfyear != null">
+        #{serviceEvaluateHalfyear,jdbcType=DECIMAL},
+      </if>
+      <if test="serviceEvaluateHalfyearCount1 != null">
+        #{serviceEvaluateHalfyearCount1,jdbcType=INTEGER},
+      </if>
+      <if test="serviceEvaluateHalfyearCount2 != null">
+        #{serviceEvaluateHalfyearCount2,jdbcType=INTEGER},
+      </if>
+      <if test="serviceEvaluateHalfyearCount3 != null">
+        #{serviceEvaluateHalfyearCount3,jdbcType=INTEGER},
+      </if>
+      <if test="serviceEvaluateHalfyearCount4 != null">
+        #{serviceEvaluateHalfyearCount4,jdbcType=INTEGER},
+      </if>
+      <if test="serviceEvaluateHalfyearCount5 != null">
+        #{serviceEvaluateHalfyearCount5,jdbcType=INTEGER},
+      </if>
+      <if test="shipEvaluate != null">
+        #{shipEvaluate,jdbcType=DECIMAL},
+      </if>
+      <if test="shipEvaluateHalfyear != null">
+        #{shipEvaluateHalfyear,jdbcType=DECIMAL},
+      </if>
+      <if test="shipEvaluateHalfyearCount1 != null">
+        #{shipEvaluateHalfyearCount1,jdbcType=INTEGER},
+      </if>
+      <if test="shipEvaluateHalfyearCount2 != null">
+        #{shipEvaluateHalfyearCount2,jdbcType=INTEGER},
+      </if>
+      <if test="shipEvaluateHalfyearCount3 != null">
+        #{shipEvaluateHalfyearCount3,jdbcType=INTEGER},
+      </if>
+      <if test="shipEvaluateHalfyearCount4 != null">
+        #{shipEvaluateHalfyearCount4,jdbcType=INTEGER},
+      </if>
+      <if test="shipEvaluateHalfyearCount5 != null">
+        #{shipEvaluateHalfyearCount5,jdbcType=INTEGER},
+      </if>
+      <if test="storeEvaluate1 != null">
+        #{storeEvaluate1,jdbcType=DECIMAL},
+      </if>
+      <if test="storeId != null">
+        #{storeId,jdbcType=BIGINT},
+      </if>
+      <if test="stattime != null">
+        #{stattime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="org.goshop.store.pojo.GsStorePoint">
+    update gs_store_point
+    <set>
+      <if test="addtime != null">
+        addTime = #{addtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="deletestatus != null">
+        deleteStatus = #{deletestatus,jdbcType=BIT},
+      </if>
+      <if test="descriptionEvaluate != null">
+        description_evaluate = #{descriptionEvaluate,jdbcType=DECIMAL},
+      </if>
+      <if test="descriptionEvaluateHalfyear != null">
+        description_evaluate_halfyear = #{descriptionEvaluateHalfyear,jdbcType=DECIMAL},
+      </if>
+      <if test="descriptionEvaluateHalfyearCount1 != null">
+        description_evaluate_halfyear_count1 = #{descriptionEvaluateHalfyearCount1,jdbcType=INTEGER},
+      </if>
+      <if test="descriptionEvaluateHalfyearCount2 != null">
+        description_evaluate_halfyear_count2 = #{descriptionEvaluateHalfyearCount2,jdbcType=INTEGER},
+      </if>
+      <if test="descriptionEvaluateHalfyearCount3 != null">
+        description_evaluate_halfyear_count3 = #{descriptionEvaluateHalfyearCount3,jdbcType=INTEGER},
+      </if>
+      <if test="descriptionEvaluateHalfyearCount4 != null">
+        description_evaluate_halfyear_count4 = #{descriptionEvaluateHalfyearCount4,jdbcType=INTEGER},
+      </if>
+      <if test="descriptionEvaluateHalfyearCount5 != null">
+        description_evaluate_halfyear_count5 = #{descriptionEvaluateHalfyearCount5,jdbcType=INTEGER},
+      </if>
+      <if test="serviceEvaluate != null">
+        service_evaluate = #{serviceEvaluate,jdbcType=DECIMAL},
+      </if>
+      <if test="serviceEvaluateHalfyear != null">
+        service_evaluate_halfyear = #{serviceEvaluateHalfyear,jdbcType=DECIMAL},
+      </if>
+      <if test="serviceEvaluateHalfyearCount1 != null">
+        service_evaluate_halfyear_count1 = #{serviceEvaluateHalfyearCount1,jdbcType=INTEGER},
+      </if>
+      <if test="serviceEvaluateHalfyearCount2 != null">
+        service_evaluate_halfyear_count2 = #{serviceEvaluateHalfyearCount2,jdbcType=INTEGER},
+      </if>
+      <if test="serviceEvaluateHalfyearCount3 != null">
+        service_evaluate_halfyear_count3 = #{serviceEvaluateHalfyearCount3,jdbcType=INTEGER},
+      </if>
+      <if test="serviceEvaluateHalfyearCount4 != null">
+        service_evaluate_halfyear_count4 = #{serviceEvaluateHalfyearCount4,jdbcType=INTEGER},
+      </if>
+      <if test="serviceEvaluateHalfyearCount5 != null">
+        service_evaluate_halfyear_count5 = #{serviceEvaluateHalfyearCount5,jdbcType=INTEGER},
+      </if>
+      <if test="shipEvaluate != null">
+        ship_evaluate = #{shipEvaluate,jdbcType=DECIMAL},
+      </if>
+      <if test="shipEvaluateHalfyear != null">
+        ship_evaluate_halfyear = #{shipEvaluateHalfyear,jdbcType=DECIMAL},
+      </if>
+      <if test="shipEvaluateHalfyearCount1 != null">
+        ship_evaluate_halfyear_count1 = #{shipEvaluateHalfyearCount1,jdbcType=INTEGER},
+      </if>
+      <if test="shipEvaluateHalfyearCount2 != null">
+        ship_evaluate_halfyear_count2 = #{shipEvaluateHalfyearCount2,jdbcType=INTEGER},
+      </if>
+      <if test="shipEvaluateHalfyearCount3 != null">
+        ship_evaluate_halfyear_count3 = #{shipEvaluateHalfyearCount3,jdbcType=INTEGER},
+      </if>
+      <if test="shipEvaluateHalfyearCount4 != null">
+        ship_evaluate_halfyear_count4 = #{shipEvaluateHalfyearCount4,jdbcType=INTEGER},
+      </if>
+      <if test="shipEvaluateHalfyearCount5 != null">
+        ship_evaluate_halfyear_count5 = #{shipEvaluateHalfyearCount5,jdbcType=INTEGER},
+      </if>
+      <if test="storeEvaluate1 != null">
+        store_evaluate1 = #{storeEvaluate1,jdbcType=DECIMAL},
+      </if>
+      <if test="storeId != null">
+        store_id = #{storeId,jdbcType=BIGINT},
+      </if>
+      <if test="stattime != null">
+        statTime = #{stattime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="org.goshop.store.pojo.GsStorePoint">
+    update gs_store_point
+    set addTime = #{addtime,jdbcType=TIMESTAMP},
+      deleteStatus = #{deletestatus,jdbcType=BIT},
+      description_evaluate = #{descriptionEvaluate,jdbcType=DECIMAL},
+      description_evaluate_halfyear = #{descriptionEvaluateHalfyear,jdbcType=DECIMAL},
+      description_evaluate_halfyear_count1 = #{descriptionEvaluateHalfyearCount1,jdbcType=INTEGER},
+      description_evaluate_halfyear_count2 = #{descriptionEvaluateHalfyearCount2,jdbcType=INTEGER},
+      description_evaluate_halfyear_count3 = #{descriptionEvaluateHalfyearCount3,jdbcType=INTEGER},
+      description_evaluate_halfyear_count4 = #{descriptionEvaluateHalfyearCount4,jdbcType=INTEGER},
+      description_evaluate_halfyear_count5 = #{descriptionEvaluateHalfyearCount5,jdbcType=INTEGER},
+      service_evaluate = #{serviceEvaluate,jdbcType=DECIMAL},
+      service_evaluate_halfyear = #{serviceEvaluateHalfyear,jdbcType=DECIMAL},
+      service_evaluate_halfyear_count1 = #{serviceEvaluateHalfyearCount1,jdbcType=INTEGER},
+      service_evaluate_halfyear_count2 = #{serviceEvaluateHalfyearCount2,jdbcType=INTEGER},
+      service_evaluate_halfyear_count3 = #{serviceEvaluateHalfyearCount3,jdbcType=INTEGER},
+      service_evaluate_halfyear_count4 = #{serviceEvaluateHalfyearCount4,jdbcType=INTEGER},
+      service_evaluate_halfyear_count5 = #{serviceEvaluateHalfyearCount5,jdbcType=INTEGER},
+      ship_evaluate = #{shipEvaluate,jdbcType=DECIMAL},
+      ship_evaluate_halfyear = #{shipEvaluateHalfyear,jdbcType=DECIMAL},
+      ship_evaluate_halfyear_count1 = #{shipEvaluateHalfyearCount1,jdbcType=INTEGER},
+      ship_evaluate_halfyear_count2 = #{shipEvaluateHalfyearCount2,jdbcType=INTEGER},
+      ship_evaluate_halfyear_count3 = #{shipEvaluateHalfyearCount3,jdbcType=INTEGER},
+      ship_evaluate_halfyear_count4 = #{shipEvaluateHalfyearCount4,jdbcType=INTEGER},
+      ship_evaluate_halfyear_count5 = #{shipEvaluateHalfyearCount5,jdbcType=INTEGER},
+      store_evaluate1 = #{storeEvaluate1,jdbcType=DECIMAL},
+      store_id = #{storeId,jdbcType=BIGINT},
+      statTime = #{stattime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

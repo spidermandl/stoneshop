@@ -50,6 +50,7 @@
     <result column="map_type" property="mapType" jdbcType="VARCHAR" />
     <result column="store_lat" property="storeLat" jdbcType="DECIMAL" />
     <result column="store_lng" property="storeLng" jdbcType="DECIMAL" />
+    <result column="template" property="template" jdbcType="VARCHAR" />
   </resultMap>
   <resultMap id="ResultMapWithBLOBs" type="org.goshop.store.pojo.StoreWithBLOBs" extends="BaseResultMap" >
     <result column="description" property="description" jdbcType="LONGVARCHAR" />
@@ -67,7 +68,7 @@
     store_qq, store_ww, store_domain, store_domain_times, store_recommend, store_theme,
     store_credit, praise_rate, store_desccredit, store_servicecredit, store_deliverycredit,
     store_collect, store_stamp, store_printdesc, store_sales, store_workingtime, store_free_price,
-    store_storage_alarm,map_type,store_lat,store_lng
+    store_storage_alarm,map_type,store_lat,store_lng,template
   </sql>
   <sql id="Blob_Column_List" >
     description, store_zy, store_slide, store_slide_url, store_presales, store_aftersales
@@ -89,7 +90,14 @@
     from gs_store
     where member_id = #{memberId,jdbcType=BIGINT}
   </select>
-
+  <select id="selectBySecondDomain" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Long" >
+    select
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from gs_store
+    where store_domain = #{storeDomain,jdbcType=BIGINT}
+  </select>
   <select id="findAll" resultMap="BaseResultMap" >
     select
     <include refid="Base_Column_List" />
@@ -114,4 +122,29 @@
       and store_state = #{storeState,jdbcType=INTEGER}
     </if>
   </select>
+  <select id="selectByCondition" resultMap="BaseResultMap" parameterType="java.util.Map">
+    select
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from gs_store
+    <where>
+      <if test="sc_id != null" >
+        and sc_id = #{sc_id}
+      </if>
+      <if test="store_name != null" >
+        and store_name like CONCAT('%',#{store_name,jdbcType=VARCHAR},'%')
+      </if>
+      <if test="store_ower != null" >
+        and store_ower like CONCAT('%',#{store_ower,jdbcType=VARCHAR},'%')
+      </if>
+      <if test="store_state != null" >
+        and store_state = #{store_state}
+      </if>
+      <if test="orderBy !=null">
+        order BY #{orderBy} #{orderType}
+      </if>
+    </where>
+  </select>
+
 </mapper>

@@ -29,7 +29,7 @@
                                 </div>
                                 <div id="commListArea" class="select_list" >
                                     <ul>
-                                        <#list P_GOODS_CLASS_STAPLE_LIST as staple>
+                                        <#list P_GOODS_CLASS_STAPLE_LIST! as staple>
                                             <li data-param="{stapleid:'${staple.stapleId}'}">
                                                 <span nctype="staple_name">${staple.stapleName}</span>
                                                 <a title="删除" nctype="del-comm-cate" href="JavaScript:void(0);">X</a>

@@ -42,14 +42,6 @@
   <sql id="Blob_Column_List">
     seo_description, seo_keywords
   </sql>
-  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="ResultMapWithBLOBs">
-    select
-    <include refid="Base_Column_List" />
-    ,
-    <include refid="Blob_Column_List" />
-    from gs_goods_class
-    where id = #{id,jdbcType=BIGINT}
-  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
     delete from gs_goods_class
     where id = #{id,jdbcType=BIGINT}
@@ -246,10 +238,4 @@
     where id = #{id,jdbcType=BIGINT}
   </update>
 
-  <select id="findByGcParentId" resultMap="BaseResultMap" parameterType="java.lang.Long" >
-    select
-    <include refid="Base_Column_List" />
-    from gs_goods_class
-    where parent_id = #{parentId,jdbcType=INTEGER}
-  </select>
 </mapper>

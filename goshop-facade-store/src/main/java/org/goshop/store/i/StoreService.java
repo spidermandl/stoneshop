@@ -6,6 +6,8 @@ import org.goshop.store.pojo.StoreJoin;
 import org.goshop.store.pojo.StoreWithBLOBs;
 import org.goshop.users.pojo.User;
 
+import java.util.Map;
+
 /**
  * Created by Administrator on 2016/4/14.
  */
@@ -30,4 +32,8 @@ public interface StoreService {
     void update(StoreWithBLOBs store);
 
     Store findByMemberId(Long userId);
+
+    Store findBySecondDomain(String domain);
+
+    PageInfo<Store> findByCondition(Map map,Integer curPage,Integer pageSize);
 }

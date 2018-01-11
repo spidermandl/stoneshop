@@ -4,6 +4,7 @@ import com.github.pagehelper.PageInfo;
 import org.goshop.store.pojo.GsStoreNav;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Desmond on 16/12/2017.
@@ -19,4 +20,6 @@ public interface StoreNavigationService {
     int update(GsStoreNav nav);
 
     int delete(GsStoreNav nav);
+
+    List<GsStoreNav> findByCondition(Map condition);
 }

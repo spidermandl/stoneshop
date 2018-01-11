@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="org.goshop.assets.mapper.master.GsNavigationMapper" >
+  <resultMap id="BaseResultMap" type="org.goshop.assets.pojo.GsNavigation" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="addTime" property="addtime" jdbcType="TIMESTAMP" />
+    <result column="deleteStatus" property="deletestatus" jdbcType="BIT" />
+    <result column="display" property="display" jdbcType="BIT" />
+    <result column="location" property="location" jdbcType="INTEGER" />
+    <result column="new_win" property="newWin" jdbcType="INTEGER" />
+    <result column="sequence" property="sequence" jdbcType="INTEGER" />
+    <result column="sysNav" property="sysnav" jdbcType="BIT" />
+    <result column="title" property="title" jdbcType="VARCHAR" />
+    <result column="type" property="type" jdbcType="VARCHAR" />
+    <result column="type_id" property="typeId" jdbcType="BIGINT" />
+    <result column="url" property="url" jdbcType="VARCHAR" />
+    <result column="original_url" property="originalUrl" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, addTime, deleteStatus, display, location, new_win, sequence, sysNav, title, type,
+    type_id, url, original_url
+  </sql>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from gs_navigation
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="org.goshop.assets.pojo.GsNavigation" >
+    <selectKey resultType="java.lang.Long" keyProperty="id" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into gs_navigation (addTime, deleteStatus, display,
+      location, new_win, sequence,
+      sysNav, title, type, type_id,
+      url, original_url)
+    values (#{addtime,jdbcType=TIMESTAMP}, #{deletestatus,jdbcType=BIT}, #{display,jdbcType=BIT},
+      #{location,jdbcType=INTEGER}, #{newWin,jdbcType=INTEGER}, #{sequence,jdbcType=INTEGER},
+      #{sysnav,jdbcType=BIT}, #{title,jdbcType=VARCHAR}, #{type,jdbcType=VARCHAR}, #{typeId,jdbcType=BIGINT},
+      #{url,jdbcType=VARCHAR}, #{originalUrl,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="org.goshop.assets.pojo.GsNavigation" >
+    <selectKey resultType="java.lang.Long" keyProperty="id" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into gs_navigation
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="addtime != null" >
+        addTime,
+      </if>
+      <if test="deletestatus != null" >
+        deleteStatus,
+      </if>
+      <if test="display != null" >
+        display,
+      </if>
+      <if test="location != null" >
+        location,
+      </if>
+      <if test="newWin != null" >
+        new_win,
+      </if>
+      <if test="sequence != null" >
+        sequence,
+      </if>
+      <if test="sysnav != null" >
+        sysNav,
+      </if>
+      <if test="title != null" >
+        title,
+      </if>
+      <if test="type != null" >
+        type,
+      </if>
+      <if test="typeId != null" >
+        type_id,
+      </if>
+      <if test="url != null" >
+        url,
+      </if>
+      <if test="originalUrl != null" >
+        original_url,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="addtime != null" >
+        #{addtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="deletestatus != null" >
+        #{deletestatus,jdbcType=BIT},
+      </if>
+      <if test="display != null" >
+        #{display,jdbcType=BIT},
+      </if>
+      <if test="location != null" >
+        #{location,jdbcType=INTEGER},
+      </if>
+      <if test="newWin != null" >
+        #{newWin,jdbcType=INTEGER},
+      </if>
+      <if test="sequence != null" >
+        #{sequence,jdbcType=INTEGER},
+      </if>
+      <if test="sysnav != null" >
+        #{sysnav,jdbcType=BIT},
+      </if>
+      <if test="title != null" >
+        #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="typeId != null" >
+        #{typeId,jdbcType=BIGINT},
+      </if>
+      <if test="url != null" >
+        #{url,jdbcType=VARCHAR},
+      </if>
+      <if test="originalUrl != null" >
+        #{originalUrl,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="org.goshop.assets.pojo.GsNavigation" >
+    update gs_navigation
+    <set >
+      <if test="addtime != null" >
+        addTime = #{addtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="deletestatus != null" >
+        deleteStatus = #{deletestatus,jdbcType=BIT},
+      </if>
+      <if test="display != null" >
+        display = #{display,jdbcType=BIT},
+      </if>
+      <if test="location != null" >
+        location = #{location,jdbcType=INTEGER},
+      </if>
+      <if test="newWin != null" >
+        new_win = #{newWin,jdbcType=INTEGER},
+      </if>
+      <if test="sequence != null" >
+        sequence = #{sequence,jdbcType=INTEGER},
+      </if>
+      <if test="sysnav != null" >
+        sysNav = #{sysnav,jdbcType=BIT},
+      </if>
+      <if test="title != null" >
+        title = #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        type = #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="typeId != null" >
+        type_id = #{typeId,jdbcType=BIGINT},
+      </if>
+      <if test="url != null" >
+        url = #{url,jdbcType=VARCHAR},
+      </if>
+      <if test="originalUrl != null" >
+        original_url = #{originalUrl,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="org.goshop.assets.pojo.GsNavigation" >
+    update gs_navigation
+    set addTime = #{addtime,jdbcType=TIMESTAMP},
+      deleteStatus = #{deletestatus,jdbcType=BIT},
+      display = #{display,jdbcType=BIT},
+      location = #{location,jdbcType=INTEGER},
+      new_win = #{newWin,jdbcType=INTEGER},
+      sequence = #{sequence,jdbcType=INTEGER},
+      sysNav = #{sysnav,jdbcType=BIT},
+      title = #{title,jdbcType=VARCHAR},
+      type = #{type,jdbcType=VARCHAR},
+      type_id = #{typeId,jdbcType=BIGINT},
+      url = #{url,jdbcType=VARCHAR},
+      original_url = #{originalUrl,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

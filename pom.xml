@@ -48,6 +48,9 @@
         <module>goshop-web-seller</module>
         <module>goshop-facade-assets</module>
         <module>goshop-service-assets</module>
+        <module>goshop-common-web-service</module>
+        <module>goshop-facade-order</module>
+        <module>goshop-service-order</module>
     </modules>
     <packaging>pom</packaging>
 

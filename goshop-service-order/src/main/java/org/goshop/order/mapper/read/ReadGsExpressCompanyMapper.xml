@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="org.goshop.order.mapper.read.ReadGsExpressCompanyMapper" >
+  <resultMap id="BaseResultMap" type="org.goshop.order.pojo.GsExpressCompany" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="addTime" property="addtime" jdbcType="TIMESTAMP" />
+    <result column="deleteStatus" property="deletestatus" jdbcType="BIT" />
+    <result column="company_mark" property="companyMark" jdbcType="VARCHAR" />
+    <result column="company_name" property="companyName" jdbcType="VARCHAR" />
+    <result column="company_status" property="companyStatus" jdbcType="INTEGER" />
+    <result column="company_sequence" property="companySequence" jdbcType="INTEGER" />
+    <result column="company_type" property="companyType" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, addTime, deleteStatus, company_mark, company_name, company_status, company_sequence,
+    company_type
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select
+    <include refid="Base_Column_List" />
+    from gs_express_company
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from gs_express_company
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="org.goshop.order.pojo.GsExpressCompany" >
+    <selectKey resultType="java.lang.Long" keyProperty="id" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into gs_express_company (addTime, deleteStatus, company_mark,
+      company_name, company_status, company_sequence,
+      company_type)
+    values (#{addtime,jdbcType=TIMESTAMP}, #{deletestatus,jdbcType=BIT}, #{companyMark,jdbcType=VARCHAR},
+      #{companyName,jdbcType=VARCHAR}, #{companyStatus,jdbcType=INTEGER}, #{companySequence,jdbcType=INTEGER},
+      #{companyType,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="org.goshop.order.pojo.GsExpressCompany" >
+    <selectKey resultType="java.lang.Long" keyProperty="id" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into gs_express_company
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="addtime != null" >
+        addTime,
+      </if>
+      <if test="deletestatus != null" >
+        deleteStatus,
+      </if>
+      <if test="companyMark != null" >
+        company_mark,
+      </if>
+      <if test="companyName != null" >
+        company_name,
+      </if>
+      <if test="companyStatus != null" >
+        company_status,
+      </if>
+      <if test="companySequence != null" >
+        company_sequence,
+      </if>
+      <if test="companyType != null" >
+        company_type,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="addtime != null" >
+        #{addtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="deletestatus != null" >
+        #{deletestatus,jdbcType=BIT},
+      </if>
+      <if test="companyMark != null" >
+        #{companyMark,jdbcType=VARCHAR},
+      </if>
+      <if test="companyName != null" >
+        #{companyName,jdbcType=VARCHAR},
+      </if>
+      <if test="companyStatus != null" >
+        #{companyStatus,jdbcType=INTEGER},
+      </if>
+      <if test="companySequence != null" >
+        #{companySequence,jdbcType=INTEGER},
+      </if>
+      <if test="companyType != null" >
+        #{companyType,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="org.goshop.order.pojo.GsExpressCompany" >
+    update gs_express_company
+    <set >
+      <if test="addtime != null" >
+        addTime = #{addtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="deletestatus != null" >
+        deleteStatus = #{deletestatus,jdbcType=BIT},
+      </if>
+      <if test="companyMark != null" >
+        company_mark = #{companyMark,jdbcType=VARCHAR},
+      </if>
+      <if test="companyName != null" >
+        company_name = #{companyName,jdbcType=VARCHAR},
+      </if>
+      <if test="companyStatus != null" >
+        company_status = #{companyStatus,jdbcType=INTEGER},
+      </if>
+      <if test="companySequence != null" >
+        company_sequence = #{companySequence,jdbcType=INTEGER},
+      </if>
+      <if test="companyType != null" >
+        company_type = #{companyType,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="org.goshop.order.pojo.GsExpressCompany" >
+    update gs_express_company
+    set addTime = #{addtime,jdbcType=TIMESTAMP},
+      deleteStatus = #{deletestatus,jdbcType=BIT},
+      company_mark = #{companyMark,jdbcType=VARCHAR},
+      company_name = #{companyName,jdbcType=VARCHAR},
+      company_status = #{companyStatus,jdbcType=INTEGER},
+      company_sequence = #{companySequence,jdbcType=INTEGER},
+      company_type = #{companyType,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

@@ -6,7 +6,8 @@ import org.goshop.common.exception.PageException;
 import org.goshop.common.utils.PageUtils;
 import org.goshop.store.i.StoreClassService;
 import org.goshop.store.mapper.master.StoreClassMapper;
-import org.goshop.store.pojo.StoreClass;
+import org.goshop.store.mapper.read.ReadStoreClassMapper;
+import org.goshop.store.pojo.GsStoreClass;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
@@ -18,14 +19,16 @@ public class StoreClassServiceImpl implements StoreClassService {
 
     @Autowired
     StoreClassMapper storeClassMapper;
+    @Autowired
+    ReadStoreClassMapper readStoreClassMapper;
 
     @Override
-    public List<StoreClass> findAllOrderBySort() {
-        return storeClassMapper.findAllOrderBySort();
+    public List<GsStoreClass> findAllOrderBySort() {
+        return readStoreClassMapper.findAllOrderBySort();
     }
 
     @Override
-    public int save(StoreClass storeClass) {
+    public int save(GsStoreClass storeClass) {
         Assert.hasText(storeClass.getName(),"分类名称不能为空！");
         if(!checkByNameParentId(storeClass.getName(), storeClass.getParentId())){
             throw new PageException("分类名称已经存在！");
@@ -35,7 +38,7 @@ public class StoreClassServiceImpl implements StoreClassService {
 
     @Override
     public boolean checkByNameParentId(String name,Long parentId) {
-        int count = storeClassMapper.findCountByNameParentId(name,parentId);
+        int count = readStoreClassMapper.findCountByNameParentId(name,parentId);
         if(count>0) {
             return false;
         }
@@ -43,23 +46,23 @@ public class StoreClassServiceImpl implements StoreClassService {
     }
 
     @Override
-    public PageInfo<StoreClass> findTreePageByParentId(Integer curPage,Integer pageSize,Long parentId) {
+    public PageInfo<GsStoreClass> findTreePageByParentId(Integer curPage,Integer pageSize,Long parentId) {
         PageUtils.startPage(curPage,pageSize);
         //2、查询结果
-        List<StoreClass> list=storeClassMapper.findTreeByParentId(parentId);
+        List<GsStoreClass> list=readStoreClassMapper.findTreeByParentId(parentId);
         //3、取分页后结果
-        PageInfo<StoreClass> pageInfo = new PageInfo<>(list);
+        PageInfo<GsStoreClass> pageInfo = new PageInfo<>(list);
         return pageInfo;
     }
 
     @Override
-    public StoreClass findOne(Long id) {
-        return storeClassMapper.selectByPrimaryKey(id);
+    public GsStoreClass findOne(Long id) {
+        return readStoreClassMapper.selectByPrimaryKey(id);
     }
 
     @Override
     public boolean checkByIdNameParentId(Long id, String name, Long parentId) {
-        List<StoreClass> list = storeClassMapper.findByNameParentId(name,parentId);
+        List<GsStoreClass> list = readStoreClassMapper.findByNameParentId(name,parentId);
         if(list.size()>1){
             throw new MapperException("数据异常");
         }else if(list.size()==1){
@@ -73,7 +76,7 @@ public class StoreClassServiceImpl implements StoreClassService {
     }
 
     @Override
-    public int update(StoreClass storeClass) {
+    public int update(GsStoreClass storeClass) {
         Assert.hasText(storeClass.getName(),"分类名称不能为空！");
         Assert.notNull(storeClass.getId(),"没有修改id！");
         if(!checkByIdNameParentId(storeClass.getId(),storeClass.getName(), storeClass.getParentId())){
@@ -97,8 +100,8 @@ public class StoreClassServiceImpl implements StoreClassService {
     }
 
     @Override
-    public List<StoreClass> findByParentId(Long parentId) {
-        return storeClassMapper.findByParentId(parentId);
+    public List<GsStoreClass> findByParentId(Long parentId) {
+        return readStoreClassMapper.findByParentId(parentId);
     }
 
     @Override
@@ -114,17 +117,17 @@ public class StoreClassServiceImpl implements StoreClassService {
     }
 
     @Override
-    public List<StoreClass> findTreeByParentId(Long parentId) {
-        return storeClassMapper.findTreeByParentId(parentId);
+    public List<GsStoreClass> findTreeByParentId(Long parentId) {
+        return readStoreClassMapper.findTreeByParentId(parentId);
     }
 
     @Override
-    public PageInfo<StoreClass> findGradeByParentId(Integer curPage, Integer pageSize, Long parentId) {
+    public PageInfo<GsStoreClass> findGradeByParentId(Integer curPage, Integer pageSize, Long parentId) {
         PageUtils.startPage(curPage,pageSize);
         //2、查询结果
-        List<StoreClass> list=storeClassMapper.findGradeByParentId(parentId);
+        List<GsStoreClass> list=readStoreClassMapper.findGradeByParentId(parentId);
         //3、取分页后结果
-        PageInfo<StoreClass> pageInfo = new PageInfo<>(list);
+        PageInfo<GsStoreClass> pageInfo = new PageInfo<>(list);
         return pageInfo;
     }
 }

@@ -1,7 +1,7 @@
 package org.goshop.store.i;
 
 import com.github.pagehelper.PageInfo;
-import org.goshop.store.pojo.StoreClass;
+import org.goshop.store.pojo.GsStoreClass;
 
 import java.util.List;
 
@@ -9,9 +9,9 @@ import java.util.List;
  * Created by Administrator on 2016/3/29.
  */
 public interface StoreClassService {
-    List<StoreClass> findAllOrderBySort();
+    List<GsStoreClass> findAllOrderBySort();
 
-    int save(StoreClass storeClass);
+    int save(GsStoreClass storeClass);
 
     /**
      * 校验是否存在此分类名称
@@ -20,25 +20,25 @@ public interface StoreClassService {
      */
     boolean checkByNameParentId(String name, Long parentId);
 
-    PageInfo<StoreClass> findTreePageByParentId(Integer curPage, Integer pageSize, Long parentId);
+    PageInfo<GsStoreClass> findTreePageByParentId(Integer curPage, Integer pageSize, Long parentId);
 
-    StoreClass findOne(Long id);
+    GsStoreClass findOne(Long id);
 
     boolean checkByIdNameParentId(Long id, String name, Long parentId);
 
-    int update(StoreClass storeClass);
+    int update(GsStoreClass storeClass);
 
     int updateSort(Long id, String value);
 
     int updateName(Long id, String value);
 
-    List<StoreClass> findByParentId(Long parentId);
+    List<GsStoreClass> findByParentId(Long parentId);
 
     int delete(Long id);
 
     void delete(Long[] ids);
 
-    List<StoreClass> findTreeByParentId(Long parentId);
+    List<GsStoreClass> findTreeByParentId(Long parentId);
 
-    PageInfo<StoreClass> findGradeByParentId(Integer curPage, Integer pageSize, Long parentId);
+    PageInfo<GsStoreClass> findGradeByParentId(Integer curPage, Integer pageSize, Long parentId);
 }

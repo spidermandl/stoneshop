@@ -1,4 +1,4 @@
-<#assign S_URL=request.contextPath />
+<#assign S_URL=request.contextPath  />
 <link href="${S_URL}/static/styles/window.css" type="text/css" rel="stylesheet" />
 <script>
 jQuery(document).ready(function(){

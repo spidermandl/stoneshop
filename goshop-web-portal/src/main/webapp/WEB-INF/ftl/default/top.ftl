@@ -5,9 +5,34 @@
             您好<span><@shiro.guest>游客</@shiro.guest><@shiro.user> <@shiro.principal property="loginName"/></@shiro.user>
     </span>
             ，欢迎来到      <a alt="首页" title="首页" href="#"><span>电商系统</span></a>
-        <@shiro.guest><span>[<a href="${S_URL}/login.html">登录</a>]</span><span>[<a href="${S_URL}/register.html">注册</a>]</span></@shiro.guest>
-        <@shiro.user><span>[<a href="${S_URL}/logout.html">退出</a>]</span>
-            <span class="seller-login"><a title="登录商家管理中心" target="_blank" href="${S_URL}/${SELLER_ROOT}/"><i class="icon-signin"></i>商家管理中心</a></span>
+        <@shiro.guest>
+            <span>[<a href="${S_URL}/login.html">登录</a>]</span>
+            <span>[<a href="${S_URL}/register.html">注册</a>]</span>
+        </@shiro.guest>
+        <@shiro.user>
+            <span>[<a href="${S_URL}/logout.html">退出</a>]</span>
+            <@shiro.hasRole name="seller">
+            <span class="seller-login">
+                <a title="登录商家管理中心" target="_blank" href="${S_URL}/${SELLER_ROOT}/">
+                    <i class="icon-signin"></i>
+                    商家管理中心
+                </a>
+            </span>
+            </@shiro.hasRole>
+            <@shiro.lacksRole name="seller">
+            <span class="seller-login">
+                <a title="申请店铺" target="_blank" href="${S_URL}/${SELLER_ROOT}/store_join/agreement.html">
+                    <i class="icon-signin"></i>
+                    申请店铺
+                </a>
+            </span>
+            </@shiro.lacksRole>
+            <span class="seller-login">
+                <a title="个人中心" target="_blank" href="${S_URL}/member/base_set.html">
+                    <i class="icon-signin"></i>
+                    个人中心
+                </a>
+            </span>
         </@shiro.user>
         </div>
 

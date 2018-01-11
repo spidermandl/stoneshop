@@ -1,20 +1,25 @@
 package org.goshop.goods.mapper.read;
 
+import org.apache.ibatis.annotations.Param;
 import org.goshop.goods.pojo.GsGoodsClass;
 import org.goshop.goods.pojo.GsGoodsClassWithBLOBs;
 
+import java.util.List;
+import java.util.Map;
+
 public interface ReadGsGoodsClassMapper {
-    int deleteByPrimaryKey(Long id);
-
-    int insert(GsGoodsClassWithBLOBs record);
-
-    int insertSelective(GsGoodsClassWithBLOBs record);
 
     GsGoodsClassWithBLOBs selectByPrimaryKey(Long id);
 
-    int updateByPrimaryKeySelective(GsGoodsClassWithBLOBs record);
+    List<GsGoodsClass> findTreeByGcParentId(Long gcParentId);
 
-    int updateByPrimaryKeyWithBLOBs(GsGoodsClassWithBLOBs record);
+    List<GsGoodsClass> findByGcParentId(@Param("parentId") Long parentId);
 
-    int updateByPrimaryKey(GsGoodsClass record);
+    List<GsGoodsClass> findByGcNameGcParentId(@Param("gcName") String gcName, @Param("gcParentId") Long gcParentId);
+
+    List<GsGoodsClass> findAll();
+
+    List<GsGoodsClass> findGradeByGcParentId(@Param("gcParentId") Long gcParentId);
+
+    List<GsGoodsClass> findByCondition(Map<String,Object> condition);
 }

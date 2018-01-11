@@ -1,4 +1,4 @@
-<#assign S_URL=request.contextPath />
+<#assign S_URL=request.contextPath  />
 <div class="userphoto">图片列表</div>
 <script>
   function editor_photo_set(obj){

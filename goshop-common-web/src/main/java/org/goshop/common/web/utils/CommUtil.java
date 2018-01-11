@@ -4,6 +4,7 @@ import com.github.pagehelper.PageInfo;
 import com.sun.image.codec.jpeg.JPEGCodec;
 import com.sun.image.codec.jpeg.JPEGEncodeParam;
 import com.sun.image.codec.jpeg.JPEGImageEncoder;
+import org.goshop.common.service.SysConfig;
 import org.goshop.common.utils.ImageCompress;
 import org.goshop.common.utils.ImageScale;
 import org.goshop.common.utils.StringUtils;
@@ -962,27 +963,27 @@ public class CommUtil {
 //        return s.toString();
 //    }
 //
-//    public static void saveWebPaths(Map<String, Object> map, SysConfig config, HttpServletRequest request){
-//        String contextPath = request.getContextPath().equals("/") ? "" : request.getContextPath();
-//        String webPath = CommUtil.getURL(request, config);
-//        String port = ":" + CommUtil.null2Int(Integer.valueOf(request.getServerPort()));
-//        if ((config.isSecond_domain_open()) && (!CommUtil.generic_domain(request).equals("localhost"))){
-//            webPath = "http://www." + CommUtil.generic_domain(request) + port + contextPath;
-//        }
-//        if(config.getSite_url() != null && !"".equalsIgnoreCase(config.getSite_url())){
-//            webPath = config.getSite_url() + contextPath;
-//        }
-//        map.put("domainPath", CommUtil.generic_domain(request));
-//        map.put("webPath", webPath);
-//        if ((config.getImageWebServer() != null) && (!config.getImageWebServer().equals(""))){
-//            map.put("imageWebServer", config.getImageWebServer());
-//        }else{
-//            map.put("imageWebServer", webPath);
-//        }
+    public static void saveWebPaths(Map<String, Object> map, SysConfig config, HttpServletRequest request){
+        String contextPath = request.getContextPath().equals("/") ? "" : request.getContextPath();
+        String webPath = CommUtil.getURL(request, config);
+        String port = ":" + CommUtil.null2Int(Integer.valueOf(request.getServerPort()));
+        if ((config.getSecond_domain_open()) && (!CommUtil.generic_domain(request).equals("localhost"))){
+            webPath = "http://www." + CommUtil.generic_domain(request) + port + contextPath;
+        }
+        if(config.getSite_url() != null && !"".equalsIgnoreCase(config.getSite_url())){
+            webPath = config.getSite_url() + contextPath;
+        }
+        map.put("domainPath", CommUtil.generic_domain(request));
+        map.put("webPath", webPath);
+        if ((config.getImageWebServer() != null) && (!config.getImageWebServer().equals(""))){
+            map.put("imageWebServer", config.getImageWebServer());
+        }else{
+            map.put("imageWebServer", webPath);
+        }
 //        map.put("goodsImagePath", config.getGoodsImage().getPath());
 //        map.put("goodsImageName", config.getGoodsImage().getName());
-//        map.put("IsSecondDomainOpen", config.isSecond_domain_open());
-//    }
+        map.put("IsSecondDomainOpen", config.getSecond_domain_open());
+    }
 //
 //    public static void saveLucene2Map(String type, LuceneResult pList, Map<String, Object> map){
 //        if (pList != null){
@@ -1313,24 +1314,24 @@ public class CommUtil {
         return url;
     }
 
-//    public static String getURL(HttpServletRequest request, SysConfig config){
-//        String contextPath = request.getContextPath().equals("/") ? "" : request.getContextPath();
-//
-//        String url = "http://" + request.getServerName();
-//        if (null2Int(Integer.valueOf(request.getServerPort())) != 80)
-//            url = url + ":" + null2Int(Integer.valueOf(request.getServerPort())) + contextPath;
-//       else{
-//            url = url + contextPath;
-//        }
-//        if(config.getSite_url() != null && !"".equalsIgnoreCase(config.getSite_url())){
-//            if(!"/".equalsIgnoreCase(contextPath))
-//                url = config.getSite_url() + contextPath;
-//            else
-//                url = config.getSite_url();
-//        }
-//
-//        return url;
-//    }
+    public static String getURL(HttpServletRequest request, SysConfig config){
+        String contextPath = request.getContextPath().equals("/") ? "" : request.getContextPath();
+
+        String url = "http://" + request.getServerName();
+        if (null2Int(Integer.valueOf(request.getServerPort())) != 80)
+            url = url + ":" + null2Int(Integer.valueOf(request.getServerPort())) + contextPath;
+       else{
+            url = url + contextPath;
+        }
+        if(config.getSite_url() != null && !"".equalsIgnoreCase(config.getSite_url())){
+            if(!"/".equalsIgnoreCase(contextPath))
+                url = config.getSite_url() + contextPath;
+            else
+                url = config.getSite_url();
+        }
+
+        return url;
+    }
 
     public static String filterHTML(String content){
         Whitelist whiteList = new Whitelist();

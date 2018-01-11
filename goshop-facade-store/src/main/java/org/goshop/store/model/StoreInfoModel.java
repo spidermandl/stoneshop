@@ -1,8 +1,8 @@
 package org.goshop.store.model;
 
-import org.goshop.goods.pojo.GoodsClass;
 import org.goshop.goods.pojo.GsGoodsClass;
-import org.goshop.store.pojo.StoreClass;
+import org.goshop.goods.pojo.GsGoodsClass;
+import org.goshop.store.pojo.GsStoreClass;
 import org.goshop.store.pojo.StoreGrade;
 
 import java.io.Serializable;
@@ -14,17 +14,17 @@ import java.util.List;
 public class StoreInfoModel implements Serializable {
 
     //店铺分类
-    private List<StoreClass> storeClassParentList;
+    private List<GsStoreClass> storeClassParentList;
     //店铺等级
     private List<StoreGrade> storeGradeList;
     //经营类目
     private List<GsGoodsClass> goodsClassParentList;
 
-    public List<StoreClass> getStoreClassParentList() {
+    public List<GsStoreClass> getStoreClassParentList() {
         return storeClassParentList;
     }
 
-    public void setStoreClassParentList(List<StoreClass> storeClassParentList) {
+    public void setStoreClassParentList(List<GsStoreClass> storeClassParentList) {
         this.storeClassParentList = storeClassParentList;
     }
 

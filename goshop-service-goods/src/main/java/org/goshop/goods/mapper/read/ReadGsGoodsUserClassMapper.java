@@ -4,6 +4,7 @@ import org.apache.ibatis.annotations.Param;
 import org.goshop.goods.pojo.GsGoodsUserClass;
 
 import java.util.List;
+import java.util.Map;
 
 public interface ReadGsGoodsUserClassMapper {
     int deleteByPrimaryKey(Long id);
@@ -21,4 +22,7 @@ public interface ReadGsGoodsUserClassMapper {
     List<GsGoodsUserClass> selectByUserIdAndNullParent(@Param("userId") Long userId,@Param("display") Boolean display);
 
     List<GsGoodsUserClass> selectByUserIdAndParentId(@Param("userId")Long userId, @Param("parentId") Long parentId);
+
+    List<GsGoodsUserClass> selectByCondition(Map condition);
+
 }

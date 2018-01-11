@@ -1,8 +1,12 @@
 package org.goshop.portal.controller;
 
+import org.goshop.assets.i.AccessoryService;
+import org.goshop.assets.pojo.GsAccessory;
 import org.goshop.common.service.AttachmentService;
 import org.goshop.common.context.CustomTimestampEditor;
 import org.goshop.common.exception.PageException;
+import org.goshop.common.service.SystemConfigService;
+import org.goshop.common.web.utils.CommUtil;
 import org.goshop.common.web.utils.JsonUtils;
 import org.goshop.shiro.bind.annotation.CurrentUser;
 import org.goshop.store.model.JsonManagement;
@@ -23,12 +27,17 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequestMapping(value = "/store_join")
@@ -39,6 +48,10 @@ public class StoreJoinController {
 
     @Autowired
     AttachmentService attachmentService;
+    @Autowired
+    SystemConfigService systemConfigService;
+    @Autowired
+    AccessoryService accessoryService;
 
     @InitBinder
     protected void initBinder(HttpServletRequest request,
@@ -75,7 +88,7 @@ public class StoreJoinController {
     public String jump(@CurrentUser User user, String statePage) {
         Store store = storeJoinService.getCurrentStore(user);
         if (store != null) {
-            return "redirect:/se/goods/addstep/one";
+            return "redirect:/goods/addstep/one";
         }
         StoreJoin storeJoin = storeJoinService.getCurrentUserStoreJoin(user);
         if (storeJoin != null) {
@@ -101,7 +114,8 @@ public class StoreJoinController {
     }
 
     @RequestMapping(value = "/step2", method = RequestMethod.POST)
-    public String stepTwo(@CurrentUser User user,StoreJoin storeJoin,
+    public String stepTwo(@CurrentUser User user,
+                          StoreJoin storeJoin,
                           BindingResult result,
                           Model model,
                           @RequestParam("businessLicenceNumber_electronic") MultipartFile businessLicenceNumberFile,//营业执照号电子版
@@ -119,12 +133,16 @@ public class StoreJoinController {
         Assert.isTrue(generalTaxpayerFile.getSize() < 1000000, "一般纳税人证明文件超过了1M，请编辑后重新上传！");
 
         try {
-            String business= attachmentService.upload(businessLicenceNumberFile);
-            String organization =  attachmentService.upload(organizationCodeFile);
-            String generalTaxpayer=attachmentService.upload(generalTaxpayerFile);
-            storeJoin.setBusinessLicenceNumberElectronic(business);
-            storeJoin.setOrganizationCodeElectronic(organization);
-            storeJoin.setGeneralTaxpayer(generalTaxpayer);
+
+//            String business= attachmentService.upload(businessLicenceNumberFile);
+//            String organization =  attachmentService.upload(organizationCodeFile);
+//            String generalTaxpayer=attachmentService.upload(generalTaxpayerFile);
+            storeJoin.setBusinessLicenceNumberElectronic(
+                    saveAccessory(request,businessLicenceNumberFile,"licence"));
+            storeJoin.setOrganizationCodeElectronic(
+                    saveAccessory(request,organizationCodeFile,"organization"));
+            storeJoin.setGeneralTaxpayer(
+                    saveAccessory(request,generalTaxpayerFile,"taxpayer"));
         } catch (IOException e) {
             e.printStackTrace();
             throw new PageException("文件保存错误！");
@@ -156,10 +174,12 @@ public class StoreJoinController {
         Assert.isTrue(taxRegistrationCertificateElectronicFile.getSize() < 1000000, "税务登记证号电子版文件超过了1M，请编辑后重新上传！");
 
         try {
-            String bankLicence= attachmentService.upload(bankLicenceElectronicFile);
-            String taxRegistrationCertificate =  attachmentService.upload(taxRegistrationCertificateElectronicFile);
-            storeJoin.setBankLicenceElectronic(bankLicence);
-            storeJoin.setTaxRegistrationCertificateElectronic(taxRegistrationCertificate);
+//            String bankLicence= attachmentService.upload(bankLicenceElectronicFile);
+//            String taxRegistrationCertificate =  attachmentService.upload(taxRegistrationCertificateElectronicFile);
+            storeJoin.setBankLicenceElectronic(
+                    saveAccessory(request,bankLicenceElectronicFile,"bank_licence"));
+            storeJoin.setTaxRegistrationCertificateElectronic(
+                    saveAccessory(request,taxRegistrationCertificateElectronicFile,"tax_code"));
         } catch (IOException e) {
             e.printStackTrace();
             throw new PageException("文件保存错误！");
@@ -249,8 +269,9 @@ public class StoreJoinController {
         Assert.isTrue(certificate.getSize() < 1000000, "付款凭证电子版文件超过了1M，请编辑后重新上传！");
 
         try {
-            String certificateStr= attachmentService.upload(certificate);
-            storeJoin.setPayingMoneyCertificate(certificateStr);
+            //String certificateStr= attachmentService.upload(certificate);
+            storeJoin.setPayingMoneyCertificate(
+                    saveAccessory(request,certificate,"money_certificate"));
         } catch (IOException e) {
             e.printStackTrace();
             throw new PageException("文件保存错误！");
@@ -258,5 +279,41 @@ public class StoreJoinController {
         storeJoinService.paySave(storeJoin);
         return "redirect:/store_join/step4.html";
 
+    }
+
+
+    /****************************************************************************************************
+     * private
+     ***************************************************************************************************/
+    /**
+     *
+     * @param request
+     * @param multipartFile
+     * @param subPath
+     * @return GsAccessory id
+     * @throws IOException
+     */
+    private Long saveAccessory(HttpServletRequest request,MultipartFile multipartFile,String subPath) throws IOException{
+        String uploadFilePath = this.systemConfigService.getConfig().getUploadFilePath();
+        String saveFilePathName = request.getSession().getServletContext().getRealPath("/") + uploadFilePath;
+        Map map;
+        map = CommUtil.saveFileToServer(
+                (CommonsMultipartFile)multipartFile,
+                saveFilePathName + File.separator + subPath,
+                null, null);
+        if (map.get("fileName") != ""){
+            GsAccessory card = new GsAccessory();
+            card.setName(CommUtil.null2String(map.get("fileName")));
+            card.setExt(CommUtil.null2String(map.get("mime")));
+            card.setSize(CommUtil.null2Float(map.get("fileSize")));
+            card.setPath(uploadFilePath + "/card");
+            card.setWidth(CommUtil.null2Int(map.get("width")));
+            card.setHeight(CommUtil.null2Int(map.get("height")));
+            card.setAddtime(new Date());
+            long id = this.accessoryService.save(card);
+            return id;
+        }
+
+        return 0L;
     }
 }
