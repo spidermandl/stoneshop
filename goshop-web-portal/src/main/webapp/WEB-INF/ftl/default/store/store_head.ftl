@@ -49,9 +49,9 @@
                   </a>
                   <span>
                       <#if credit==0>
-                          <img src="${imageWebServer!}/resources/style/common/images/level_-1.gif"/>
+                          <img src="${imageWebServer!}/static/images/common/level_-1.gif"/>
                       <#else>
-                        <#list [1..credit] as count >
+                        <#list 1..credit as count >
                             <img style="margin-left:1px;" src="${img}" />
                         </#list>
                       </#if>
@@ -86,10 +86,10 @@
               <dt>店铺认证</dt>
               <dd>
                   <span>
-                      <img src="${imageWebServer!}/resources/style/common/images/card_approve_${(store.cardApprove)!}.gif" />
+                      <img src="${imageWebServer!}/static/images/common/card_approve_${(store.cardApprove)!false?string("true","false")}.gif" />
                   </span>
                   <span>
-                      <img src="${imageWebServer!}/resources/style/common/images/realstore_approve_${(store.realstoreApprove)!}.gif" />
+                      <img src="${imageWebServer!}/static/images/common/realstore_approve_${(store.realstoreApprove)!false?string("true","false")}.gif" />
                   </span>
               <dd>
             </dl>
@@ -139,7 +139,7 @@
 jQuery(function(jQuery){
   <#if user!??>
   jQuery(".top_sc").click(function(){
-     <#if (user.id)! == (obj.goods_store.user.id)!>
+     <#if ((user.id)!0) == ((obj.goods_store.user.id)!-1)>
 	   alert("不能收藏自己的店铺");
 	 <#else>
 	   jQuery.post("${S_URL}/add_store_favorite",{"id":"${(store.id)!}"},function(data){

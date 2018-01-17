@@ -87,30 +87,31 @@ public class GoodsViewTools {
             }
             ids.add(child.getId());
         }
-
         return ids;
     }
 
-    public List<GsGoodsWithBLOBs> sort_sale_goods(String store_id, int count){
-        List list = new ArrayList();
+    public List<GsGoodsWithBLOBs> sort_sale_goods(Long store_id, int count){
         Map params = new HashMap();
-        params.put("store_id", CommUtil.null2Long(store_id));
+        params.put("goods_store_id", store_id);
         params.put("goods_status", Integer.valueOf(0));
         params.put("orderBy","goods_salenum");
         params.put("orderType","desc");
-        list = this.goodsService.findByCondition(params);
+        List list = this.goodsService.findByCondition(params);
 
         return list;
     }
 
+    public List<GsGoodsWithBLOBs> sort_sale_goods(String store_id, int count){
+        return sort_sale_goods(CommUtil.null2Long(store_id),count);
+    }
+
     public List<GsGoodsWithBLOBs> sort_collect_goods(String store_id, int count){
-        List list = new ArrayList();
         Map params = new HashMap();
-        params.put("store_id", CommUtil.null2Long(store_id));
+        params.put("goods_store_id", CommUtil.null2Long(store_id));
         params.put("goods_status", Integer.valueOf(0));
         params.put("orderBy","goods_collect");
         params.put("orderType","desc");
-        list = this.goodsService.findByCondition(params);
+        List list = this.goodsService.findByCondition(params);
         return list;
     }
 

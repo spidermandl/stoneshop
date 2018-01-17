@@ -1,9 +1,7 @@
 package org.goshop.portal.controller;
 
 import com.github.pagehelper.PageInfo;
-import org.goshop.common.service.SystemConfigService;
 import org.goshop.common.web.utils.CommUtil;
-import org.goshop.common.web.utils.HttpInclude;
 import org.goshop.goods.i.GoodsEvaluateService;
 import org.goshop.goods.i.GoodsService;
 import org.goshop.goods.i.GoodsUserClassService;
@@ -11,6 +9,7 @@ import org.goshop.goods.pojo.GsGoodsEvaluateWithBLOBs;
 import org.goshop.goods.pojo.GsGoodsWithBLOBs;
 import org.goshop.order.i.OrderFormService;
 import org.goshop.order.pojo.GsOrderform;
+import org.goshop.shiro.bind.annotation.CurrentUser;
 import org.goshop.store.i.StoreClassService;
 import org.goshop.store.i.StoreNavigationService;
 import org.goshop.store.i.StorePartnerService;
@@ -21,6 +20,7 @@ import org.goshop.store.pojo.Store;
 import org.goshop.tools.service.AreaViewTools;
 import org.goshop.tools.service.GoodsViewTools;
 import org.goshop.tools.service.StoreViewTools;
+import org.goshop.users.pojo.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -37,9 +37,7 @@ import java.util.Map;
  * 店铺控制器
  */
 @Controller
-public class StoreController {
-    @Autowired
-    private SystemConfigService systemConfigService;
+public class StoreController extends BaseController{
     @Autowired
     private StoreService storeService;
     @Autowired
@@ -69,10 +67,10 @@ public class StoreController {
     @RequestMapping({"/store"})
     public String store(Model model,
                         HttpServletRequest request,
-                              HttpServletResponse response,
-                              String id){
+                        HttpServletResponse response,
+                        String id){
+        reCapsuleModel(model,request,response);
         String serverName = request.getServerName().toLowerCase();
-        model.addAttribute("httpInclude", new HttpInclude(request, response));
         Store store = null;
         if ((id == null) && (serverName.indexOf(".") >= 0) &&
                 (serverName.indexOf(".") != serverName.lastIndexOf(".")) &&
@@ -111,6 +109,7 @@ public class StoreController {
     public String store_left(Model model,
                              HttpServletRequest request,
                              HttpServletResponse response){
+        reCapsuleModel(model,request,response);
         Store store = this.storeService.findOne(CommUtil.null2Long(request.getAttribute("id")));
         String template = "default";
         if ((store != null) && (store.getTemplate() != null) && (!store.getTemplate().equals(""))){
@@ -136,12 +135,13 @@ public class StoreController {
     public String store_left1(Model model,
                               HttpServletRequest request,
                               HttpServletResponse response){
+        reCapsuleModel(model,request,response);
         Store store = this.storeService.findOne(CommUtil.null2Long(request.getAttribute("id")));
         String template = "default";
         if ((store != null) && (store.getTemplate() != null) &&(!store.getTemplate().equals(""))){
             template = store.getTemplate();
         }
-        String ret = template + "/store_left1";
+        String ret = generateViewURL(template + "/store_left1");
         model.addAttribute("store", store);
         add_store_common_info(model, store);
         Map params = new HashMap();
@@ -159,12 +159,13 @@ public class StoreController {
     public String store_left2(Model model,
                               HttpServletRequest request,
                               HttpServletResponse response){
+        reCapsuleModel(model,request,response);
         Store store = this.storeService.findOne(CommUtil.null2Long(request.getAttribute("id")));
         String template = "default";
         if ((store != null) && (store.getTemplate() != null) && (!store.getTemplate().equals(""))){
             template = store.getTemplate();
         }
-        String ret = template + "/store_left2";
+        String ret = generateViewURL(template + "/store_left2");
         model.addAttribute("store", store);
         add_store_common_info(model, store);
 
@@ -175,6 +176,7 @@ public class StoreController {
     public String store_nav(Model model,
                             HttpServletRequest request,
                             HttpServletResponse response){
+        reCapsuleModel(model,request,response);
         Long id = CommUtil.null2Long(request.getAttribute("id"));
         Store store = this.storeService.findOne(id);
         String template = "default";
@@ -209,15 +211,17 @@ public class StoreController {
     public String store_credit(Model model,
                                HttpServletRequest request,
                                HttpServletResponse response, String id){
+        reCapsuleModel(model,request,response);
         Store store = this.storeService.findOne(CommUtil.null2Long(id));
         String template = "default";
         if ((store.getTemplate() != null) && (!store.getTemplate().equals(""))){
             template = store.getTemplate();
         }
-        String ret = template + "/store_credit";
+        String ret = generateViewURL(template + "/store_credit");
         if (store.getStoreState() == 2){
             List<GsOrderform> orders = orderFormService.findByStoreId(store.getStoreId());
             List<Long> of_ids = new ArrayList<>();
+            of_ids.add(-1L);
             for (GsOrderform order:orders){
                 of_ids.add(order.getId());
             }
@@ -231,7 +235,7 @@ public class StoreController {
             model.addAttribute("nav_id", "store_credit");
             model.addAttribute("storeViewTools", this.storeViewTools);
         }else{
-            ret = "error";
+            ret = generateViewURL("error");
             model.addAttribute("op_title", "店铺信息错误");
             model.addAttribute("url", CommUtil.getURL(request) + "/index");
         }
@@ -243,19 +247,22 @@ public class StoreController {
     public String store_eva(Model model,
                             HttpServletRequest request,
                             HttpServletResponse response,
-                            String id, String currentPage, String eva_val){
+                            String id, String currentPage,
+                            String eva_val){
+        reCapsuleModel(model,request,response);
         Store store = this.storeService.findOne(Long.valueOf(Long.parseLong(id)));
         String template = "default";
         if ((store.getTemplate() != null) && (!store.getTemplate().equals(""))){
             template = store.getTemplate();
         }
-        String ret = template + "/store_eva";
+        String ret = generateViewURL(template + "/store_eva");
         if (store.getStoreState() == 2){
             List<GsOrderform> orders = orderFormService.findByStoreId(store.getStoreId());
             List<Long> of_ids = new ArrayList<>();
             for (GsOrderform order:orders){
                 of_ids.add(order.getId());
             }
+            of_ids.add(-1L);
             Map param = new HashMap();
             param.put("orderBy","addTime");
             param.put("orderType","desc");
@@ -266,7 +273,7 @@ public class StoreController {
             CommUtil.saveIPageList2ModelAndView(CommUtil.getURL(request) +"/store_eva", "",
                     "&eva_val=" + CommUtil.null2String(eva_val), pList, model);
         }else{
-            ret = "error";
+            ret = generateViewURL("error");
             model.addAttribute("op_title", "店铺信息错误");
             model.addAttribute("url", CommUtil.getURL(request) + "/index.htm");
         }
@@ -278,12 +285,13 @@ public class StoreController {
     public String store_info(Model model,
                              HttpServletRequest request,
                              HttpServletResponse response, String id){
+        reCapsuleModel(model,request,response);
         Store store = this.storeService.findOne(Long.valueOf(Long.parseLong(id)));
         String template = "default";
         if ((store.getTemplate() != null) && (!store.getTemplate().equals(""))){
             template = store.getTemplate();
         }
-        String ret = template + "/store_info";
+        String ret = generateViewURL(template + "/store_info");
         if (store.getStoreState() == 2){
             model.addAttribute("store", store);
             model.addAttribute("nav_id", "store_info");
@@ -497,23 +505,4 @@ public class StoreController {
         }
     }
 
-    /******************************************************
-     * private 方法
-     *****************************************************/
-    /***
-     * @param viewName
-     * @return
-     */
-    private String generateViewURL(String viewName){
-        String lang = systemConfigService.getConfig().getSysLanguage();
-        if ( lang != null){
-            if (lang.equals("zh_cn")){
-                return "store/" + viewName;
-            }else{
-                return "store/" + viewName;
-            }
-        }else{
-            return "store/" + viewName;
-        }
-    }
 }

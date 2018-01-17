@@ -1,20 +1,20 @@
-<#assign S_URL=request.contextPath  />
+<#assign S_URL=request.contextPath />
 <!DOCTYPE html>
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>${(store.store_name)!} - ${(config.poweredby)!}</title>
-    <meta name="keywords" content="${(store.store_seo_keywords)!}" />
-    <meta name="description" content="${(store.store_seo_description)!}" />
+    <title>${(store.storeName)!} - ${(config.poweredby)!}</title>
+    <meta name="keywords" content="${(store.storeKeywords)!}" />
+    <meta name="description" content="${(store.storeDescription)!}" />
     <meta name="generator" content="${(config.meta_generator)!}" />
     <meta name="author" content="${(config.meta_author)!}">
     <meta name="copyright" content="${(config.copyRight)!}">
     <#if (config.website_ico)??>
     <link rel="shortcut icon" href="${imageWebServer!}/${(config.website_ico.path)!}/${(config.website_ico.name)!}" type="image/x-icon"/>
     </#if>
-    <link href="${S_URL}/static/style/system/front/default/css/public.css" type="text/css" rel="stylesheet" />
-    <link href="${S_URL}/static/style/shop/${(store.template)!}/css/default.css" type="text/css" rel="stylesheet" />
-    <link href="${S_URL}/static/style/common/css/overlay.css" type="text/css" rel="stylesheet" />
+    <link href="${S_URL}/static/styles/system/front/default/css/public.css" type="text/css" rel="stylesheet" />
+    <link href="${S_URL}/static/styles/shop/${(store.template)!}/css/default.css" type="text/css" rel="stylesheet" />
+    <link href="${S_URL}/static/styles/overlay.css" type="text/css" rel="stylesheet" />
     <script src="${S_URL}/static/scripts/jquery/jquery.js"></script>
     <script src="${S_URL}/static/scripts/jquery-ui/jquery.ui.js"></script>
     <script src="${S_URL}/static/scripts/jquery/jquery.lazyload.js"></script>
@@ -23,7 +23,7 @@
 
     <!-- -->
     <#if second_domain_view?? >
-      <#assign store_second_url="http://${(store.store_second_domain)!}.${domainPath!}" />
+      <#assign store_second_url="http://${(store.storeDomain)!}.${domainPath!}" />
     </#if>
 
     <script src="${store_second_url}/static/scripts/jquery.shop.common.js"></script>
@@ -43,7 +43,7 @@
          afterEnd:function(a){
           var index=jQuery(a[0]).index();
           <#if (store.slides)!?size gt 0 >
-            if(index>(store.slides)?size) index=1;
+            if(index>"${(store.slides)?size}") index=1;
           <#else>
             if(index>4)index=1;
           </#if>
@@ -58,8 +58,8 @@
     ${httpInclude.include("/top")}
     ${httpInclude.include("/store_head?store_id=${(store.storeId)!}")}
       <#assign banner="${S_URL}/resources/style/shop/${(store.template)!}/images/banner.jpg" />
-      <#if (store.store_banner)!??>
-          <#assign banner="${S_URL}/${(store.store_banner.path)!}/${(store.store_banner.name)!}" />
+      <#if (store.banner)!??>
+          <#assign banner="${S_URL}/${(store.banner.path)!}/${(store.banner.name)!}" />
       </#if>
     <div class="banner_width">
       <div class="shopbanner"><img src="${banner!}" width="1200px" /></div>
@@ -128,14 +128,14 @@
                 </#if>
                    <#assign goods_url="${S_URL}/goods_${(goods.id)!}" />
                    <#if (config.second_domain_open)!?? >
-                     <#assign goods_url="http://${(goods.goods_store.store_second_domain)!}.${domainPath!}/goods_${(goods.id)!}" />
+                     <#assign goods_url="http://${(goods.goods_store.storeDomain)!}.${domainPath!}/goods_${(goods.id)!}" />
                    </#if>
                 <ul>
                   <li class="goodsimgs">
                       <span class="goods_sp_span">
                           <p>
                               <a href="${goods_url!}" target="_blank">
-                              <img src="${imageWebServer!}/resources/style/common/images/loader.gif" original="${img!}"
+                              <img src="${imageWebServer!}/static/images/common/loader.gif" original="${img!}"
                                    onerror="this.src='${S_URL}/${(config.goodsImage.path)!}/${(config.goodsImage.name)!}';" width="28" height="28"/>
                               </a>
                           </p>
@@ -143,11 +143,11 @@
                   </li>
                   <li class="goodslook">
                       <a href="${goods_url!}" target="_blank" class="look">查看详情</a>
-                      <strong>¥${(goods.store_price)!}</strong></li>
+                      <strong>¥${(goods.goodsPrice)!}</strong></li>
                   <li class="goodsnames">
-                      <a href="${goods_url!}" target="_blank">${(CommUtil.substring("${(goods.goods_name)!}",28))!}</a>
+                      <a href="${goods_url!}" target="_blank">${(CommUtil.substring("${(goods.goodsName)!}",28))!}</a>
                   </li>
-                  <li class="recentgoodsok">最近成交<strong>${(goods.goods_salenum)!}</strong>笔</li>
+                  <li class="recentgoodsok">最近成交<strong>${(goods.goodsSalenum)!}</strong>笔</li>
                 </ul>
                   </#list>
               </div>
@@ -166,14 +166,14 @@
                 </#if>
                    <#assign goods_url="${S_URL}/goods_${(goods.id)!}" />
                    <#if (config.second_domain_open)!?? >
-                     <#assign goods_url="http://${(goods.goods_store.store_second_domain)!}.${domainPath!}/goods_${(goods.id)!}" />
+                     <#assign goods_url="http://${(goods.goods_store.storeDomain)!}.${domainPath!}/goods_${(goods.id)!}" />
                    </#if>
                 <ul>
                   <li class="goodsimgs">
                       <span class="goods_sp_span">
                         <p>
                             <a href="${goods_url!}" target="_blank">
-                            <img src="${imageWebServer!}/resources/style/common/images/loader.gif" original="${img!}"
+                            <img src="${imageWebServer!}/static/images/common/loader.gif" original="${img!}"
                                  onerror="this.src='${S_URL}/${(config.goodsImage.path)!}/${(config.goodsImage.name)!}';" width="28" height="28"/>
                             </a>
                         </p>
@@ -181,11 +181,11 @@
                   </li>
                   <li class="goodslook">
                       <a href="${goods_url!}" target="_blank" class="look">查看详情</a>
-                      <strong>¥${(goods.store_price)!}</strong>
+                      <strong>¥${(goods.storePrice)!}</strong>
                   </li>
                   <li class="goodsnames">
-                      <a href="${goods_url!}" target="_blank">${(CommUtil.substring("${(goods.goods_name)!}",28))!}</a></li>
-                  <li class="recentgoodsok">最近成交<strong>${(goods.goods_salenum)!}</strong>笔</li>
+                      <a href="${goods_url!}" target="_blank">${(CommUtil.substring("${(goods.goodsName)!}",28))!}</a></li>
+                  <li class="recentgoodsok">最近成交<strong>${(goods.goodsSalenum)!}</strong>笔</li>
                 </ul>
                 </#list>
               </div>

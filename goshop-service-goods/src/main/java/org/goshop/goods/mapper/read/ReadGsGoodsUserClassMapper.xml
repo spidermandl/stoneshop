@@ -70,20 +70,38 @@
   </select>
   <select id="selectByCondition" resultMap="BaseResultMap" parameterType="java.util.Map" >
     select
-    <include refid="Base_Column_List" />
-    from gs_goods_user_class
+      t.id,
+      t.addTime,
+      t.deleteStatus,
+      t.className,
+      t.display,
+      t.level,
+      t.sequence,
+      t.parent_id,
+      t.user_id,
+      child.id AS c_id,
+      child.addTime AS c_addTime,
+      child.deleteStatus AS c_deleteStatus,
+      child.className AS c_className,
+      child.display AS c_display,
+      child.level AS c_level,
+      child.sequence AS c_sequence,
+      child.parent_id AS c_parent_id,
+      child.user_id AS c_user_id
+    from gs_goods_user_class t
+    LEFT JOIN gs_goods_user_class child ON (child.parent_id = t.id)
     <where>
       <if test="display != null">
-        and display = #{display}
+        and t.display = #{display}
       </if>
       <if test="parent_id != null">
-        and parent_id = #{parent_id}
+        and t.parent_id = #{parent_id}
       </if>
       <if test="parent_id == null">
-        and parent_id IS NULL
+        and t.parent_id IS NULL
       </if>
       <if test="user_id == null">
-        and user_id = #{user_id}
+        and t.user_id = #{user_id}
       </if>
 
     </where>

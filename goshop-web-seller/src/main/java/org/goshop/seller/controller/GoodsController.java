@@ -325,6 +325,7 @@ public class GoodsController {
                 && (!Integer.valueOf(2).equals(goods.getActivityStatus()))){
             goods.setGoodsCurrentPrice(goods.getStorePrice());
         }
+        goods.setZtcAdminId(user.getId());
         goods.setGoodsName(CommUtil.clearContent(goods.getGoodsName()));
         GsGoodsClass gc = this.goodsClassService.findOne(Long.valueOf(Long.parseLong(goods_class_id)));
         goods.setGcId(gc.getId());

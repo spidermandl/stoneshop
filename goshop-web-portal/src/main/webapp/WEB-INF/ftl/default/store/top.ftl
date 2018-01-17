@@ -39,7 +39,7 @@
           </div>
         </li>
         <script>
-		 var goods_count=$!cart.size();
+		 var goods_count=${cart!?size};
 		 var total_price=0;
 		 <#assign total_price=0 />
 		 <#list cart as gc >
@@ -96,7 +96,7 @@
             <div class="menu-bd" id="cart_goods_top_info">
              <div class="menu-bd-panel">
                 <div style="text-align:center;">
-                    <img src="${S_URL}/resources/style/common/images/loader.gif" />
+                    <img src="${S_URL}/static/images/common/loader.gif" />
                 </div>
              </div>
 
@@ -157,7 +157,7 @@
     <div class="pageleft">
     <#if user?? >
         <span>${CommUtil.substring("${(user.userName)!}",12)}
-            您好,欢迎来到${CommUtil.substring("$!{config.websiteName}",30)}！</span>
+            您好,欢迎来到${CommUtil.substring("${(config.websiteName)!}",30)}！</span>
         <a href="${S_URL}/wemall_logout" class="lightblue">[退出]</a>
     <#else>
         <span>亲，欢迎来到${(config.websiteName)!}！</span>

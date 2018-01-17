@@ -48,8 +48,9 @@
     <include refid="Blob_Column_List" />
     from gs_goods_evaluate
     <where>
+        1=1
         <if test="evaluate_buyer_val !=null">
-          and evaluate_buyer_val = #{evaluate_buyer_val}
+          AND evaluate_buyer_val = #{evaluate_buyer_val}
         </if>
         --       item表示集合中每一个元素进行迭代时的别名，
         --       index指 定一个名字，用于表示在迭代过程中，每次迭代到的位置，

@@ -15,9 +15,9 @@ public class AreaViewTools {
     @Autowired
     private StoreAreaService storeAreaService;
 
-    public String generic_area_info(String area_id){
+    public String generic_area_info(Long area_id) {
         String area_info = "";
-        GsArea area = this.storeAreaService.findOne(CommUtil.null2Long(area_id));
+        GsArea area = this.storeAreaService.findOne(area_id);
         if (area != null){
             area_info = area.getAreaname() + " ";
             if (area.getParentId() != null){
@@ -27,5 +27,9 @@ public class AreaViewTools {
         }
 
         return area_info;
+    }
+
+    public String generic_area_info(String area_id){
+        return generic_area_info(CommUtil.null2Long(area_id));
     }
 }

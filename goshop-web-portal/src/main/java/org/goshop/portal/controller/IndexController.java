@@ -1,5 +1,6 @@
 package org.goshop.portal.controller;
 
+import org.apache.shiro.SecurityUtils;
 import org.goshop.common.service.SysConfig;
 import org.goshop.common.service.SystemConfigService;
 import org.goshop.common.web.utils.CommUtil;
@@ -39,9 +40,7 @@ import java.util.*;
  * 商城首页控制器
  */
 @Controller
-public class IndexController {
-    @Autowired
-    private SystemConfigService systemConfigService;
+public class IndexController extends BaseController{
     @Autowired
     private StoreJoinService storeJoinService;
     @Autowired
@@ -114,12 +113,12 @@ public class IndexController {
      * @return
      */
     @RequestMapping({ "/top" })
-    public String top(@CurrentUser User user,
-                            Model model,
+    public String top(Model model,
                             HttpServletRequest request,
                             HttpServletResponse response){
+        User user = (User) SecurityUtils.getSubject().getPrincipal();
+        reCapsuleModel(model,request,response);
         String ret = generateViewURL("top");
-        model.addAttribute("CommUtil",new CommUtil());
         List msgs = new ArrayList();
         if(user != null){
             Map params = new HashMap();
@@ -345,10 +344,10 @@ public class IndexController {
     public String footer(Model model,
                                HttpServletRequest request,
                                HttpServletResponse response){
-        String ret = "footer";
+        String ret = generateViewURL("footer");
         String wemall_view_type = CommUtil.null2String(request.getSession().getAttribute("wemall_view_type"));
         if((wemall_view_type != null) && (!wemall_view_type.equals("")) && (wemall_view_type.equals("wap"))){
-            ret = "wap/footer.html";
+            ret = generateViewURL("wap/footer");
         }
         model.addAttribute("navTools", this.navViewTools);
 
@@ -362,11 +361,10 @@ public class IndexController {
      * @return
      */
     @RequestMapping({ "/index" })
-    public String index(@CurrentUser User user,
-                        Model model,
+    public String index(Model model,
                         HttpServletRequest request,
                         HttpServletResponse response){
-        String ret = "index";
+        String ret = generateViewURL("index");
         //设置为PC访问
         request.getSession().setAttribute("wemall_view_type", "pc");
         List gcs = this.goodsClassService.findByParentIdAndDisplay(null,Boolean.valueOf(true),"sequence","asc",1,15).getList();
@@ -413,6 +411,7 @@ public class IndexController {
         model.addAttribute("store_reommend_goods_count", Double.valueOf(Math.ceil(CommUtil.div(Integer.valueOf(store_reommend_goods_list.size()), Integer.valueOf(5)))));
         model.addAttribute("goodsViewTools", this.goodsViewTools);
         model.addAttribute("storeViewTools", this.storeViewTools);
+        User user = (User) SecurityUtils.getSubject().getPrincipal();
         if(user != null){
             model.addAttribute("user", user);
         }
@@ -1051,23 +1050,4 @@ public class IndexController {
         return sb.toString();
     }
 
-    /******************************************************
-     * private 方法
-     *****************************************************/
-    /***
-     * @param viewName
-     * @return
-     */
-    private String generateViewURL(String viewName){
-        String lang = systemConfigService.getConfig().getSysLanguage();
-        if ( lang != null){
-            if (lang.equals("zh_cn")){
-                return "store/" + viewName;
-            }else{
-                return "store/" + viewName;
-            }
-        }else{
-            return "store/" + viewName;
-        }
-    }
 }
