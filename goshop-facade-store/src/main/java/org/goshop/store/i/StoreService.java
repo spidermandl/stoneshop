@@ -6,6 +6,7 @@ import org.goshop.store.pojo.StoreJoin;
 import org.goshop.store.pojo.StoreWithBLOBs;
 import org.goshop.users.pojo.User;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -36,4 +37,11 @@ public interface StoreService {
     Store findBySecondDomain(String domain);
 
     PageInfo<Store> findByCondition(Map map,Integer curPage,Integer pageSize);
+
+    /**
+     * 根据条件返回主键
+     * @param map
+     * @return
+     */
+    List<Long> findIndexByCondition(Map map);
 }

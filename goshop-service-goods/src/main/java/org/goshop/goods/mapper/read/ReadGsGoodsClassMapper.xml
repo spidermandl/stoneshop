@@ -44,11 +44,38 @@
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="ResultMapWithBLOBs">
     select
-    <include refid="Base_Column_List" />
-    ,
-    <include refid="Blob_Column_List" />
-    from gs_goods_class
-    where id = #{id,jdbcType=BIGINT}
+    t.id,
+    t.addTime,
+    t.deleteStatus,
+    t.className,
+    t.display,
+    t.level,
+    t.recommend,
+    t.sequence,
+    t.goods_type_id,
+    t.parent_id,
+    t.icon_sys,
+    t.icon_type,
+    t.icon_acc_id,
+    t.seo_description,
+    t.seo_keywords,
+    child.id AS c_id,
+    child.addTime AS c_addTime,
+    child.deleteStatus AS c_deleteStatus,
+    child.className AS c_className,
+    child.display AS c_display,
+    child.level AS c_level,
+    child.recommend AS c_recommend,
+    child.sequence AS c_sequence,
+    child.goods_type_id AS c_goods_type_id,
+    child.parent_id AS c_parent_id,
+    child.icon_sys AS c_icon_sys,
+    child.icon_acc_id AS c_icon_acc_id,
+    child.seo_description AS c_seo_description,
+    child.seo_keywords AS c_seo_keywords
+    from gs_goods_class t
+    LEFT JOIN gs_goods_class child ON (child.parent_id = t.id)
+    where t.id = #{id,jdbcType=BIGINT}
   </select>
   <select id="findByGcParentId" parameterType="java.lang.Long" resultMap="ResultMapWithBLOBs">
     select

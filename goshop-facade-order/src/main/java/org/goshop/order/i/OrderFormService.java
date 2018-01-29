@@ -10,4 +10,5 @@ import java.util.List;
 public interface OrderFormService {
 
     List<GsOrderform> findByStoreId(Long storeId);
+
 }

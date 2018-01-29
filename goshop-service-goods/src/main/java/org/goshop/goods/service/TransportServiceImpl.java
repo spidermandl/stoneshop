@@ -25,7 +25,11 @@ public class TransportServiceImpl implements TransportService {
 
 
     @Override
-    public PageInfo<GsTransportWithBLOBs> findByStoreId(Long storeId, Integer curPage, Integer pageSize,String orderBy,String orderType) {
+    public PageInfo<GsTransportWithBLOBs> findByStoreId(Long storeId,
+                                                        Integer curPage,
+                                                        Integer pageSize,
+                                                        String orderBy,
+                                                        String orderType) {
         PageUtils.startPage(curPage,pageSize);
         orderBy = orderBy==null?"addTime":orderBy;
         orderType = orderType==null?"desc":orderType;

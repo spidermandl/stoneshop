@@ -10,6 +10,16 @@
     <result column="sequence" property="sequence" jdbcType="INTEGER" />
     <result column="parent_id" property="parentId" jdbcType="BIGINT" />
     <result column="common" property="common" jdbcType="BIT" />
+    <collection property="childs" ofType="org.goshop.store.pojo.GsArea" column="parent_id">
+      <id column="c_id" property="id" jdbcType="BIGINT" />
+      <result column="c_addTime" property="addtime" jdbcType="TIMESTAMP" />
+      <result column="c_deleteStatus" property="deletestatus" jdbcType="BIT" />
+      <result column="c_areaName" property="areaname" jdbcType="VARCHAR" />
+      <result column="c_level" property="level" jdbcType="INTEGER" />
+      <result column="c_sequence" property="sequence" jdbcType="INTEGER" />
+      <result column="c_parent_id" property="parentId" jdbcType="BIGINT" />
+      <result column="c_common" property="common" jdbcType="BIT" />
+    </collection>
   </resultMap>
   <sql id="Base_Column_List" >
     id, addTime, deleteStatus, areaName, level, sequence, parent_id, common
@@ -28,110 +38,41 @@
       <when test="parentId !=null "> where parent_id = #{parentId,jdbcType=BIGINT}</when>
       <when test="parentId ==null"> where parent_id is null</when>
     </choose>
+    order BY sequence ASC
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
-    delete from gs_area
-    where id = #{id,jdbcType=BIGINT}
-  </delete>
-  <insert id="insert" parameterType="org.goshop.store.pojo.GsArea" >
-    <selectKey resultType="java.lang.Long" keyProperty="id" order="AFTER" >
-      SELECT LAST_INSERT_ID()
-    </selectKey>
-    insert into gs_area (addTime, deleteStatus, areaName,
-      level, sequence, parent_id,
-      common)
-    values (#{addtime,jdbcType=TIMESTAMP}, #{deletestatus,jdbcType=BIT}, #{areaname,jdbcType=VARCHAR},
-      #{level,jdbcType=INTEGER}, #{sequence,jdbcType=INTEGER}, #{parentId,jdbcType=BIGINT},
-      #{common,jdbcType=BIT})
-  </insert>
-  <insert id="insertSelective" parameterType="org.goshop.store.pojo.GsArea" >
-    <selectKey resultType="java.lang.Long" keyProperty="id" order="AFTER" >
-      SELECT LAST_INSERT_ID()
-    </selectKey>
-    insert into gs_area
-    <trim prefix="(" suffix=")" suffixOverrides="," >
-      <if test="addtime != null" >
-        addTime,
+  <select id="selectByCondition" resultMap="BaseResultMap" parameterType="java.util.Map" >
+    select
+    t.id,
+    t.addTime,
+    t.deleteStatus,
+    t.areaName,
+    t.level,
+    t.sequence,
+    t.parent_id,
+    t.common,
+    child.id AS c_id,
+    child.addTime AS c_addTime,
+    child.deleteStatus AS c_deleteStatus,
+    child.areaName AS c_areaName,
+    child.level AS c_level,
+    child.sequence AS c_sequence,
+    child.parent_id AS c_parent_id,
+    child.common AS c_common
+    from gs_area t
+    LEFT JOIN gs_area child ON (child.parent_id = t.id)
+    <where>
+      <if test="area_name != null">
+        and t.areaName LIKE #{area_name}
       </if>
-      <if test="deletestatus != null" >
-        deleteStatus,
+      <if test="area_ids != null">
+        and t.id IN
+        <foreach collection="ids" index="index" item="item" open="(" separator="," close=")">
+          #{item}
+        </foreach>
       </if>
-      <if test="areaname != null" >
-        areaName,
-      </if>
-      <if test="level != null" >
-        level,
-      </if>
-      <if test="sequence != null" >
-        sequence,
-      </if>
-      <if test="parentId != null" >
-        parent_id,
-      </if>
-      <if test="common != null" >
-        common,
-      </if>
-    </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides="," >
-      <if test="addtime != null" >
-        #{addtime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="deletestatus != null" >
-        #{deletestatus,jdbcType=BIT},
-      </if>
-      <if test="areaname != null" >
-        #{areaname,jdbcType=VARCHAR},
-      </if>
-      <if test="level != null" >
-        #{level,jdbcType=INTEGER},
-      </if>
-      <if test="sequence != null" >
-        #{sequence,jdbcType=INTEGER},
-      </if>
-      <if test="parentId != null" >
-        #{parentId,jdbcType=BIGINT},
-      </if>
-      <if test="common != null" >
-        #{common,jdbcType=BIT},
-      </if>
-    </trim>
-  </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="org.goshop.store.pojo.GsArea" >
-    update gs_area
-    <set >
-      <if test="addtime != null" >
-        addTime = #{addtime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="deletestatus != null" >
-        deleteStatus = #{deletestatus,jdbcType=BIT},
-      </if>
-      <if test="areaname != null" >
-        areaName = #{areaname,jdbcType=VARCHAR},
-      </if>
-      <if test="level != null" >
-        level = #{level,jdbcType=INTEGER},
-      </if>
-      <if test="sequence != null" >
-        sequence = #{sequence,jdbcType=INTEGER},
-      </if>
-      <if test="parentId != null" >
-        parent_id = #{parentId,jdbcType=BIGINT},
-      </if>
-      <if test="common != null" >
-        common = #{common,jdbcType=BIT},
-      </if>
-    </set>
-    where id = #{id,jdbcType=BIGINT}
-  </update>
-  <update id="updateByPrimaryKey" parameterType="org.goshop.store.pojo.GsArea" >
-    update gs_area
-    set addTime = #{addtime,jdbcType=TIMESTAMP},
-      deleteStatus = #{deletestatus,jdbcType=BIT},
-      areaName = #{areaname,jdbcType=VARCHAR},
-      level = #{level,jdbcType=INTEGER},
-      sequence = #{sequence,jdbcType=INTEGER},
-      parent_id = #{parentId,jdbcType=BIGINT},
-      common = #{common,jdbcType=BIT}
-    where id = #{id,jdbcType=BIGINT}
-  </update>
+    </where>
+    <if test="orderBy !=null">
+      order BY #{orderBy} #{orderType}
+    </if>
+  </select>
 </mapper>

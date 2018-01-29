@@ -33,7 +33,7 @@ public class GoodsUserClassServiceImpl implements GoodsUserClassService {
     public PageInfo<GsGoodsUserClass> findRootClassByUserId(User user,Integer currentPage,Integer pageSize) {
         PageUtils.startPage(currentPage,pageSize);
         List<GsGoodsUserClass> list = readGsGoodsUserClassMapper.selectByUserIdAndNullParent(user.getId(),null);
-        return new PageInfo<GsGoodsUserClass>(list);
+        return new PageInfo<>(list);
     }
 
     @Override

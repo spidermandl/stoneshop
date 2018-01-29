@@ -3,6 +3,7 @@ package org.goshop.goods.i;
 import com.github.pagehelper.PageInfo;
 import org.goshop.assets.pojo.GsAccessory;
 import org.goshop.goods.pojo.GsGoodsWithBLOBs;
+import org.goshop.goods.pojo.GsGroupGoods;
 
 import java.util.List;
 import java.util.Map;
@@ -111,4 +112,17 @@ public interface GoodsService {
     List<GsAccessory> findPhotoByGoodsId(Long goodsId);
 
 
+    /**
+     * 根据spec id获取goods id
+     * @param spec_ids
+     * @return
+     */
+    List<Long> findGoodsIndexBySpecId(List<Long> spec_ids);
+
+    /**
+     * 根据group_id获取 group goods
+     * @param group_id
+     * @return
+     */
+    List<GsGroupGoods> findGroupGoodsByGroupId(Long group_id);
 }

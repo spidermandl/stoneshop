@@ -20,7 +20,7 @@ import java.util.List;
 /**
  * Created by Administrator on 2016/3/24.
  */
-public class FastDFSAttachmentImpl implements AttachmentService {
+public class FastDFSAttachmentImpl implements AttachmentService{
 
     /**
      * FastDFS服务器地址
@@ -133,6 +133,11 @@ public class FastDFSAttachmentImpl implements AttachmentService {
         if(storageServer!=null) {
             storageClient = new StorageClient(trackerServer, storageServer);
         }
+    }
+
+    @Override
+    public String upload(String path, String name) throws IOException{
+        return null;
     }
 
     @Override
@@ -251,6 +256,16 @@ public class FastDFSAttachmentImpl implements AttachmentService {
                 this.close();
             }
         }
+    }
+
+    @Override
+    public double foldSize(String path) {
+        return 0;
+    }
+
+    @Override
+    public void deleteFile(String path) {
+
     }
 
     private void close(){

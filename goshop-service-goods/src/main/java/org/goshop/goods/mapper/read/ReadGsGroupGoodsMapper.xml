@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="org.goshop.goods.mapper.read.ReadGsGroupGoodsMapper" >
+  <resultMap id="BaseResultMap" type="org.goshop.goods.pojo.GsGroupGoods" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="addTime" property="addtime" jdbcType="TIMESTAMP" />
+    <result column="deleteStatus" property="deletestatus" jdbcType="BIT" />
+    <result column="gg_audit_time" property="ggAuditTime" jdbcType="TIMESTAMP" />
+    <result column="gg_count" property="ggCount" jdbcType="INTEGER" />
+    <result column="gg_def_count" property="ggDefCount" jdbcType="INTEGER" />
+    <result column="gg_group_count" property="ggGroupCount" jdbcType="INTEGER" />
+    <result column="gg_max_count" property="ggMaxCount" jdbcType="INTEGER" />
+    <result column="gg_min_count" property="ggMinCount" jdbcType="INTEGER" />
+    <result column="gg_name" property="ggName" jdbcType="VARCHAR" />
+    <result column="gg_price" property="ggPrice" jdbcType="DECIMAL" />
+    <result column="gg_rebate" property="ggRebate" jdbcType="DECIMAL" />
+    <result column="gg_recommend" property="ggRecommend" jdbcType="INTEGER" />
+    <result column="gg_recommend_time" property="ggRecommendTime" jdbcType="TIMESTAMP" />
+    <result column="gg_status" property="ggStatus" jdbcType="INTEGER" />
+    <result column="gg_vir_count" property="ggVirCount" jdbcType="INTEGER" />
+    <result column="gg_ga_id" property="ggGaId" jdbcType="BIGINT" />
+    <result column="gg_gc_id" property="ggGcId" jdbcType="BIGINT" />
+    <result column="gg_goods_id" property="ggGoodsId" jdbcType="BIGINT" />
+    <result column="gg_img_id" property="ggImgId" jdbcType="BIGINT" />
+    <result column="group_id" property="groupId" jdbcType="BIGINT" />
+    <result column="weixin_shop_recommend" property="weixinShopRecommend" jdbcType="BIT" />
+    <result column="weixin_shop_recommendTime" property="weixinShopRecommendtime" jdbcType="DATE" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="org.goshop.goods.pojo.GsGroupGoods" extends="BaseResultMap" >
+    <result column="gg_content" property="ggContent" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, addTime, deleteStatus, gg_audit_time, gg_count, gg_def_count, gg_group_count,
+    gg_max_count, gg_min_count, gg_name, gg_price, gg_rebate, gg_recommend, gg_recommend_time,
+    gg_status, gg_vir_count, gg_ga_id, gg_gc_id, gg_goods_id, gg_img_id, group_id, weixin_shop_recommend,
+    weixin_shop_recommendTime
+  </sql>
+  <sql id="Blob_Column_List" >
+    gg_content
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Long" >
+    select
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from gs_group_goods
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <select id="selectByGroupId" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Long" >
+    select
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from gs_group_goods
+    where group_id = #{group_id,jdbcType=BIGINT}
+  </select>
+</mapper>

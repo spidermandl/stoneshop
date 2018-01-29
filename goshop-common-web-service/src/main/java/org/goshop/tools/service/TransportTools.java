@@ -202,8 +202,7 @@ public class TransportTools {
                                 fee = trans_fee;
                             }
                             if (trans.getTransType() == 1){
-                                float goods_weight =
-                                        CommUtil.null2Float(weight);
+                                float goods_weight = CommUtil.null2Float(weight);
                                 if (goods_weight > 0.0F){
                                     fee = trans_fee;
                                     float other_price = 0.0F;
@@ -218,8 +217,7 @@ public class TransportTools {
                                 }
                             }
                             if (trans.getTransType() != 2) break;
-                            float goods_volume =
-                                    CommUtil.null2Float(volume);
+                            float goods_volume = CommUtil.null2Float(volume);
                             if (goods_volume <= 0.0F) break;
                             fee = trans_fee;
                             float other_price = 0.0F;

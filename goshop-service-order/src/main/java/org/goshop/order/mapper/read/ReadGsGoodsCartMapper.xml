@@ -29,143 +29,26 @@
     from gs_goods_cart
     where id = #{id,jdbcType=BIGINT}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
-    delete from gs_goods_cart
-    where id = #{id,jdbcType=BIGINT}
-  </delete>
-  <insert id="insert" parameterType="org.goshop.order.pojo.GsGoodsCart" >
-    <selectKey resultType="java.lang.Long" keyProperty="id" order="AFTER" >
-      SELECT LAST_INSERT_ID()
-    </selectKey>
-    insert into gs_goods_cart (addTime, deleteStatus, count,
-      price, goods_id, of_id,
-      cart_type, sc_id, spec_info
-      )
-    values (#{addtime,jdbcType=TIMESTAMP}, #{deletestatus,jdbcType=BIT}, #{count,jdbcType=INTEGER},
-      #{price,jdbcType=DECIMAL}, #{goodsId,jdbcType=BIGINT}, #{ofId,jdbcType=BIGINT},
-      #{cartType,jdbcType=VARCHAR}, #{scId,jdbcType=BIGINT}, #{specInfo,jdbcType=LONGVARCHAR}
-      )
-  </insert>
-  <insert id="insertSelective" parameterType="org.goshop.order.pojo.GsGoodsCart" >
-    <selectKey resultType="java.lang.Long" keyProperty="id" order="AFTER" >
-      SELECT LAST_INSERT_ID()
-    </selectKey>
-    insert into gs_goods_cart
-    <trim prefix="(" suffix=")" suffixOverrides="," >
-      <if test="addtime != null" >
-        addTime,
+  <select id="selectByCondition" resultMap="ResultMapWithBLOBs" parameterType="java.util.Map" >
+    select
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from gs_goods_cart
+    <where>
+      <if test="goods_id !=null">
+         goods_id = #{goods_id}
       </if>
-      <if test="deletestatus != null" >
-        deleteStatus,
+      <if test="order_status_gt !=null">
+        and left JOIN gs_orderform order_form ON
+        order_form.id = of_id
+        WHERE
+        gs_orderform.order_status &gt;= #{order_status_gt}
       </if>
-      <if test="count != null" >
-        count,
-      </if>
-      <if test="price != null" >
-        price,
-      </if>
-      <if test="goodsId != null" >
-        goods_id,
-      </if>
-      <if test="ofId != null" >
-        of_id,
-      </if>
-      <if test="cartType != null" >
-        cart_type,
-      </if>
-      <if test="scId != null" >
-        sc_id,
-      </if>
-      <if test="specInfo != null" >
-        spec_info,
-      </if>
-    </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides="," >
-      <if test="addtime != null" >
-        #{addtime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="deletestatus != null" >
-        #{deletestatus,jdbcType=BIT},
-      </if>
-      <if test="count != null" >
-        #{count,jdbcType=INTEGER},
-      </if>
-      <if test="price != null" >
-        #{price,jdbcType=DECIMAL},
-      </if>
-      <if test="goodsId != null" >
-        #{goodsId,jdbcType=BIGINT},
-      </if>
-      <if test="ofId != null" >
-        #{ofId,jdbcType=BIGINT},
-      </if>
-      <if test="cartType != null" >
-        #{cartType,jdbcType=VARCHAR},
-      </if>
-      <if test="scId != null" >
-        #{scId,jdbcType=BIGINT},
-      </if>
-      <if test="specInfo != null" >
-        #{specInfo,jdbcType=LONGVARCHAR},
-      </if>
-    </trim>
-  </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="org.goshop.order.pojo.GsGoodsCart" >
-    update gs_goods_cart
-    <set >
-      <if test="addtime != null" >
-        addTime = #{addtime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="deletestatus != null" >
-        deleteStatus = #{deletestatus,jdbcType=BIT},
-      </if>
-      <if test="count != null" >
-        count = #{count,jdbcType=INTEGER},
-      </if>
-      <if test="price != null" >
-        price = #{price,jdbcType=DECIMAL},
-      </if>
-      <if test="goodsId != null" >
-        goods_id = #{goodsId,jdbcType=BIGINT},
-      </if>
-      <if test="ofId != null" >
-        of_id = #{ofId,jdbcType=BIGINT},
-      </if>
-      <if test="cartType != null" >
-        cart_type = #{cartType,jdbcType=VARCHAR},
-      </if>
-      <if test="scId != null" >
-        sc_id = #{scId,jdbcType=BIGINT},
-      </if>
-      <if test="specInfo != null" >
-        spec_info = #{specInfo,jdbcType=LONGVARCHAR},
-      </if>
-    </set>
-    where id = #{id,jdbcType=BIGINT}
-  </update>
-  <update id="updateByPrimaryKeyWithBLOBs" parameterType="org.goshop.order.pojo.GsGoodsCart" >
-    update gs_goods_cart
-    set addTime = #{addtime,jdbcType=TIMESTAMP},
-      deleteStatus = #{deletestatus,jdbcType=BIT},
-      count = #{count,jdbcType=INTEGER},
-      price = #{price,jdbcType=DECIMAL},
-      goods_id = #{goodsId,jdbcType=BIGINT},
-      of_id = #{ofId,jdbcType=BIGINT},
-      cart_type = #{cartType,jdbcType=VARCHAR},
-      sc_id = #{scId,jdbcType=BIGINT},
-      spec_info = #{specInfo,jdbcType=LONGVARCHAR}
-    where id = #{id,jdbcType=BIGINT}
-  </update>
-  <update id="updateByPrimaryKey" parameterType="org.goshop.order.pojo.GsGoodsCart" >
-    update gs_goods_cart
-    set addTime = #{addtime,jdbcType=TIMESTAMP},
-      deleteStatus = #{deletestatus,jdbcType=BIT},
-      count = #{count,jdbcType=INTEGER},
-      price = #{price,jdbcType=DECIMAL},
-      goods_id = #{goodsId,jdbcType=BIGINT},
-      of_id = #{ofId,jdbcType=BIGINT},
-      cart_type = #{cartType,jdbcType=VARCHAR},
-      sc_id = #{scId,jdbcType=BIGINT}
-    where id = #{id,jdbcType=BIGINT}
-  </update>
+
+    </where>
+    <if test="orderBy !=null">
+      order BY #{orderBy} #{orderType}
+    </if>
+  </select>
 </mapper>

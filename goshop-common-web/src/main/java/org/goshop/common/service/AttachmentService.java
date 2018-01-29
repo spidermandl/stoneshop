@@ -11,6 +11,14 @@ import java.io.InputStream;
  * Created by Administrator on 2016/3/24.
  */
 public interface AttachmentService {
+
+    /**
+     * 上传文件
+     * @param path 根路径
+     * @param name 尾路径
+     * @return
+     */
+    String upload(String path,String name) throws IOException;
     /**
      * 通过MultipartFile对象保存文件，返回文件名称
      * @param multipartFile
@@ -42,4 +50,13 @@ public interface AttachmentService {
     String upload(File file, String type) throws Exception;
 
     void delete(String id);
+
+    /**
+     * 获取文件夹大小
+     * @param path
+     * @return
+     */
+    double foldSize(String path);
+
+    void deleteFile(String path);
 }

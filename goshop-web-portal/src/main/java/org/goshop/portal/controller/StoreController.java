@@ -333,19 +333,21 @@ public class StoreController extends BaseController{
 //        "select obj from UserGoodsClass obj where obj.user.id=:user_id and obj.display=:display and obj.parent.id is null order by obj.sequence asc",
         model.addAttribute("ugcs", ugcs);
         params.clear();
-        params.put("recommend", Boolean.valueOf(true));
+        params.put("store_recommend", Boolean.valueOf(true));
         params.put("goods_store_id", store.getStoreId());
         params.put("goods_status", Integer.valueOf(0));
         params.put("orderBy","addTime");
         params.put("orderType","desc");
-        List goods_recommend = this.goodsService.findByCondition(params,1,8).getList();
+        List<GsGoodsWithBLOBs> goods_recommend = this.goodsService.findByCondition(params,1,8).getList();
+        this.goodsViewTools.fillGoodsWithSubIds(goods_recommend);
 //                .query("select obj from Goods obj where obj.goods_recommend=:recommend and obj.goods_store.id=:goods_store_id and obj.goods_status=:goods_status order by obj.addTime desc", params, 0, 8);
         params.clear();
         params.put("goods_store_id", store.getStoreId());
         params.put("goods_status", Integer.valueOf(0));
         params.put("orderBy","addTime");
         params.put("orderType","desc");
-        List goods_new = this.goodsService.findByCondition(params,1,12).getList();
+        List<GsGoodsWithBLOBs> goods_new = this.goodsService.findByCondition(params,1,12).getList();
+        this.goodsViewTools.fillGoodsWithSubIds(goods_new);
 //                .query("select obj from Goods obj where obj.goods_store.id=:goods_store_id and obj.goods_status=:goods_status order by obj.addTime desc ", arams, 0, 12);
         model.addAttribute("goods_recommend", goods_recommend);
         model.addAttribute("goods_new", goods_new);

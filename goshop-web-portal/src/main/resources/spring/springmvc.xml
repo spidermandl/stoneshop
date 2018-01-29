@@ -64,10 +64,17 @@
                 <entry key="SHOP_URL" value="${SHOP_URL}"></entry>
                 <entry key="SHOP_REST_URL" value="${SHOP_REST_URL}"></entry>
                 <entry key="SELLER_URL" value="${SELLER_URL}"></entry>
+                <entry key="RES_URL" value="${RES_URL}"></entry>
+                <entry key="SHOP_REST_DOMAIN" value="${SHOP_REST_DOMAIN}"></entry>
+                <entry key="SHOP_DOMAIN" value="${SHOP_DOMAIN}"></entry>
+                <entry key="MANAGER_DOMAIN" value="${MANAGER_DOMAIN}"></entry>
+                <entry key="SELLER_DOMAIN" value="${SELLER_DOMAIN}"></entry>
+                <entry key="RES_DOMAIN" value="${RES_DOMAIN}"></entry>
                 <entry key="SHOP_REST_ROOT" value="${SHOP_REST_ROOT}"></entry>
                 <entry key="SHOP_ROOT" value="${SHOP_ROOT}"></entry>
                 <entry key="MANAGER_ROOT" value="${MANAGER_ROOT}"></entry>
                 <entry key="SELLER_ROOT" value="${SELLER_ROOT}"></entry>
+                <entry key="RES_ROOT" value="${RES_ROOT}"></entry>
 
                 <!--下面四个是在下面定义的模板继承-->
                 <entry key="extends" value-ref="extendsDirective"/>

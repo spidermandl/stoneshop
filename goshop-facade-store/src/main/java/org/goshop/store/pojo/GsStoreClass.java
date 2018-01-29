@@ -2,7 +2,9 @@ package org.goshop.store.pojo;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 public class GsStoreClass  implements Serializable {
     private Long id;
@@ -24,6 +26,16 @@ public class GsStoreClass  implements Serializable {
     private BigDecimal serviceEvaluate;
 
     private BigDecimal shipEvaluate;
+
+    private List<GsStoreClass> children = new ArrayList<>();
+
+    public List<GsStoreClass> getChildren() {
+        return children;
+    }
+
+    public void setChildren(List<GsStoreClass> children) {
+        this.children = children;
+    }
 
     public Long getId() {
         return id;

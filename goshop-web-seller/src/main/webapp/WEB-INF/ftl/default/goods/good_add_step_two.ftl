@@ -371,7 +371,7 @@
                 goods_spec_ids=jQuery(this).val()+","+goods_spec_ids;
             });
 
-            jQuery.post("${S_URL}/goods/goods_inventory.htm",{"goods_spec_ids":goods_spec_ids},function(data){
+            jQuery.post("${S_URL}/goods/goods_inventory",{"goods_spec_ids":goods_spec_ids},function(data){
                 jQuery("#inventory_detail_content").append(data);
                 jQuery("#inventory_detail").show();
             },"text");

@@ -621,9 +621,9 @@ public class IndexController extends BaseController{
 //                model.addAttribute("url", CommUtil.getURL(request) + "/forget.htm");
 //            }
         }else{
-            ret = "error.html";
+            ret = "error";
             model.addAttribute("op_title", "验证码不正确");
-            model.addAttribute("url", CommUtil.getURL(request) + "/forget.htm");
+            model.addAttribute("url", CommUtil.getURL(request) + "/forget");
         }
 
         return ret;
@@ -670,7 +670,7 @@ public class IndexController extends BaseController{
         model.addAttribute("url", CommUtil.getURL(request) + "/index.htm");
         String wemall_view_type = CommUtil.null2String(request.getSession().getAttribute("wemall_view_type"));
         if((wemall_view_type != null) && (!wemall_view_type.equals("")) && (wemall_view_type.equals("wap"))){
-            ret = "wap/error.html";
+            ret = "wap/error";
             model.addAttribute("url", CommUtil.getURL(request) + "/wap/index");
         }
 

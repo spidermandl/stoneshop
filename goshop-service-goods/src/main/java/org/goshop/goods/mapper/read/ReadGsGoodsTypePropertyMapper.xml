@@ -20,109 +20,28 @@
     from gs_goods_type_property
     where id = #{id,jdbcType=BIGINT}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
-    delete from gs_goods_type_property
-    where id = #{id,jdbcType=BIGINT}
-  </delete>
-  <insert id="insert" parameterType="org.goshop.goods.pojo.GsGoodsTypeProperty" >
-    <selectKey resultType="java.lang.Long" keyProperty="id" order="AFTER" >
-      SELECT LAST_INSERT_ID()
-    </selectKey>
-    insert into gs_goods_type_property (addTime, deleteStatus, display,
-      name, sequence, value,
-      goodsType_id)
-    values (#{addtime,jdbcType=TIMESTAMP}, #{deletestatus,jdbcType=BIT}, #{display,jdbcType=BIT},
-      #{name,jdbcType=VARCHAR}, #{sequence,jdbcType=INTEGER}, #{value,jdbcType=VARCHAR},
-      #{goodstypeId,jdbcType=BIGINT})
-  </insert>
-  <insert id="insertSelective" parameterType="org.goshop.goods.pojo.GsGoodsTypeProperty" >
-    <selectKey resultType="java.lang.Long" keyProperty="id" order="AFTER" >
-      SELECT LAST_INSERT_ID()
-    </selectKey>
-    insert into gs_goods_type_property
-    <trim prefix="(" suffix=")" suffixOverrides="," >
-      <if test="addtime != null" >
-        addTime,
-      </if>
-      <if test="deletestatus != null" >
-        deleteStatus,
-      </if>
-      <if test="display != null" >
-        display,
-      </if>
-      <if test="name != null" >
-        name,
-      </if>
-      <if test="sequence != null" >
-        sequence,
-      </if>
-      <if test="value != null" >
-        value,
-      </if>
-      <if test="goodstypeId != null" >
-        goodsType_id,
-      </if>
-    </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides="," >
-      <if test="addtime != null" >
-        #{addtime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="deletestatus != null" >
-        #{deletestatus,jdbcType=BIT},
-      </if>
-      <if test="display != null" >
-        #{display,jdbcType=BIT},
-      </if>
-      <if test="name != null" >
-        #{name,jdbcType=VARCHAR},
-      </if>
-      <if test="sequence != null" >
-        #{sequence,jdbcType=INTEGER},
-      </if>
-      <if test="value != null" >
-        #{value,jdbcType=VARCHAR},
-      </if>
-      <if test="goodstypeId != null" >
-        #{goodstypeId,jdbcType=BIGINT},
-      </if>
-    </trim>
-  </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="org.goshop.goods.pojo.GsGoodsTypeProperty" >
-    update gs_goods_type_property
-    <set >
-      <if test="addtime != null" >
-        addTime = #{addtime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="deletestatus != null" >
-        deleteStatus = #{deletestatus,jdbcType=BIT},
-      </if>
-      <if test="display != null" >
-        display = #{display,jdbcType=BIT},
-      </if>
-      <if test="name != null" >
-        name = #{name,jdbcType=VARCHAR},
-      </if>
-      <if test="sequence != null" >
-        sequence = #{sequence,jdbcType=INTEGER},
-      </if>
-      <if test="value != null" >
-        value = #{value,jdbcType=VARCHAR},
-      </if>
-      <if test="goodstypeId != null" >
-        goodsType_id = #{goodstypeId,jdbcType=BIGINT},
-      </if>
-    </set>
-    where id = #{id,jdbcType=BIGINT}
-  </update>
-  <update id="updateByPrimaryKey" parameterType="org.goshop.goods.pojo.GsGoodsTypeProperty" >
-    update gs_goods_type_property
-    set addTime = #{addtime,jdbcType=TIMESTAMP},
-      deleteStatus = #{deletestatus,jdbcType=BIT},
-      display = #{display,jdbcType=BIT},
-      name = #{name,jdbcType=VARCHAR},
-      sequence = #{sequence,jdbcType=INTEGER},
-      value = #{value,jdbcType=VARCHAR},
-      goodsType_id = #{goodstypeId,jdbcType=BIGINT}
-    where id = #{id,jdbcType=BIGINT}
-  </update>
+
+  <select id="selectByPropertyGroup" resultMap="BaseResultMap" >
+    select
+    goodsType_id
+    from gs_goods_type_property
+    where goodsType_id IN
+    (
+      select goodsType_id from gs_goods_type_property
+      <where>
+        --       item表示集合中每一个元素进行迭代时的别名，
+        --       index指 定一个名字，用于表示在迭代过程中，每次迭代到的位置，
+        --       open表示该语句以什么开始，
+        --       separator表示在每次进行迭代之间以什么符号作为分隔 符，
+        --       close表示以什么结束。
+        <foreach collection="conditions" item="item" index="index" separator=" or ">
+            #{item}
+        </foreach>
+
+      </where>
+      group by goodsType_id
+      having count(*) = #{count}
+    )
+  </select>
+
 </mapper>

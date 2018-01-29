@@ -34,30 +34,30 @@ jQuery(function(jQuery){
       <dl class="shopvdl">
           <dt><span>
             <#if (store.logo)!?? >
-              <#assign store_logo="${S_URL}/${(store.logo.path)!}/${(store.logo.name)!}" />
+              <#assign store_logo="${RES_URL}/${(store.logo.path)!}/${(store.logo.name)!}" />
             <#else>
-              <#assign store_logo="${S_URL}/${(config.storeImage.path)!}/${(config.storeImage.name)!}" />
-            </#if> <img src="${store_logo!}" width="60" height="60" />
+              <#assign store_logo="${imageWebServer!}/${(config.storeImage.path)!}/${(config.storeImage.name)!}" />
+            </#if><img src="${RES_URL}${store_logo!}" width="60" height="60" />
           </span></dt>
       <#assign credit=storeViewTools.generic_store_credit("${(store.storeId)!}") />
-      <#assign img="${imageWebServer!}/resources/style/common/images/level_0.gif" />
+      <#assign img="${imageWebServer!}/static/images/common/level_0.gif" />
       <#if credit lt 10 && credit gt 0>
         <#assign credit = credit / 2 />
         <#assign credit = credit+1 />
       </#if>
       <#if credit gte 20 >
-        <#assign img="${imageWebServer!}/resources/style/common/images/level_2.gif" />
+        <#assign img="${imageWebServer!}/static/images/common/level_2.gif" />
         <#assign credit=(credit - 20)/2 />
         <#assign credit = credit+1 />
       </#if>
       <#if credit gte 10 >
-        <#assign img="${imageWebServer!}/resources/style/common/images/level_1.gif" />
+        <#assign img="${imageWebServer!}/static/images/common/level_1.gif" />
         <#assign credit=(credit - 10)/2 />
         <#assign credit=credit+1 />
       </#if>
       <#if credit gt 5 > <#assign credit=5 /></#if>
         <dd>
-            <span >${(store.storeOwer)!}
+            <span >${(store.memberId)!}
                 <a href="${S_URL}/buyer/message_send?userName=${(store.user.userName)!}" target="_blank" class="shopemail">
                     <img src="${imageWebServer!}/static/images/common/mail.jpg" width="15" height="11" />
                 </a>

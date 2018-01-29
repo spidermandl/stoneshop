@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Desmond on 13/12/2017.
@@ -25,5 +26,10 @@ public class StoreAreaServiceImpl implements StoreAreaService {
     @Override
     public List<GsArea> findByParentId(Long parentId) {
         return readGsAreaMapper.selectByParentId(parentId);
+    }
+
+    @Override
+    public List<GsArea> findByCondition(Map condition) {
+        return readGsAreaMapper.selectByCondition(condition);
     }
 }

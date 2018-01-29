@@ -38,4 +38,18 @@
     from gs_goods_property
     where goods_id = #{goodsId,jdbcType=BIGINT}
   </select>
+
+  <select id="selectBySpecId" resultMap="BaseResultMap" parameterType="java.util.List" >
+    select DISTINCT
+    goods_id
+    from gs_goods_property
+    <where>
+        <if test="spec_ids != null">
+          spec_id IN
+          <foreach collection="spec_ids" index="index" item="item" open="(" separator="," close=")">
+            #{item}
+          </foreach>
+        </if>
+    </where>
+  </select>
 </mapper>

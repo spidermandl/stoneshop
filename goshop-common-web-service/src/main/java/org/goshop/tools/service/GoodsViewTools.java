@@ -1,5 +1,7 @@
 package org.goshop.tools.service;
 
+import org.goshop.assets.i.AccessoryService;
+import org.goshop.assets.pojo.GsAccessory;
 import org.goshop.common.web.utils.CommUtil;
 import org.goshop.goods.i.GoodsClassService;
 import org.goshop.goods.i.GoodsService;
@@ -23,6 +25,9 @@ public class GoodsViewTools {
 
     @Autowired
     private GoodsUserClassService goodsUserClassService;
+
+    @Autowired
+    protected AccessoryService accessoryService;
 
     /**
      * ������Ʒid���ɸ���Ʒ�Ķ���
@@ -90,6 +95,12 @@ public class GoodsViewTools {
         return ids;
     }
 
+    /**
+     * 热销商品排行
+     * @param store_id
+     * @param count
+     * @return
+     */
     public List<GsGoodsWithBLOBs> sort_sale_goods(Long store_id, int count){
         Map params = new HashMap();
         params.put("goods_store_id", store_id);
@@ -97,7 +108,7 @@ public class GoodsViewTools {
         params.put("orderBy","goods_salenum");
         params.put("orderType","desc");
         List list = this.goodsService.findByCondition(params);
-
+        fillGoodsWithSubIds(list);
         return list;
     }
 
@@ -105,6 +116,12 @@ public class GoodsViewTools {
         return sort_sale_goods(CommUtil.null2Long(store_id),count);
     }
 
+    /**
+     * 热门收藏排行
+     * @param store_id
+     * @param count
+     * @return
+     */
     public List<GsGoodsWithBLOBs> sort_collect_goods(String store_id, int count){
         Map params = new HashMap();
         params.put("goods_store_id", CommUtil.null2Long(store_id));
@@ -112,10 +129,37 @@ public class GoodsViewTools {
         params.put("orderBy","goods_collect");
         params.put("orderType","desc");
         List list = this.goodsService.findByCondition(params);
+        fillGoodsWithSubIds(list);
         return list;
     }
 
     public List<GsGoodsWithBLOBs> query_combin_goods(String id){
         return this.goodsService.findOne(CommUtil.null2Long(id)).getCombinGoods();
+    }
+
+    /****************************************
+     * 填充goods相关信息
+     * @param goods
+     ****************************************/
+    public void fillGoodsWithSubIds(List<GsGoodsWithBLOBs> goods){
+        List<Long> accessory_ids = new ArrayList<>();
+        accessory_ids.add(-1L);
+        for (GsGoodsWithBLOBs g:goods){
+            if(g.getGoodsMainPhotoId()!= null)
+                accessory_ids.add(g.getGoodsMainPhotoId());
+        }
+        List<GsAccessory> accessories = this.accessoryService.findByIds(accessory_ids);
+
+        for (GsGoodsWithBLOBs g:goods){
+            if(g.getGoodsMainPhotoId()!= null){
+                for (GsAccessory acc:accessories){
+                    if (acc.getId().equals(g.getGoodsMainPhotoId())){
+                        g.setGoods_main_photo(acc);
+                        break;
+                    }
+                }
+            }
+        }
+
     }
 }

@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="org.goshop.goods.mapper.master.GsGroupPriceRangeMapper" >
+  <resultMap id="BaseResultMap" type="org.goshop.goods.pojo.GsGroupPriceRange" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="addTime" property="addtime" jdbcType="TIMESTAMP" />
+    <result column="deleteStatus" property="deletestatus" jdbcType="BIT" />
+    <result column="gpr_begin" property="gprBegin" jdbcType="INTEGER" />
+    <result column="gpr_end" property="gprEnd" jdbcType="INTEGER" />
+    <result column="gpr_name" property="gprName" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, addTime, deleteStatus, gpr_begin, gpr_end, gpr_name
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select
+    <include refid="Base_Column_List" />
+    from gs_group_price_range
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from gs_group_price_range
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="org.goshop.goods.pojo.GsGroupPriceRange" >
+    <selectKey resultType="java.lang.Long" keyProperty="id" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into gs_group_price_range (addTime, deleteStatus, gpr_begin,
+      gpr_end, gpr_name)
+    values (#{addtime,jdbcType=TIMESTAMP}, #{deletestatus,jdbcType=BIT}, #{gprBegin,jdbcType=INTEGER},
+      #{gprEnd,jdbcType=INTEGER}, #{gprName,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="org.goshop.goods.pojo.GsGroupPriceRange" >
+    <selectKey resultType="java.lang.Long" keyProperty="id" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into gs_group_price_range
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="addtime != null" >
+        addTime,
+      </if>
+      <if test="deletestatus != null" >
+        deleteStatus,
+      </if>
+      <if test="gprBegin != null" >
+        gpr_begin,
+      </if>
+      <if test="gprEnd != null" >
+        gpr_end,
+      </if>
+      <if test="gprName != null" >
+        gpr_name,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="addtime != null" >
+        #{addtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="deletestatus != null" >
+        #{deletestatus,jdbcType=BIT},
+      </if>
+      <if test="gprBegin != null" >
+        #{gprBegin,jdbcType=INTEGER},
+      </if>
+      <if test="gprEnd != null" >
+        #{gprEnd,jdbcType=INTEGER},
+      </if>
+      <if test="gprName != null" >
+        #{gprName,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="org.goshop.goods.pojo.GsGroupPriceRange" >
+    update gs_group_price_range
+    <set >
+      <if test="addtime != null" >
+        addTime = #{addtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="deletestatus != null" >
+        deleteStatus = #{deletestatus,jdbcType=BIT},
+      </if>
+      <if test="gprBegin != null" >
+        gpr_begin = #{gprBegin,jdbcType=INTEGER},
+      </if>
+      <if test="gprEnd != null" >
+        gpr_end = #{gprEnd,jdbcType=INTEGER},
+      </if>
+      <if test="gprName != null" >
+        gpr_name = #{gprName,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="org.goshop.goods.pojo.GsGroupPriceRange" >
+    update gs_group_price_range
+    set addTime = #{addtime,jdbcType=TIMESTAMP},
+      deleteStatus = #{deletestatus,jdbcType=BIT},
+      gpr_begin = #{gprBegin,jdbcType=INTEGER},
+      gpr_end = #{gprEnd,jdbcType=INTEGER},
+      gpr_name = #{gprName,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

@@ -129,13 +129,23 @@ public class GsGoods implements Serializable {
     private GsGoodsClass gc;
     private GsAccessory goods_main_photo;//商品主图片
     private List<GsAccessory> goodsPhotos = new ArrayList<>();//商品副图片
-    private GsTransport transport;//运送地址
+    private GsTransportWithBLOBs transport;//运送地址
+    private GsGroup group;//商品组
+    private List<GsGroupGoods> group_goods_list = new ArrayList<>();//group goods
 
-    public GsTransport getTransport() {
+    public List<GsGroupGoods> getGroup_goods_list() {
+        return group_goods_list;
+    }
+
+    public void setGroup_goods_list(List<GsGroupGoods> group_goods_list) {
+        this.group_goods_list = group_goods_list;
+    }
+
+    public GsTransportWithBLOBs getTransport() {
         return transport;
     }
 
-    public void setTransport(GsTransport transport) {
+    public void setTransport(GsTransportWithBLOBs transport) {
         this.transport = transport;
     }
 
@@ -153,6 +163,14 @@ public class GsGoods implements Serializable {
 
     public void setGoods_main_photo(GsAccessory goods_main_photo) {
         this.goods_main_photo = goods_main_photo;
+    }
+
+    public GsGroup getGroup() {
+        return group;
+    }
+
+    public void setGroup(GsGroup group) {
+        this.group = group;
     }
 
     /** end **/

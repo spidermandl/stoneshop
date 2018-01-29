@@ -57,12 +57,12 @@
 <body>
     ${httpInclude.include("/top")}
     ${httpInclude.include("/store_head?store_id=${(store.storeId)!}")}
-      <#assign banner="${S_URL}/resources/style/shop/${(store.template)!}/images/banner.jpg" />
+      <#assign banner="${S_URL}/static/images/shop/${(store.template)!}/images/banner.jpg" />
       <#if (store.banner)!??>
           <#assign banner="${S_URL}/${(store.banner.path)!}/${(store.banner.name)!}" />
       </#if>
     <div class="banner_width">
-      <div class="shopbanner"><img src="${banner!}" width="1200px" /></div>
+      <div class="shopbanner"><img src="${RES_URL}${banner!}" width="1200px" /></div>
     </div>
     <div class="nav_width">
       <div class="main">
@@ -92,7 +92,7 @@
               <ul class="shopslider">
                 <#list (store.slides)! as slide >
                 <li><a href="${(slide.url)!}" target="_blank">
-                    <img src="${imageWebServer!}/${(slide.acc.path)!}/${(slide.acc.name)!}" width="797" height="393" />
+                    <img src="${RES_URL!}/${(slide.acc.path)!}/${(slide.acc.name)!}" width="797" height="393" />
                 </a></li>
                 </#list>
               </ul>
@@ -104,13 +104,13 @@
                 <#else>
               <ul class="shopslider">
                 <li><a href="#" target="_blank">
-                    <img src="${imageWebServer!}/resources/style/common/images/slide1.jpg" width="797" height="393" /></a></li>
+                    <img src="${imageWebServer!}/static/images/common/slide1.jpg" width="797" height="393" /></a></li>
                 <li><a href="#" target="_blank">
-                    <img src="${imageWebServer!}/resources/style/common/images/slide2.jpg" width="797" height="393" /></a></li>
+                    <img src="${imageWebServer!}/static/images/common/slide2.jpg" width="797" height="393" /></a></li>
                 <li><a href="#" target="_blank">
-                    <img src="${imageWebServer!}/resources/style/common/images/slide3.jpg" width="797" height="393" /></a></li>
+                    <img src="${imageWebServer!}/static/images/common/slide3.jpg" width="797" height="393" /></a></li>
                 <li><a href="#" target="_blank">
-                    <img src="${imageWebServer!}/resources/style/common/images/slide4.jpg" width="797" height="393" /></a></li>
+                    <img src="${imageWebServer!}/static/images/common/slide4.jpg" width="797" height="393" /></a></li>
               </ul>
               <span style="z-index:3;"><a href="javascript:void(0);" class="img1">1</a>
                   <a href="javascript:void(0);" class="img2">2</a><a href="javascript:void(0);" class="img3">3</a>
@@ -122,13 +122,13 @@
               <div class="smallgoods">
                   <#list goods_recommend! as goods>
                 <#if (goods.goods_main_photo)!?? >
-                    <#assign img="${imageWebServer!}/${(goods.goods_main_photo.path)!}/${(goods.goods_main_photo.name)!}" />
+                    <#assign img="${RES_URL!}/${(goods.goods_main_photo.path)!}/${(goods.goods_main_photo.name)!}" />
                 <#else>
                     <#assign img="${imageWebServer!}/${(config.goodsImage.path)!}/${(config.goodsImage.name)!}" />
                 </#if>
-                   <#assign goods_url="${S_URL}/goods_${(goods.id)!}" />
-                   <#if (config.second_domain_open)!?? >
-                     <#assign goods_url="http://${(goods.goods_store.storeDomain)!}.${domainPath!}/goods_${(goods.id)!}" />
+                   <#assign goods_url="${S_URL}/goods?id=${(goods.id)!}" />
+                   <#if ((config.second_domain_open)!false) == true >
+                     <#assign goods_url="http://${(goods.goods_store.storeDomain)!}.${domainPath!}/goods?id=${(goods.id)!}" />
                    </#if>
                 <ul>
                   <li class="goodsimgs">
@@ -160,13 +160,13 @@
               <div class="smallgoods">
                 <#list goods_new! as goods >
                 <#if (goods.goods_main_photo)!?? >
-                    <#assign img="${imageWebServer!}/${(goods.goods_main_photo.path)!}/${(goods.goods_main_photo.name)!}" />
+                    <#assign img="${RES_URL!}/${(goods.goods_main_photo.path)!}/${(goods.goods_main_photo.name)!}" />
                 <#else>
                     <#assign img="${imageWebServer!}/${(config.goodsImage.path)!}/${(config.goodsImage.name)!}" />
                 </#if>
-                   <#assign goods_url="${S_URL}/goods_${(goods.id)!}" />
-                   <#if (config.second_domain_open)!?? >
-                     <#assign goods_url="http://${(goods.goods_store.storeDomain)!}.${domainPath!}/goods_${(goods.id)!}" />
+                   <#assign goods_url="${S_URL}/goods?id=${(goods.id)!}" />
+                   <#if ((config.second_domain_open)!false) == true >
+                     <#assign goods_url="http://${(goods.goods_store.storeDomain)!}.${domainPath!}/goods?id=${(goods.id)!}" />
                    </#if>
                 <ul>
                   <li class="goodsimgs">

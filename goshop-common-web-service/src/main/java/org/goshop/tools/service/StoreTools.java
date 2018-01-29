@@ -43,32 +43,32 @@ public class StoreTools {
         return "";
     }
 
-    public String createUserFolder(HttpServletRequest request,Long storeId){
+    public String createUserFolder(String rootPath,Long storeId){
         String path = "";
         SysConfig config = this.systemConfigService.getConfig();
         String uploadFilePath = config.getUploadFilePath();
         String sub = (storeId==null)?"store_join":storeId.toString();
         if (config.getImageSaveType().equals("sidImg")){
-            path = request.getSession().getServletContext().getRealPath("/") +
+            path = rootPath +
                     uploadFilePath + File.separator + "store" +
                     File.separator + sub;
         }
 
         if (config.getImageSaveType().equals("sidYearImg")){
-            path = request.getSession().getServletContext().getRealPath("/") +
+            path = rootPath +
                     uploadFilePath + File.separator + "store" +
                     File.separator + sub + File.separator +
                     CommUtil.formatTime("yyyy", new Date());
         }
         if (config.getImageSaveType().equals("sidYearMonthImg")){
-            path = request.getSession().getServletContext().getRealPath("/") +
+            path = rootPath +
                     uploadFilePath + File.separator + "store" +
                     File.separator + sub + File.separator +
                     CommUtil.formatTime("yyyy", new Date()) + File.separator +
                     CommUtil.formatTime("MM", new Date());
         }
         if (config.getImageSaveType().equals("sidYearMonthDayImg")){
-            path = request.getSession().getServletContext().getRealPath("/") +
+            path = rootPath +
                     uploadFilePath + File.separator + "store" +
                     File.separator + sub + File.separator +
                     CommUtil.formatTime("yyyy", new Date()) + File.separator +

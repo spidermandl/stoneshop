@@ -8,6 +8,7 @@ import org.goshop.assets.i.AlbumService;
 import org.goshop.assets.pojo.GsAccessory;
 import org.goshop.assets.pojo.GsAlbum;
 import org.goshop.common.pojo.ResponseStatus;
+import org.goshop.common.service.AttachmentService;
 import org.goshop.common.utils.StringUtils;
 import org.goshop.common.web.utils.WebForm;
 import org.goshop.store.i.StoreService;
@@ -96,6 +97,9 @@ public class GoodsController {
 
     @Autowired
     UserService userService;
+
+    @Autowired
+    AttachmentService attachmentService;
 
     @Autowired
     StoreTools storeTools;
@@ -753,14 +757,16 @@ public class GoodsController {
 
         Long storeId = storeJoinService.getCurrentStore(user).getStoreId();
         StoreWithBLOBs store = storeService.findOne(storeId);
-        String path = this.storeTools.createUserFolder(request, store.getStoreId());
+        String rootPath = request.getSession().getServletContext().getRealPath("/");
+        String path = this.storeTools.createUserFolder(rootPath, store.getStoreId());
         String url = this.storeTools.createUserFolderURL(store.getStoreId());
 
         MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
         CommonsMultipartFile file = (CommonsMultipartFile) multipartRequest.getFile("imgFile");
         double fileSize = Double.valueOf(file.getSize()).doubleValue();
         fileSize /= 1048576.0D;
-        double csize = CommUtil.fileSize(new File(path));
+        double csize = this.attachmentService.foldSize(path.substring(rootPath.length()));
+//                CommUtil.fileSize(new File(path));
         double remainSpace = 0.0D;
         if (store.getStoreGrade().getSgSpaceLimit() != 0.0F)
             remainSpace = (store.getStoreGrade().getSgSpaceLimit() * 1024.0F - csize) * 1024.0D;
@@ -802,11 +808,15 @@ public class GoodsController {
                         this.systemConfigService.getConfig().getSmallWidth(),
                         this.systemConfigService.getConfig().getSmallHeight());
 
-                String midext = image.getExt().indexOf(".") < 0 ? "." + image.getExt() : image.getExt();
                 String midtarget = source + "_middle" + ext;
                 CommUtil.createSmall(source, midtarget,
                         this.systemConfigService.getConfig().getMiddleWidth(),
                         this.systemConfigService.getConfig().getMiddleHeight());
+
+                this.attachmentService.upload(source,source.substring(rootPath.length()));
+                this.attachmentService.upload(target,target.substring(rootPath.length()));
+                this.attachmentService.upload(midtarget,midtarget.substring(rootPath.length()));
+
             } catch (IOException e){
                 e.printStackTrace();
             }
@@ -844,7 +854,8 @@ public class GoodsController {
                                 HttpServletResponse response, String image_id){
         Long storeId = storeJoinService.getCurrentStore(user).getStoreId();
         StoreWithBLOBs store = storeService.findOne(storeId);
-        String path = this.storeTools.createUserFolder(request, store.getStoreId());
+        String rootPath = request.getSession().getServletContext().getRealPath("/");
+        String path = this.storeTools.createUserFolder(rootPath, store.getStoreId());
         response.setContentType("text/plain; charset=UTF-8");
         response.setHeader("Cache-Control", "no-cache");
         try {request.setCharacterEncoding("UTF-8");} catch (java.io.UnsupportedEncodingException e1) {e1.printStackTrace();}
@@ -868,7 +879,17 @@ public class GoodsController {
                 }
 
             }
-            double csize = CommUtil.fileSize(new File(path));
+            /****删除远程文件***/
+            String ext = img.getExt().indexOf(".") < 0 ? "." + img.getExt() : img.getExt();
+            String source = img.getPath() + File.separator + img.getName();
+            String target = source + "_small" + ext;
+            String midtarget = source + "_middle" + ext;
+            this.attachmentService.deleteFile(source);
+            this.attachmentService.deleteFile(target);
+            this.attachmentService.deleteFile(midtarget);
+            /*****************/
+            double csize = this.attachmentService.foldSize(path.substring(rootPath.length()));
+//                    CommUtil.fileSize(new File(path));
             double remainSpace = 10000.0D;
             if (store.getStoreGrade().getSgSpaceLimit() != 0.0F) {
                 remainSpace = CommUtil.div(Double.valueOf(store.getStoreGrade().getSgSpaceLimit()

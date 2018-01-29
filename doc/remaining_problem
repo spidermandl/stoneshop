@@ -6,3 +6,8 @@
 6 关联版式功能定义
 7 图片更改后，前端缓存仍为老图片
 8 上传图片，保存服务器需要统一
+9 freemarker
+    obj.goods_store.user.id
+    store.user.userName
+    store.area.parent.areaName
+    obj.dg.d_delivery_goods.id

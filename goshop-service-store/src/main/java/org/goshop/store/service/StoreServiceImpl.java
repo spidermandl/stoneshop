@@ -136,6 +136,11 @@ public class StoreServiceImpl implements StoreService {
         return new PageInfo<>(list);
     }
 
+    @Override
+    public List<Long> findIndexByCondition(Map map) {
+        return readStoreMapper.selectIndexByCondition(map);
+    }
+
     private void fillForeignTable(Store store){
         if (store!=null) {
             if (store.getGradeId()!=null)

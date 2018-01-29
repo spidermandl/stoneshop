@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="org.goshop.goods.mapper.master.GsGoodsConsultMapper" >
+  <resultMap id="BaseResultMap" type="org.goshop.goods.pojo.GsGoodsConsult" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="addTime" property="addtime" jdbcType="TIMESTAMP" />
+    <result column="deleteStatus" property="deletestatus" jdbcType="BIT" />
+    <result column="consult_email" property="consultEmail" jdbcType="VARCHAR" />
+    <result column="reply" property="reply" jdbcType="BIT" />
+    <result column="reply_time" property="replyTime" jdbcType="TIMESTAMP" />
+    <result column="consult_user_id" property="consultUserId" jdbcType="BIGINT" />
+    <result column="goods_id" property="goodsId" jdbcType="BIGINT" />
+    <result column="reply_user_id" property="replyUserId" jdbcType="BIGINT" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="org.goshop.goods.pojo.GsGoodsConsultWithBLOBs" extends="BaseResultMap" >
+    <result column="consult_content" property="consultContent" jdbcType="LONGVARCHAR" />
+    <result column="consult_reply" property="consultReply" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, addTime, deleteStatus, consult_email, reply, reply_time, consult_user_id, goods_id,
+    reply_user_id
+  </sql>
+  <sql id="Blob_Column_List" >
+    consult_content, consult_reply
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Long" >
+    select
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from gs_goods_consult
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from gs_goods_consult
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="org.goshop.goods.pojo.GsGoodsConsultWithBLOBs" >
+    <selectKey resultType="java.lang.Long" keyProperty="id" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into gs_goods_consult (addTime, deleteStatus, consult_email,
+      reply, reply_time, consult_user_id,
+      goods_id, reply_user_id, consult_content,
+      consult_reply)
+    values (#{addtime,jdbcType=TIMESTAMP}, #{deletestatus,jdbcType=BIT}, #{consultEmail,jdbcType=VARCHAR},
+      #{reply,jdbcType=BIT}, #{replyTime,jdbcType=TIMESTAMP}, #{consultUserId,jdbcType=BIGINT},
+      #{goodsId,jdbcType=BIGINT}, #{replyUserId,jdbcType=BIGINT}, #{consultContent,jdbcType=LONGVARCHAR},
+      #{consultReply,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="org.goshop.goods.pojo.GsGoodsConsultWithBLOBs" >
+    <selectKey resultType="java.lang.Long" keyProperty="id" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into gs_goods_consult
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="addtime != null" >
+        addTime,
+      </if>
+      <if test="deletestatus != null" >
+        deleteStatus,
+      </if>
+      <if test="consultEmail != null" >
+        consult_email,
+      </if>
+      <if test="reply != null" >
+        reply,
+      </if>
+      <if test="replyTime != null" >
+        reply_time,
+      </if>
+      <if test="consultUserId != null" >
+        consult_user_id,
+      </if>
+      <if test="goodsId != null" >
+        goods_id,
+      </if>
+      <if test="replyUserId != null" >
+        reply_user_id,
+      </if>
+      <if test="consultContent != null" >
+        consult_content,
+      </if>
+      <if test="consultReply != null" >
+        consult_reply,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="addtime != null" >
+        #{addtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="deletestatus != null" >
+        #{deletestatus,jdbcType=BIT},
+      </if>
+      <if test="consultEmail != null" >
+        #{consultEmail,jdbcType=VARCHAR},
+      </if>
+      <if test="reply != null" >
+        #{reply,jdbcType=BIT},
+      </if>
+      <if test="replyTime != null" >
+        #{replyTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="consultUserId != null" >
+        #{consultUserId,jdbcType=BIGINT},
+      </if>
+      <if test="goodsId != null" >
+        #{goodsId,jdbcType=BIGINT},
+      </if>
+      <if test="replyUserId != null" >
+        #{replyUserId,jdbcType=BIGINT},
+      </if>
+      <if test="consultContent != null" >
+        #{consultContent,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="consultReply != null" >
+        #{consultReply,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="org.goshop.goods.pojo.GsGoodsConsultWithBLOBs" >
+    update gs_goods_consult
+    <set >
+      <if test="addtime != null" >
+        addTime = #{addtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="deletestatus != null" >
+        deleteStatus = #{deletestatus,jdbcType=BIT},
+      </if>
+      <if test="consultEmail != null" >
+        consult_email = #{consultEmail,jdbcType=VARCHAR},
+      </if>
+      <if test="reply != null" >
+        reply = #{reply,jdbcType=BIT},
+      </if>
+      <if test="replyTime != null" >
+        reply_time = #{replyTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="consultUserId != null" >
+        consult_user_id = #{consultUserId,jdbcType=BIGINT},
+      </if>
+      <if test="goodsId != null" >
+        goods_id = #{goodsId,jdbcType=BIGINT},
+      </if>
+      <if test="replyUserId != null" >
+        reply_user_id = #{replyUserId,jdbcType=BIGINT},
+      </if>
+      <if test="consultContent != null" >
+        consult_content = #{consultContent,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="consultReply != null" >
+        consult_reply = #{consultReply,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="org.goshop.goods.pojo.GsGoodsConsultWithBLOBs" >
+    update gs_goods_consult
+    set addTime = #{addtime,jdbcType=TIMESTAMP},
+      deleteStatus = #{deletestatus,jdbcType=BIT},
+      consult_email = #{consultEmail,jdbcType=VARCHAR},
+      reply = #{reply,jdbcType=BIT},
+      reply_time = #{replyTime,jdbcType=TIMESTAMP},
+      consult_user_id = #{consultUserId,jdbcType=BIGINT},
+      goods_id = #{goodsId,jdbcType=BIGINT},
+      reply_user_id = #{replyUserId,jdbcType=BIGINT},
+      consult_content = #{consultContent,jdbcType=LONGVARCHAR},
+      consult_reply = #{consultReply,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="org.goshop.goods.pojo.GsGoodsConsult" >
+    update gs_goods_consult
+    set addTime = #{addtime,jdbcType=TIMESTAMP},
+      deleteStatus = #{deletestatus,jdbcType=BIT},
+      consult_email = #{consultEmail,jdbcType=VARCHAR},
+      reply = #{reply,jdbcType=BIT},
+      reply_time = #{replyTime,jdbcType=TIMESTAMP},
+      consult_user_id = #{consultUserId,jdbcType=BIGINT},
+      goods_id = #{goodsId,jdbcType=BIGINT},
+      reply_user_id = #{replyUserId,jdbcType=BIGINT}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

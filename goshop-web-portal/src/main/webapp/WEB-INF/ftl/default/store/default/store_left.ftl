@@ -6,7 +6,7 @@ jQuery(function(jQuery){
      <#if ((user.id)!0) == ((obj.goods_store.user.id)!-1) >
 	   alert("不能收藏自己的店铺");
 	 <#else>
-	   jQuery.post("${S_URL}/add_store_favorite",{"id":"${store.storeId}"},function(data){
+	   jQuery.post("${S_URL}/add_store_favorite",{"id":"${(store.storeId)!}"},function(data){
 		 if(data==0){
 		     alert("店铺收藏成功！");
 		 }
@@ -22,11 +22,11 @@ jQuery(function(jQuery){
      var ugc_type=jQuery(this).attr("ugc_type");
 	 var ugc_id=jQuery(this).attr("ugc_id");
 	 if(ugc_type=="show"){
-	    jQuery(this).find("img").attr("src","${S_URL}/static/images/shop/${(store.template)!}/images/add.jpg");
+	    jQuery(this).find("img").attr("src","${S_URL}/static/styles/shop/${(store.template)!}/images/add.jpg");
 		jQuery("#ugc_child_"+ugc_id).hide();
 	    jQuery(this).attr("ugc_type","hide");
 	 }else{
-	    jQuery(this).find("img").attr("src","${S_URL}/static/images/shop/${(store.template)!}/images/add2.jpg");
+	    jQuery(this).find("img").attr("src","${S_URL}/static/styles/shop/${(store.template)!}/images/add2.jpg");
 		jQuery("#ugc_child_"+ugc_id).show();
 	    jQuery(this).attr("ugc_type","show");
 	 }
@@ -58,7 +58,7 @@ jQuery(function(jQuery){
                 <#assign store_logo="${S_URL}/${(store.logo.path)!}/${(store.logo.name)!}" />
             <#else>
                 <#assign store_logo="${S_URL}/${(config.storeImage.path)!}/${(config.storeImage.name)!}" />
-            </#if> <img src="${store_logo!}" width="60" height="60" />
+            </#if> <img src="${RES_URL}${store_logo!}" width="60" height="60" />
         </span></dt>
         <#assign credit=storeViewTools.generic_store_credit("${(store.storeId)!}") />
         <#assign img="${imageWebServer!}/resources/style/common/images/level_0.gif" />
@@ -130,7 +130,7 @@ jQuery(function(jQuery){
                <span>站内客服：</span>
                <span>
                  <#if user?? >
-                     <a class="im_common" href="javascript:void(0);" user_id="${(store.user.id)!}" id="userDialog_img_contact_${(store.user.id)!}" user_name="${(store.user.userName)!}"> 咨询客服</a>
+                     <a class="im_common" href="javascript:void(0);" user_id="${(store.memberId)!}" id="userDialog_img_contact_${(store.memberId)!}" user_name="${(store.user.userName)!}"> 咨询客服</a>
                  <#else>
                      <a class="im_common" href="javascript:void(0);" dialog_uri="${S_URL}/user_dialog_login" dialog_title="会员登录" dialog_width="450" dialog_height="100" dialog_id="user_login">咨询客服 </a>
                   </#if>
@@ -200,7 +200,7 @@ jQuery(function(jQuery){
     <ul class="shopcul">
       <li>
           <span>
-              <img src="${imageWebServer!}/static/images/shop/${(store.template)!}/images/add2.jpg" width="15" height="15" />
+              <img src="${imageWebServer!}/static/styles/shop/${(store.template)!}/images/add2.jpg" width="15" height="15" />
           </span>
           <a href="${S_URL}/goods_list?store_id=${(store.storeId)!}" class="oneclass">所有商品</a>
       </li>
@@ -208,7 +208,7 @@ jQuery(function(jQuery){
       <#if ((ugc.display)!false) == true >
           <li>
               <span id="ugc_${(ugc.id)!}" ugc_type="show" ugc_id="${(ugc.id)!}">
-                  <img src="${imageWebServer!}/static/images/shop/${(store.template)!}/images/add2.jpg" width="15" height="15" />
+                  <img src="${imageWebServer!}/static/styles/shop/${(store.template)!}/images/add2.jpg" width="15" height="15" />
               </span>
               <a href="${S_URL}/goods_list?gc_id=${(ugc.id)!}&store_id=${(store.storeId)!}" class="oneclass">${(ugc.classname)!}</a>
               <#if (ugc.childs)!?size gt 0 >
@@ -239,7 +239,7 @@ jQuery(function(jQuery){
       <div class="shop_rank_botm" id="sort_sale_goods">
           <#list goodsViewTools.sort_sale_goods(store.storeId,5) as goods >
             <#if (goods.goods_main_photo)!??>
-                <#assign img="${imageWebServer!}/${(goods.goods_main_photo.path)!}/${(goods.goods_main_photo.name)!}_small.${(goods.goods_main_photo.ext)!}" />
+                <#assign img="${RES_URL!}/${(goods.goods_main_photo.path)!}/${(goods.goods_main_photo.name)!}_small.${(goods.goods_main_photo.ext)!}" />
             <#else>
                 <#assign img="${imageWebServer!}/${(config.goodsImage.path)!}/${(config.goodsImage.name)!}" />
             </#if>
@@ -266,7 +266,7 @@ jQuery(function(jQuery){
       <div class="shop_rank_botm" style="display:none;" id="sort_collect_goods">
         <#list goodsViewTools.sort_collect_goods("${store.storeId}",5) as goods >
         <#if (goods.goods_main_photo)!??>
-            <#assign img="${imageWebServer!}/${(goods.goods_main_photo.path)!}/${(goods.goods_main_photo.name)!}_small.${(goods.goods_main_photo.ext)!}" />
+            <#assign img="${RES_URL!}/${(goods.goods_main_photo.path)!}/${(goods.goods_main_photo.name)!}_small.${(goods.goods_main_photo.ext)!}" />
         <#else>
             <#assign img="${imageWebServer!}/${(config.goodsImage.path)!}/${(config.goodsImage.name)!}" />
         </#if>

@@ -20,13 +20,18 @@ import java.util.UUID;
 /**
  * Created by Administrator on 2016/3/24.
  */
-public class LocalhostAttachmentImpl implements AttachmentService {
+public class LocalhostAttachmentImpl implements AttachmentService{
 
     @Autowired
     SystemConfigService systemConfigService;
 
     @Value("${FILE_PATH}")
     private String filePath;
+
+    @Override
+    public String upload(String path, String name) throws IOException{
+        return null;
+    }
 
     @Override
     public String upload(MultipartFile multipartFile) throws IOException {
@@ -45,6 +50,16 @@ public class LocalhostAttachmentImpl implements AttachmentService {
     public void delete(String id) {
         String filePath=this.getPath()+id;
         FileUtils.deleteFile(filePath);
+    }
+
+    @Override
+    public double foldSize(String path) {
+        return 0;
+    }
+
+    @Override
+    public void deleteFile(String path) {
+
     }
 
     private String getFileName(String type) {

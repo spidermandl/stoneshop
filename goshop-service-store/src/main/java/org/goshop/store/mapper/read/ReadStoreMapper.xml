@@ -147,4 +147,21 @@
     </where>
   </select>
 
+  <select id="selectIndexByCondition" resultMap="BaseResultMap" parameterType="java.util.Map">
+    select
+    store_id
+    from gs_store
+    <where>
+      <if test="store_state != null" >
+        store_state = #{store_state}
+      </if>
+      <if test="area_ids !=null">
+        and store_id IN
+        <foreach collection="area_ids" index="index" item="item" open="(" separator="," close=")">
+          #{item}
+        </foreach>
+      </if>
+    </where>
+  </select>
+
 </mapper>

@@ -105,7 +105,7 @@
     from gs_goods
     <where>
       <if test="goods_status != null">
-        and goods_status = #{goods_status}
+        goods_status = #{goods_status}
       </if>
       <if test="goods_store_id != null">
         and goods_store_id = #{goods_store_id}
@@ -119,7 +119,27 @@
       <if test="store_recommend != null">
         and store_recommend = #{store_recommend}
       </if>
-
+      <if test="goods_price != null">
+        and goods_price = #{goods_price}
+      </if>
+      <if test="begin_price != null">
+        and goods_price &gt;= #{begin_price}
+      </if>
+      <if test="end_price != null">
+        and goods_price &lt;= #{end_price}
+      </if>
+      <if test="exclude_id != null">
+        and id != #{exclude_id}
+      </if>
+      <if test="ztc_begin_time != null">
+        and ztc_begin_time &lt;= #{ztc_begin_time}
+      </if>
+      <if test="ztc_gold != null">
+        and ztc_gold &gt;= #{ztc_gold}
+      </if>
+      <if test="goods_brand_id != null">
+        and goods_brand_id = #{goods_brand_id}
+      </if>
 --       item表示集合中每一个元素进行迭代时的别名，
 --       index指 定一个名字，用于表示在迭代过程中，每次迭代到的位置，
 --       open表示该语句以什么开始，
@@ -131,13 +151,45 @@
             #{item}
         </foreach>
       </if>
+      <if test="ids_from_class !=null">
+        and id IN
+        <foreach collection="ids_from_class" index="index" item="item" open="(" separator="," close=")">
+          #{item}
+        </foreach>
+      </if>
+      <if test="ids_from_spec !=null">
+        and id IN
+        <foreach collection="ids_from_spec" index="index" item="item" open="(" separator="," close=")">
+          #{item}
+        </foreach>
+      </if>
+      <if test="brand_ids !=null">
+        and goods_brand_id IN
+        <foreach collection="brand_ids" index="index" item="item" open="(" separator="," close=")">
+          #{item}
+        </foreach>
+      </if>
       <if test="good_class_ids !=null">
         and gc_id IN
-        <foreach collection="ids" index="index" item="item" open="(" separator="," close=")">
+        <foreach collection="good_class_ids" index="index" item="item" open="(" separator="," close=")">
             #{item}
         </foreach>
       </if>
-
+      <if test="good_store_ids !=null">
+        and good_store_id IN
+        <foreach collection="good_store_ids" index="index" item="item" open="(" separator="," close=")">
+          #{item}
+        </foreach>
+      </if>
+      <if test="goods_type_ids !=null">
+        and left join gs_goods_class class ON
+          gc_id = class.id  (
+          WHERE class.goods_type_id IN
+            <foreach collection="goods_type_ids" index="index" item="item" open="(" separator="," close=")">
+              #{item}
+            </foreach>
+        )
+      </if>
     </where>
     <if test="orderBy !=null">
     order BY #{orderBy} #{orderType}

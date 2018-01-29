@@ -46,4 +46,12 @@ public interface ReadStoreMapper {
      * @return
      */
     List<Store> selectByCondition(Map condition);
+
+    /**
+     * 更据条件查询主键索引
+     * @param condition
+     * @return
+     */
+    List<Long> selectIndexByCondition(Map condition);
+
 }

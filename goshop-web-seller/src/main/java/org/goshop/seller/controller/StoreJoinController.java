@@ -5,6 +5,7 @@ import org.goshop.assets.i.AccessoryService;
 import org.goshop.assets.pojo.GsAccessory;
 import org.goshop.common.context.CustomTimestampEditor;
 import org.goshop.common.exception.PageException;
+import org.goshop.common.service.AttachmentService;
 import org.goshop.common.web.utils.CommUtil;
 import org.goshop.common.web.utils.JsonUtils;
 import org.goshop.shiro.bind.annotation.CurrentUser;
@@ -34,6 +35,7 @@ import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.List;
@@ -52,6 +54,8 @@ public class StoreJoinController {
     AccessoryService accessoryService;
     @Autowired
     UserService userService;
+    @Autowired
+    AttachmentService attachmentService;
 
     @Autowired
     UserRealm userRealm;
@@ -312,11 +316,16 @@ public class StoreJoinController {
      * @throws IOException
      */
     private long saveImg(HttpServletRequest request,CommonsMultipartFile file,Long userId) throws IOException{
-        String path = this.storeTools.createUserFolder(request, null);
+        String rootPath = request.getSession().getServletContext().getRealPath("/");
+        String path = this.storeTools.createUserFolder(rootPath, null);
         String url = this.storeTools.createUserFolderURL(null);
         Map map = CommUtil.saveFileToServer(file, path, null, null);
         GsAccessory img = this.storeTools.bundleAccessory(map,url,null,userId);
         long id = accessoryService.save(img);
+        //上传至远程服务器
+        String name = img.getPath() + File.separator + img.getName();
+        String source = request.getSession().getServletContext().getRealPath("/") + name;
+        this.attachmentService.upload(source,name);
         return id;
     }
 }

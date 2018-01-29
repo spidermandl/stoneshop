@@ -30,12 +30,12 @@
 <body>
     ${httpInclude.include("/top")}
     ${httpInclude.include("/store_head?store_id=${(store.storeId)!}")}
-    <#assign banner="${S_URL}/resources/style/shop/${(store.template)!}/images/banner.jpg" />
+    <#assign banner="${S_URL}/static/images/shop/${(store.template)!}/images/banner.jpg" />
     <#if (store.banner)!??>
         <#assign banner="${S_URL}/${(store.banner.path)!}/${(store.banner.name)!}" />
     </#if>
     <div class="banner_width">
-      <div class="shopbanner"><img src="${banner!}"  width="1200px" /></div>
+      <div class="shopbanner"><img src="${RES_URL}${banner!}"  width="1200px" /></div>
     </div>
     <div class="nav_width">
         <div class="main">
@@ -85,12 +85,12 @@
                                     <b>二维码收藏店铺</b>
                                 </span>
                                 <dl class="shopcode_left">
-                                    <dt><img src="${store_logo!}" width="90" height="90" /></dt>
+                                    <dt><img src="${RES_URL}${store_logo!}" width="90" height="90" /></dt>
                                     <dd><em>店铺名称：${(store.storeName)!}</em>
                                         <em>店铺等级：${(store.storeGrade.sgName)!}</em>
                                         <em>认证信息：
-                                            <i><img  src="${S_URL}/static/images/common/card_approve_${(store.cardApprove)!}.gif" /></i>
-                                            <i><img src="${imageWebServer!}/static/images/common/realstore_approve_${(store.realstoreApprove)!}.gif" /></i>
+                                            <i><img  src="${S_URL}/static/images/common/card_approve_${(store.cardApprove)!false?string("true","false")}.gif" /></i>
+                                            <i><img src="${imageWebServer!}/static/images/common/realstore_approve_${(store.realstoreApprove)!false?string("true","false")}.gif" /></i>
                                         </em>
                                     </dd>
                                 </dl>

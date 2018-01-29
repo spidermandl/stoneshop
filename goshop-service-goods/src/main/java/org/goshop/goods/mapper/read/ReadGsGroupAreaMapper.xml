@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="org.goshop.goods.mapper.read.ReadGsGroupAreaMapper" >
+  <resultMap id="BaseResultMap" type="org.goshop.goods.pojo.GsGroupArea" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="addTime" property="addtime" jdbcType="TIMESTAMP" />
+    <result column="deleteStatus" property="deletestatus" jdbcType="BIT" />
+    <result column="ga_level" property="gaLevel" jdbcType="INTEGER" />
+    <result column="ga_name" property="gaName" jdbcType="VARCHAR" />
+    <result column="ga_sequence" property="gaSequence" jdbcType="INTEGER" />
+    <result column="parent_id" property="parentId" jdbcType="BIGINT" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, addTime, deleteStatus, ga_level, ga_name, ga_sequence, parent_id
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select
+    <include refid="Base_Column_List" />
+    from gs_group_area
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from gs_group_area
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="org.goshop.goods.pojo.GsGroupArea" >
+    <selectKey resultType="java.lang.Long" keyProperty="id" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into gs_group_area (addTime, deleteStatus, ga_level,
+      ga_name, ga_sequence, parent_id
+      )
+    values (#{addtime,jdbcType=TIMESTAMP}, #{deletestatus,jdbcType=BIT}, #{gaLevel,jdbcType=INTEGER},
+      #{gaName,jdbcType=VARCHAR}, #{gaSequence,jdbcType=INTEGER}, #{parentId,jdbcType=BIGINT}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="org.goshop.goods.pojo.GsGroupArea" >
+    <selectKey resultType="java.lang.Long" keyProperty="id" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into gs_group_area
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="addtime != null" >
+        addTime,
+      </if>
+      <if test="deletestatus != null" >
+        deleteStatus,
+      </if>
+      <if test="gaLevel != null" >
+        ga_level,
+      </if>
+      <if test="gaName != null" >
+        ga_name,
+      </if>
+      <if test="gaSequence != null" >
+        ga_sequence,
+      </if>
+      <if test="parentId != null" >
+        parent_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="addtime != null" >
+        #{addtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="deletestatus != null" >
+        #{deletestatus,jdbcType=BIT},
+      </if>
+      <if test="gaLevel != null" >
+        #{gaLevel,jdbcType=INTEGER},
+      </if>
+      <if test="gaName != null" >
+        #{gaName,jdbcType=VARCHAR},
+      </if>
+      <if test="gaSequence != null" >
+        #{gaSequence,jdbcType=INTEGER},
+      </if>
+      <if test="parentId != null" >
+        #{parentId,jdbcType=BIGINT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="org.goshop.goods.pojo.GsGroupArea" >
+    update gs_group_area
+    <set >
+      <if test="addtime != null" >
+        addTime = #{addtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="deletestatus != null" >
+        deleteStatus = #{deletestatus,jdbcType=BIT},
+      </if>
+      <if test="gaLevel != null" >
+        ga_level = #{gaLevel,jdbcType=INTEGER},
+      </if>
+      <if test="gaName != null" >
+        ga_name = #{gaName,jdbcType=VARCHAR},
+      </if>
+      <if test="gaSequence != null" >
+        ga_sequence = #{gaSequence,jdbcType=INTEGER},
+      </if>
+      <if test="parentId != null" >
+        parent_id = #{parentId,jdbcType=BIGINT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="org.goshop.goods.pojo.GsGroupArea" >
+    update gs_group_area
+    set addTime = #{addtime,jdbcType=TIMESTAMP},
+      deleteStatus = #{deletestatus,jdbcType=BIT},
+      ga_level = #{gaLevel,jdbcType=INTEGER},
+      ga_name = #{gaName,jdbcType=VARCHAR},
+      ga_sequence = #{gaSequence,jdbcType=INTEGER},
+      parent_id = #{parentId,jdbcType=BIGINT}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

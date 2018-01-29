@@ -1,7 +1,11 @@
 package org.goshop.store.pojo;
 
+import org.goshop.goods.pojo.GsGoods;
+
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 public class GsArea implements Serializable {
     private Long id;
@@ -19,6 +23,16 @@ public class GsArea implements Serializable {
     private Long parentId;
 
     private Boolean common;
+
+    private List<GsArea> childs = new ArrayList<>();
+
+    public List<GsArea> getChilds() {
+        return childs;
+    }
+
+    public void setChilds(List<GsArea> childs) {
+        this.childs = childs;
+    }
 
     public Long getId() {
         return id;

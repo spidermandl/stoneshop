@@ -64,14 +64,17 @@
                 <entry key="SHOP_URL" value="${SHOP_URL}"></entry>
                 <entry key="SHOP_REST_URL" value="${SHOP_REST_URL}"></entry>
                 <entry key="SELLER_URL" value="${SELLER_URL}"></entry>
+                <entry key="RES_URL" value="${RES_URL}"></entry>
                 <entry key="SHOP_REST_DOMAIN" value="${SHOP_REST_DOMAIN}"></entry>
                 <entry key="SHOP_DOMAIN" value="${SHOP_DOMAIN}"></entry>
                 <entry key="MANAGER_DOMAIN" value="${MANAGER_DOMAIN}"></entry>
                 <entry key="SELLER_DOMAIN" value="${SELLER_DOMAIN}"></entry>
+                <entry key="RES_DOMAIN" value="${RES_DOMAIN}"></entry>
                 <entry key="SHOP_REST_ROOT" value="${SHOP_REST_ROOT}"></entry>
                 <entry key="SHOP_ROOT" value="${SHOP_ROOT}"></entry>
                 <entry key="MANAGER_ROOT" value="${MANAGER_ROOT}"></entry>
                 <entry key="SELLER_ROOT" value="${SELLER_ROOT}"></entry>
+                <entry key="RES_ROOT" value="${RES_ROOT}"></entry>
 
                 <!--下面四个是在下面定义的模板继承-->
                 <entry key="extends" value-ref="extendsDirective"/>
@@ -93,8 +96,10 @@
         <!-- 设定文件上传的最大值5MB，5*1024*1024 -->
         <property name="maxUploadSize" value="5242880"></property>
     </bean>
-    <!--本地文件-->
-    <bean id="attachmentService" class="org.goshop.common.service.LocalhostAttachmentImpl" />
+    <!--远程文件-->
+    <bean id="attachmentService" class="org.goshop.common.service.RemovehostAttachmentImpl" />
+    <!--本地文件
+    <bean id="attachmentService" class="org.goshop.common.service.LocalhostAttachmentImpl" />-->
     <!-- 文件服务器
     <bean id="attachmentService" class="org.goshop.common.service.FastDFSAttachmentImpl" >
         <property name="hostName" value="${fastdfs.hostName}" />
@@ -103,5 +108,49 @@
         <property name="networkTimeout" value="${fastdfs.networkTimeout}" />
         <property name="http" value="${fastdfs.http}" />
     </bean>-->
+
+
+    <!--创建httpclient的连接池 -->
+    <bean id="httpClientConnectionManager"
+          class="org.apache.http.impl.conn.PoolingHttpClientConnectionManager"
+          destroy-method="shutdown">
+        <!-- 设置最大连接数 -->
+        <property name="maxTotal" value="${http.maxTotal}" />
+        <!-- 设置每个主机的并发数 -->
+        <property name="defaultMaxPerRoute" value="${http.defaultMaxPerRoute}" />
+    </bean>
+
+    <!-- 创建httpClient对象 -->
+    <!-- httpClient是由HttpClientBuilder通过build方法创建，这个可以设置连接池 -->
+    <!-- 1.创建HttpClientBuilder -->
+    <bean id="httpClientBuilder" class="org.apache.http.impl.client.HttpClientBuilder">
+        <!--设置连接池 -->
+        <property name="connectionManager" ref="httpClientConnectionManager"></property>
+    </bean>
+    <!-- 2.创建httpClient -->
+    <!-- 通过httpClientBulider得到httpClient对象，并且设置httpClient为多利模式 -->
+    <!-- 要保证httpClient为多利，以为每次都是新的http请求 -->
+    <bean id="httpClient" class="org.apache.http.impl.client.CloseableHttpClient"
+          factory-bean="httpClientBuilder" factory-method="build" scope="prototype" />
+
+    <!-- 构造请求参数 -->
+    <bean id="requestConfigBuilder" class="org.apache.http.client.config.RequestConfig.Builder">
+        <!-- 创建连接的最长时间 -->
+        <property name="connectTimeout" value="${http.connectTimeout}" />
+        <!-- 从连接池中获取到连接的最长时间 -->
+        <property name="connectionRequestTimeout" value="${http.connectionRequestTimeout}" />
+        <!-- 数据传输的最长时间 -->
+        <property name="socketTimeout" value="${http.socketTimeout}" />
+        <!-- 提交请求前测试连接是否可用 -->
+        <property name="staleConnectionCheckEnabled" value="${http.staleConnectionCheckEnabled}" />
+    </bean>
+    <bean id="requestConfig" class="org.apache.http.client.config.RequestConfig"
+          factory-bean="requestConfigBuilder" factory-method="build" />
+
+    <!--清理无效的http连接 -->
+    <bean class="org.goshop.common.web.utils.IdleConnectionEvictor"
+          destroy-method="shutdown">
+        <constructor-arg index="0" ref="httpClientConnectionManager"></constructor-arg>
+    </bean>
 
 </beans>

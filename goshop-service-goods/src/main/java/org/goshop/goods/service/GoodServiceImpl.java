@@ -21,7 +21,6 @@ import java.util.Map;
  */
 @Service("goodsService")
 public class GoodServiceImpl implements GoodsService {
-
     @Autowired
     GsGoodsMapper gsGoodsMapper;
     @Autowired
@@ -40,6 +39,10 @@ public class GoodServiceImpl implements GoodsService {
     ReadGsGoodsPropertyMapper readGsGoodsPropertyMapper;
     @Autowired
     ReadGsGoodsCombinMapper readGsGoodsCombinMapper;
+    @Autowired
+    ReadGsGroupMapper readGsGroupMapper;
+    @Autowired
+    ReadGsGroupGoodsMapper readGsGroupGoodsMapper;
 
     @Autowired
     GsGoodsUgcMapper gsGoodsUgcMapper;
@@ -64,6 +67,11 @@ public class GoodServiceImpl implements GoodsService {
             one.setGc(readGsGoodsClassMapper.selectByPrimaryKey(one.getGcId()));
         if (one.getTransportId()!=null)
             one.setTransport(readGsTransportMapper.selectByPrimaryKey(one.getTransportId()));
+        if (one.getGroupId() != null) {
+            one.setGroup(readGsGroupMapper.selectByPrimaryKey(one.getGroupId()));
+            one.setGroup_goods_list(readGsGroupGoodsMapper.selectByGroupId(one.getGroupId()));
+        }
+
         return one;
     }
 
@@ -337,6 +345,16 @@ public class GoodServiceImpl implements GoodsService {
         if (ids.size()==0)
             return new ArrayList<>();
         return accessoryService.findByIds(ids);
+    }
+
+    @Override
+    public List<Long> findGoodsIndexBySpecId(List<Long> spec_ids) {
+        return readGsGoodsPropertyMapper.selectBySpecId(spec_ids);
+    }
+
+    @Override
+    public List<GsGroupGoods> findGroupGoodsByGroupId(Long group_id) {
+        return readGsGroupGoodsMapper.selectByGroupId(group_id);
     }
 
 }

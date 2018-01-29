@@ -52,4 +52,9 @@
 
     <dubbo:service  retries="0" interface="org.goshop.goods.i.GoodsEvaluateService" ref="goodsEvaluateService"  />
 
+    <dubbo:service  retries="0" interface="org.goshop.goods.i.GoodsTypePropertyService" ref="goodsTypePropertyService"  />
+
+    <dubbo:service  retries="0" interface="org.goshop.goods.i.GoodsConsultService" ref="goodsConsultService"  />
+
+
 </beans>

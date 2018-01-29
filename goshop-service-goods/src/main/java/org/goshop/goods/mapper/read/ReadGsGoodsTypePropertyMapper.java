@@ -2,16 +2,10 @@ package org.goshop.goods.mapper.read;
 
 import org.goshop.goods.pojo.GsGoodsTypeProperty;
 
+import java.util.List;
+
 public interface ReadGsGoodsTypePropertyMapper {
-    int deleteByPrimaryKey(Long id);
-
-    int insert(GsGoodsTypeProperty record);
-
-    int insertSelective(GsGoodsTypeProperty record);
-
     GsGoodsTypeProperty selectByPrimaryKey(Long id);
 
-    int updateByPrimaryKeySelective(GsGoodsTypeProperty record);
-
-    int updateByPrimaryKey(GsGoodsTypeProperty record);
+    List<Long> selectByPropertyGroup(List condition);
 }

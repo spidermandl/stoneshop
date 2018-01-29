@@ -30,6 +30,10 @@
                      interface="org.goshop.goods.i.GoodsFloorService" check="false" />
     <dubbo:reference id="goodsEvaluateService"
                      interface="org.goshop.goods.i.GoodsEvaluateService" check="false" />
+    <dubbo:reference id="goodsTypePropertyService"
+                     interface="org.goshop.goods.i.GoodsTypePropertyService" check="false" />
+    <dubbo:reference id="goodsConsultService"
+                     interface="org.goshop.goods.i.GoodsConsultService" check="false" />
 
 
 </beans>

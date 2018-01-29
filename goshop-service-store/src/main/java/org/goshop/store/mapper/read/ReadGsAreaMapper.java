@@ -4,19 +4,10 @@ import org.apache.ibatis.annotations.Param;
 import org.goshop.store.pojo.GsArea;
 
 import java.util.List;
+import java.util.Map;
 
 public interface ReadGsAreaMapper {
-    int deleteByPrimaryKey(Long id);
-
-    int insert(GsArea record);
-
-    int insertSelective(GsArea record);
-
     GsArea selectByPrimaryKey(Long id);
-
-    int updateByPrimaryKeySelective(GsArea record);
-
-    int updateByPrimaryKey(GsArea record);
-
     List<GsArea> selectByParentId(@Param("parentId") Long parentId);
+    List<GsArea> selectByCondition(Map condition);
 }
