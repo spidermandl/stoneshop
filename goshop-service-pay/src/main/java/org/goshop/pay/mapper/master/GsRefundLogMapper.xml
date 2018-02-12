@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="org.goshop.pay.mapper.master.GsRefundLogMapper" >
+  <resultMap id="BaseResultMap" type="org.goshop.pay.pojo.GsRefundLog" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="addTime" property="addtime" jdbcType="TIMESTAMP" />
+    <result column="deleteStatus" property="deletestatus" jdbcType="BIT" />
+    <result column="refund" property="refund" jdbcType="DECIMAL" />
+    <result column="refund_id" property="refundId" jdbcType="VARCHAR" />
+    <result column="refund_log" property="refundLog" jdbcType="VARCHAR" />
+    <result column="refund_type" property="refundType" jdbcType="VARCHAR" />
+    <result column="of_id" property="ofId" jdbcType="BIGINT" />
+    <result column="refund_user_id" property="refundUserId" jdbcType="BIGINT" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, addTime, deleteStatus, refund, refund_id, refund_log, refund_type, of_id, refund_user_id
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select
+    <include refid="Base_Column_List" />
+    from gs_refund_log
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from gs_refund_log
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="org.goshop.pay.pojo.GsRefundLog" >
+    <selectKey resultType="java.lang.Long" keyProperty="id" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into gs_refund_log (addTime, deleteStatus, refund,
+      refund_id, refund_log, refund_type,
+      of_id, refund_user_id)
+    values (#{addtime,jdbcType=TIMESTAMP}, #{deletestatus,jdbcType=BIT}, #{refund,jdbcType=DECIMAL},
+      #{refundId,jdbcType=VARCHAR}, #{refundLog,jdbcType=VARCHAR}, #{refundType,jdbcType=VARCHAR},
+      #{ofId,jdbcType=BIGINT}, #{refundUserId,jdbcType=BIGINT})
+  </insert>
+  <insert id="insertSelective" parameterType="org.goshop.pay.pojo.GsRefundLog" >
+    <selectKey resultType="java.lang.Long" keyProperty="id" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into gs_refund_log
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="addtime != null" >
+        addTime,
+      </if>
+      <if test="deletestatus != null" >
+        deleteStatus,
+      </if>
+      <if test="refund != null" >
+        refund,
+      </if>
+      <if test="refundId != null" >
+        refund_id,
+      </if>
+      <if test="refundLog != null" >
+        refund_log,
+      </if>
+      <if test="refundType != null" >
+        refund_type,
+      </if>
+      <if test="ofId != null" >
+        of_id,
+      </if>
+      <if test="refundUserId != null" >
+        refund_user_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="addtime != null" >
+        #{addtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="deletestatus != null" >
+        #{deletestatus,jdbcType=BIT},
+      </if>
+      <if test="refund != null" >
+        #{refund,jdbcType=DECIMAL},
+      </if>
+      <if test="refundId != null" >
+        #{refundId,jdbcType=VARCHAR},
+      </if>
+      <if test="refundLog != null" >
+        #{refundLog,jdbcType=VARCHAR},
+      </if>
+      <if test="refundType != null" >
+        #{refundType,jdbcType=VARCHAR},
+      </if>
+      <if test="ofId != null" >
+        #{ofId,jdbcType=BIGINT},
+      </if>
+      <if test="refundUserId != null" >
+        #{refundUserId,jdbcType=BIGINT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="org.goshop.pay.pojo.GsRefundLog" >
+    update gs_refund_log
+    <set >
+      <if test="addtime != null" >
+        addTime = #{addtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="deletestatus != null" >
+        deleteStatus = #{deletestatus,jdbcType=BIT},
+      </if>
+      <if test="refund != null" >
+        refund = #{refund,jdbcType=DECIMAL},
+      </if>
+      <if test="refundId != null" >
+        refund_id = #{refundId,jdbcType=VARCHAR},
+      </if>
+      <if test="refundLog != null" >
+        refund_log = #{refundLog,jdbcType=VARCHAR},
+      </if>
+      <if test="refundType != null" >
+        refund_type = #{refundType,jdbcType=VARCHAR},
+      </if>
+      <if test="ofId != null" >
+        of_id = #{ofId,jdbcType=BIGINT},
+      </if>
+      <if test="refundUserId != null" >
+        refund_user_id = #{refundUserId,jdbcType=BIGINT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="org.goshop.pay.pojo.GsRefundLog" >
+    update gs_refund_log
+    set addTime = #{addtime,jdbcType=TIMESTAMP},
+      deleteStatus = #{deletestatus,jdbcType=BIT},
+      refund = #{refund,jdbcType=DECIMAL},
+      refund_id = #{refundId,jdbcType=VARCHAR},
+      refund_log = #{refundLog,jdbcType=VARCHAR},
+      refund_type = #{refundType,jdbcType=VARCHAR},
+      of_id = #{ofId,jdbcType=BIGINT},
+      refund_user_id = #{refundUserId,jdbcType=BIGINT}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

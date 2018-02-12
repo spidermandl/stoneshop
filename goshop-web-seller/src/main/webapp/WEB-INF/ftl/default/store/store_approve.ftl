@@ -59,9 +59,9 @@ jQuery(document).ready(function(){
                         <li class="shoplogo">
                             <#if (store.card)??>
                                 <#if (store.card_approve)?? >
-                                    <img src="${S_URL}/${(store.card.path)!}/${(store.card.name)!}" width="200" height="140" />
+                                    <img src="${RES_URL}/${(store.card.path)!}/${(store.card.name)!}" width="200" height="140" />
                                 <#else> 认证审核中[
-                                    <a href="${S_URL}/${(store.card.path)!}/${(store.card.name)!}" target="_blank">查看认证文件</a>]
+                                    <a href="${RES_URL}/${(store.card.path)!}/${(store.card.name)!}" target="_blank">查看认证文件</a>]
                                 </#if>
                             <#else> 尚未认证
                             </#if>
@@ -86,7 +86,7 @@ jQuery(document).ready(function(){
                                 <#if (store.realstore_approve)??>
                                     <img src="${banner!}" width="400" height="300" />
                                 <#else> 认证审核中[
-                                    <a href="${S_URL}/${(store.license.path)!}/${(store.license.name)!}" target="_blank">查看认证文件</a>]
+                                    <a href="${RES_URL}/${(store.license.path)!}/${(store.license.name)!}" target="_blank">查看认证文件</a>]
                                 </#if>
                             <#else> 尚未认证
                             </#if>

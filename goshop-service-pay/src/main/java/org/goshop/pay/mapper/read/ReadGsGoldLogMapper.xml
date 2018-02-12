@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="org.goshop.pay.mapper.read.ReadGsGoldLogMapper" >
+  <resultMap id="BaseResultMap" type="org.goshop.pay.pojo.GsGoldLog" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="addTime" property="addtime" jdbcType="TIMESTAMP" />
+    <result column="deleteStatus" property="deletestatus" jdbcType="BIT" />
+    <result column="gl_admin_time" property="glAdminTime" jdbcType="TIMESTAMP" />
+    <result column="gl_count" property="glCount" jdbcType="INTEGER" />
+    <result column="gl_money" property="glMoney" jdbcType="INTEGER" />
+    <result column="gl_payment" property="glPayment" jdbcType="VARCHAR" />
+    <result column="gl_type" property="glType" jdbcType="INTEGER" />
+    <result column="gl_admin_id" property="glAdminId" jdbcType="BIGINT" />
+    <result column="gl_user_id" property="glUserId" jdbcType="BIGINT" />
+    <result column="gr_id" property="grId" jdbcType="BIGINT" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="org.goshop.pay.pojo.GsGoldLogWithBLOBs" extends="BaseResultMap" >
+    <result column="gl_admin_content" property="glAdminContent" jdbcType="LONGVARCHAR" />
+    <result column="gl_content" property="glContent" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, addTime, deleteStatus, gl_admin_time, gl_count, gl_money, gl_payment, gl_type,
+    gl_admin_id, gl_user_id, gr_id
+  </sql>
+  <sql id="Blob_Column_List" >
+    gl_admin_content, gl_content
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Long" >
+    select
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from gs_gold_log
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from gs_gold_log
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="org.goshop.pay.pojo.GsGoldLogWithBLOBs" >
+    <selectKey resultType="java.lang.Long" keyProperty="id" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into gs_gold_log (addTime, deleteStatus, gl_admin_time,
+      gl_count, gl_money, gl_payment,
+      gl_type, gl_admin_id, gl_user_id,
+      gr_id, gl_admin_content, gl_content
+      )
+    values (#{addtime,jdbcType=TIMESTAMP}, #{deletestatus,jdbcType=BIT}, #{glAdminTime,jdbcType=TIMESTAMP},
+      #{glCount,jdbcType=INTEGER}, #{glMoney,jdbcType=INTEGER}, #{glPayment,jdbcType=VARCHAR},
+      #{glType,jdbcType=INTEGER}, #{glAdminId,jdbcType=BIGINT}, #{glUserId,jdbcType=BIGINT},
+      #{grId,jdbcType=BIGINT}, #{glAdminContent,jdbcType=LONGVARCHAR}, #{glContent,jdbcType=LONGVARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="org.goshop.pay.pojo.GsGoldLogWithBLOBs" >
+    <selectKey resultType="java.lang.Long" keyProperty="id" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into gs_gold_log
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="addtime != null" >
+        addTime,
+      </if>
+      <if test="deletestatus != null" >
+        deleteStatus,
+      </if>
+      <if test="glAdminTime != null" >
+        gl_admin_time,
+      </if>
+      <if test="glCount != null" >
+        gl_count,
+      </if>
+      <if test="glMoney != null" >
+        gl_money,
+      </if>
+      <if test="glPayment != null" >
+        gl_payment,
+      </if>
+      <if test="glType != null" >
+        gl_type,
+      </if>
+      <if test="glAdminId != null" >
+        gl_admin_id,
+      </if>
+      <if test="glUserId != null" >
+        gl_user_id,
+      </if>
+      <if test="grId != null" >
+        gr_id,
+      </if>
+      <if test="glAdminContent != null" >
+        gl_admin_content,
+      </if>
+      <if test="glContent != null" >
+        gl_content,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="addtime != null" >
+        #{addtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="deletestatus != null" >
+        #{deletestatus,jdbcType=BIT},
+      </if>
+      <if test="glAdminTime != null" >
+        #{glAdminTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="glCount != null" >
+        #{glCount,jdbcType=INTEGER},
+      </if>
+      <if test="glMoney != null" >
+        #{glMoney,jdbcType=INTEGER},
+      </if>
+      <if test="glPayment != null" >
+        #{glPayment,jdbcType=VARCHAR},
+      </if>
+      <if test="glType != null" >
+        #{glType,jdbcType=INTEGER},
+      </if>
+      <if test="glAdminId != null" >
+        #{glAdminId,jdbcType=BIGINT},
+      </if>
+      <if test="glUserId != null" >
+        #{glUserId,jdbcType=BIGINT},
+      </if>
+      <if test="grId != null" >
+        #{grId,jdbcType=BIGINT},
+      </if>
+      <if test="glAdminContent != null" >
+        #{glAdminContent,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="glContent != null" >
+        #{glContent,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="org.goshop.pay.pojo.GsGoldLogWithBLOBs" >
+    update gs_gold_log
+    <set >
+      <if test="addtime != null" >
+        addTime = #{addtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="deletestatus != null" >
+        deleteStatus = #{deletestatus,jdbcType=BIT},
+      </if>
+      <if test="glAdminTime != null" >
+        gl_admin_time = #{glAdminTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="glCount != null" >
+        gl_count = #{glCount,jdbcType=INTEGER},
+      </if>
+      <if test="glMoney != null" >
+        gl_money = #{glMoney,jdbcType=INTEGER},
+      </if>
+      <if test="glPayment != null" >
+        gl_payment = #{glPayment,jdbcType=VARCHAR},
+      </if>
+      <if test="glType != null" >
+        gl_type = #{glType,jdbcType=INTEGER},
+      </if>
+      <if test="glAdminId != null" >
+        gl_admin_id = #{glAdminId,jdbcType=BIGINT},
+      </if>
+      <if test="glUserId != null" >
+        gl_user_id = #{glUserId,jdbcType=BIGINT},
+      </if>
+      <if test="grId != null" >
+        gr_id = #{grId,jdbcType=BIGINT},
+      </if>
+      <if test="glAdminContent != null" >
+        gl_admin_content = #{glAdminContent,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="glContent != null" >
+        gl_content = #{glContent,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="org.goshop.pay.pojo.GsGoldLogWithBLOBs" >
+    update gs_gold_log
+    set addTime = #{addtime,jdbcType=TIMESTAMP},
+      deleteStatus = #{deletestatus,jdbcType=BIT},
+      gl_admin_time = #{glAdminTime,jdbcType=TIMESTAMP},
+      gl_count = #{glCount,jdbcType=INTEGER},
+      gl_money = #{glMoney,jdbcType=INTEGER},
+      gl_payment = #{glPayment,jdbcType=VARCHAR},
+      gl_type = #{glType,jdbcType=INTEGER},
+      gl_admin_id = #{glAdminId,jdbcType=BIGINT},
+      gl_user_id = #{glUserId,jdbcType=BIGINT},
+      gr_id = #{grId,jdbcType=BIGINT},
+      gl_admin_content = #{glAdminContent,jdbcType=LONGVARCHAR},
+      gl_content = #{glContent,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="org.goshop.pay.pojo.GsGoldLog" >
+    update gs_gold_log
+    set addTime = #{addtime,jdbcType=TIMESTAMP},
+      deleteStatus = #{deletestatus,jdbcType=BIT},
+      gl_admin_time = #{glAdminTime,jdbcType=TIMESTAMP},
+      gl_count = #{glCount,jdbcType=INTEGER},
+      gl_money = #{glMoney,jdbcType=INTEGER},
+      gl_payment = #{glPayment,jdbcType=VARCHAR},
+      gl_type = #{glType,jdbcType=INTEGER},
+      gl_admin_id = #{glAdminId,jdbcType=BIGINT},
+      gl_user_id = #{glUserId,jdbcType=BIGINT},
+      gr_id = #{grId,jdbcType=BIGINT}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

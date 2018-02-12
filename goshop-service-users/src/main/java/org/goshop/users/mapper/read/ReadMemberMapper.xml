@@ -27,6 +27,7 @@
     <result column="member_areainfo" property="memberAreainfo" jdbcType="VARCHAR" />
     <result column="member_qqinfo" property="memberQqinfo" jdbcType="LONGVARCHAR" />
     <result column="member_privacy" property="memberPrivacy" jdbcType="VARCHAR" />
+    <result column="member_mobile" property="memberMobile" jdbcType="VARCHAR" />
     <result column="user_name" property="userName" jdbcType="VARCHAR" />
     <result column="login_name" property="loginName" jdbcType="VARCHAR" />
     <result column="login_num" property="loginNum" jdbcType="INTEGER" />
@@ -34,11 +35,11 @@
     <result column="login_ip" property="loginIp" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
-    member_id, user_id, member_truename, member_avatar, member_sex, member_birthday, 
+    member_id, user_id, member_truename, member_avatar, member_sex, member_birthday,
     member_email, member_qq, member_ww, member_time, member_qqopenid, member_points,
-    available_predeposit, freeze_predeposit, inform_allow, is_buy, is_allowtalk, member_state, 
+    available_predeposit, freeze_predeposit, inform_allow, is_buy, is_allowtalk, member_state,
     member_credit, member_areaid, member_cityid, member_provinceid, member_areainfo,member_qqinfo,
-    member_privacy
+    member_privacy,member_mobile
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
      select m.*,u.user_name,u.login_name,u.login_num,u.login_time,u.login_ip
@@ -113,92 +114,4 @@
     where m.user_id = #{userId,jdbcType=INTEGER}
   </select>
 
-  <update id="updateByUserId" parameterType="org.goshop.users.pojo.Member" >
-    update gs_member
-    <set >
-      <if test="userId != null" >
-        user_id = #{userId,jdbcType=BIGINT},
-      </if>
-      <if test="memberTruename != null" >
-        member_truename = #{memberTruename,jdbcType=VARCHAR},
-      </if>
-      <if test="memberAvatar != null" >
-        member_avatar = #{memberAvatar,jdbcType=VARCHAR},
-      </if>
-      <if test="memberSex != null" >
-        member_sex = #{memberSex,jdbcType=BIT},
-      </if>
-      <if test="memberBirthday != null" >
-        member_birthday = #{memberBirthday,jdbcType=DATE},
-      </if>
-      <if test="memberEmail != null" >
-        member_email = #{memberEmail,jdbcType=VARCHAR},
-      </if>
-      <if test="memberQq != null" >
-        member_qq = #{memberQq,jdbcType=VARCHAR},
-      </if>
-      <if test="memberWw != null" >
-        member_ww = #{memberWw,jdbcType=VARCHAR},
-      </if>
-      <if test="memberTime != null" >
-        member_time = #{memberTime,jdbcType=TIME},
-      </if>
-      <if test="memberQqopenid != null" >
-        member_qqopenid = #{memberQqopenid,jdbcType=VARCHAR},
-      </if>
-      <if test="memberPoints != null" >
-        member_points = #{memberPoints,jdbcType=INTEGER},
-      </if>
-      <if test="availablePredeposit != null" >
-        available_predeposit = #{availablePredeposit,jdbcType=DECIMAL},
-      </if>
-      <if test="freezePredeposit != null" >
-        freeze_predeposit = #{freezePredeposit,jdbcType=DECIMAL},
-      </if>
-      <if test="informAllow != null" >
-        inform_allow = #{informAllow,jdbcType=BIT},
-      </if>
-      <if test="isBuy != null" >
-        is_buy = #{isBuy,jdbcType=BIT},
-      </if>
-      <if test="isAllowtalk != null" >
-        is_allowtalk = #{isAllowtalk,jdbcType=BIT},
-      </if>
-      <if test="memberState != null" >
-        member_state = #{memberState,jdbcType=BIT},
-      </if>
-      <if test="memberCredit != null" >
-        member_credit = #{memberCredit,jdbcType=INTEGER},
-      </if>
-      <if test="memberAreaid != null" >
-        member_areaid = #{memberAreaid,jdbcType=INTEGER},
-      </if>
-      <if test="memberCityid != null" >
-        member_cityid = #{memberCityid,jdbcType=INTEGER},
-      </if>
-      <if test="memberProvinceid != null" >
-        member_provinceid = #{memberProvinceid,jdbcType=INTEGER},
-      </if>
-      <if test="memberAreainfo != null" >
-        member_areainfo = #{memberAreainfo,jdbcType=VARCHAR},
-      </if>
-      <if test="memberQqinfo != null" >
-        member_qqinfo = #{memberQqinfo,jdbcType=LONGVARCHAR},
-      </if>
-      <if test="memberPrivacy != null" >
-        member_privacy = #{memberPrivacy,jdbcType=VARCHAR},
-      </if>
-    </set>
-    where user_id = #{userId,jdbcType=BIGINT}
-  </update>
-
-  <update id="updateEmail" >
-    update gs_member set member_email = #{memberEmail,jdbcType=VARCHAR}
-    where user_id = #{userId,jdbcType=BIGINT}
-  </update>
-
-  <update id="saveAvatar" >
-    update gs_member set member_avatar = #{memberAvatar,jdbcType=VARCHAR}
-    where user_id = #{userId,jdbcType=BIGINT}
-  </update>
 </mapper>

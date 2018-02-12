@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="org.goshop.order.mapper.read.ReadGsCartGspMapper" >
+  <resultMap id="BaseResultMap" type="org.goshop.order.pojo.GsCartGsp" >
+    <result column="cart_id" property="cartId" jdbcType="BIGINT" />
+    <result column="gsp_id" property="gspId" jdbcType="BIGINT" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    cart_id, gsp_id
+  </sql>
+
+  <select id="selectByCartId" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select
+    <include refid="Base_Column_List" />
+    from gs_cart_gsp
+    where cart_id = #{cart_id,jdbcType=BIGINT}
+  </select>
+
+
+</mapper>

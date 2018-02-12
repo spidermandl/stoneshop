@@ -56,7 +56,8 @@ jQuery(document).ready(function(){
                           <#assign slide1= store.slides[0]/>
                         </#if>
                         <#if slide1?? >
-                        <li class="shoplogo"><img src="${S_URL}/${(slide1.acc.path)!}/${(slide1.acc.name)!}" width="210" height="104" /></li>
+                        <li class="shoplogo">
+                            <img src="${RES_URL}/${(slide1.acc.path)!}/${(slide1.acc.name)!}" width="210" height="104" /></li>
                         </#if>
                         <li>图片：
                           <input name="acc1" type="file" id="acc1" size="30" />
@@ -75,7 +76,7 @@ jQuery(document).ready(function(){
                           <#assign slide2=store.slides[1]/>
                         </#if>
                         <#if slide2?? >
-                        <li class="shoplogo"><img src="${S_URL}/${(slide2.acc.path)!}/${(slide2.acc.name)!}" width="210" height="104" /></li>
+                        <li class="shoplogo"><img src="${RES_URL}/${(slide2.acc.path)!}/${(slide2.acc.name)!}" width="210" height="104" /></li>
                         </#if>
                         <li>图片：
                           <input name="acc2" type="file" id="acc2" size="30" />
@@ -94,7 +95,7 @@ jQuery(document).ready(function(){
                           <#assign slide3=store.slides[2]/>
                         </#if>
                         <#if slide3?? >
-                        <li class="shoplogo"><img src="${S_URL}/${(slide3.acc.path)!}/${(slide3.acc.name)!}" width="210" height="104" /></li>
+                        <li class="shoplogo"><img src="${RES_URL}/${(slide3.acc.path)!}/${(slide3.acc.name)!}" width="210" height="104" /></li>
                         </#if>
                         <li>图片：
                           <input name="acc3" type="file" id="acc3" size="30" />
@@ -113,7 +114,7 @@ jQuery(document).ready(function(){
                           <#assign slide4=store.slides[3] />
                         </#if>
                         <#if slide4?? >
-                        <li class="shoplogo"><img src="${S_URL}/${(slide4.acc.path)!}/${(slide4.acc.name)!}" width="210" height="104" /></li>
+                        <li class="shoplogo"><img src="${RES_URL}/${(slide4.acc.path)!}/${(slide4.acc.name)!}" width="210" height="104" /></li>
                         </#if>
                         <li>图片：
                           <input name="acc4" type="file" id="acc4" size="30" />
@@ -132,7 +133,7 @@ jQuery(document).ready(function(){
                           <#assign slide5=store.slides[4] />
                         </#if>
                         <#if slide5?? >
-                        <li class="shoplogo"><img src="${S_URL}/${(slide5.acc.path)!}/${(slide5.acc.name)!}" width="210" height="104" /></li>
+                        <li class="shoplogo"><img src="${RES_URL}/${(slide5.acc.path)!}/${(slide5.acc.name)!}" width="210" height="104" /></li>
                         </#if>
                         <li>图片：
                           <input name="acc5" type="file" id="acc5" size="30" />

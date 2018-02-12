@@ -11,4 +11,6 @@ public interface ReadGsStoreCartMapper {
 
     List<GsStoreCart> selectOwnCartByCondition(Map condition);
 
+    List<GsStoreCart> selectByCondition(Map condition);
+
 }

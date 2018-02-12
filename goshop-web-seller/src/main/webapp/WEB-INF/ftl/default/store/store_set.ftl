@@ -118,9 +118,9 @@
                                 <td width="12%" align="right" valign="top">店铺标志：</td>
                                 <td style="padding-left:30px;">
                                     <ul class="setlogo">
-                                        <#assign store_logo="${S_URL}/${(config.storeImage.path)!}/${(config.storeImage.name)!}" />
-                                        <#if (store.logo)?? >
-                                          <#assign store_logo="${S_URL}/${(store.logo.path)!}/${(store.logo.name)!}"/>
+                                        <#assign store_logo="${RES_URL}/${(config.storeImage.path)!}/${(config.storeImage.name)!}" />
+                                        <#if (store.logo)!?? >
+                                          <#assign store_logo="${RES_URL}/${(store.logo.path)!}/${(store.logo.name)!}"/>
                                         </#if>
                                         <li class="shoplogo">
                                             <img src="${store_logo!}" width="105" height="97" /></li>
@@ -135,9 +135,9 @@
                                 <td width="98" align="right" valign="top">店铺条幅：</td>
                                 <td style="padding-left:30px;">
                                     <ul class="setbanner">
-                                        <#assign banner="${S_URL}/resources/style/shop/${(store.template)!}/images/banner.jpg"/>
+                                        <#assign banner="${SHOP_URL}/static/styles/shop/${(store.template)!}/images/banner.jpg"/>
                                         <#if (store.banner)?? >
-                                          <#assign banner="${S_URL}/${(store.banner.path)!}/${(store.banner.name)!}"/>
+                                          <#assign banner="${RES_URL}/${(store.banner.path)!}/${(store.banner.name)!}"/>
                                         </#if>
                                         <li class="shopbanner"><img src="${banner!}" width="400" height="100" /></li>
                                         <li>
@@ -165,7 +165,7 @@
                                     <span class="setinput">
                                         <input name="storeName" type="text" id="store_name" value="${(store.storeName)!}" />
                                     </span>
-                                    <a href="${S_URL}/store.htm?id=${(user.store.id)!}" target="_blank" class="blue2 px20">我的店铺首页</a></td>
+                                    <a href="${SHOP_URL}/store?id=${(store.storeId)!}" target="_blank" class="blue2 px20">我的店铺首页</a></td>
                             </tr>
                             <#if (config.second_domain_open)?? >
                             <tr>

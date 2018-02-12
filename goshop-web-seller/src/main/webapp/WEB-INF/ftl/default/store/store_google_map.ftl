@@ -61,6 +61,11 @@ jQuery(document).ready(function(){
                       <td colspan="2" align="right" valign="top"><div id="g_map" style="width:100%;height:500px;"> </div></td>
                     </tr>
 <script>
+    <#assign store_logo="${S_URL}/${(config.storeImage.path)!}/${(config.storeImage.name)!}" />
+    <#if (store.logo)?? >
+        <#assign store_logo="${RES_URL}/${(store.logo.path)!}/${(store.logo.name)!}" />
+    </#if>
+
 var map;
 var marker;
 function initialize() {

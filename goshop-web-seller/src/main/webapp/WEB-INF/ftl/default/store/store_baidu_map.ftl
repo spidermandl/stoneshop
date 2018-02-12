@@ -62,7 +62,7 @@ jQuery(document).ready(function(){
 <script type="text/javascript">
     <#assign store_logo="${S_URL}/${(config.storeImage.path)!}/${(config.storeImage.name)!}" />
     <#if (store.logo)?? >
-       <#assign store_logo="${S_URL}/${(store.logo.path)!}/${(store.logo.name)!}" />
+       <#assign store_logo="${RES_URL}/${(store.logo.path)!}/${(store.logo.name)!}" />
     </#if>
    var map = new BMap.Map("map");
    var marker;

@@ -34,7 +34,7 @@
                     </a>
                 <#else>
                     <li <#if (P_CURRENT_OP!"")=="StoreInfo">class="current"</#if>>
-                        <a href="${S_URL}/store/">
+                        <a href="${SHOP_URL}/store_me">
                             我的店铺
                         </a>
                     </li>

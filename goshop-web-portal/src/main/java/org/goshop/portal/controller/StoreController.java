@@ -1,6 +1,7 @@
 package org.goshop.portal.controller;
 
 import com.github.pagehelper.PageInfo;
+import org.apache.shiro.SecurityUtils;
 import org.goshop.common.web.utils.CommUtil;
 import org.goshop.goods.i.GoodsEvaluateService;
 import org.goshop.goods.i.GoodsService;
@@ -10,10 +11,7 @@ import org.goshop.goods.pojo.GsGoodsWithBLOBs;
 import org.goshop.order.i.OrderFormService;
 import org.goshop.order.pojo.GsOrderform;
 import org.goshop.shiro.bind.annotation.CurrentUser;
-import org.goshop.store.i.StoreClassService;
-import org.goshop.store.i.StoreNavigationService;
-import org.goshop.store.i.StorePartnerService;
-import org.goshop.store.i.StoreService;
+import org.goshop.store.i.*;
 import org.goshop.store.pojo.GsStoreClass;
 import org.goshop.store.pojo.GsStoreNav;
 import org.goshop.store.pojo.Store;
@@ -41,6 +39,8 @@ public class StoreController extends BaseController{
     @Autowired
     private StoreService storeService;
     @Autowired
+    private StoreJoinService storeJoinService;
+    @Autowired
     private GoodsUserClassService userGoodsClassService;
     @Autowired
     private GoodsService goodsService;
@@ -63,6 +63,18 @@ public class StoreController extends BaseController{
     @Autowired
     private StoreViewTools storeViewTools;
 
+    /**
+     * 我的店铺
+     * @return
+     */
+    @RequestMapping({"/store_me"})
+    public String me(String id){
+        User user = (User) SecurityUtils.getSubject().getPrincipal();
+        Store store = this.storeJoinService.getCurrentStore(user);
+        if (store ==null)
+            return "redirect:/store";
+        return "redirect:/store?id="+store.getStoreId();
+    }
 
     @RequestMapping({"/store"})
     public String store(Model model,
@@ -398,12 +410,13 @@ public class StoreController extends BaseController{
                                      String keyword,
                                      String store_id,
                                      String currentPage){
+        reCapsuleModel(model,request,response);
         Store store = this.storeService.findOne(Long.valueOf(Long.parseLong(store_id)));
         String template = "default";
         if ((store.getTemplate() != null) && (!store.getTemplate().equals(""))){
             template = store.getTemplate();
         }
-        String ret = template + "/store_goods_search";
+        String ret = generateViewURL(template + "/store_goods_search");
 
         Map param = new HashMap();
         param.put("store_id", CommUtil.null2Long(store_id));

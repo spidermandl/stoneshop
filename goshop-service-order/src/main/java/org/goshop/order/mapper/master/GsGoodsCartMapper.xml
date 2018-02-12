@@ -29,7 +29,7 @@
     delete from gs_goods_cart
     where id = #{id,jdbcType=BIGINT}
   </delete>
-  <insert id="insert" parameterType="org.goshop.order.pojo.GsGoodsCart" >
+  <insert id="insert" useGeneratedKeys="true" keyProperty="id" keyColumn="id" parameterType="org.goshop.order.pojo.GsGoodsCart" >
     <selectKey resultType="java.lang.Long" keyProperty="id" order="AFTER" >
       SELECT LAST_INSERT_ID()
     </selectKey>
@@ -42,7 +42,7 @@
       #{cartType,jdbcType=VARCHAR}, #{scId,jdbcType=BIGINT}, #{specInfo,jdbcType=LONGVARCHAR}
       )
   </insert>
-  <insert id="insertSelective" parameterType="org.goshop.order.pojo.GsGoodsCart" >
+  <insert id="insertSelective" useGeneratedKeys="true" keyProperty="id" keyColumn="id" parameterType="org.goshop.order.pojo.GsGoodsCart" >
     <selectKey resultType="java.lang.Long" keyProperty="id" order="AFTER" >
       SELECT LAST_INSERT_ID()
     </selectKey>

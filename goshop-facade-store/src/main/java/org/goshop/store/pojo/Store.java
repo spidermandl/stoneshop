@@ -119,6 +119,8 @@ public class Store  implements Serializable {
     /************end*****************/
 
     public String getTemplate() {
+        if (template==null)
+            return "default";//手动加上
         return template;
     }
 

@@ -31,6 +31,8 @@ public class GoodsConsultServiceImpl implements GoodsConsultService {
 
     @Override
     public int save(GsGoodsConsultWithBLOBs consult) {
+        if (consult.getDeletestatus()==null)
+            consult.setDeletestatus(false);
         return gsGoodsConsultMapper.insert(consult);
     }
 

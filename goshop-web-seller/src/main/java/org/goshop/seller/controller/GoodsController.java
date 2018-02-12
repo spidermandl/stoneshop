@@ -253,6 +253,7 @@ public class GoodsController {
         model.addAttribute("goods_class",goodsClass);
         model.addAttribute("config",systemConfigService.getConfig());
         model.addAttribute("CommUtil",new CommUtil());
+        model.addAttribute("trans_count",this.transportService.hasTransfortTemplate(storeId));
         return "goods/good_add_step_two";
     }
 
@@ -699,7 +700,7 @@ public class GoodsController {
      * @param goods_spec_ids
      * @return
      */
-    @RequestMapping({ "/goods_inventory.htm" })
+    @RequestMapping({ "/goods_inventory" })
     public String goods_inventory(Model model,
                                   HttpServletRequest request,
                                   HttpServletResponse response,
@@ -947,7 +948,7 @@ public class GoodsController {
      * @param ajax
      * @return
      */
-    @RequestMapping({ "/goods_transport.htm" })
+    @RequestMapping({ "/goods_transport" })
     public String goods_transport(@CurrentUser User user,
                                   Model model,
                                   HttpServletRequest request,
@@ -968,7 +969,8 @@ public class GoodsController {
         Store store = storeJoinService.getCurrentStore(user);
         int index = CommUtil.null2Int(currentPage);
         index = index==0?1:index;
-        PageInfo<GsTransportWithBLOBs> plist = this.transportService.findByStoreId(store.getStoreId(),index,1,orderBy,orderType);
+        PageInfo<GsTransportWithBLOBs> plist = this.transportService.findByStoreId(
+                store.getStoreId(),index,1,orderBy,orderType);
         CommUtil.saveIPageList2ModelAndView(
                 url + "/goods/goods_transport", "", params, plist, model);
         model.addAttribute("transportTools", this.transportTools);

@@ -33,6 +33,8 @@ public class StoreClassServiceImpl implements StoreClassService {
         if(!checkByNameParentId(storeClass.getName(), storeClass.getParentId())){
             throw new PageException("分类名称已经存在！");
         }
+        if (storeClass.getDeletestatus()==null)
+            storeClass.setDeletestatus(false);
         return storeClassMapper.insert(storeClass);
     }
 

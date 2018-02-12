@@ -1,6 +1,7 @@
 package org.goshop.goods.i;
 
 import com.github.pagehelper.PageInfo;
+import com.sun.org.apache.xpath.internal.operations.Bool;
 import org.goshop.goods.pojo.GsTransportWithBLOBs;
 
 /**
@@ -19,6 +20,12 @@ public interface TransportService {
      */
     PageInfo<GsTransportWithBLOBs> findByStoreId(Long storeId, Integer curPage, Integer pageSize, String orderBy, String orderType);
 
+    /**
+     * 是否有运费模板
+     * @param storeId
+     * @return
+     */
+    Boolean hasTransfortTemplate(Long storeId);
     /**
      * 根据主键查找
      * @param id

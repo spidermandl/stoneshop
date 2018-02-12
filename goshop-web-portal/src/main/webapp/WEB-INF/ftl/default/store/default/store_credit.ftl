@@ -93,7 +93,7 @@ ${httpInclude.include("/top")}
 ${httpInclude.include("/store_head?store_id=${(store.storeId)!}")}
   <#assign banner="${S_URL}/static/styles/shop/${(store.template)!}/images/banner.jpg" />
   <#if (store.banner)!?? >
-    <#assign banner="${S_URL}/${(store.banner.path)!}/${(store.banner.name)!}" />
+    <#assign banner="${RES_URL}/${(store.banner.path)!}/${(store.banner.name)!}" />
   </#if>
 <div class="banner_width">
   <div class="shopbanner"><img src="${banner!}" width="1200px"/></div>

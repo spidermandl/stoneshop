@@ -1,0 +1,233 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="org.goshop.pay.mapper.read.ReadGsPredepositCashMapper" >
+  <resultMap id="BaseResultMap" type="org.goshop.pay.pojo.GsPredepositCash" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="addTime" property="addtime" jdbcType="TIMESTAMP" />
+    <result column="deleteStatus" property="deletestatus" jdbcType="BIT" />
+    <result column="cash_account" property="cashAccount" jdbcType="VARCHAR" />
+    <result column="cash_amount" property="cashAmount" jdbcType="DECIMAL" />
+    <result column="cash_bank" property="cashBank" jdbcType="VARCHAR" />
+    <result column="cash_pay_status" property="cashPayStatus" jdbcType="INTEGER" />
+    <result column="cash_payment" property="cashPayment" jdbcType="VARCHAR" />
+    <result column="cash_sn" property="cashSn" jdbcType="VARCHAR" />
+    <result column="cash_status" property="cashStatus" jdbcType="INTEGER" />
+    <result column="cash_userName" property="cashUsername" jdbcType="VARCHAR" />
+    <result column="cash_admin_id" property="cashAdminId" jdbcType="BIGINT" />
+    <result column="cash_user_id" property="cashUserId" jdbcType="BIGINT" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="org.goshop.pay.pojo.GsPredepositCashWithBLOBs" extends="BaseResultMap" >
+    <result column="cash_admin_info" property="cashAdminInfo" jdbcType="LONGVARCHAR" />
+    <result column="cash_info" property="cashInfo" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, addTime, deleteStatus, cash_account, cash_amount, cash_bank, cash_pay_status,
+    cash_payment, cash_sn, cash_status, cash_userName, cash_admin_id, cash_user_id
+  </sql>
+  <sql id="Blob_Column_List" >
+    cash_admin_info, cash_info
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Long" >
+    select
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from gs_predeposit_cash
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from gs_predeposit_cash
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="org.goshop.pay.pojo.GsPredepositCashWithBLOBs" >
+    <selectKey resultType="java.lang.Long" keyProperty="id" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into gs_predeposit_cash (addTime, deleteStatus, cash_account,
+      cash_amount, cash_bank, cash_pay_status,
+      cash_payment, cash_sn, cash_status,
+      cash_userName, cash_admin_id, cash_user_id,
+      cash_admin_info, cash_info)
+    values (#{addtime,jdbcType=TIMESTAMP}, #{deletestatus,jdbcType=BIT}, #{cashAccount,jdbcType=VARCHAR},
+      #{cashAmount,jdbcType=DECIMAL}, #{cashBank,jdbcType=VARCHAR}, #{cashPayStatus,jdbcType=INTEGER},
+      #{cashPayment,jdbcType=VARCHAR}, #{cashSn,jdbcType=VARCHAR}, #{cashStatus,jdbcType=INTEGER},
+      #{cashUsername,jdbcType=VARCHAR}, #{cashAdminId,jdbcType=BIGINT}, #{cashUserId,jdbcType=BIGINT},
+      #{cashAdminInfo,jdbcType=LONGVARCHAR}, #{cashInfo,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="org.goshop.pay.pojo.GsPredepositCashWithBLOBs" >
+    <selectKey resultType="java.lang.Long" keyProperty="id" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into gs_predeposit_cash
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="addtime != null" >
+        addTime,
+      </if>
+      <if test="deletestatus != null" >
+        deleteStatus,
+      </if>
+      <if test="cashAccount != null" >
+        cash_account,
+      </if>
+      <if test="cashAmount != null" >
+        cash_amount,
+      </if>
+      <if test="cashBank != null" >
+        cash_bank,
+      </if>
+      <if test="cashPayStatus != null" >
+        cash_pay_status,
+      </if>
+      <if test="cashPayment != null" >
+        cash_payment,
+      </if>
+      <if test="cashSn != null" >
+        cash_sn,
+      </if>
+      <if test="cashStatus != null" >
+        cash_status,
+      </if>
+      <if test="cashUsername != null" >
+        cash_userName,
+      </if>
+      <if test="cashAdminId != null" >
+        cash_admin_id,
+      </if>
+      <if test="cashUserId != null" >
+        cash_user_id,
+      </if>
+      <if test="cashAdminInfo != null" >
+        cash_admin_info,
+      </if>
+      <if test="cashInfo != null" >
+        cash_info,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="addtime != null" >
+        #{addtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="deletestatus != null" >
+        #{deletestatus,jdbcType=BIT},
+      </if>
+      <if test="cashAccount != null" >
+        #{cashAccount,jdbcType=VARCHAR},
+      </if>
+      <if test="cashAmount != null" >
+        #{cashAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="cashBank != null" >
+        #{cashBank,jdbcType=VARCHAR},
+      </if>
+      <if test="cashPayStatus != null" >
+        #{cashPayStatus,jdbcType=INTEGER},
+      </if>
+      <if test="cashPayment != null" >
+        #{cashPayment,jdbcType=VARCHAR},
+      </if>
+      <if test="cashSn != null" >
+        #{cashSn,jdbcType=VARCHAR},
+      </if>
+      <if test="cashStatus != null" >
+        #{cashStatus,jdbcType=INTEGER},
+      </if>
+      <if test="cashUsername != null" >
+        #{cashUsername,jdbcType=VARCHAR},
+      </if>
+      <if test="cashAdminId != null" >
+        #{cashAdminId,jdbcType=BIGINT},
+      </if>
+      <if test="cashUserId != null" >
+        #{cashUserId,jdbcType=BIGINT},
+      </if>
+      <if test="cashAdminInfo != null" >
+        #{cashAdminInfo,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="cashInfo != null" >
+        #{cashInfo,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="org.goshop.pay.pojo.GsPredepositCashWithBLOBs" >
+    update gs_predeposit_cash
+    <set >
+      <if test="addtime != null" >
+        addTime = #{addtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="deletestatus != null" >
+        deleteStatus = #{deletestatus,jdbcType=BIT},
+      </if>
+      <if test="cashAccount != null" >
+        cash_account = #{cashAccount,jdbcType=VARCHAR},
+      </if>
+      <if test="cashAmount != null" >
+        cash_amount = #{cashAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="cashBank != null" >
+        cash_bank = #{cashBank,jdbcType=VARCHAR},
+      </if>
+      <if test="cashPayStatus != null" >
+        cash_pay_status = #{cashPayStatus,jdbcType=INTEGER},
+      </if>
+      <if test="cashPayment != null" >
+        cash_payment = #{cashPayment,jdbcType=VARCHAR},
+      </if>
+      <if test="cashSn != null" >
+        cash_sn = #{cashSn,jdbcType=VARCHAR},
+      </if>
+      <if test="cashStatus != null" >
+        cash_status = #{cashStatus,jdbcType=INTEGER},
+      </if>
+      <if test="cashUsername != null" >
+        cash_userName = #{cashUsername,jdbcType=VARCHAR},
+      </if>
+      <if test="cashAdminId != null" >
+        cash_admin_id = #{cashAdminId,jdbcType=BIGINT},
+      </if>
+      <if test="cashUserId != null" >
+        cash_user_id = #{cashUserId,jdbcType=BIGINT},
+      </if>
+      <if test="cashAdminInfo != null" >
+        cash_admin_info = #{cashAdminInfo,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="cashInfo != null" >
+        cash_info = #{cashInfo,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="org.goshop.pay.pojo.GsPredepositCashWithBLOBs" >
+    update gs_predeposit_cash
+    set addTime = #{addtime,jdbcType=TIMESTAMP},
+      deleteStatus = #{deletestatus,jdbcType=BIT},
+      cash_account = #{cashAccount,jdbcType=VARCHAR},
+      cash_amount = #{cashAmount,jdbcType=DECIMAL},
+      cash_bank = #{cashBank,jdbcType=VARCHAR},
+      cash_pay_status = #{cashPayStatus,jdbcType=INTEGER},
+      cash_payment = #{cashPayment,jdbcType=VARCHAR},
+      cash_sn = #{cashSn,jdbcType=VARCHAR},
+      cash_status = #{cashStatus,jdbcType=INTEGER},
+      cash_userName = #{cashUsername,jdbcType=VARCHAR},
+      cash_admin_id = #{cashAdminId,jdbcType=BIGINT},
+      cash_user_id = #{cashUserId,jdbcType=BIGINT},
+      cash_admin_info = #{cashAdminInfo,jdbcType=LONGVARCHAR},
+      cash_info = #{cashInfo,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="org.goshop.pay.pojo.GsPredepositCash" >
+    update gs_predeposit_cash
+    set addTime = #{addtime,jdbcType=TIMESTAMP},
+      deleteStatus = #{deletestatus,jdbcType=BIT},
+      cash_account = #{cashAccount,jdbcType=VARCHAR},
+      cash_amount = #{cashAmount,jdbcType=DECIMAL},
+      cash_bank = #{cashBank,jdbcType=VARCHAR},
+      cash_pay_status = #{cashPayStatus,jdbcType=INTEGER},
+      cash_payment = #{cashPayment,jdbcType=VARCHAR},
+      cash_sn = #{cashSn,jdbcType=VARCHAR},
+      cash_status = #{cashStatus,jdbcType=INTEGER},
+      cash_userName = #{cashUsername,jdbcType=VARCHAR},
+      cash_admin_id = #{cashAdminId,jdbcType=BIGINT},
+      cash_user_id = #{cashUserId,jdbcType=BIGINT}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

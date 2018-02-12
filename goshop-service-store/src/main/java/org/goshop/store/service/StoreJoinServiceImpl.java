@@ -160,7 +160,7 @@ public class StoreJoinServiceImpl implements StoreJoinService {
         storeJoin.setStoreClassIds(JSONArray.fromObject(jsonManagementList).toString());
         storeJoin.setJoininState(StoreJoinMapper.JOIN_STATIC_APPLY);
         storeJoinMapper.updateByPrimaryKeySelective(storeJoin);
-        return readStoreJoinMapper.selectByPrimaryKey(user.getId());
+        return storeJoin;
     }
 
     @Override

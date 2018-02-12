@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="org.goshop.order.mapper.read.ReadGsCouponInfoMapper" >
+  <resultMap id="BaseResultMap" type="org.goshop.order.pojo.GsCouponInfo" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="addTime" property="addtime" jdbcType="TIMESTAMP" />
+    <result column="deleteStatus" property="deletestatus" jdbcType="BIT" />
+    <result column="coupon_sn" property="couponSn" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="INTEGER" />
+    <result column="coupon_id" property="couponId" jdbcType="BIGINT" />
+    <result column="user_id" property="userId" jdbcType="BIGINT" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, addTime, deleteStatus, coupon_sn, status, coupon_id, user_id
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select
+    <include refid="Base_Column_List" />
+    from gs_coupon_info
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <select id="selectByCondition" resultMap="BaseResultMap" parameterType="java.util.Map" >
+    select
+    <include refid="Base_Column_List" />
+    from gs_coupon_info info
+    <if test="coupon_join != null">
+      left JOIN gs_coupon coupon ON (
+      <where>
+        <if test="coupon_order_amount != null">
+          coupon.coupon_order_amount &lt;= #{coupon_order_amount}
+        </if>
+        <if test="coupon_begin_time != null" >
+          and coupon.coupon_begin_time &lt;= #{coupon_begin_time}
+        </if>
+        <if test="coupon_end_time != null" >
+          and coupon.coupon_end_time &gt;= #{coupon_end_time}
+        </if>
+      </where>
+      )
+    </if>
+    <where>
+      <if test="status != null">
+        info.status = #{status}
+      </if>
+      <if test="user_id != null" >
+        and info.user_id = #{user_id}
+      </if>
+    </where>
+    <if test="orderBy != null">
+      order BY info.#{orderBy} #{orderType}
+    </if>
+  </select>
+</mapper>

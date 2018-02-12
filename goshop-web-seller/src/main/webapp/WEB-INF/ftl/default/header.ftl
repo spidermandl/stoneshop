@@ -257,7 +257,7 @@
             <dt><a href="${S_URL}/store/store_set">店铺</a></dt>
             <dd>
                 <ul>
-                    <li><a href="${S_URL}/store/">我的店铺</a></li>
+                    <li><a href="${SHOP_URL}/store_me">我的店铺</a></li>
                     <li><a href="${S_URL}/store/store_set">店铺设置</a></li>
                     <li><a href="${S_URL}/store/store_nav">店铺导航</a></li>
                     <li><a href="${S_URL}/store/aaa">店铺分类</a></li>

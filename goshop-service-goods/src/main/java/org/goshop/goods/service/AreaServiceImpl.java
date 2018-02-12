@@ -13,12 +13,17 @@ import java.util.List;
  * Created by Desmond on 28/11/2017.
  */
 @Service("areaService")
-public class AreaServiceImpl implements AreaService {
+public class AreaServiceImpl implements AreaService{
     @Autowired
     GsTransAreaMapper gsTransAreaMapper;
 
     @Autowired
     ReadGsTransAreaMapper readGsTransAreaMapper;
+
+    @Override
+    public GsTransArea findOne(Long id) {
+        return gsTransAreaMapper.selectByPrimaryKey(id);
+    }
 
     @Override
     public List<GsTransArea> findByRootArea() {

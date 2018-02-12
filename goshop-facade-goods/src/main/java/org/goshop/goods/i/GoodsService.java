@@ -2,6 +2,7 @@ package org.goshop.goods.i;
 
 import com.github.pagehelper.PageInfo;
 import org.goshop.assets.pojo.GsAccessory;
+import org.goshop.goods.pojo.GsGoodsSpecProperty;
 import org.goshop.goods.pojo.GsGoodsWithBLOBs;
 import org.goshop.goods.pojo.GsGroupGoods;
 
@@ -125,4 +126,22 @@ public interface GoodsService {
      * @return
      */
     List<GsGroupGoods> findGroupGoodsByGroupId(Long group_id);
+
+
+    /**
+     * 根据spec property 主键获取
+     * @param ids
+     * @return
+     */
+    List<GsGoodsSpecProperty> findSpecPropByIds(List<Long> ids);
+
+
+    /**
+     * 根据id和列名查找
+     * @param id
+     * @param name
+     * @return
+     */
+    String findSingleColumnById(Long id,String name);
+
 }

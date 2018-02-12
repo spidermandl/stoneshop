@@ -1,0 +1,233 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="org.goshop.pay.mapper.master.GsPredepositMapper" >
+  <resultMap id="BaseResultMap" type="org.goshop.pay.pojo.GsPredeposit" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="addTime" property="addtime" jdbcType="TIMESTAMP" />
+    <result column="deleteStatus" property="deletestatus" jdbcType="BIT" />
+    <result column="pd_amount" property="pdAmount" jdbcType="DECIMAL" />
+    <result column="pd_pay_status" property="pdPayStatus" jdbcType="INTEGER" />
+    <result column="pd_payment" property="pdPayment" jdbcType="VARCHAR" />
+    <result column="pd_remittance_bank" property="pdRemittanceBank" jdbcType="VARCHAR" />
+    <result column="pd_remittance_time" property="pdRemittanceTime" jdbcType="DATE" />
+    <result column="pd_remittance_user" property="pdRemittanceUser" jdbcType="VARCHAR" />
+    <result column="pd_sn" property="pdSn" jdbcType="VARCHAR" />
+    <result column="pd_status" property="pdStatus" jdbcType="INTEGER" />
+    <result column="pd_admin_id" property="pdAdminId" jdbcType="BIGINT" />
+    <result column="pd_user_id" property="pdUserId" jdbcType="BIGINT" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="org.goshop.pay.pojo.GsPredepositWithBLOBs" extends="BaseResultMap" >
+    <result column="pd_admin_info" property="pdAdminInfo" jdbcType="LONGVARCHAR" />
+    <result column="pd_remittance_info" property="pdRemittanceInfo" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, addTime, deleteStatus, pd_amount, pd_pay_status, pd_payment, pd_remittance_bank,
+    pd_remittance_time, pd_remittance_user, pd_sn, pd_status, pd_admin_id, pd_user_id
+  </sql>
+  <sql id="Blob_Column_List" >
+    pd_admin_info, pd_remittance_info
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Long" >
+    select
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from gs_predeposit
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from gs_predeposit
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="org.goshop.pay.pojo.GsPredepositWithBLOBs" >
+    <selectKey resultType="java.lang.Long" keyProperty="id" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into gs_predeposit (addTime, deleteStatus, pd_amount,
+      pd_pay_status, pd_payment, pd_remittance_bank,
+      pd_remittance_time, pd_remittance_user, pd_sn,
+      pd_status, pd_admin_id, pd_user_id,
+      pd_admin_info, pd_remittance_info)
+    values (#{addtime,jdbcType=TIMESTAMP}, #{deletestatus,jdbcType=BIT}, #{pdAmount,jdbcType=DECIMAL},
+      #{pdPayStatus,jdbcType=INTEGER}, #{pdPayment,jdbcType=VARCHAR}, #{pdRemittanceBank,jdbcType=VARCHAR},
+      #{pdRemittanceTime,jdbcType=DATE}, #{pdRemittanceUser,jdbcType=VARCHAR}, #{pdSn,jdbcType=VARCHAR},
+      #{pdStatus,jdbcType=INTEGER}, #{pdAdminId,jdbcType=BIGINT}, #{pdUserId,jdbcType=BIGINT},
+      #{pdAdminInfo,jdbcType=LONGVARCHAR}, #{pdRemittanceInfo,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="org.goshop.pay.pojo.GsPredepositWithBLOBs" >
+    <selectKey resultType="java.lang.Long" keyProperty="id" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into gs_predeposit
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="addtime != null" >
+        addTime,
+      </if>
+      <if test="deletestatus != null" >
+        deleteStatus,
+      </if>
+      <if test="pdAmount != null" >
+        pd_amount,
+      </if>
+      <if test="pdPayStatus != null" >
+        pd_pay_status,
+      </if>
+      <if test="pdPayment != null" >
+        pd_payment,
+      </if>
+      <if test="pdRemittanceBank != null" >
+        pd_remittance_bank,
+      </if>
+      <if test="pdRemittanceTime != null" >
+        pd_remittance_time,
+      </if>
+      <if test="pdRemittanceUser != null" >
+        pd_remittance_user,
+      </if>
+      <if test="pdSn != null" >
+        pd_sn,
+      </if>
+      <if test="pdStatus != null" >
+        pd_status,
+      </if>
+      <if test="pdAdminId != null" >
+        pd_admin_id,
+      </if>
+      <if test="pdUserId != null" >
+        pd_user_id,
+      </if>
+      <if test="pdAdminInfo != null" >
+        pd_admin_info,
+      </if>
+      <if test="pdRemittanceInfo != null" >
+        pd_remittance_info,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="addtime != null" >
+        #{addtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="deletestatus != null" >
+        #{deletestatus,jdbcType=BIT},
+      </if>
+      <if test="pdAmount != null" >
+        #{pdAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="pdPayStatus != null" >
+        #{pdPayStatus,jdbcType=INTEGER},
+      </if>
+      <if test="pdPayment != null" >
+        #{pdPayment,jdbcType=VARCHAR},
+      </if>
+      <if test="pdRemittanceBank != null" >
+        #{pdRemittanceBank,jdbcType=VARCHAR},
+      </if>
+      <if test="pdRemittanceTime != null" >
+        #{pdRemittanceTime,jdbcType=DATE},
+      </if>
+      <if test="pdRemittanceUser != null" >
+        #{pdRemittanceUser,jdbcType=VARCHAR},
+      </if>
+      <if test="pdSn != null" >
+        #{pdSn,jdbcType=VARCHAR},
+      </if>
+      <if test="pdStatus != null" >
+        #{pdStatus,jdbcType=INTEGER},
+      </if>
+      <if test="pdAdminId != null" >
+        #{pdAdminId,jdbcType=BIGINT},
+      </if>
+      <if test="pdUserId != null" >
+        #{pdUserId,jdbcType=BIGINT},
+      </if>
+      <if test="pdAdminInfo != null" >
+        #{pdAdminInfo,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="pdRemittanceInfo != null" >
+        #{pdRemittanceInfo,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="org.goshop.pay.pojo.GsPredepositWithBLOBs" >
+    update gs_predeposit
+    <set >
+      <if test="addtime != null" >
+        addTime = #{addtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="deletestatus != null" >
+        deleteStatus = #{deletestatus,jdbcType=BIT},
+      </if>
+      <if test="pdAmount != null" >
+        pd_amount = #{pdAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="pdPayStatus != null" >
+        pd_pay_status = #{pdPayStatus,jdbcType=INTEGER},
+      </if>
+      <if test="pdPayment != null" >
+        pd_payment = #{pdPayment,jdbcType=VARCHAR},
+      </if>
+      <if test="pdRemittanceBank != null" >
+        pd_remittance_bank = #{pdRemittanceBank,jdbcType=VARCHAR},
+      </if>
+      <if test="pdRemittanceTime != null" >
+        pd_remittance_time = #{pdRemittanceTime,jdbcType=DATE},
+      </if>
+      <if test="pdRemittanceUser != null" >
+        pd_remittance_user = #{pdRemittanceUser,jdbcType=VARCHAR},
+      </if>
+      <if test="pdSn != null" >
+        pd_sn = #{pdSn,jdbcType=VARCHAR},
+      </if>
+      <if test="pdStatus != null" >
+        pd_status = #{pdStatus,jdbcType=INTEGER},
+      </if>
+      <if test="pdAdminId != null" >
+        pd_admin_id = #{pdAdminId,jdbcType=BIGINT},
+      </if>
+      <if test="pdUserId != null" >
+        pd_user_id = #{pdUserId,jdbcType=BIGINT},
+      </if>
+      <if test="pdAdminInfo != null" >
+        pd_admin_info = #{pdAdminInfo,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="pdRemittanceInfo != null" >
+        pd_remittance_info = #{pdRemittanceInfo,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="org.goshop.pay.pojo.GsPredepositWithBLOBs" >
+    update gs_predeposit
+    set addTime = #{addtime,jdbcType=TIMESTAMP},
+      deleteStatus = #{deletestatus,jdbcType=BIT},
+      pd_amount = #{pdAmount,jdbcType=DECIMAL},
+      pd_pay_status = #{pdPayStatus,jdbcType=INTEGER},
+      pd_payment = #{pdPayment,jdbcType=VARCHAR},
+      pd_remittance_bank = #{pdRemittanceBank,jdbcType=VARCHAR},
+      pd_remittance_time = #{pdRemittanceTime,jdbcType=DATE},
+      pd_remittance_user = #{pdRemittanceUser,jdbcType=VARCHAR},
+      pd_sn = #{pdSn,jdbcType=VARCHAR},
+      pd_status = #{pdStatus,jdbcType=INTEGER},
+      pd_admin_id = #{pdAdminId,jdbcType=BIGINT},
+      pd_user_id = #{pdUserId,jdbcType=BIGINT},
+      pd_admin_info = #{pdAdminInfo,jdbcType=LONGVARCHAR},
+      pd_remittance_info = #{pdRemittanceInfo,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="org.goshop.pay.pojo.GsPredeposit" >
+    update gs_predeposit
+    set addTime = #{addtime,jdbcType=TIMESTAMP},
+      deleteStatus = #{deletestatus,jdbcType=BIT},
+      pd_amount = #{pdAmount,jdbcType=DECIMAL},
+      pd_pay_status = #{pdPayStatus,jdbcType=INTEGER},
+      pd_payment = #{pdPayment,jdbcType=VARCHAR},
+      pd_remittance_bank = #{pdRemittanceBank,jdbcType=VARCHAR},
+      pd_remittance_time = #{pdRemittanceTime,jdbcType=DATE},
+      pd_remittance_user = #{pdRemittanceUser,jdbcType=VARCHAR},
+      pd_sn = #{pdSn,jdbcType=VARCHAR},
+      pd_status = #{pdStatus,jdbcType=INTEGER},
+      pd_admin_id = #{pdAdminId,jdbcType=BIGINT},
+      pd_user_id = #{pdUserId,jdbcType=BIGINT}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

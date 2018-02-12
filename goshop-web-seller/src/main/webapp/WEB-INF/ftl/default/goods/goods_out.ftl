@@ -69,7 +69,7 @@
                                           <span class="checkpro">
                                               <input type="checkbox" value="${(obj.id)!}" />
                                               <#if (obj.goods_main_photo)?? >
-                                                  <#assign img="${S_URL}/${(obj.goods_main_photo.path)!}/${(obj.goods_main_photo.name)!}" />
+                                                  <#assign img="${RES_URL}/${(obj.goods_main_photo.path)!}/${(obj.goods_main_photo.name)!}" />
                                               <#else>
                                                   <#assign img="${S_URL}/static/images/goods/img.jpg" />
                                               </#if>
@@ -77,7 +77,7 @@
                                           <span class="imgpro">
                                               <img src="${img!}" width="60" height="63" /></span>
                                           <span class="nameproduct">
-                                              <a href="${S_URL}/goods_${(obj.id)!}.htm" target="_blank">${(obj.goodsName)!}</a>
+                                              <a href="${SHOP_URL}/goods?id=${(obj.id)!}" target="_blank">${(obj.goodsName)!}</a>
                                           </span>
                                       </td>
                                       <td class="proclassify"><#if (obj.gc)?? >${(storeTools.generic_goods_class_info(obj.gc))!}</#if></td>

@@ -56,5 +56,8 @@
 
     <dubbo:service  retries="0" interface="org.goshop.goods.i.GoodsConsultService" ref="goodsConsultService"  />
 
+    <dubbo:service  retries="0" interface="org.goshop.goods.i.GroupGoodsService" ref="groupGoodsService"  />
+
+
 
 </beans>

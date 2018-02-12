@@ -2,16 +2,13 @@ package org.goshop.order.mapper.read;
 
 import org.goshop.order.pojo.GsAddress;
 
+import java.util.List;
+import java.util.Map;
+
 public interface ReadGsAddressMapper {
-    int deleteByPrimaryKey(Long id);
-
-    int insert(GsAddress record);
-
-    int insertSelective(GsAddress record);
 
     GsAddress selectByPrimaryKey(Long id);
 
-    int updateByPrimaryKeySelective(GsAddress record);
+    List<GsAddress> selectByCondition(Map condition);
 
-    int updateByPrimaryKey(GsAddress record);
 }

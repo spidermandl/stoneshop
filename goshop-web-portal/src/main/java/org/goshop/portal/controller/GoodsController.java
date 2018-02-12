@@ -2,7 +2,6 @@ package org.goshop.portal.controller;
 
 import com.github.pagehelper.PageInfo;
 import org.apache.shiro.SecurityUtils;
-import org.goshop.assets.i.AccessoryService;
 import org.goshop.common.web.utils.CommUtil;
 import org.goshop.common.web.utils.JsonUtils;
 import org.goshop.goods.i.*;
@@ -536,7 +535,7 @@ public class GoodsController extends BaseController{
         CommUtil.saveIPageList2ModelAndView(CommUtil.getURL(request) + "/goods_evaluation", "", "", pList, model);
         model.addAttribute("storeViewTools", this.storeViewTools);
         model.addAttribute("store", store);
-        GsGoods goods = this.goodsService.findOne(CommUtil.null2Long(goods_id));
+        GsGoodsWithBLOBs goods = this.goodsService.findOne(CommUtil.null2Long(goods_id));
         model.addAttribute("goods", goods);
 
         return ret;
@@ -553,7 +552,7 @@ public class GoodsController extends BaseController{
             template = store.getTemplate();
         }
         String ret = generateViewURL(template + "/goods_detail");
-        GsGoods goods = this.goodsService.findOne(CommUtil.null2Long(goods_id));
+        GsGoodsWithBLOBs goods = this.goodsService.findOne(CommUtil.null2Long(goods_id));
         model.addAttribute("obj", goods);
         generic_evaluate(store, model);
 //        this.userTools.query_user();

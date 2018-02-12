@@ -1,0 +1,331 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="org.goshop.order.mapper.read.ReadGsIntegralGoodsMapper" >
+  <resultMap id="BaseResultMap" type="org.goshop.order.pojo.GsIntegralGoods" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="addTime" property="addtime" jdbcType="TIMESTAMP" />
+    <result column="deleteStatus" property="deletestatus" jdbcType="BIT" />
+    <result column="ig_begin_time" property="igBeginTime" jdbcType="TIMESTAMP" />
+    <result column="ig_click_count" property="igClickCount" jdbcType="INTEGER" />
+    <result column="ig_content" property="igContent" jdbcType="VARCHAR" />
+    <result column="ig_end_time" property="igEndTime" jdbcType="TIMESTAMP" />
+    <result column="ig_exchange_count" property="igExchangeCount" jdbcType="INTEGER" />
+    <result column="ig_goods_count" property="igGoodsCount" jdbcType="INTEGER" />
+    <result column="ig_goods_integral" property="igGoodsIntegral" jdbcType="INTEGER" />
+    <result column="ig_goods_name" property="igGoodsName" jdbcType="VARCHAR" />
+    <result column="ig_goods_price" property="igGoodsPrice" jdbcType="DECIMAL" />
+    <result column="ig_goods_sn" property="igGoodsSn" jdbcType="VARCHAR" />
+    <result column="ig_goods_tag" property="igGoodsTag" jdbcType="VARCHAR" />
+    <result column="ig_limit_count" property="igLimitCount" jdbcType="INTEGER" />
+    <result column="ig_limit_type" property="igLimitType" jdbcType="BIT" />
+    <result column="ig_recommend" property="igRecommend" jdbcType="BIT" />
+    <result column="ig_seo_description" property="igSeoDescription" jdbcType="VARCHAR" />
+    <result column="ig_seo_keywords" property="igSeoKeywords" jdbcType="VARCHAR" />
+    <result column="ig_sequence" property="igSequence" jdbcType="INTEGER" />
+    <result column="ig_show" property="igShow" jdbcType="BIT" />
+    <result column="ig_time_type" property="igTimeType" jdbcType="BIT" />
+    <result column="ig_transfee" property="igTransfee" jdbcType="DECIMAL" />
+    <result column="ig_transfee_type" property="igTransfeeType" jdbcType="INTEGER" />
+    <result column="ig_goods_img_id" property="igGoodsImgId" jdbcType="BIGINT" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, addTime, deleteStatus, ig_begin_time, ig_click_count, ig_content, ig_end_time,
+    ig_exchange_count, ig_goods_count, ig_goods_integral, ig_goods_name, ig_goods_price,
+    ig_goods_sn, ig_goods_tag, ig_limit_count, ig_limit_type, ig_recommend, ig_seo_description,
+    ig_seo_keywords, ig_sequence, ig_show, ig_time_type, ig_transfee, ig_transfee_type,
+    ig_goods_img_id
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select
+    <include refid="Base_Column_List" />
+    from gs_integral_goods
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from gs_integral_goods
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="org.goshop.order.pojo.GsIntegralGoods" >
+    <selectKey resultType="java.lang.Long" keyProperty="id" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into gs_integral_goods (addTime, deleteStatus, ig_begin_time,
+      ig_click_count, ig_content, ig_end_time,
+      ig_exchange_count, ig_goods_count, ig_goods_integral,
+      ig_goods_name, ig_goods_price, ig_goods_sn,
+      ig_goods_tag, ig_limit_count, ig_limit_type,
+      ig_recommend, ig_seo_description, ig_seo_keywords,
+      ig_sequence, ig_show, ig_time_type,
+      ig_transfee, ig_transfee_type, ig_goods_img_id
+      )
+    values (#{addtime,jdbcType=TIMESTAMP}, #{deletestatus,jdbcType=BIT}, #{igBeginTime,jdbcType=TIMESTAMP},
+      #{igClickCount,jdbcType=INTEGER}, #{igContent,jdbcType=VARCHAR}, #{igEndTime,jdbcType=TIMESTAMP},
+      #{igExchangeCount,jdbcType=INTEGER}, #{igGoodsCount,jdbcType=INTEGER}, #{igGoodsIntegral,jdbcType=INTEGER},
+      #{igGoodsName,jdbcType=VARCHAR}, #{igGoodsPrice,jdbcType=DECIMAL}, #{igGoodsSn,jdbcType=VARCHAR},
+      #{igGoodsTag,jdbcType=VARCHAR}, #{igLimitCount,jdbcType=INTEGER}, #{igLimitType,jdbcType=BIT},
+      #{igRecommend,jdbcType=BIT}, #{igSeoDescription,jdbcType=VARCHAR}, #{igSeoKeywords,jdbcType=VARCHAR},
+      #{igSequence,jdbcType=INTEGER}, #{igShow,jdbcType=BIT}, #{igTimeType,jdbcType=BIT},
+      #{igTransfee,jdbcType=DECIMAL}, #{igTransfeeType,jdbcType=INTEGER}, #{igGoodsImgId,jdbcType=BIGINT}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="org.goshop.order.pojo.GsIntegralGoods" >
+    <selectKey resultType="java.lang.Long" keyProperty="id" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into gs_integral_goods
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="addtime != null" >
+        addTime,
+      </if>
+      <if test="deletestatus != null" >
+        deleteStatus,
+      </if>
+      <if test="igBeginTime != null" >
+        ig_begin_time,
+      </if>
+      <if test="igClickCount != null" >
+        ig_click_count,
+      </if>
+      <if test="igContent != null" >
+        ig_content,
+      </if>
+      <if test="igEndTime != null" >
+        ig_end_time,
+      </if>
+      <if test="igExchangeCount != null" >
+        ig_exchange_count,
+      </if>
+      <if test="igGoodsCount != null" >
+        ig_goods_count,
+      </if>
+      <if test="igGoodsIntegral != null" >
+        ig_goods_integral,
+      </if>
+      <if test="igGoodsName != null" >
+        ig_goods_name,
+      </if>
+      <if test="igGoodsPrice != null" >
+        ig_goods_price,
+      </if>
+      <if test="igGoodsSn != null" >
+        ig_goods_sn,
+      </if>
+      <if test="igGoodsTag != null" >
+        ig_goods_tag,
+      </if>
+      <if test="igLimitCount != null" >
+        ig_limit_count,
+      </if>
+      <if test="igLimitType != null" >
+        ig_limit_type,
+      </if>
+      <if test="igRecommend != null" >
+        ig_recommend,
+      </if>
+      <if test="igSeoDescription != null" >
+        ig_seo_description,
+      </if>
+      <if test="igSeoKeywords != null" >
+        ig_seo_keywords,
+      </if>
+      <if test="igSequence != null" >
+        ig_sequence,
+      </if>
+      <if test="igShow != null" >
+        ig_show,
+      </if>
+      <if test="igTimeType != null" >
+        ig_time_type,
+      </if>
+      <if test="igTransfee != null" >
+        ig_transfee,
+      </if>
+      <if test="igTransfeeType != null" >
+        ig_transfee_type,
+      </if>
+      <if test="igGoodsImgId != null" >
+        ig_goods_img_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="addtime != null" >
+        #{addtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="deletestatus != null" >
+        #{deletestatus,jdbcType=BIT},
+      </if>
+      <if test="igBeginTime != null" >
+        #{igBeginTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="igClickCount != null" >
+        #{igClickCount,jdbcType=INTEGER},
+      </if>
+      <if test="igContent != null" >
+        #{igContent,jdbcType=VARCHAR},
+      </if>
+      <if test="igEndTime != null" >
+        #{igEndTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="igExchangeCount != null" >
+        #{igExchangeCount,jdbcType=INTEGER},
+      </if>
+      <if test="igGoodsCount != null" >
+        #{igGoodsCount,jdbcType=INTEGER},
+      </if>
+      <if test="igGoodsIntegral != null" >
+        #{igGoodsIntegral,jdbcType=INTEGER},
+      </if>
+      <if test="igGoodsName != null" >
+        #{igGoodsName,jdbcType=VARCHAR},
+      </if>
+      <if test="igGoodsPrice != null" >
+        #{igGoodsPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="igGoodsSn != null" >
+        #{igGoodsSn,jdbcType=VARCHAR},
+      </if>
+      <if test="igGoodsTag != null" >
+        #{igGoodsTag,jdbcType=VARCHAR},
+      </if>
+      <if test="igLimitCount != null" >
+        #{igLimitCount,jdbcType=INTEGER},
+      </if>
+      <if test="igLimitType != null" >
+        #{igLimitType,jdbcType=BIT},
+      </if>
+      <if test="igRecommend != null" >
+        #{igRecommend,jdbcType=BIT},
+      </if>
+      <if test="igSeoDescription != null" >
+        #{igSeoDescription,jdbcType=VARCHAR},
+      </if>
+      <if test="igSeoKeywords != null" >
+        #{igSeoKeywords,jdbcType=VARCHAR},
+      </if>
+      <if test="igSequence != null" >
+        #{igSequence,jdbcType=INTEGER},
+      </if>
+      <if test="igShow != null" >
+        #{igShow,jdbcType=BIT},
+      </if>
+      <if test="igTimeType != null" >
+        #{igTimeType,jdbcType=BIT},
+      </if>
+      <if test="igTransfee != null" >
+        #{igTransfee,jdbcType=DECIMAL},
+      </if>
+      <if test="igTransfeeType != null" >
+        #{igTransfeeType,jdbcType=INTEGER},
+      </if>
+      <if test="igGoodsImgId != null" >
+        #{igGoodsImgId,jdbcType=BIGINT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="org.goshop.order.pojo.GsIntegralGoods" >
+    update gs_integral_goods
+    <set >
+      <if test="addtime != null" >
+        addTime = #{addtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="deletestatus != null" >
+        deleteStatus = #{deletestatus,jdbcType=BIT},
+      </if>
+      <if test="igBeginTime != null" >
+        ig_begin_time = #{igBeginTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="igClickCount != null" >
+        ig_click_count = #{igClickCount,jdbcType=INTEGER},
+      </if>
+      <if test="igContent != null" >
+        ig_content = #{igContent,jdbcType=VARCHAR},
+      </if>
+      <if test="igEndTime != null" >
+        ig_end_time = #{igEndTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="igExchangeCount != null" >
+        ig_exchange_count = #{igExchangeCount,jdbcType=INTEGER},
+      </if>
+      <if test="igGoodsCount != null" >
+        ig_goods_count = #{igGoodsCount,jdbcType=INTEGER},
+      </if>
+      <if test="igGoodsIntegral != null" >
+        ig_goods_integral = #{igGoodsIntegral,jdbcType=INTEGER},
+      </if>
+      <if test="igGoodsName != null" >
+        ig_goods_name = #{igGoodsName,jdbcType=VARCHAR},
+      </if>
+      <if test="igGoodsPrice != null" >
+        ig_goods_price = #{igGoodsPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="igGoodsSn != null" >
+        ig_goods_sn = #{igGoodsSn,jdbcType=VARCHAR},
+      </if>
+      <if test="igGoodsTag != null" >
+        ig_goods_tag = #{igGoodsTag,jdbcType=VARCHAR},
+      </if>
+      <if test="igLimitCount != null" >
+        ig_limit_count = #{igLimitCount,jdbcType=INTEGER},
+      </if>
+      <if test="igLimitType != null" >
+        ig_limit_type = #{igLimitType,jdbcType=BIT},
+      </if>
+      <if test="igRecommend != null" >
+        ig_recommend = #{igRecommend,jdbcType=BIT},
+      </if>
+      <if test="igSeoDescription != null" >
+        ig_seo_description = #{igSeoDescription,jdbcType=VARCHAR},
+      </if>
+      <if test="igSeoKeywords != null" >
+        ig_seo_keywords = #{igSeoKeywords,jdbcType=VARCHAR},
+      </if>
+      <if test="igSequence != null" >
+        ig_sequence = #{igSequence,jdbcType=INTEGER},
+      </if>
+      <if test="igShow != null" >
+        ig_show = #{igShow,jdbcType=BIT},
+      </if>
+      <if test="igTimeType != null" >
+        ig_time_type = #{igTimeType,jdbcType=BIT},
+      </if>
+      <if test="igTransfee != null" >
+        ig_transfee = #{igTransfee,jdbcType=DECIMAL},
+      </if>
+      <if test="igTransfeeType != null" >
+        ig_transfee_type = #{igTransfeeType,jdbcType=INTEGER},
+      </if>
+      <if test="igGoodsImgId != null" >
+        ig_goods_img_id = #{igGoodsImgId,jdbcType=BIGINT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="org.goshop.order.pojo.GsIntegralGoods" >
+    update gs_integral_goods
+    set addTime = #{addtime,jdbcType=TIMESTAMP},
+      deleteStatus = #{deletestatus,jdbcType=BIT},
+      ig_begin_time = #{igBeginTime,jdbcType=TIMESTAMP},
+      ig_click_count = #{igClickCount,jdbcType=INTEGER},
+      ig_content = #{igContent,jdbcType=VARCHAR},
+      ig_end_time = #{igEndTime,jdbcType=TIMESTAMP},
+      ig_exchange_count = #{igExchangeCount,jdbcType=INTEGER},
+      ig_goods_count = #{igGoodsCount,jdbcType=INTEGER},
+      ig_goods_integral = #{igGoodsIntegral,jdbcType=INTEGER},
+      ig_goods_name = #{igGoodsName,jdbcType=VARCHAR},
+      ig_goods_price = #{igGoodsPrice,jdbcType=DECIMAL},
+      ig_goods_sn = #{igGoodsSn,jdbcType=VARCHAR},
+      ig_goods_tag = #{igGoodsTag,jdbcType=VARCHAR},
+      ig_limit_count = #{igLimitCount,jdbcType=INTEGER},
+      ig_limit_type = #{igLimitType,jdbcType=BIT},
+      ig_recommend = #{igRecommend,jdbcType=BIT},
+      ig_seo_description = #{igSeoDescription,jdbcType=VARCHAR},
+      ig_seo_keywords = #{igSeoKeywords,jdbcType=VARCHAR},
+      ig_sequence = #{igSequence,jdbcType=INTEGER},
+      ig_show = #{igShow,jdbcType=BIT},
+      ig_time_type = #{igTimeType,jdbcType=BIT},
+      ig_transfee = #{igTransfee,jdbcType=DECIMAL},
+      ig_transfee_type = #{igTransfeeType,jdbcType=INTEGER},
+      ig_goods_img_id = #{igGoodsImgId,jdbcType=BIGINT}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

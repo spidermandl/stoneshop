@@ -10,4 +10,6 @@
                      interface="org.goshop.assets.i.AccessoryService" check="false" />
     <dubbo:reference id="albumService"
                      interface="org.goshop.assets.i.AlbumService" check="false" />
+    <dubbo:reference id="navigationService"
+                     interface="org.goshop.assets.i.NavigationService" check="false" />
 </beans>

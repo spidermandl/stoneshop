@@ -96,7 +96,7 @@ jQuery(document).ready(function(){
     //
 <#if user!?? >
 jQuery(".collection_goods a[class=save_good]").click(function(){
-    <#if user.id == store.memberId>
+    <#if ((user.id)!0) == ((store.memberId)!-1)>
 	  alert("不能收藏自己的商品");
 	<#else>
 	  jQuery.post("${S_URL}/add_goods_favorite",{"id":"${(obj.id)!}"},function(data){
@@ -113,7 +113,7 @@ jQuery(".collection_goods a[class=save_good]").click(function(){
 //
 <#if user!?? >
 jQuery("#report_goods").click(function(){
-    <#if user.id == store.memberId>
+    <#if ((user.id)!0) == ((store.memberId)!-1)>
 	  alert("不能举报自己的商品");
     <#else>
 	  window.location.href="${S_URL}/buyer/report_add?goods_id=${(obj.id)!}";
@@ -241,7 +241,7 @@ var time_id;
 
 // 商品添加到购物车
 function add_cart(){
-<#if user.id == store.memberId>
+<#if ((user.id)!0) == ((store.memberId)!-1)>
  alert("不能购买自己的商品！");
 <#else>
   var add=true
@@ -295,7 +295,7 @@ function cart_fadeOut(){
 
 // 立即购买
 function buy_goods(){
-<#if user.id == store.memberId>
+<#if ((user.id)!0) == ((store.memberId)!-1)>
  alert("不能购买自己的商品！");
 <#else>
   var add=true;
@@ -354,7 +354,7 @@ function ajaxPage(url,currentPage,obj){
         <#assign banner="${RES_URL}/${(store.banner.path)!}/${(store.banner.name)!}" />
     </#if>
     <div class="banner_width">
-      <div class="shopbanner"><img src="${RES_URL}${banner!}"  width="1200px" /></div>
+      <div class="shopbanner"><img src="${banner!}"  width="1200px" /></div>
     </div>
     <div class="nav_width">
         <div class="main">
@@ -902,7 +902,7 @@ function ajaxPage(url,currentPage,obj){
                                             </a></p>
                                         </span>
                                     </li>
-                                    <li class="goodslook"><a href="${S_URL}/goods_${(goods.id)!}" class="look">查看详情</a>
+                                    <li class="goodslook"><a href="${S_URL}/goods?id=${(goods.id)!}" class="look">查看详情</a>
                                         <strong>¥${(goods.storePrice)!}</strong>
                                     </li>
                                     <li class="goodsnames">

@@ -42,23 +42,21 @@
     <servlet-name>goshop-resource</servlet-name>
     <!-- 伪静态化 -->
     <!--<url-pattern>*.html</url-pattern>-->
-    <url-pattern>/</url-pattern>
+    <url-pattern>/*</url-pattern>
   </servlet-mapping>
   <servlet-mapping>
     <servlet-name>goshop-resource</servlet-name>
     <url-pattern>*.do</url-pattern>
   </servlet-mapping>
 
-
-
+  <servlet-mapping>
+    <servlet-name>default</servlet-name>
+    <url-pattern>/upload/*</url-pattern>
+  </servlet-mapping>
   <servlet-mapping>
     <servlet-name>default</servlet-name>
     <url-pattern>/static/*</url-pattern>
   </servlet-mapping>
 
-  <servlet-mapping>
-    <servlet-name>default</servlet-name>
-    <url-pattern>/upload/*</url-pattern>
-  </servlet-mapping>
 
 </web-app>

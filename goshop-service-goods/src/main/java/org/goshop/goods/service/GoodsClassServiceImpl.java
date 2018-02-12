@@ -38,6 +38,8 @@ public class GoodsClassServiceImpl implements GoodsClassService {
 
     @Override
     public int save(GsGoodsClassWithBLOBs goodsClass) {
+        if (goodsClass.getDeletestatus()==null)
+            goodsClass.setDeletestatus(false);
         return gsGoodsClassMapper.insert(goodsClass);
     }
 

@@ -26,5 +26,7 @@
     <import resource="dubbo-reference-goods.xml" />
     <import resource="dubbo-reference-assets.xml" />
     <import resource="dubbo-reference-order.xml" />
+    <import resource="dubbo-reference-pay.xml" />
+
 
 </beans>

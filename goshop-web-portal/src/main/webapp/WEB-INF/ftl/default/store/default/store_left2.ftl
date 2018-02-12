@@ -37,7 +37,7 @@ jQuery(function(jQuery){
               <#assign store_logo="${RES_URL}/${(store.logo.path)!}/${(store.logo.name)!}" />
             <#else>
               <#assign store_logo="${imageWebServer!}/${(config.storeImage.path)!}/${(config.storeImage.name)!}" />
-            </#if><img src="${RES_URL}${store_logo!}" width="60" height="60" />
+            </#if><img src="${store_logo!}" width="60" height="60" />
           </span></dt>
       <#assign credit=storeViewTools.generic_store_credit("${(store.storeId)!}") />
       <#assign img="${imageWebServer!}/static/images/common/level_0.gif" />
@@ -77,7 +77,7 @@ jQuery(function(jQuery){
       <h1>店铺信息</h1>
       <ul>
           <li>创店时间：${CommUtil.formatShortDate(store.storeTime)}</li>
-          <li>所在地区：${areaViewTools.generic_area_info(store.area.id)}</li>
+          <li>所在地区：${areaViewTools.generic_area_info("${(store.area.id)!}")}</li>
           <li>店铺类型：${(store.sc.name)!}</li>
           <#assign goods_count=0 />
           <#list (store.goods_list)! as goods_info >

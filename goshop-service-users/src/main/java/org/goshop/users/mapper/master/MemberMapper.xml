@@ -27,6 +27,7 @@
     <result column="member_areainfo" property="memberAreainfo" jdbcType="VARCHAR" />
     <result column="member_qqinfo" property="memberQqinfo" jdbcType="LONGVARCHAR" />
     <result column="member_privacy" property="memberPrivacy" jdbcType="VARCHAR" />
+    <result column="member_mobile" property="memberMobile" jdbcType="VARCHAR" />
     <result column="user_name" property="userName" jdbcType="VARCHAR" />
     <result column="login_name" property="loginName" jdbcType="VARCHAR" />
     <result column="login_num" property="loginNum" jdbcType="INTEGER" />
@@ -34,34 +35,36 @@
     <result column="login_ip" property="loginIp" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
-    member_id, user_id, member_truename, member_avatar, member_sex, member_birthday, 
+    member_id, user_id, member_truename, member_avatar, member_sex, member_birthday,
     member_email, member_qq, member_ww, member_time, member_qqopenid, member_points,
-    available_predeposit, freeze_predeposit, inform_allow, is_buy, is_allowtalk, member_state, 
+    available_predeposit, freeze_predeposit, inform_allow, is_buy, is_allowtalk, member_state,
     member_credit, member_areaid, member_cityid, member_provinceid, member_areainfo,member_qqinfo,
-    member_privacy
+    member_privacy,member_mobile
   </sql>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
     delete from gs_member
     where member_id = #{memberId,jdbcType=BIGINT}
   </delete>
   <insert id="insert" parameterType="org.goshop.users.pojo.Member" useGeneratedKeys="true" keyProperty="memberId">
-    insert into gs_member (member_id, user_id, member_truename, 
-      member_avatar, member_sex, member_birthday, 
-      member_email, member_qq, member_ww, 
+    insert into gs_member (member_id, user_id, member_truename,
+      member_avatar, member_sex, member_birthday,
+      member_email, member_qq, member_ww,
       member_time,member_qqopenid, member_points, available_predeposit,
-      freeze_predeposit, inform_allow, is_buy, 
-      is_allowtalk, member_state, member_credit, 
-      member_areaid, member_cityid, member_provinceid, 
-      member_areainfo, member_qqinfo,member_privacy)
-    values (#{memberId,jdbcType=BIGINT}, #{userId,jdbcType=BIGINT}, #{memberTruename,jdbcType=VARCHAR}, 
-      #{memberAvatar,jdbcType=VARCHAR}, #{memberSex,jdbcType=BIT}, #{memberBirthday,jdbcType=DATE}, 
-      #{memberEmail,jdbcType=VARCHAR}, #{memberQq,jdbcType=VARCHAR}, #{memberWw,jdbcType=VARCHAR}, 
+      freeze_predeposit, inform_allow, is_buy,
+      is_allowtalk, member_state, member_credit,
+      member_areaid, member_cityid, member_provinceid,
+      member_areainfo, member_qqinfo,member_privacy,
+      member_mobile)
+    values (#{memberId,jdbcType=BIGINT}, #{userId,jdbcType=BIGINT}, #{memberTruename,jdbcType=VARCHAR},
+      #{memberAvatar,jdbcType=VARCHAR}, #{memberSex,jdbcType=BIT}, #{memberBirthday,jdbcType=DATE},
+      #{memberEmail,jdbcType=VARCHAR}, #{memberQq,jdbcType=VARCHAR}, #{memberWw,jdbcType=VARCHAR},
       #{memberTime,jdbcType=TIME},
-      #{memberQqopenid,jdbcType=VARCHAR}, #{memberPoints,jdbcType=INTEGER}, #{availablePredeposit,jdbcType=DECIMAL}, 
-      #{freezePredeposit,jdbcType=DECIMAL}, #{informAllow,jdbcType=BIT}, #{isBuy,jdbcType=BIT}, 
-      #{isAllowtalk,jdbcType=BIT}, #{memberState,jdbcType=BIT}, #{memberCredit,jdbcType=INTEGER}, 
-      #{memberAreaid,jdbcType=INTEGER}, #{memberCityid,jdbcType=INTEGER}, #{memberProvinceid,jdbcType=INTEGER}, 
-      #{memberAreainfo,jdbcType=VARCHAR}, #{memberQqinfo,jdbcType=LONGVARCHAR},#{memberPrivacy,jdbcType=VARCHAR})
+      #{memberQqopenid,jdbcType=VARCHAR}, #{memberPoints,jdbcType=INTEGER}, #{availablePredeposit,jdbcType=DECIMAL},
+      #{freezePredeposit,jdbcType=DECIMAL}, #{informAllow,jdbcType=BIT}, #{isBuy,jdbcType=BIT},
+      #{isAllowtalk,jdbcType=BIT}, #{memberState,jdbcType=BIT}, #{memberCredit,jdbcType=INTEGER},
+      #{memberAreaid,jdbcType=INTEGER}, #{memberCityid,jdbcType=INTEGER}, #{memberProvinceid,jdbcType=INTEGER},
+      #{memberAreainfo,jdbcType=VARCHAR}, #{memberQqinfo,jdbcType=LONGVARCHAR},#{memberPrivacy,jdbcType=VARCHAR},
+      #{memberMobile,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="org.goshop.users.pojo.Member" useGeneratedKeys="true" keyProperty="memberId">
     insert into gs_member
@@ -141,6 +144,9 @@
       <if test="memberPrivacy != null" >
         member_privacy,
       </if>
+      <if test="memberMobile != null" >
+        member_mobile,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="memberId != null" >
@@ -218,6 +224,10 @@
       <if test="memberPrivacy != null" >
         #{memberPrivacy,jdbcType=VARCHAR},
       </if>
+      <if test="memberMobile != null" >
+        #{memberMobile,jdbcType=VARCHAR},
+      </if>
+
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="org.goshop.users.pojo.Member" >
@@ -295,6 +305,9 @@
       <if test="memberPrivacy != null" >
         member_privacy = #{memberPrivacy,jdbcType=VARCHAR},
       </if>
+      <if test="memberMobile != null" >
+        member_mobile = #{member_mobile,jdbcType=VARCHAR},
+      </if>
     </set>
     where member_id = #{memberId,jdbcType=BIGINT}
   </update>
@@ -322,7 +335,8 @@
       member_cityid = #{memberCityid,jdbcType=INTEGER},
       member_provinceid = #{memberProvinceid,jdbcType=INTEGER},
       member_areainfo = #{memberAreainfo,jdbcType=VARCHAR},
-      member_privacy = #{memberPrivacy,jdbcType=VARCHAR}
+      member_privacy = #{memberPrivacy,jdbcType=VARCHAR},
+      member_mobile = #{member_mobile,jdbcType=VARCHAR}
     where member_id = #{memberId,jdbcType=BIGINT}
   </update>
 
@@ -400,6 +414,9 @@
       </if>
       <if test="memberPrivacy != null" >
         member_privacy = #{memberPrivacy,jdbcType=VARCHAR},
+      </if>
+      <if test="memberMobile != null" >
+        member_mobile = #{memberMobile,jdbcType=VARCHAR},
       </if>
     </set>
     where user_id = #{userId,jdbcType=BIGINT}

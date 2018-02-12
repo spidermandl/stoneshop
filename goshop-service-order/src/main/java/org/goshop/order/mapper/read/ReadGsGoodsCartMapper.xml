@@ -34,21 +34,27 @@
     <include refid="Base_Column_List" />
     ,
     <include refid="Blob_Column_List" />
-    from gs_goods_cart
+    from gs_goods_cart cart
+    <if test="order_status_gt != null">
+      left JOIN gs_orderform order_form ON (
+      order_form.id = cart.of_id
+      and
+      order_form.order_status &gt;= #{order_status_gt}
+      )
+    </if>
     <where>
-      <if test="goods_id !=null">
-         goods_id = #{goods_id}
+      <if test="goods_id != null">
+         cart.goods_id = #{goods_id}
       </if>
-      <if test="order_status_gt !=null">
-        and left JOIN gs_orderform order_form ON
-        order_form.id = of_id
-        WHERE
-        gs_orderform.order_status &gt;= #{order_status_gt}
+      <if test="sc_id != null" >
+        and cart.sc_id = #{sc_id}
       </if>
-
+      <if test="of_id != null" >
+        and cart.of_id = #{of_id}
+      </if>
     </where>
-    <if test="orderBy !=null">
-      order BY #{orderBy} #{orderType}
+    <if test="orderBy != null">
+      order BY card.#{orderBy} #{orderType}
     </if>
   </select>
 </mapper>

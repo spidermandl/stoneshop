@@ -112,6 +112,11 @@ public class StoreServiceImpl implements StoreService {
     }
 
     @Override
+    public Store findBasicOne(Long storeId) {
+        return readStoreMapper.selectByPrimaryKey(storeId);
+    }
+
+    @Override
     public void update(StoreWithBLOBs store) {
         storeMapper.updateByPrimaryKeyWithBLOBs(store);
     }

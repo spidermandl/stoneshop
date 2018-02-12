@@ -7,20 +7,10 @@ import org.goshop.goods.pojo.GsTransportWithBLOBs;
 import java.util.List;
 
 public interface ReadGsTransportMapper {
-    int deleteByPrimaryKey(Long id);
-
-    int insert(GsTransportWithBLOBs record);
-
-    int insertSelective(GsTransportWithBLOBs record);
 
     GsTransportWithBLOBs selectByPrimaryKey(Long id);
 
-    int updateByPrimaryKeySelective(GsTransportWithBLOBs record);
-
-    int updateByPrimaryKeyWithBLOBs(GsTransportWithBLOBs record);
-
-    int updateByPrimaryKey(GsTransport record);
-
     List<GsTransportWithBLOBs> selectByStoreId(@Param("storeId") Long storeId, @Param("orderBy") String orderBy, @Param("orderType") String orderType);
 
+    Long selectCountByStoreId(@Param("storeId") Long storeId);
 }

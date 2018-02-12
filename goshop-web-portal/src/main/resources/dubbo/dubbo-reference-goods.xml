@@ -34,6 +34,7 @@
                      interface="org.goshop.goods.i.GoodsTypePropertyService" check="false" />
     <dubbo:reference id="goodsConsultService"
                      interface="org.goshop.goods.i.GoodsConsultService" check="false" />
-
+    <dubbo:reference id="groupGoodsService"
+                     interface="org.goshop.goods.i.GroupGoodsService" check="false" />
 
 </beans>

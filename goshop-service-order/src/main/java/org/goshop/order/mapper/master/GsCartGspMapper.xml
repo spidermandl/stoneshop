@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="org.goshop.order.mapper.master.GsCartGspMapper" >
+  <resultMap id="BaseResultMap" type="org.goshop.order.pojo.GsCartGsp" >
+    <result column="cart_id" property="cartId" jdbcType="BIGINT" />
+    <result column="gsp_id" property="gspId" jdbcType="BIGINT" />
+  </resultMap>
+  <delete id="deleteByCartId" parameterType="java.lang.Long" >
+    delete from gs_cart_gsp
+    where cart_id = #{cart_id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="org.goshop.order.pojo.GsCartGsp" >
+    insert into gs_cart_gsp (cart_id, gsp_id)
+    values (#{cartId,jdbcType=BIGINT}, #{gspId,jdbcType=BIGINT})
+  </insert>
+  <insert id="insertSelective" parameterType="org.goshop.order.pojo.GsCartGsp" >
+    insert into gs_cart_gsp
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="cartId != null" >
+        cart_id,
+      </if>
+      <if test="gspId != null" >
+        gsp_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="cartId != null" >
+        #{cartId,jdbcType=BIGINT},
+      </if>
+      <if test="gspId != null" >
+        #{gspId,jdbcType=BIGINT},
+      </if>
+    </trim>
+  </insert>
+
+
+  <insert id ="insertBatch" useGeneratedKeys="true" parameterType="java.util.List" >
+    <selectKey resultType="java.lang.Long" keyProperty="id" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into gs_cart_gsp
+    (cart_id, gsp_id)
+    values
+    <foreach collection ="list" item="gsp" index= "index" separator =",">
+      (
+      #{gsp.cartId}, #{gsp.gspId}
+      )
+    </foreach >
+  </insert >
+
+</mapper>

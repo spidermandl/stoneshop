@@ -51,6 +51,8 @@
         <module>goshop-common-web-service</module>
         <module>goshop-facade-order</module>
         <module>goshop-service-order</module>
+        <module>goshop-facade-pay</module>
+        <module>goshop-service-pay</module>
     </modules>
     <packaging>pom</packaging>
 
@@ -617,11 +619,6 @@
                 <version>1.2.2</version>
             </dependency>
 
-            <dependency>
-                <groupId>dom4j</groupId>
-                <artifactId>dom4j</artifactId>
-                <version>1.6.1</version>
-            </dependency>
 
             <dependency>
                 <groupId>net.sf.json-lib</groupId>

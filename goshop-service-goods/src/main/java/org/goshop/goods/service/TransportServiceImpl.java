@@ -38,6 +38,12 @@ public class TransportServiceImpl implements TransportService {
     }
 
     @Override
+    public Boolean hasTransfortTemplate(Long storeId) {
+        Long count = readGsTransportMapper.selectCountByStoreId(storeId);
+        return count>0?true:false;
+    }
+
+    @Override
     public GsTransportWithBLOBs findOne(Long id) {
         return readGsTransportMapper.selectByPrimaryKey(id);
     }

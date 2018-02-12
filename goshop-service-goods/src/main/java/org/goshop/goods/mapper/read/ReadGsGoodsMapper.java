@@ -1,5 +1,6 @@
 package org.goshop.goods.mapper.read;
 
+import org.apache.ibatis.annotations.Param;
 import org.goshop.goods.pojo.GsGoods;
 import org.goshop.goods.pojo.GsGoodsWithBLOBs;
 import org.omg.CORBA.Object;
@@ -14,5 +15,7 @@ public interface ReadGsGoodsMapper {
     List<GsGoodsWithBLOBs> findGoodsByMainPhoto(Long id);
 
     List<GsGoodsWithBLOBs> findByCondition(Map<String,Object> condition);
+
+    String selectSingleColumnById(@Param("id") Long id,@Param("name") String name);
 
 }

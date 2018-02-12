@@ -70,4 +70,28 @@
     from gs_goods_cart
     where sc_id = #{scId,jdbcType=BIGINT}
   </select>
+
+  <select id="selectByCondition" resultMap="BaseResultMap" parameterType="java.util.Map" >
+    select
+    <include refid="Base_Column_List" />
+    from gs_store_cart
+    <where>
+      <if test="cart_session_id != null and user_id!=null">
+        (cart_session_id = #{cart_session_id} or user_id = #{user_id})
+      </if>
+      <if test="cart_session_id != null and user_id = null">
+        cart_session_id = #{cart_session_id}
+      </if>
+      <if test="user_id != null and cart_session_id = null">
+        user_id = #{user_id}
+      </if>
+      <if test="sc_status != null">
+        and sc_status = #{sc_status}
+      </if>
+      <if test="store_id != null">
+        and store_id = #{store_id}
+      </if>
+    </where>
+  </select>
+
 </mapper>

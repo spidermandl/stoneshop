@@ -21,15 +21,15 @@
           </div>
         </li>
 		<li class="mytaobao menu-item menupx">
-          <div class="menu"> <a class="menu-hd" href="${S_URL}/seller/index.htm" rel="nofollow">商家支持<b></b></a>
+          <div class="menu"> <a class="menu-hd" href="${S_URL}/seller" rel="nofollow">商家支持<b></b></a>
             <div class="menu-bd">
               <div class="menu-bd-panel">
                 <div>
-                <a href="${S_URL}/seller/index.htm" rel="nofollow">商家中心</a>
+                <a href="${S_URL}/seller" rel="nofollow">商家中心</a>
                 <a href="${S_URL}/seller/order.htm"  rel="nofollow">商家订单</a>
                 <a href="${S_URL}/seller/goods.htm" rel="nofollow">商家商品</a>
                 <#if (user.store)!??>
-                <a href="${S_URL}/store_${(user.store.id)!}.htm" rel="nofollow">我的店铺</a>
+                <a href="${S_URL}/store_me" rel="nofollow">我的店铺</a>
                 <#else>
                 <a href="${S_URL}/seller/store_create_first" rel="nofollow">商家入驻</a>
                 </#if>
@@ -50,7 +50,7 @@
           </#if>
          </#list>
 		function cart_remove(id,store_id){
-           jQuery.post('${S_URL}/remove_goods_cart.htm',{"id":id,"store_id":store_id},function(data){
+           jQuery.post('${S_URL}/remove_goods_cart',{"id":id,"store_id":store_id},function(data){
            jQuery("div[class=table] tr[id="+id+"]").remove();
 		   jQuery(".wemall[id="+id+"]").remove();
 		   jQuery(".shopp_ingtop[id="+id+"]").remove();
@@ -70,7 +70,7 @@
        }
 	    jQuery(document).ready(function(){
 		   jQuery("#cart_goods_top_menu").mouseover(function(){
-			  jQuery.ajax({type:'POST',url:'${S_URL}/cart_menu_detail.htm',data:'',
+			  jQuery.ajax({type:'POST',url:'${S_URL}/cart_menu_detail',data:'',
 						   beforeSend:function(){
 							     jQuery("#cart_goods_top_info").empty().html('<div class="menu-bd-panel"><div style="text-align:center;"><img src="${S_URL}/resources/style/common/images/loader.gif" /></div></div>');
 							     jQuery("#cart_goods_top_info").show();
@@ -161,7 +161,7 @@
         <a href="${S_URL}/wemall_logout" class="lightblue">[退出]</a>
     <#else>
         <span>亲，欢迎来到${(config.websiteName)!}！</span>
-        <span class="pxlr"><a href="${S_URL}/user/login.htm" class="lightblue">登录</a></span><span class="pxlr">或</span>
+        <span class="pxlr"><a href="${S_URL}/login.htm" class="lightblue">登录</a></span><span class="pxlr">或</span>
         <span class="pxlr"><a href="${S_URL}/register.htm" class="lightblue">注册</a></span>
     </#if>
     </div>

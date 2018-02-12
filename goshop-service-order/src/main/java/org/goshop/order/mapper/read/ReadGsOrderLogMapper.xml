@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="org.goshop.order.mapper.read.ReadGsOrderLogMapper" >
+  <resultMap id="BaseResultMap" type="org.goshop.order.pojo.GsOrderLog" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="addTime" property="addtime" jdbcType="TIMESTAMP" />
+    <result column="deleteStatus" property="deletestatus" jdbcType="BIT" />
+    <result column="log_info" property="logInfo" jdbcType="VARCHAR" />
+    <result column="log_user_id" property="logUserId" jdbcType="BIGINT" />
+    <result column="of_id" property="ofId" jdbcType="BIGINT" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="org.goshop.order.pojo.GsOrderLog" extends="BaseResultMap" >
+    <result column="state_info" property="stateInfo" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, addTime, deleteStatus, log_info, log_user_id, of_id
+  </sql>
+  <sql id="Blob_Column_List" >
+    state_info
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Long" >
+    select
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from gs_order_log
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+</mapper>

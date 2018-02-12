@@ -34,6 +34,7 @@ public class StoreGradeServiceImpl implements StoreGradeService {
         if(storeGrade.getSgId()!=null){
             return storeGradeMapper.updateByPrimaryKeySelective(storeGrade);
         }
+
         return storeGradeMapper.insert(storeGrade);
     }
 

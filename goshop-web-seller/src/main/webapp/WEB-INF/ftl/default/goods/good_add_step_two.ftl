@@ -14,8 +14,10 @@
 <script charset="utf-8" src="${S_URL}/static/editor/lang/zh_CN.js"></script>
 <#--<script charset="utf-8" src="${S_URL}/static/scripts/jquery.shop.base.js"></script>-->
 <script charset="utf-8" src="${S_URL}/static/scripts/jquery.shop.common.js"></script>
-<script charset="utf-8" src="${S_URL}/static/scripts/swfupload.js"></script>
-<script charset="utf-8" src="${S_URL}/static/scripts/swfupload.queue.js"></script>
+<script charset="utf-8" src="${S_URL}/static/scripts/swfupload/swfupload.js"></script>
+<script charset="utf-8" src="${S_URL}/static/scripts/swfupload/swfupload.queue.js"></script>
+<script charset="utf-8" src="${S_URL}/static/scripts/swfupload/handlers.js"></script>
+<script charset="utf-8" src="${S_URL}/static/scripts/swfupload/fileprogress.js"></script>
 <script src="${S_URL}/static/scripts/goods/store_goods_add.step2.js"></script>
 <script>
     jQuery.validator.addMethod("transportId",
@@ -71,7 +73,9 @@
     jQuery(document).ready(function() {
         var settings_object = {//定义参数配置对象
             upload_url : "${S_URL}/goods/swf_upload.htm",
-            flash_url : "${S_URL}/static/flash/swfupload.swf",
+            flash_url :
+                    "${S_URL}/static/scripts/swfupload/swfupload.swf",
+                    <#--"${S_URL}/static/flash/swfupload.swf",-->
             file_post_name : "imgFile",
             post_params : {
                 "user_id" : "${(user.id)!}"
@@ -88,10 +92,14 @@
             preserve_relative_urls : false,
 
             button_placeholder_id : "upload_imgs",
-            button_image_url : "${S_URL}/static/images/goods/upload.jpg",
+            button_image_url :
+                    <#--"${S_URL}/static/images/goods/loader.gif",-->
+                    "${S_URL}/static/images/goods/upload.jpg",
             button_width : 160,
             button_height : 28,
-            button_text : "<b></b> <span class='upload_text'>选择上传商品图片</span>",
+            button_text :
+//                    '<span class="theFont">Hello</span>',
+                    "<b></b><span class='upload_text'>选择上传商品图片</span>",
             button_text_style : ".upload_text { color: #666666;font-size:12px;margin-left:40px; }",
             button_text_left_padding : 3,
             button_text_top_padding : 5,
@@ -484,7 +492,7 @@
     function ajaxPage(url,currentPage,obj){
         var ajax_page=jQuery(obj).parent().attr("ajax_page");
         if(ajax_page=="goods_transport"){
-            jQuery.post("${S_URL}/goods/goods_transport.htm",{"currentPage":currentPage,"ajax":true},function(data){
+            jQuery.post("${S_URL}/goods/goods_transport",{"currentPage":currentPage,"ajax":true},function(data){
                 jQuery("#ListForm").empty().html(data);
             },"html");
         }else{
@@ -701,16 +709,19 @@
                                             <div class="tab_body_a">
                                                 <div class="tabimg">
                                                     <#if (obj.goods_main_photo)?? >
-                                                        <#assign img="${S_URL}/${(obj.goods_main_photo.path)!}/${(obj.goods_main_photo.name)!}"/>
+                                                        <#assign img="${RES_URL}/${(obj.goods_main_photo.path)!}/${(obj.goods_main_photo.name)!}"/>
                                                     <#else>
                                                         <#assign img="${S_URL}/static/images/goods/img.jpg"/>
                                                     </#if>
-                                                    <div class="tabimgbig"><img id="goods_image_0" src="${img}" width="197" height="196" /></div>
+                                                    <div class="tabimgbig">
+                                                        <img id="goods_image_0" src="${img}" width="197" height="196" />
+                                                    </div>
                                                     <div class="tabimgcent">
                                                         <div class="tabupload">
                                                             <a href="javascript:void(0);">
                                                                 <span id="upload_imgs"></span>
                                                                 <img id="upload_wait" style="display:none;" src="${S_URL}/static/images/goods/loader.gif" />
+                                                                <#--<img id="upload_wait" src="${S_URL}/static/images/goods/loader.gif" />-->
                                                             </a>
                                                         </div>
                                                         <div class="tabimgsmall">
@@ -851,11 +862,18 @@
                                                     <input type="radio" name="transport_type" value="0" checked="checked" />
                                                     使用运费模板
                                                 </label>
-                                                <div id="transport_template_select" style="padding-left:30px;"><input type="hidden" value="${(obj.transport.id)!}" name="transport_id" id="transport_id" />
+                                                <#if (trans_count!false)==true>
+                                                <div id="transport_template_select" style="padding-left:30px;">
+                                                    <input type="hidden" value="${(obj.transport.id)!}" name="transport_id" id="transport_id" />
                                                     <span style="color:#06C;" id="transport_template_name">${(obj.transport.transName)!}</span>
-                                                    <span style="display:block; width:70px; height:28px; text-align:center; border:#CCC solid 1px;">
-                                                    <a href="javascript:void(0);" dialog_uri="${S_URL}/goods/goods_transport.htm" dialog_title="选择运费模板" dialog_width="600" dialog_height="500" dialog_id="transport_template_frm">选择模板</a></span>
+                                                    <a href="javascript:void(0);" dialog_uri="${S_URL}/goods/goods_transport" dialog_title="选择运费模板"
+                                                       dialog_width="600" dialog_height="500" dialog_id="transport_template_frm">选择模板</a>
                                                 </div>
+                                                <#else>
+                                                    <div id="transport_template_select" style="padding-left:30px;">
+                                                        <a href="${S_URL}/transport/transport_list">创建模板</a>
+                                                    </div>
+                                                </#if>
                                             </li>
                                             <li><label>
                                                 <input type="radio" name="transport_type" value="1" />

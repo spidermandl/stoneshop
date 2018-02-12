@@ -54,6 +54,8 @@ public class Member implements Serializable {
 
     private String memberQqinfo;
 
+    private String memberMobile;
+
     /**
      * 隐私设定
      */
@@ -317,5 +319,13 @@ public class Member implements Serializable {
 
     public void setMemberQqinfo(String memberQqinfo) {
         this.memberQqinfo = memberQqinfo == null ? null : memberQqinfo.trim();
+    }
+
+    public String getMemberMobile() {
+        return memberMobile;
+    }
+
+    public void setMemberMobile(String memberMobile) {
+        this.memberMobile = memberMobile;
     }
 }

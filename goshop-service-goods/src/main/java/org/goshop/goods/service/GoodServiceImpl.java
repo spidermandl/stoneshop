@@ -20,7 +20,7 @@ import java.util.Map;
  * Created by Desmond on 24/11/2017.
  */
 @Service("goodsService")
-public class GoodServiceImpl implements GoodsService {
+public class GoodServiceImpl implements GoodsService{
     @Autowired
     GsGoodsMapper gsGoodsMapper;
     @Autowired
@@ -43,6 +43,8 @@ public class GoodServiceImpl implements GoodsService {
     ReadGsGroupMapper readGsGroupMapper;
     @Autowired
     ReadGsGroupGoodsMapper readGsGroupGoodsMapper;
+    @Autowired
+    ReadGsGoodsSpecPropertyMapper readGsGoodsSpecPropertyMapper;
 
     @Autowired
     GsGoodsUgcMapper gsGoodsUgcMapper;
@@ -355,6 +357,16 @@ public class GoodServiceImpl implements GoodsService {
     @Override
     public List<GsGroupGoods> findGroupGoodsByGroupId(Long group_id) {
         return readGsGroupGoodsMapper.selectByGroupId(group_id);
+    }
+
+    @Override
+    public List<GsGoodsSpecProperty> findSpecPropByIds(List<Long> ids) {
+        return readGsGoodsSpecPropertyMapper.selectSpecPropByIds(ids);
+    }
+
+    @Override
+    public String findSingleColumnById(Long id, String name) {
+        return readGsGoodsMapper.selectSingleColumnById(id,name);
     }
 
 }

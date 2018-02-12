@@ -10,8 +10,8 @@
   <div id="editor_photo_list">
       <#list photos! as photo>
           <a href="javascript:void(0);" onclick="editor_photo_set(this);" image_id="${(photo.id)!}"
-             src="${S_URL}/${(photo.path)!}/${(photo.name)!}">
-              <img src="${S_URL}/${(photo.path)!}/${(photo.name)!}_small.${(photo.ext)!}" width="90" height="90" />
+             src="${RES_URL}/${(photo.path)!}/${(photo.name)!}">
+              <img src="${RES_URL}/${(photo.path)!}/${(photo.name)!}_small.${(photo.ext)!}" width="90" height="90" />
           </a>
       </#list>
   </div>

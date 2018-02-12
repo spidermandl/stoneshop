@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="org.goshop.pay.mapper.read.ReadGsPredepositLogMapper" >
+  <resultMap id="BaseResultMap" type="org.goshop.pay.pojo.GsPredepositLog" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="addTime" property="addtime" jdbcType="TIMESTAMP" />
+    <result column="deleteStatus" property="deletestatus" jdbcType="BIT" />
+    <result column="pd_log_amount" property="pdLogAmount" jdbcType="DECIMAL" />
+    <result column="pd_op_type" property="pdOpType" jdbcType="VARCHAR" />
+    <result column="pd_type" property="pdType" jdbcType="VARCHAR" />
+    <result column="pd_log_admin_id" property="pdLogAdminId" jdbcType="BIGINT" />
+    <result column="pd_log_user_id" property="pdLogUserId" jdbcType="BIGINT" />
+    <result column="predeposit_id" property="predepositId" jdbcType="BIGINT" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="org.goshop.pay.pojo.GsPredepositLog" extends="BaseResultMap" >
+    <result column="pd_log_info" property="pdLogInfo" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, addTime, deleteStatus, pd_log_amount, pd_op_type, pd_type, pd_log_admin_id, pd_log_user_id,
+    predeposit_id
+  </sql>
+  <sql id="Blob_Column_List" >
+    pd_log_info
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Long" >
+    select
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from gs_predeposit_log
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from gs_predeposit_log
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="org.goshop.pay.pojo.GsPredepositLog" >
+    <selectKey resultType="java.lang.Long" keyProperty="id" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into gs_predeposit_log (addTime, deleteStatus, pd_log_amount,
+      pd_op_type, pd_type, pd_log_admin_id,
+      pd_log_user_id, predeposit_id, pd_log_info
+      )
+    values (#{addtime,jdbcType=TIMESTAMP}, #{deletestatus,jdbcType=BIT}, #{pdLogAmount,jdbcType=DECIMAL},
+      #{pdOpType,jdbcType=VARCHAR}, #{pdType,jdbcType=VARCHAR}, #{pdLogAdminId,jdbcType=BIGINT},
+      #{pdLogUserId,jdbcType=BIGINT}, #{predepositId,jdbcType=BIGINT}, #{pdLogInfo,jdbcType=LONGVARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="org.goshop.pay.pojo.GsPredepositLog" >
+    <selectKey resultType="java.lang.Long" keyProperty="id" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into gs_predeposit_log
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="addtime != null" >
+        addTime,
+      </if>
+      <if test="deletestatus != null" >
+        deleteStatus,
+      </if>
+      <if test="pdLogAmount != null" >
+        pd_log_amount,
+      </if>
+      <if test="pdOpType != null" >
+        pd_op_type,
+      </if>
+      <if test="pdType != null" >
+        pd_type,
+      </if>
+      <if test="pdLogAdminId != null" >
+        pd_log_admin_id,
+      </if>
+      <if test="pdLogUserId != null" >
+        pd_log_user_id,
+      </if>
+      <if test="predepositId != null" >
+        predeposit_id,
+      </if>
+      <if test="pdLogInfo != null" >
+        pd_log_info,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="addtime != null" >
+        #{addtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="deletestatus != null" >
+        #{deletestatus,jdbcType=BIT},
+      </if>
+      <if test="pdLogAmount != null" >
+        #{pdLogAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="pdOpType != null" >
+        #{pdOpType,jdbcType=VARCHAR},
+      </if>
+      <if test="pdType != null" >
+        #{pdType,jdbcType=VARCHAR},
+      </if>
+      <if test="pdLogAdminId != null" >
+        #{pdLogAdminId,jdbcType=BIGINT},
+      </if>
+      <if test="pdLogUserId != null" >
+        #{pdLogUserId,jdbcType=BIGINT},
+      </if>
+      <if test="predepositId != null" >
+        #{predepositId,jdbcType=BIGINT},
+      </if>
+      <if test="pdLogInfo != null" >
+        #{pdLogInfo,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="org.goshop.pay.pojo.GsPredepositLog" >
+    update gs_predeposit_log
+    <set >
+      <if test="addtime != null" >
+        addTime = #{addtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="deletestatus != null" >
+        deleteStatus = #{deletestatus,jdbcType=BIT},
+      </if>
+      <if test="pdLogAmount != null" >
+        pd_log_amount = #{pdLogAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="pdOpType != null" >
+        pd_op_type = #{pdOpType,jdbcType=VARCHAR},
+      </if>
+      <if test="pdType != null" >
+        pd_type = #{pdType,jdbcType=VARCHAR},
+      </if>
+      <if test="pdLogAdminId != null" >
+        pd_log_admin_id = #{pdLogAdminId,jdbcType=BIGINT},
+      </if>
+      <if test="pdLogUserId != null" >
+        pd_log_user_id = #{pdLogUserId,jdbcType=BIGINT},
+      </if>
+      <if test="predepositId != null" >
+        predeposit_id = #{predepositId,jdbcType=BIGINT},
+      </if>
+      <if test="pdLogInfo != null" >
+        pd_log_info = #{pdLogInfo,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="org.goshop.pay.pojo.GsPredepositLog" >
+    update gs_predeposit_log
+    set addTime = #{addtime,jdbcType=TIMESTAMP},
+      deleteStatus = #{deletestatus,jdbcType=BIT},
+      pd_log_amount = #{pdLogAmount,jdbcType=DECIMAL},
+      pd_op_type = #{pdOpType,jdbcType=VARCHAR},
+      pd_type = #{pdType,jdbcType=VARCHAR},
+      pd_log_admin_id = #{pdLogAdminId,jdbcType=BIGINT},
+      pd_log_user_id = #{pdLogUserId,jdbcType=BIGINT},
+      predeposit_id = #{predepositId,jdbcType=BIGINT},
+      pd_log_info = #{pdLogInfo,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="org.goshop.pay.pojo.GsPredepositLog" >
+    update gs_predeposit_log
+    set addTime = #{addtime,jdbcType=TIMESTAMP},
+      deleteStatus = #{deletestatus,jdbcType=BIT},
+      pd_log_amount = #{pdLogAmount,jdbcType=DECIMAL},
+      pd_op_type = #{pdOpType,jdbcType=VARCHAR},
+      pd_type = #{pdType,jdbcType=VARCHAR},
+      pd_log_admin_id = #{pdLogAdminId,jdbcType=BIGINT},
+      pd_log_user_id = #{pdLogUserId,jdbcType=BIGINT},
+      predeposit_id = #{predepositId,jdbcType=BIGINT}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

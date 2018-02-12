@@ -126,23 +126,23 @@ function query_price(){
                                   <li class="goodsnames">
                                       <a href="${S_URL}/goods_${(goods.id)!}" target="_blank">
                                           ${CommUtil.substring("${(goods.goodsName)!}",22)}</a>
-                                      <#if goods.groupBuy!0==2 >
+                                      <#if ((goods.groupBuy)!0)==2 >
                                           <span style="padding:3px 3px;color:#FFF;background:#F00">团购</span>
                                       </#if>
-                                      <#if (goods.activityStatus)!0==2 >
+                                      <#if ((goods.activityStatus)!0)==2 >
                                           <span style="padding:3px 3px;color:#FFF;background:#F00">活动</span>
                                       </#if>
-                                      <#if (goods.bargainStatus)!0==2 >
+                                      <#if ((goods.bargainStatus)!0)==2 >
                                           <span style="padding:3px 3px;color:#FFF;background:#F00">特价</span>
                                       </#if>
-                                      <#if (goods.combinStatus)!0==2 >
+                                      <#if ((goods.combinStatus)!0)==2 >
                                           <span style="padding:3px 3px;color:#FFF;background:#F00">组合</span>
                                       </#if>
-                                      <#if (goods.deliveryStatus)!0==2 >
+                                      <#if ((goods.deliveryStatus)!0)==2 >
                                           <span style="padding:3px 3px;color:#FFF;background:#F00">买就送</span>
                                       </#if>
                                   </li>
-                                  <li class="recentgoodsok">最近成交<strong>$!goods.goods_salenum</strong>笔</li>
+                                  <li class="recentgoodsok">最近成交<strong>${(goods.goodsSalenum)!}</strong>笔</li>
                               </ul>
                           </#list>
                       </div>

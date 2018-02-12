@@ -13,4 +13,12 @@ public interface StoreCartService {
     List<GsStoreCart> findOwnCartByCondition(Map condition);
 
     int delete(Long id);
+
+    List<GsStoreCart> findByCondition(Map condition);
+
+    int save(GsStoreCart cart);
+
+    int update(GsStoreCart cart);
+
+    GsStoreCart findOne(Long id);
 }

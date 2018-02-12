@@ -19,99 +19,17 @@
     from gs_goods_spec_property
     where id = #{id,jdbcType=BIGINT}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
-    delete from gs_goods_spec_property
-    where id = #{id,jdbcType=BIGINT}
-  </delete>
-  <insert id="insert" parameterType="org.goshop.goods.pojo.GsGoodsSpecProperty" >
-    <selectKey resultType="java.lang.Long" keyProperty="id" order="AFTER" >
-      SELECT LAST_INSERT_ID()
-    </selectKey>
-    insert into gs_goods_spec_property (addTime, deleteStatus, sequence,
-      value, spec_id, specImage_id
-      )
-    values (#{addtime,jdbcType=TIMESTAMP}, #{deletestatus,jdbcType=BIT}, #{sequence,jdbcType=INTEGER},
-      #{value,jdbcType=VARCHAR}, #{specId,jdbcType=BIGINT}, #{specimageId,jdbcType=BIGINT}
-      )
-  </insert>
-  <insert id="insertSelective" parameterType="org.goshop.goods.pojo.GsGoodsSpecProperty" >
-    <selectKey resultType="java.lang.Long" keyProperty="id" order="AFTER" >
-      SELECT LAST_INSERT_ID()
-    </selectKey>
-    insert into gs_goods_spec_property
-    <trim prefix="(" suffix=")" suffixOverrides="," >
-      <if test="addtime != null" >
-        addTime,
-      </if>
-      <if test="deletestatus != null" >
-        deleteStatus,
-      </if>
-      <if test="sequence != null" >
-        sequence,
-      </if>
-      <if test="value != null" >
-        value,
-      </if>
-      <if test="specId != null" >
-        spec_id,
-      </if>
-      <if test="specimageId != null" >
-        specImage_id,
-      </if>
-    </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides="," >
-      <if test="addtime != null" >
-        #{addtime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="deletestatus != null" >
-        #{deletestatus,jdbcType=BIT},
-      </if>
-      <if test="sequence != null" >
-        #{sequence,jdbcType=INTEGER},
-      </if>
-      <if test="value != null" >
-        #{value,jdbcType=VARCHAR},
-      </if>
-      <if test="specId != null" >
-        #{specId,jdbcType=BIGINT},
-      </if>
-      <if test="specimageId != null" >
-        #{specimageId,jdbcType=BIGINT},
-      </if>
-    </trim>
-  </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="org.goshop.goods.pojo.GsGoodsSpecProperty" >
-    update gs_goods_spec_property
-    <set >
-      <if test="addtime != null" >
-        addTime = #{addtime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="deletestatus != null" >
-        deleteStatus = #{deletestatus,jdbcType=BIT},
-      </if>
-      <if test="sequence != null" >
-        sequence = #{sequence,jdbcType=INTEGER},
-      </if>
-      <if test="value != null" >
-        value = #{value,jdbcType=VARCHAR},
-      </if>
-      <if test="specId != null" >
-        spec_id = #{specId,jdbcType=BIGINT},
-      </if>
-      <if test="specimageId != null" >
-        specImage_id = #{specimageId,jdbcType=BIGINT},
-      </if>
-    </set>
-    where id = #{id,jdbcType=BIGINT}
-  </update>
-  <update id="updateByPrimaryKey" parameterType="org.goshop.goods.pojo.GsGoodsSpecProperty" >
-    update gs_goods_spec_property
-    set addTime = #{addtime,jdbcType=TIMESTAMP},
-      deleteStatus = #{deletestatus,jdbcType=BIT},
-      sequence = #{sequence,jdbcType=INTEGER},
-      value = #{value,jdbcType=VARCHAR},
-      spec_id = #{specId,jdbcType=BIGINT},
-      specImage_id = #{specimageId,jdbcType=BIGINT}
-    where id = #{id,jdbcType=BIGINT}
-  </update>
+
+  <select id="selectSpecPropByIds" resultMap="BaseResultMap" parameterType="java.util.List" >
+    select
+    <include refid="Base_Column_List" />
+    from gs_goods_spec_property
+    <if test="spec_ids !=null">
+      and id IN
+      <foreach collection="spec_ids" index="index" item="item" open="(" separator="," close=")">
+        #{item}
+      </foreach>
+    </if>
+  </select>
+
 </mapper>

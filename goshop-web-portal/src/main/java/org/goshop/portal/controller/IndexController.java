@@ -256,7 +256,7 @@ public class IndexController extends BaseController{
     public String nav(Model model,
                       HttpServletRequest request,
                       HttpServletResponse response){
-        String ret = "nav";
+        String ret = generateViewURL("nav");
         List<GsGoodsClass> gcs =
                 this.goodsClassService.findByParentIdAndDisplay(null,Boolean.valueOf(true),"sequence","asc",1,14).getList();
         model.addAttribute("gcs", gcs);
@@ -269,7 +269,7 @@ public class IndexController extends BaseController{
     public String nav1(Model model,
                        HttpServletRequest request,
                        HttpServletResponse response){
-        String ret = "nav1";
+        String ret = generateViewURL("nav1");
         List<GsGoodsClass> gcs =
                 this.goodsClassService.findByParentIdAndDisplay(null,Boolean.valueOf(true),"sequence","asc",1,14).getList();
         model.addAttribute("gcs", gcs);
@@ -282,7 +282,7 @@ public class IndexController extends BaseController{
     public String head(Model model,
                        HttpServletRequest request,
                        HttpServletResponse response){
-        String ret = "head";
+        String ret = generateViewURL("head");
         String type = CommUtil.null2String(request.getAttribute("type"));
         model.addAttribute("type", type.equals("") ? "goods" : type);
 
@@ -299,7 +299,7 @@ public class IndexController extends BaseController{
     public String floor(Model model,
                         HttpServletRequest request,
                         HttpServletResponse response){
-        String ret = "floor";
+        String ret = generateViewURL("floor");
         Map params = new HashMap();
         params.put("gf_display", Boolean.valueOf(true));
         params.put("orderBy","gf_sequence");
@@ -364,6 +364,7 @@ public class IndexController extends BaseController{
     public String index(Model model,
                         HttpServletRequest request,
                         HttpServletResponse response){
+        reCapsuleModel(model,request,response);
         String ret = generateViewURL("index");
         //设置为PC访问
         request.getSession().setAttribute("wemall_view_type", "pc");

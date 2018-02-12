@@ -37,6 +37,18 @@
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-lang3</artifactId>
         </dependency>
+
+        <dependency>
+            <groupId>jp.sourceforge.qrcode</groupId>
+            <artifactId>qrcode</artifactId>
+            <version>0.0.1</version>
+        </dependency>
+        <dependency>
+            <groupId>com.swetake</groupId>
+            <artifactId>Qrcode_swetake</artifactId>
+            <version>0.0.1</version>
+        </dependency>
+
         <!--<dependency>-->
             <!--<groupId>commons-beanutils</groupId>-->
             <!--<artifactId>commons-beanutils</artifactId>-->

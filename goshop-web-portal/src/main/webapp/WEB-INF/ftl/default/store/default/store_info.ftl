@@ -100,7 +100,7 @@
                         <h6 class="shopinfo_h6">基本信息</h6>
                         <ul class="shop_info">
                             <li>创店时间：${CommUtil.formatShortDate(store.storeTime)}</li>
-                            <li>所在地区：${areaViewTools.generic_area_info(store.area.id)}</li>
+                            <li>所在地区：${areaViewTools.generic_area_info("${(store.area.id)!}")}</li>
                             <li>详细地址：${(store.storeAddress)!}</li>
                             <#assign goods_count=0 />
                             <#list store.goods_list! as goods_info >

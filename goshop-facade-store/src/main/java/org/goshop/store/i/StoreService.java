@@ -30,6 +30,8 @@ public interface StoreService {
 
     StoreWithBLOBs findOne(Long storeId);
 
+    Store findBasicOne(Long storeId);
+
     void update(StoreWithBLOBs store);
 
     Store findByMemberId(Long userId);

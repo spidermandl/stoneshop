@@ -13,7 +13,8 @@
 								   location="classpath:common.properties,
 								   			classpath:resource/*.properties,
 								   			classpath:system.properties,
-                                  			file:/usr/web_home/manage/resource/*.properties" />
+                                  			file:/usr/web_home/manage/resource/*.properties"
+								   file-encoding="UTF-8"/>
 
 	<!-- 扫描包加载Service实现类-->
 	<context:component-scan base-package="org.goshop.*.service,org.goshop.*.context" />

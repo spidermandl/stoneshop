@@ -1,0 +1,246 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="org.goshop.order.mapper.read.ReadGsIntegralGoodsorderMapper" >
+  <resultMap id="BaseResultMap" type="org.goshop.order.pojo.GsIntegralGoodsorder" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="addTime" property="addtime" jdbcType="TIMESTAMP" />
+    <result column="deleteStatus" property="deletestatus" jdbcType="BIT" />
+    <result column="igo_order_sn" property="igoOrderSn" jdbcType="VARCHAR" />
+    <result column="igo_pay_time" property="igoPayTime" jdbcType="TIMESTAMP" />
+    <result column="igo_payment" property="igoPayment" jdbcType="VARCHAR" />
+    <result column="igo_ship_code" property="igoShipCode" jdbcType="VARCHAR" />
+    <result column="igo_ship_time" property="igoShipTime" jdbcType="DATE" />
+    <result column="igo_status" property="igoStatus" jdbcType="INTEGER" />
+    <result column="igo_total_integral" property="igoTotalIntegral" jdbcType="INTEGER" />
+    <result column="igo_trans_fee" property="igoTransFee" jdbcType="DECIMAL" />
+    <result column="igo_addr_id" property="igoAddrId" jdbcType="BIGINT" />
+    <result column="igo_user_id" property="igoUserId" jdbcType="BIGINT" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="org.goshop.order.pojo.GsIntegralGoodsorderWithBLOBs" extends="BaseResultMap" >
+    <result column="igo_msg" property="igoMsg" jdbcType="LONGVARCHAR" />
+    <result column="igo_pay_msg" property="igoPayMsg" jdbcType="LONGVARCHAR" />
+    <result column="igo_ship_content" property="igoShipContent" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, addTime, deleteStatus, igo_order_sn, igo_pay_time, igo_payment, igo_ship_code,
+    igo_ship_time, igo_status, igo_total_integral, igo_trans_fee, igo_addr_id, igo_user_id
+  </sql>
+  <sql id="Blob_Column_List" >
+    igo_msg, igo_pay_msg, igo_ship_content
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Long" >
+    select
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from gs_integral_goodsorder
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from gs_integral_goodsorder
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="org.goshop.order.pojo.GsIntegralGoodsorderWithBLOBs" >
+    <selectKey resultType="java.lang.Long" keyProperty="id" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into gs_integral_goodsorder (addTime, deleteStatus, igo_order_sn,
+      igo_pay_time, igo_payment, igo_ship_code,
+      igo_ship_time, igo_status, igo_total_integral,
+      igo_trans_fee, igo_addr_id, igo_user_id,
+      igo_msg, igo_pay_msg, igo_ship_content
+      )
+    values (#{addtime,jdbcType=TIMESTAMP}, #{deletestatus,jdbcType=BIT}, #{igoOrderSn,jdbcType=VARCHAR},
+      #{igoPayTime,jdbcType=TIMESTAMP}, #{igoPayment,jdbcType=VARCHAR}, #{igoShipCode,jdbcType=VARCHAR},
+      #{igoShipTime,jdbcType=DATE}, #{igoStatus,jdbcType=INTEGER}, #{igoTotalIntegral,jdbcType=INTEGER},
+      #{igoTransFee,jdbcType=DECIMAL}, #{igoAddrId,jdbcType=BIGINT}, #{igoUserId,jdbcType=BIGINT},
+      #{igoMsg,jdbcType=LONGVARCHAR}, #{igoPayMsg,jdbcType=LONGVARCHAR}, #{igoShipContent,jdbcType=LONGVARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="org.goshop.order.pojo.GsIntegralGoodsorderWithBLOBs" >
+    <selectKey resultType="java.lang.Long" keyProperty="id" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into gs_integral_goodsorder
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="addtime != null" >
+        addTime,
+      </if>
+      <if test="deletestatus != null" >
+        deleteStatus,
+      </if>
+      <if test="igoOrderSn != null" >
+        igo_order_sn,
+      </if>
+      <if test="igoPayTime != null" >
+        igo_pay_time,
+      </if>
+      <if test="igoPayment != null" >
+        igo_payment,
+      </if>
+      <if test="igoShipCode != null" >
+        igo_ship_code,
+      </if>
+      <if test="igoShipTime != null" >
+        igo_ship_time,
+      </if>
+      <if test="igoStatus != null" >
+        igo_status,
+      </if>
+      <if test="igoTotalIntegral != null" >
+        igo_total_integral,
+      </if>
+      <if test="igoTransFee != null" >
+        igo_trans_fee,
+      </if>
+      <if test="igoAddrId != null" >
+        igo_addr_id,
+      </if>
+      <if test="igoUserId != null" >
+        igo_user_id,
+      </if>
+      <if test="igoMsg != null" >
+        igo_msg,
+      </if>
+      <if test="igoPayMsg != null" >
+        igo_pay_msg,
+      </if>
+      <if test="igoShipContent != null" >
+        igo_ship_content,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="addtime != null" >
+        #{addtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="deletestatus != null" >
+        #{deletestatus,jdbcType=BIT},
+      </if>
+      <if test="igoOrderSn != null" >
+        #{igoOrderSn,jdbcType=VARCHAR},
+      </if>
+      <if test="igoPayTime != null" >
+        #{igoPayTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="igoPayment != null" >
+        #{igoPayment,jdbcType=VARCHAR},
+      </if>
+      <if test="igoShipCode != null" >
+        #{igoShipCode,jdbcType=VARCHAR},
+      </if>
+      <if test="igoShipTime != null" >
+        #{igoShipTime,jdbcType=DATE},
+      </if>
+      <if test="igoStatus != null" >
+        #{igoStatus,jdbcType=INTEGER},
+      </if>
+      <if test="igoTotalIntegral != null" >
+        #{igoTotalIntegral,jdbcType=INTEGER},
+      </if>
+      <if test="igoTransFee != null" >
+        #{igoTransFee,jdbcType=DECIMAL},
+      </if>
+      <if test="igoAddrId != null" >
+        #{igoAddrId,jdbcType=BIGINT},
+      </if>
+      <if test="igoUserId != null" >
+        #{igoUserId,jdbcType=BIGINT},
+      </if>
+      <if test="igoMsg != null" >
+        #{igoMsg,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="igoPayMsg != null" >
+        #{igoPayMsg,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="igoShipContent != null" >
+        #{igoShipContent,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="org.goshop.order.pojo.GsIntegralGoodsorderWithBLOBs" >
+    update gs_integral_goodsorder
+    <set >
+      <if test="addtime != null" >
+        addTime = #{addtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="deletestatus != null" >
+        deleteStatus = #{deletestatus,jdbcType=BIT},
+      </if>
+      <if test="igoOrderSn != null" >
+        igo_order_sn = #{igoOrderSn,jdbcType=VARCHAR},
+      </if>
+      <if test="igoPayTime != null" >
+        igo_pay_time = #{igoPayTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="igoPayment != null" >
+        igo_payment = #{igoPayment,jdbcType=VARCHAR},
+      </if>
+      <if test="igoShipCode != null" >
+        igo_ship_code = #{igoShipCode,jdbcType=VARCHAR},
+      </if>
+      <if test="igoShipTime != null" >
+        igo_ship_time = #{igoShipTime,jdbcType=DATE},
+      </if>
+      <if test="igoStatus != null" >
+        igo_status = #{igoStatus,jdbcType=INTEGER},
+      </if>
+      <if test="igoTotalIntegral != null" >
+        igo_total_integral = #{igoTotalIntegral,jdbcType=INTEGER},
+      </if>
+      <if test="igoTransFee != null" >
+        igo_trans_fee = #{igoTransFee,jdbcType=DECIMAL},
+      </if>
+      <if test="igoAddrId != null" >
+        igo_addr_id = #{igoAddrId,jdbcType=BIGINT},
+      </if>
+      <if test="igoUserId != null" >
+        igo_user_id = #{igoUserId,jdbcType=BIGINT},
+      </if>
+      <if test="igoMsg != null" >
+        igo_msg = #{igoMsg,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="igoPayMsg != null" >
+        igo_pay_msg = #{igoPayMsg,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="igoShipContent != null" >
+        igo_ship_content = #{igoShipContent,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="org.goshop.order.pojo.GsIntegralGoodsorderWithBLOBs" >
+    update gs_integral_goodsorder
+    set addTime = #{addtime,jdbcType=TIMESTAMP},
+      deleteStatus = #{deletestatus,jdbcType=BIT},
+      igo_order_sn = #{igoOrderSn,jdbcType=VARCHAR},
+      igo_pay_time = #{igoPayTime,jdbcType=TIMESTAMP},
+      igo_payment = #{igoPayment,jdbcType=VARCHAR},
+      igo_ship_code = #{igoShipCode,jdbcType=VARCHAR},
+      igo_ship_time = #{igoShipTime,jdbcType=DATE},
+      igo_status = #{igoStatus,jdbcType=INTEGER},
+      igo_total_integral = #{igoTotalIntegral,jdbcType=INTEGER},
+      igo_trans_fee = #{igoTransFee,jdbcType=DECIMAL},
+      igo_addr_id = #{igoAddrId,jdbcType=BIGINT},
+      igo_user_id = #{igoUserId,jdbcType=BIGINT},
+      igo_msg = #{igoMsg,jdbcType=LONGVARCHAR},
+      igo_pay_msg = #{igoPayMsg,jdbcType=LONGVARCHAR},
+      igo_ship_content = #{igoShipContent,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="org.goshop.order.pojo.GsIntegralGoodsorder" >
+    update gs_integral_goodsorder
+    set addTime = #{addtime,jdbcType=TIMESTAMP},
+      deleteStatus = #{deletestatus,jdbcType=BIT},
+      igo_order_sn = #{igoOrderSn,jdbcType=VARCHAR},
+      igo_pay_time = #{igoPayTime,jdbcType=TIMESTAMP},
+      igo_payment = #{igoPayment,jdbcType=VARCHAR},
+      igo_ship_code = #{igoShipCode,jdbcType=VARCHAR},
+      igo_ship_time = #{igoShipTime,jdbcType=DATE},
+      igo_status = #{igoStatus,jdbcType=INTEGER},
+      igo_total_integral = #{igoTotalIntegral,jdbcType=INTEGER},
+      igo_trans_fee = #{igoTransFee,jdbcType=DECIMAL},
+      igo_addr_id = #{igoAddrId,jdbcType=BIGINT},
+      igo_user_id = #{igoUserId,jdbcType=BIGINT}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

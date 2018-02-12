@@ -1,12 +1,17 @@
 package org.goshop.tools.service;
 
 import org.goshop.common.pojo.CglibBean;
+import org.goshop.common.pojo.SysMap;
 import org.goshop.common.web.utils.CommUtil;
 import org.goshop.common.web.utils.JsonUtils;
 import org.goshop.goods.i.AreaService;
 import org.goshop.goods.i.GoodsService;
 import org.goshop.goods.i.TransportService;
+import org.goshop.goods.pojo.GsGoodsWithBLOBs;
+import org.goshop.goods.pojo.GsTransArea;
 import org.goshop.goods.pojo.GsTransportWithBLOBs;
+import org.goshop.order.pojo.GsGoodsCart;
+import org.goshop.order.pojo.GsStoreCart;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -240,65 +245,60 @@ public class TransportTools {
         return fee;
     }
 
-//    public List<SysMap> query_cart_trans(StoreCart sc, String area_id){
-//        List sms = new ArrayList();
-//        if ((area_id != null) && (!area_id.equals(""))){
-//            Area area = this.areaService
-//                    .getObjById(CommUtil.null2Long(area_id)).getParent();
-//            String city_name = area.getAreaName();
-//
-//            float mail_fee = 0.0F;
-//            float express_fee = 0.0F;
-//            float ems_fee = 0.0F;
-//            for (GoodsCart gc : sc.getGcs()){
-//                Goods goods = this.goodsService.getObjById(gc.getGoods()
-//                        .getId());
-//                if (goods.getGoods_transfee() == 0){
-//                    if (goods.getTransport() != null){
-//                        mail_fee = mail_fee +
-//                                cal_order_trans(goods.getTransport()
-//                                        .getTrans_mail_info(), goods
-//                                        .getTransport().getTrans_type(), goods
-//                                        .getGoods_weight(), goods
-//                                        .getGoods_volume(), city_name);
-//
-//                        express_fee = express_fee +
-//                                cal_order_trans(goods.getTransport()
-//                                        .getTrans_express_info(), goods
-//                                        .getTransport().getTrans_type(), goods
-//                                        .getGoods_weight(), goods
-//                                        .getGoods_volume(), city_name);
-//
-//                        ems_fee = ems_fee +
-//                                cal_order_trans(goods.getTransport()
-//                                        .getTrans_ems_info(), goods
-//                                        .getTransport().getTrans_type(), goods
-//                                        .getGoods_weight(), goods
-//                                        .getGoods_volume(), city_name);
-//                    }else{
-//                        mail_fee = mail_fee +
-//                                CommUtil.null2Float(goods.getMail_trans_fee());
-//
-//                        express_fee = express_fee +
-//                                CommUtil.null2Float(goods
-//                                        .getExpress_trans_fee());
-//
-//                        ems_fee = ems_fee +
-//                                CommUtil.null2Float(goods.getEms_trans_fee());
-//                    }
-//                }
-//            }
-//            if ((mail_fee == 0.0F) && (express_fee == 0.0F) && (ems_fee == 0.0F)){
-//                sms.add(new SysMap("卖家承担", Integer.valueOf(0)));
-//            }else{
-//                sms.add(new SysMap("平邮[" + mail_fee + "元]", Float.valueOf(mail_fee)));
-//                sms.add(new SysMap("快递[" + express_fee + "元]", Float.valueOf(express_fee)));
-//                sms.add(new SysMap("EMS[" + ems_fee + "元]", Float.valueOf(ems_fee)));
-//            }
-//        }
-//
-//        return sms;
-//    }
+    public List<SysMap> query_cart_trans(GsStoreCart sc, String area_id){
+        List sms = new ArrayList();
+        if ((area_id != null) && (!area_id.equals(""))){
+            GsTransArea area = this.areaService.findOne(
+                    this.areaService.findOne(CommUtil.null2Long(area_id)).getParentId());
+            String city_name = area.getAreaname();
+
+            float mail_fee = 0.0F;
+            float express_fee = 0.0F;
+            float ems_fee = 0.0F;
+            for (GsGoodsCart gc : sc.getGcs()){
+                GsGoodsWithBLOBs goods = this.goodsService.findOne(gc.getGoodsId());
+                if (goods.getGoodsTransfee() == 0){
+                    if (goods.getTransport() != null){
+                        mail_fee = mail_fee + cal_order_trans(
+                                        goods.getTransport().getTransMailInfo(),
+                                        goods.getTransport().getTransType(),
+                                        goods.getGoodsWeight(),
+                                        goods.getGoodsVolume(),
+                                        city_name);
+
+                        express_fee = express_fee + cal_order_trans(
+                                        goods.getTransport().getTransExpressInfo(),
+                                        goods.getTransport().getTransType(),
+                                        goods.getGoodsWeight(),
+                                        goods.getGoodsVolume(),
+                                        city_name);
+
+                        ems_fee = ems_fee + cal_order_trans(
+                                        goods.getTransport().getTransEmsInfo(),
+                                        goods.getTransport().getTransType(),
+                                        goods.getGoodsWeight(),
+                                        goods.getGoodsVolume(),
+                                        city_name);
+                    }else{
+                        mail_fee = mail_fee + CommUtil.null2Float(goods.getMailTransFee());
+
+                        express_fee = express_fee + CommUtil.null2Float(goods.getExpressTransFee());
+
+                        ems_fee = ems_fee + CommUtil.null2Float(goods.getEmsTransFee());
+                    }
+                }
+            }
+            if ((mail_fee == 0.0F) && (express_fee == 0.0F) && (ems_fee == 0.0F)){
+                sms.add(new SysMap("卖家承担", Integer.valueOf(0)));
+            }else{
+                sms.add(new SysMap("平邮[" + mail_fee + "元]", Float.valueOf(mail_fee)));
+                sms.add(new SysMap("快递[" + express_fee + "元]", Float.valueOf(express_fee)));
+                sms.add(new SysMap("EMS[" + ems_fee + "元]", Float.valueOf(ems_fee)));
+            }
+        }
+
+        return sms;
+    }
 
     private float cal_order_trans(String trans_json, int trans_type, Object goods_weight, Object goods_volume, String city_name){
         float fee = 0.0F;

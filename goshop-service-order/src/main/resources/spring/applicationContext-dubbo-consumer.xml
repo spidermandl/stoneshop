@@ -9,8 +9,8 @@
 	<!--<dubbo:reference id="goodsClassService"-->
 					 <!--interface="org.goshop.goods.i.GoodsClassService" check="false" />-->
 
-	<!--<dubbo:reference id="goodsTypeService"-->
-					 <!--interface="org.goshop.goods.i.GoodsTypeService" check="false" />-->
+	<dubbo:reference id="goodsService"
+					 interface="org.goshop.goods.i.GoodsService" check="false" />
 
 	<!--<dubbo:reference id="accessoryService"-->
 					 <!--interface="org.goshop.assets.i.AccessoryService" check="false" />-->

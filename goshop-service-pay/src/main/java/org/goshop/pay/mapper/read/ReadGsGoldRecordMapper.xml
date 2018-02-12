@@ -1,0 +1,221 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="org.goshop.pay.mapper.read.ReadGsGoldRecordMapper" >
+  <resultMap id="BaseResultMap" type="org.goshop.pay.pojo.GsGoldRecord" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="addTime" property="addtime" jdbcType="TIMESTAMP" />
+    <result column="deleteStatus" property="deletestatus" jdbcType="BIT" />
+    <result column="gold_admin_time" property="goldAdminTime" jdbcType="TIMESTAMP" />
+    <result column="gold_count" property="goldCount" jdbcType="INTEGER" />
+    <result column="gold_money" property="goldMoney" jdbcType="INTEGER" />
+    <result column="gold_pay_status" property="goldPayStatus" jdbcType="INTEGER" />
+    <result column="gold_payment" property="goldPayment" jdbcType="VARCHAR" />
+    <result column="gold_sn" property="goldSn" jdbcType="VARCHAR" />
+    <result column="gold_status" property="goldStatus" jdbcType="INTEGER" />
+    <result column="gold_admin_id" property="goldAdminId" jdbcType="BIGINT" />
+    <result column="gold_user_id" property="goldUserId" jdbcType="BIGINT" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="org.goshop.pay.pojo.GsGoldRecordWithBLOBs" extends="BaseResultMap" >
+    <result column="gold_admin_info" property="goldAdminInfo" jdbcType="LONGVARCHAR" />
+    <result column="gold_exchange_info" property="goldExchangeInfo" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, addTime, deleteStatus, gold_admin_time, gold_count, gold_money, gold_pay_status,
+    gold_payment, gold_sn, gold_status, gold_admin_id, gold_user_id
+  </sql>
+  <sql id="Blob_Column_List" >
+    gold_admin_info, gold_exchange_info
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Long" >
+    select
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from gs_gold_record
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from gs_gold_record
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="org.goshop.pay.pojo.GsGoldRecordWithBLOBs" >
+    <selectKey resultType="java.lang.Long" keyProperty="id" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into gs_gold_record (addTime, deleteStatus, gold_admin_time,
+      gold_count, gold_money, gold_pay_status,
+      gold_payment, gold_sn, gold_status,
+      gold_admin_id, gold_user_id, gold_admin_info,
+      gold_exchange_info)
+    values (#{addtime,jdbcType=TIMESTAMP}, #{deletestatus,jdbcType=BIT}, #{goldAdminTime,jdbcType=TIMESTAMP},
+      #{goldCount,jdbcType=INTEGER}, #{goldMoney,jdbcType=INTEGER}, #{goldPayStatus,jdbcType=INTEGER},
+      #{goldPayment,jdbcType=VARCHAR}, #{goldSn,jdbcType=VARCHAR}, #{goldStatus,jdbcType=INTEGER},
+      #{goldAdminId,jdbcType=BIGINT}, #{goldUserId,jdbcType=BIGINT}, #{goldAdminInfo,jdbcType=LONGVARCHAR},
+      #{goldExchangeInfo,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="org.goshop.pay.pojo.GsGoldRecordWithBLOBs" >
+    <selectKey resultType="java.lang.Long" keyProperty="id" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into gs_gold_record
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="addtime != null" >
+        addTime,
+      </if>
+      <if test="deletestatus != null" >
+        deleteStatus,
+      </if>
+      <if test="goldAdminTime != null" >
+        gold_admin_time,
+      </if>
+      <if test="goldCount != null" >
+        gold_count,
+      </if>
+      <if test="goldMoney != null" >
+        gold_money,
+      </if>
+      <if test="goldPayStatus != null" >
+        gold_pay_status,
+      </if>
+      <if test="goldPayment != null" >
+        gold_payment,
+      </if>
+      <if test="goldSn != null" >
+        gold_sn,
+      </if>
+      <if test="goldStatus != null" >
+        gold_status,
+      </if>
+      <if test="goldAdminId != null" >
+        gold_admin_id,
+      </if>
+      <if test="goldUserId != null" >
+        gold_user_id,
+      </if>
+      <if test="goldAdminInfo != null" >
+        gold_admin_info,
+      </if>
+      <if test="goldExchangeInfo != null" >
+        gold_exchange_info,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="addtime != null" >
+        #{addtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="deletestatus != null" >
+        #{deletestatus,jdbcType=BIT},
+      </if>
+      <if test="goldAdminTime != null" >
+        #{goldAdminTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="goldCount != null" >
+        #{goldCount,jdbcType=INTEGER},
+      </if>
+      <if test="goldMoney != null" >
+        #{goldMoney,jdbcType=INTEGER},
+      </if>
+      <if test="goldPayStatus != null" >
+        #{goldPayStatus,jdbcType=INTEGER},
+      </if>
+      <if test="goldPayment != null" >
+        #{goldPayment,jdbcType=VARCHAR},
+      </if>
+      <if test="goldSn != null" >
+        #{goldSn,jdbcType=VARCHAR},
+      </if>
+      <if test="goldStatus != null" >
+        #{goldStatus,jdbcType=INTEGER},
+      </if>
+      <if test="goldAdminId != null" >
+        #{goldAdminId,jdbcType=BIGINT},
+      </if>
+      <if test="goldUserId != null" >
+        #{goldUserId,jdbcType=BIGINT},
+      </if>
+      <if test="goldAdminInfo != null" >
+        #{goldAdminInfo,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="goldExchangeInfo != null" >
+        #{goldExchangeInfo,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="org.goshop.pay.pojo.GsGoldRecordWithBLOBs" >
+    update gs_gold_record
+    <set >
+      <if test="addtime != null" >
+        addTime = #{addtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="deletestatus != null" >
+        deleteStatus = #{deletestatus,jdbcType=BIT},
+      </if>
+      <if test="goldAdminTime != null" >
+        gold_admin_time = #{goldAdminTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="goldCount != null" >
+        gold_count = #{goldCount,jdbcType=INTEGER},
+      </if>
+      <if test="goldMoney != null" >
+        gold_money = #{goldMoney,jdbcType=INTEGER},
+      </if>
+      <if test="goldPayStatus != null" >
+        gold_pay_status = #{goldPayStatus,jdbcType=INTEGER},
+      </if>
+      <if test="goldPayment != null" >
+        gold_payment = #{goldPayment,jdbcType=VARCHAR},
+      </if>
+      <if test="goldSn != null" >
+        gold_sn = #{goldSn,jdbcType=VARCHAR},
+      </if>
+      <if test="goldStatus != null" >
+        gold_status = #{goldStatus,jdbcType=INTEGER},
+      </if>
+      <if test="goldAdminId != null" >
+        gold_admin_id = #{goldAdminId,jdbcType=BIGINT},
+      </if>
+      <if test="goldUserId != null" >
+        gold_user_id = #{goldUserId,jdbcType=BIGINT},
+      </if>
+      <if test="goldAdminInfo != null" >
+        gold_admin_info = #{goldAdminInfo,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="goldExchangeInfo != null" >
+        gold_exchange_info = #{goldExchangeInfo,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="org.goshop.pay.pojo.GsGoldRecordWithBLOBs" >
+    update gs_gold_record
+    set addTime = #{addtime,jdbcType=TIMESTAMP},
+      deleteStatus = #{deletestatus,jdbcType=BIT},
+      gold_admin_time = #{goldAdminTime,jdbcType=TIMESTAMP},
+      gold_count = #{goldCount,jdbcType=INTEGER},
+      gold_money = #{goldMoney,jdbcType=INTEGER},
+      gold_pay_status = #{goldPayStatus,jdbcType=INTEGER},
+      gold_payment = #{goldPayment,jdbcType=VARCHAR},
+      gold_sn = #{goldSn,jdbcType=VARCHAR},
+      gold_status = #{goldStatus,jdbcType=INTEGER},
+      gold_admin_id = #{goldAdminId,jdbcType=BIGINT},
+      gold_user_id = #{goldUserId,jdbcType=BIGINT},
+      gold_admin_info = #{goldAdminInfo,jdbcType=LONGVARCHAR},
+      gold_exchange_info = #{goldExchangeInfo,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="org.goshop.pay.pojo.GsGoldRecord" >
+    update gs_gold_record
+    set addTime = #{addtime,jdbcType=TIMESTAMP},
+      deleteStatus = #{deletestatus,jdbcType=BIT},
+      gold_admin_time = #{goldAdminTime,jdbcType=TIMESTAMP},
+      gold_count = #{goldCount,jdbcType=INTEGER},
+      gold_money = #{goldMoney,jdbcType=INTEGER},
+      gold_pay_status = #{goldPayStatus,jdbcType=INTEGER},
+      gold_payment = #{goldPayment,jdbcType=VARCHAR},
+      gold_sn = #{goldSn,jdbcType=VARCHAR},
+      gold_status = #{goldStatus,jdbcType=INTEGER},
+      gold_admin_id = #{goldAdminId,jdbcType=BIGINT},
+      gold_user_id = #{goldUserId,jdbcType=BIGINT}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

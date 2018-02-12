@@ -55,7 +55,7 @@ public class RemovehostAttachmentImpl implements AttachmentService {
     @Override
     public String upload(String path, String name) throws IOException {
         File file = new File(path);
-        postFile(remotePath+"upload",file,name);
+        postFile(remotePath+"/store",file,name);
         return null;
     }
 
@@ -97,7 +97,7 @@ public class RemovehostAttachmentImpl implements AttachmentService {
     @Override
     public double foldSize(String path) {
         try {
-            String result = doGet(remotePath+"folder_size?path="+path);
+            String result = doGet(remotePath+"/folder_size?path="+path);
             return Double.parseDouble(result);
         } catch (URISyntaxException e) {
             e.printStackTrace();
@@ -110,7 +110,7 @@ public class RemovehostAttachmentImpl implements AttachmentService {
     @Override
     public void deleteFile(String path) {
         try {
-            doGet(remotePath+"file_delete?"+path);
+            doGet(remotePath+"/file_delete?"+path);
         } catch (URISyntaxException e) {
             e.printStackTrace();
         } catch (IOException e) {
@@ -270,42 +270,38 @@ public class RemovehostAttachmentImpl implements AttachmentService {
      *
      */
     public void postFile(String url ,File file,String name) throws ParseException, IOException {
+        // 把一个普通参数和文件上传给下面这个地址 是一个servlet
+        HttpPost httpPost = new HttpPost(url);
+
+        FileBody f_body = new FileBody(file);
+        StringBody s_body = new StringBody(name, ContentType.TEXT_PLAIN);
+        /*StringBody uploadFileName = new StringBody("my.png",
+                ContentType.create("text/plain", Consts.UTF_8));*/
+        // 以浏览器兼容模式运行，防止文件名乱码。
+        HttpEntity reqEntity = MultipartEntityBuilder.create()
+                .setMode(HttpMultipartMode.BROWSER_COMPATIBLE)
+                .addPart("uploadFile", f_body) // uploadFile对应服务端类的同名属性<File类型>
+                .addPart("uploadFileName", s_body)// uploadFileName对应服务端类的同名属性<String类型>
+                .setCharset(CharsetUtils.get("UTF-8")).build();
+
+        httpPost.setEntity(reqEntity);
+
+        // 设置请求参数
+        httpPost.setConfig(this.requestConfig);
+
+        // 请求的结果
+        CloseableHttpResponse response = null;
         try {
-            // 把一个普通参数和文件上传给下面这个地址 是一个servlet
-            HttpPost httpPost = new HttpPost(url);
-
-            FileBody f_body = new FileBody(file);
-            StringBody s_body = new StringBody(name, ContentType.TEXT_PLAIN);
-            /*StringBody uploadFileName = new StringBody("my.png",
-                    ContentType.create("text/plain", Consts.UTF_8));*/
-            // 以浏览器兼容模式运行，防止文件名乱码。
-            HttpEntity reqEntity = MultipartEntityBuilder.create()
-                    .setMode(HttpMultipartMode.BROWSER_COMPATIBLE)
-                    .addPart("uploadFile", f_body) // uploadFile对应服务端类的同名属性<File类型>
-                    .addPart("uploadFileName", s_body)// uploadFileName对应服务端类的同名属性<String类型>
-                    .setCharset(CharsetUtils.get("UTF-8")).build();
-
-            httpPost.setEntity(reqEntity);
-
-            // 设置请求参数
-            httpPost.setConfig(this.requestConfig);
-
-            // 请求的结果
-            CloseableHttpResponse response = null;
-            try {
-                // 执行请求
-                response = httpClient.execute(httpPost);
-                // 判断返回状态是否为200
-                if (response.getStatusLine().getStatusCode() == 200) {
-                    // 获取服务端返回的数据,并返回
-                }
-            } finally {
-                if (response != null) {
-                    response.close();
-                }
+            // 执行请求
+            response = httpClient.execute(httpPost);
+            // 判断返回状态是否为200
+            if (response.getStatusLine().getStatusCode() == 200) {
+                // 获取服务端返回的数据,并返回
             }
         } finally {
-            httpClient.close();
+            if (response != null) {
+                response.close();
+            }
         }
     }
 

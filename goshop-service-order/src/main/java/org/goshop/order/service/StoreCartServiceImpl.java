@@ -33,4 +33,26 @@ public class StoreCartServiceImpl implements StoreCartService {
         gsGoodsCartMapper.deleteByStorecartId(id);
         return gsStoreCartMapper.deleteByPrimaryKey(id);
     }
+
+    @Override
+    public List<GsStoreCart> findByCondition(Map condition) {
+        return readGsStoreCartMapper.selectByCondition(condition);
+    }
+
+    @Override
+    public int save(GsStoreCart cart) {
+        if(cart.getDeletestatus()==null)
+            cart.setDeletestatus(false);
+        return gsStoreCartMapper.insert(cart);
+    }
+
+    @Override
+    public int update(GsStoreCart cart) {
+        return gsStoreCartMapper.insertSelective(cart);
+    }
+
+    @Override
+    public GsStoreCart findOne(Long id) {
+        return readGsStoreCartMapper.selectByPrimaryKey(id);
+    }
 }

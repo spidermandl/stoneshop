@@ -4,6 +4,7 @@
 function goods_photo_set(obj){
   var src=jQuery(obj).attr("src");
   var image_id=jQuery(obj).attr("image_id");
+    alert(image_id);
 	if(photo_count==0){
 		 jQuery("#goods_image_0").attr("src",src).attr("image_id",image_id);
 	}
@@ -16,8 +17,8 @@ function goods_photo_set(obj){
   <#list photos! as photo>
   <li>
       <a href="javascript:void(0);" onclick="goods_photo_set(this);" image_id="${(photo.id)!}"
-         src="${S_URL}/${(photo.path)!}/${(photo.name)!}">
-        <img src="${S_URL}/${(photo.path)!}/${(photo.name)!}_small.${(photo.ext)!}" width="90" height="90" />
+         src="${RES_URL}/${(photo.path)!}/${(photo.name)!}">
+        <img src="${RES_URL}/${(photo.path)!}/${(photo.name)!}_small.${(photo.ext)!}" width="90" height="90" />
       </a>
   </li>
   </#list>

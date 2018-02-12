@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="org.goshop.order.mapper.master.GsCouponMapper" >
+  <resultMap id="BaseResultMap" type="org.goshop.order.pojo.GsCoupon" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="addTime" property="addtime" jdbcType="TIMESTAMP" />
+    <result column="deleteStatus" property="deletestatus" jdbcType="BIT" />
+    <result column="coupon_amount" property="couponAmount" jdbcType="DECIMAL" />
+    <result column="coupon_begin_time" property="couponBeginTime" jdbcType="DATE" />
+    <result column="coupon_count" property="couponCount" jdbcType="INTEGER" />
+    <result column="coupon_end_time" property="couponEndTime" jdbcType="DATE" />
+    <result column="coupon_name" property="couponName" jdbcType="VARCHAR" />
+    <result column="coupon_order_amount" property="couponOrderAmount" jdbcType="DECIMAL" />
+    <result column="coupon_acc_id" property="couponAccId" jdbcType="BIGINT" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, addTime, deleteStatus, coupon_amount, coupon_begin_time, coupon_count, coupon_end_time,
+    coupon_name, coupon_order_amount, coupon_acc_id
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select
+    <include refid="Base_Column_List" />
+    from gs_coupon
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from gs_coupon
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="org.goshop.order.pojo.GsCoupon" >
+    <selectKey resultType="java.lang.Long" keyProperty="id" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into gs_coupon (addTime, deleteStatus, coupon_amount,
+      coupon_begin_time, coupon_count, coupon_end_time,
+      coupon_name, coupon_order_amount, coupon_acc_id
+      )
+    values (#{addtime,jdbcType=TIMESTAMP}, #{deletestatus,jdbcType=BIT}, #{couponAmount,jdbcType=DECIMAL},
+      #{couponBeginTime,jdbcType=DATE}, #{couponCount,jdbcType=INTEGER}, #{couponEndTime,jdbcType=DATE},
+      #{couponName,jdbcType=VARCHAR}, #{couponOrderAmount,jdbcType=DECIMAL}, #{couponAccId,jdbcType=BIGINT}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="org.goshop.order.pojo.GsCoupon" >
+    <selectKey resultType="java.lang.Long" keyProperty="id" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into gs_coupon
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="addtime != null" >
+        addTime,
+      </if>
+      <if test="deletestatus != null" >
+        deleteStatus,
+      </if>
+      <if test="couponAmount != null" >
+        coupon_amount,
+      </if>
+      <if test="couponBeginTime != null" >
+        coupon_begin_time,
+      </if>
+      <if test="couponCount != null" >
+        coupon_count,
+      </if>
+      <if test="couponEndTime != null" >
+        coupon_end_time,
+      </if>
+      <if test="couponName != null" >
+        coupon_name,
+      </if>
+      <if test="couponOrderAmount != null" >
+        coupon_order_amount,
+      </if>
+      <if test="couponAccId != null" >
+        coupon_acc_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="addtime != null" >
+        #{addtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="deletestatus != null" >
+        #{deletestatus,jdbcType=BIT},
+      </if>
+      <if test="couponAmount != null" >
+        #{couponAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="couponBeginTime != null" >
+        #{couponBeginTime,jdbcType=DATE},
+      </if>
+      <if test="couponCount != null" >
+        #{couponCount,jdbcType=INTEGER},
+      </if>
+      <if test="couponEndTime != null" >
+        #{couponEndTime,jdbcType=DATE},
+      </if>
+      <if test="couponName != null" >
+        #{couponName,jdbcType=VARCHAR},
+      </if>
+      <if test="couponOrderAmount != null" >
+        #{couponOrderAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="couponAccId != null" >
+        #{couponAccId,jdbcType=BIGINT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="org.goshop.order.pojo.GsCoupon" >
+    update gs_coupon
+    <set >
+      <if test="addtime != null" >
+        addTime = #{addtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="deletestatus != null" >
+        deleteStatus = #{deletestatus,jdbcType=BIT},
+      </if>
+      <if test="couponAmount != null" >
+        coupon_amount = #{couponAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="couponBeginTime != null" >
+        coupon_begin_time = #{couponBeginTime,jdbcType=DATE},
+      </if>
+      <if test="couponCount != null" >
+        coupon_count = #{couponCount,jdbcType=INTEGER},
+      </if>
+      <if test="couponEndTime != null" >
+        coupon_end_time = #{couponEndTime,jdbcType=DATE},
+      </if>
+      <if test="couponName != null" >
+        coupon_name = #{couponName,jdbcType=VARCHAR},
+      </if>
+      <if test="couponOrderAmount != null" >
+        coupon_order_amount = #{couponOrderAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="couponAccId != null" >
+        coupon_acc_id = #{couponAccId,jdbcType=BIGINT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="org.goshop.order.pojo.GsCoupon" >
+    update gs_coupon
+    set addTime = #{addtime,jdbcType=TIMESTAMP},
+      deleteStatus = #{deletestatus,jdbcType=BIT},
+      coupon_amount = #{couponAmount,jdbcType=DECIMAL},
+      coupon_begin_time = #{couponBeginTime,jdbcType=DATE},
+      coupon_count = #{couponCount,jdbcType=INTEGER},
+      coupon_end_time = #{couponEndTime,jdbcType=DATE},
+      coupon_name = #{couponName,jdbcType=VARCHAR},
+      coupon_order_amount = #{couponOrderAmount,jdbcType=DECIMAL},
+      coupon_acc_id = #{couponAccId,jdbcType=BIGINT}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

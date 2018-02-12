@@ -11,11 +11,12 @@
 	<!-- 加载配置文件 -->
 	<context:property-placeholder  ignore-resource-not-found="true"
 								   location="classpath:common.properties,
-								   classpath:resource/*.properties,
-								   classpath:system.properties,
-                                  file:/usr/web_home/manage/resource/*.properties" />
+											 classpath:resource/*.properties,
+											 classpath:system.properties,
+                                  			 file:/usr/web_home/manage/resource/*.properties"
+								   file-encoding="UTF-8"/>
 
-	<!-- 扫描包加载Service实现类-->
+	<!-- 扫描包加载Service实现类 -->
 	<context:component-scan base-package="org.goshop.*.service,org.goshop.*.context" />
 
 <!--	<import resource="classpath:spring/applicationContext-jedis.xml" />

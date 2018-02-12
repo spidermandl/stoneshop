@@ -34,9 +34,11 @@ abstract public class BaseController {
      */
     protected void reCapsuleModel(Model model, HttpServletRequest request, HttpServletResponse response){
         User user = (User) SecurityUtils.getSubject().getPrincipal();
-        model.addAttribute("user",user);
+        if (user!=null) {
+            model.addAttribute("user", user);
 //        (User)request.getAttribute(Constants.CURRENT_USER);
-        model.addAttribute("user_id", user.getId());
+            model.addAttribute("user_id", user.getId());
+        }
         model.addAttribute("config",systemConfigService.getConfig());
         model.addAttribute("CommUtil",new CommUtil());
         model.addAttribute("httpInclude", new HttpInclude(request, response));

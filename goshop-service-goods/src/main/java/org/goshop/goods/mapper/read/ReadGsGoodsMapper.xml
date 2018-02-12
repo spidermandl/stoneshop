@@ -88,6 +88,12 @@
     from gs_goods
     where id = #{id,jdbcType=BIGINT}
   </select>
+  <select id="selectSingleColumnById" resultType="java.lang.String">
+    select
+    #{name}
+    from gs_goods
+    where id = #{id,jdbcType=BIGINT}
+  </select>
   <select id="findGoodsByMainPhoto" parameterType="java.lang.Long" resultMap="ResultMapWithBLOBs">
     select
     <include refid="Base_Column_List" />
@@ -183,8 +189,8 @@
       </if>
       <if test="goods_type_ids !=null">
         and left join gs_goods_class class ON
-          gc_id = class.id  (
-          WHERE class.goods_type_id IN
+        (gc_id = class.id
+          and class.goods_type_id IN
             <foreach collection="goods_type_ids" index="index" item="item" open="(" separator="," close=")">
               #{item}
             </foreach>
@@ -193,6 +199,9 @@
     </where>
     <if test="orderBy !=null">
     order BY #{orderBy} #{orderType}
+    </if>
+    <if test="limit_down !=null">
+      limit #{limit_down},#{limit_up}
     </if>
   </select>
 
