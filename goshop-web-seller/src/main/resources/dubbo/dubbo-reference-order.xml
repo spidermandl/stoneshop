@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://code.alibabatech.com/schema/dubbo
+        http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
+
+    <!-- 声明远程服务接口 -->
+    <dubbo:reference id="goodsCartService"
+                     interface="org.goshop.order.i.GoodsCartService" check="false" />
+    <dubbo:reference id="storeCartService"
+                     interface="org.goshop.order.i.StoreCartService" check="false" />
+    <dubbo:reference id="orderFormService"
+                     interface="org.goshop.order.i.OrderFormService" check="false" />
+    <dubbo:reference id="orderAddressService"
+                     interface="org.goshop.order.i.OrderAddressService" check="false" />
+    <dubbo:reference id="orderFormLogService"
+                     interface="org.goshop.order.i.OrderFormLogService" check="false" />
+    <dubbo:reference id="couponService"
+                     interface="org.goshop.order.i.CouponService" check="false" />
+    <dubbo:reference id="integralGoodsOrderService"
+                     interface="org.goshop.order.i.IntegralGoodsOrderService" check="false" />
+</beans>
