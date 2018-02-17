@@ -40,7 +40,7 @@ public class GoodsClassServiceImpl implements GoodsClassService {
     public int save(GsGoodsClassWithBLOBs goodsClass) {
         if (goodsClass.getDeletestatus()==null)
             goodsClass.setDeletestatus(false);
-        return gsGoodsClassMapper.insert(goodsClass);
+        return gsGoodsClassMapper.insertSelective(goodsClass);
     }
 
     @Override

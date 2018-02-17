@@ -58,10 +58,10 @@ function query_price(){
   ${httpInclude.include("/store_head?store_id=${(store.storeId)!}")}
   <#assign banner="${S_URL}/static/images/shop/${(store.template)!}/images/banner.jpg" />
   <#if (store.banner)!??>
-    <#assign banner="${S_URL}/${(store.banner.path)!}/${(store.banner.name)!}" />
+    <#assign banner="${RES_URL}/${(store.banner.path)!}/${(store.banner.name)!}" />
   </#if>
   <div class="banner_width">
-      <div class="shopbanner"><img src="${RES_URL}${banner!}"  width="1200px" /></div>
+      <div class="shopbanner"><img src="${banner!}"  width="1200px" /></div>
   </div>
   <div class="nav_width">
       <div class="main">

@@ -20,6 +20,6 @@ public class OrderFormLogServiceImpl implements OrderFormLogService{
     public int save(GsOrderLog log) {
         if (log.getDeletestatus()==null)
             log.setDeletestatus(false);
-        return gsOrderLogMapper.insert(log);
+        return gsOrderLogMapper.insertSelective(log);
     }
 }

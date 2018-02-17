@@ -39,7 +39,7 @@ public class StoreNavigationServiceImpl implements StoreNavigationService {
     public long save(GsStoreNav nav) {
         if (nav.getDeletestatus()==null)
             nav.setDeletestatus(false);
-        gsStoreNavMapper.insert(nav);
+        gsStoreNavMapper.insertSelective(nav);
         return nav.getId();
     }
 

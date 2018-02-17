@@ -58,7 +58,7 @@ public class StoreJoinServiceImpl implements StoreJoinService {
         storeJoin.setMemberId(user.getId());
         if (userStoreJoin == null) {
             storeJoin.setMemberName(user.getLoginName());
-            storeJoinMapper.insert(storeJoin);
+            storeJoinMapper.insertSelective(storeJoin);
         } else {
             storeJoinMapper.updateByPrimaryKeySelective(storeJoin);
         }
@@ -180,7 +180,7 @@ public class StoreJoinServiceImpl implements StoreJoinService {
     @Override
     public int paySave(StoreJoin storeJoin) {
         storeJoin.setJoininState(storeJoinMapper.JOIN_STATIC_PAY);
-        return storeJoinMapper.updateByPrimaryKey(storeJoin);
+        return storeJoinMapper.updateByPrimaryKeySelective(storeJoin);
     }
 
     private StoreJoin getCurrentUserStoreJoin(Long userId) {
@@ -218,7 +218,7 @@ public class StoreJoinServiceImpl implements StoreJoinService {
                 storeJoin.setJoininState(storeJoinMapper.JOIN_STATIC_PAY_NO);
             }
         }
-        storeJoinMapper.updateByPrimaryKey(storeJoin);
+        storeJoinMapper.updateByPrimaryKeySelective(storeJoin);
         if(isStore){
             try {
                 storeService.openStore(storeJoin);

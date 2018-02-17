@@ -36,11 +36,16 @@ public class OrderFormServiceImpl implements OrderFormService{
     public int save(GsOrderformWithBLOBs form) {
         if (form.getDeletestatus()==null)
             form.setDeletestatus(false);
-        return gsOrderformMapper.insert(form);
+        return gsOrderformMapper.insertSelective(form);
     }
 
     @Override
     public int update(GsOrderformWithBLOBs form) {
         return gsOrderformMapper.insertSelective(form);
+    }
+
+    @Override
+    public int delete(Long id) {
+        return gsOrderformMapper.deleteByPrimaryKey(id);
     }
 }

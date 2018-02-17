@@ -40,15 +40,16 @@ public class StoreCartServiceImpl implements StoreCartService {
     }
 
     @Override
-    public int save(GsStoreCart cart) {
+    public Long save(GsStoreCart cart) {
         if(cart.getDeletestatus()==null)
             cart.setDeletestatus(false);
-        return gsStoreCartMapper.insert(cart);
+        gsStoreCartMapper.insertSelective(cart);
+        return cart.getId();
     }
 
     @Override
     public int update(GsStoreCart cart) {
-        return gsStoreCartMapper.insertSelective(cart);
+        return gsStoreCartMapper.updateByPrimaryKeySelective(cart);
     }
 
     @Override

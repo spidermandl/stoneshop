@@ -1,10 +1,12 @@
 package org.goshop.seller.controller;
 
+import org.apache.shiro.SecurityUtils;
 import org.goshop.assets.i.AccessoryService;
 import org.goshop.assets.pojo.GsAccessory;
 import org.goshop.common.service.AttachmentService;
 import org.goshop.common.service.SystemConfigService;
 import org.goshop.common.web.utils.CommUtil;
+import org.goshop.common.web.utils.HttpInclude;
 import org.goshop.common.web.utils.WebForm;
 import org.goshop.shiro.bind.annotation.CurrentUser;
 import org.goshop.store.i.StoreAreaService;
@@ -23,6 +25,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.IOException;
 import java.math.BigDecimal;
@@ -54,6 +57,22 @@ public class StoreController{
 
     @Autowired
     AreaViewTools areaViewTools;
+
+//    /**
+//     * 我的店铺
+//     * @return
+//     */
+//    @RequestMapping({"/store_me"})
+//    public void me(HttpServletRequest request,
+//                     HttpServletResponse response,
+//                     String id){
+//        User user = (User) SecurityUtils.getSubject().getPrincipal();
+//        Store store = this.storeJoinService.getCurrentStore(user);
+//        if (store ==null) {
+//            HttpInclude include = new HttpInclude(request,response);
+//        }
+//        return "redirect:/store?id="+store.getStoreId();
+//    }
 
     /**
      * 店铺设置

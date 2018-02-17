@@ -11,6 +11,9 @@ import org.goshop.common.pojo.ResponseStatus;
 import org.goshop.common.service.AttachmentService;
 import org.goshop.common.utils.StringUtils;
 import org.goshop.common.web.utils.WebForm;
+import org.goshop.order.i.GoodsCartService;
+import org.goshop.order.i.OrderFormService;
+import org.goshop.order.pojo.GsGoodsCart;
 import org.goshop.store.i.StoreService;
 import org.goshop.goods.pojo.GsTransport;
 import org.goshop.common.service.SystemConfigService;
@@ -55,51 +58,42 @@ public class GoodsController {
 
     @Autowired
     GoodsClassStapleService goodsClassStapleService;
-
     @Autowired
     GoodsClassService goodsClassService;
-
     @Autowired
     GoodsCommonService goodsCommonService;
-
     @Autowired
     StoreJoinService storeJoinService;
-
     @Autowired
     AccessoryService accessoryService;
-
     @Autowired
     GoodsUserClassService goodsUserClassService;
-
     @Autowired
     GoodsService goodsService;
-
     @Autowired
     AlbumService albumService;
-
     @Autowired
     SystemConfigService systemConfigService;
-
     @Autowired
     TransportService transportService;
-
     @Autowired
     GoodsBrandService goodsBrandService;
-
     @Autowired
     GoodsPropertyService goodsPropertyService;
-
     @Autowired
     GoodsTypeService goodsTypeService;
-
     @Autowired
     StoreService storeService;
-
     @Autowired
     UserService userService;
-
     @Autowired
     AttachmentService attachmentService;
+    @Autowired
+    GoodsCartService goodsCartService;
+    @Autowired
+    OrderFormService orderFormService;
+    @Autowired
+    GoodsEvaluateService goodsEvaluateService;
 
     @Autowired
     StoreTools storeTools;
@@ -320,7 +314,7 @@ public class GoodsController {
         }else{
             ret = "success";
             model.addAttribute("op_title", "商品编辑成功");
-            model.addAttribute("url", CommUtil.getURL(request) + "/goods_" + id + ".htm");
+            model.addAttribute("url", CommUtil.getURL(request) + "/goods?id=" + id);
             GsGoodsWithBLOBs obj = this.goodsService.findOne(Long.valueOf(Long.parseLong(id)));
             goods = (GsGoodsWithBLOBs) wf.toPo(request, obj);
         }
@@ -436,11 +430,12 @@ public class GoodsController {
         /**
          * 物流相关逻辑
          */
-        if (CommUtil.null2Int(transport_type) == 0){
+        if (transport_id==null){
+            goods.setTransportId(null);
+        }else if (CommUtil.null2Int(transport_type) == 0){
             GsTransport trans = this.transportService.findOne(CommUtil.null2Long(transport_id));
             goods.setTransportId(trans.getId());
-        }
-        if (CommUtil.null2Int(transport_type) == 1){
+        }else if (CommUtil.null2Int(transport_type) == 1){
             goods.setTransportId(null);
         }
         /***************** end *********************************/
@@ -521,9 +516,7 @@ public class GoodsController {
                     + "store"
                     + File.separator + store.getStoreId();
             double img_remain_size = store.getStoreGrade().getSgSpaceLimit()
-                    - CommUtil.div(
-                    Double.valueOf(CommUtil.fileSize(new File(path))),
-                    Integer.valueOf(1024));
+                    - CommUtil.div(Double.valueOf(CommUtil.fileSize(new File(path))), Integer.valueOf(1024));
 
             List ugcs = this.goodsUserClassService.findByUserIdAndParentId(user.getId(),null,true);
             PageInfo<GsAccessory> pList = this.accessoryService.findByUserId(user.getId(),1,8);
@@ -557,7 +550,7 @@ public class GoodsController {
         }else{
             ret = "error";
             model.addAttribute("op_title", "您没有该商品信息！");
-            model.addAttribute("url", CommUtil.getURL(request) + "/index.htm");
+            model.addAttribute("url", CommUtil.getURL(request) + "/index");
         }
 
         return "goods/"+ret;
@@ -652,30 +645,17 @@ public class GoodsController {
                 User member = this.userService.findOne(store.getMemberId());
                 if (member.getId().equals(user.getId())){
                     Map map = new HashMap();
-                    map.put("gid", goods.getId());
-//                    List<GoodsCart> goodCarts = this.goodsCartService
-//                            .query("select obj from GoodsCart obj where obj.goods.id = :gid",
-//                                    map, -1, -1);
-//                    Long ofid = null;
-//                    Long of_id;
-//                    for (GoodsCart gc : goodCarts){
-//                        of_id = gc.getOf().getId();
-//                        this.goodsCartService.delete(gc.getId());
-//                        OrderForm of = this.orderFormService.getObjById(of_id);
-//                        if (of.getGcs().size() == 0){
-//                            this.orderFormService.delete(of_id);
-//                        }
-//                    }
-//
-//                    List<Evaluate> evaluates = goods.getEvaluates();
-//                    for (Evaluate e : evaluates){
-//                        this.evaluateService.delete(e.getId());
-//                    }
-//                    goods.getGoodsUgcs().clear();
-//                    goods.getGoods_ugcs().clear();
-//                    goods.getGoods_photos().clear();
-//                    goods.getGoods_ugcs().clear();
-//                    goods.getGoods_specs().clear();
+                    map.put("goods_id", goods.getId());
+                    List<GsGoodsCart> goodCarts = this.goodsCartService.findByCondition(map);
+//                            "select obj from GoodsCart obj where obj.goods.id = :gid",
+
+                    for (GsGoodsCart gc : goodCarts){
+                        Long of_id = gc.getOfId();
+                        this.goodsCartService.delete(gc.getId());
+                        if (this.goodsCartService.isEmptyCart(of_id)){
+                            this.orderFormService.delete(of_id);
+                        }
+                    }
                     this.goodsService.delete(goods.getId());
 //
 //                    String goods_lucene_path = (new StringBuilder(String.valueOf(System.getProperty("wemall.root")))).append(File.separator).append("lucene").append(File.separator).append("goods").toString();
@@ -708,7 +688,6 @@ public class GoodsController {
         String ret = "goods_inventory";
         String[] spec_ids = goods_spec_ids.split(",");
         List<GsGoodsSpecProperty> gsps = new ArrayList();
-        // GoodsSpecProperty gsp;
         for (String spec_id : spec_ids){
             if (!spec_id.equals("")){
                 GsGoodsSpecProperty gsp = this.goodsPropertyService.findOne(Long.valueOf(Long.parseLong(spec_id)));

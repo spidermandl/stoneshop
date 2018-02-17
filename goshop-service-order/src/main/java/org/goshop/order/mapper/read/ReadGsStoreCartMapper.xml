@@ -79,10 +79,10 @@
       <if test="cart_session_id != null and user_id!=null">
         (cart_session_id = #{cart_session_id} or user_id = #{user_id})
       </if>
-      <if test="cart_session_id != null and user_id = null">
+      <if test="cart_session_id != null and user_id == null">
         cart_session_id = #{cart_session_id}
       </if>
-      <if test="user_id != null and cart_session_id = null">
+      <if test="user_id != null and cart_session_id == null">
         user_id = #{user_id}
       </if>
       <if test="sc_status != null">

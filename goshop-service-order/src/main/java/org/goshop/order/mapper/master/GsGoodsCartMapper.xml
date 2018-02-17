@@ -21,11 +21,11 @@
   <sql id="Blob_Column_List" >
     spec_info
   </sql>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+  <delete id="deleteByStorecartId" parameterType="java.lang.Long" >
     delete from gs_goods_cart
     where sc_id = #{scId,jdbcType=BIGINT}
   </delete>
-  <delete id="deleteByStoreCardId" parameterType="java.lang.Long" >
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
     delete from gs_goods_cart
     where id = #{id,jdbcType=BIGINT}
   </delete>

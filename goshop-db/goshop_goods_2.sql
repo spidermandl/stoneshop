@@ -11,7 +11,7 @@
  Target Server Version : 50716
  File Encoding         : utf-8
 
- Date: 01/05/2018 02:20:51 AM
+ Date: 02/16/2018 14:33:11 PM
 */
 
 SET NAMES utf8mb4;
@@ -25,16 +25,16 @@ CREATE TABLE `gs_goods` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `addTime` datetime DEFAULT NULL,
   `deleteStatus` bit(1) NOT NULL,
-  `goods_click` int(11) NOT NULL,
+  `goods_click` int(11) NOT NULL COMMENT '关注次数',
   `goods_details` longtext,
   `goods_fee` varchar(255) DEFAULT NULL,
   `goods_inventory` int(11) NOT NULL,
   `goods_inventory_detail` longtext,
   `goods_name` varchar(255) DEFAULT NULL,
-  `goods_price` decimal(12,2) DEFAULT NULL,
+  `goods_price` decimal(12,2) DEFAULT NULL COMMENT '商品原价,市场价',
   `goods_property` longtext,
   `goods_recommend` bit(1) NOT NULL,
-  `goods_salenum` int(11) NOT NULL,
+  `goods_salenum` int(11) NOT NULL COMMENT '售出次数',
   `goods_seller_time` datetime DEFAULT NULL,
   `goods_serial` varchar(255) DEFAULT NULL,
   `goods_status` int(11) NOT NULL COMMENT '-2 违规 ; 0 出售中; 1 在仓库; ',
@@ -43,7 +43,7 @@ CREATE TABLE `gs_goods` (
   `inventory_type` varchar(255) DEFAULT NULL,
   `seo_description` longtext,
   `seo_keywords` varchar(255) DEFAULT NULL,
-  `store_price` decimal(12,2) DEFAULT NULL,
+  `store_price` decimal(12,2) DEFAULT NULL COMMENT '商城价',
   `store_recommend` bit(1) NOT NULL,
   `store_recommend_time` datetime DEFAULT NULL,
   `ztc_admin_content` longtext,
@@ -58,16 +58,16 @@ CREATE TABLE `gs_goods` (
   `gc_id` bigint(20) DEFAULT NULL COMMENT 'gs_goods_class表主键',
   `goods_brand_id` bigint(20) DEFAULT NULL COMMENT 'gs_goods_brand表主键',
   `goods_main_photo_id` bigint(20) DEFAULT NULL COMMENT 'goods主照片，gs_accessory表主键',
-  `goods_store_id` bigint(20) DEFAULT NULL,
-  `ztc_admin_id` bigint(20) DEFAULT NULL,
+  `goods_store_id` bigint(20) DEFAULT NULL COMMENT '商店id 表gs_store主键',
+  `ztc_admin_id` bigint(20) DEFAULT NULL COMMENT '所有者id 表gs_user主键',
   `goods_collect` int(11) DEFAULT '0',
   `group_buy` int(11) DEFAULT '0',
   `goods_choice_type` int(11) DEFAULT '0',
-  `group_id` bigint(20) DEFAULT NULL,
+  `group_id` bigint(20) DEFAULT NULL COMMENT 'gs_group表主键',
   `activity_status` int(11) DEFAULT '0',
   `bargain_status` int(11) DEFAULT '0',
   `delivery_status` int(11) DEFAULT '0',
-  `goods_current_price` decimal(12,2) DEFAULT NULL,
+  `goods_current_price` decimal(12,2) DEFAULT NULL COMMENT '商品售价',
   `goods_volume` decimal(12,2) DEFAULT NULL,
   `ems_trans_fee` decimal(12,2) DEFAULT NULL COMMENT 'ems固定运输费用',
   `express_trans_fee` decimal(12,2) DEFAULT NULL COMMENT 'express固定运输费用',
@@ -90,13 +90,13 @@ CREATE TABLE `gs_goods` (
   KEY `FK304F7EE5C292B563` (`ztc_admin_id`),
   KEY `FK304F7EE5493829C3` (`group_id`),
   KEY `FK304F7EE5914F1503` (`transport_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=28 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=29 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 --  Records of `gs_goods`
 -- ----------------------------
 BEGIN;
-INSERT INTO `gs_goods` VALUES ('2', '2017-12-06 16:16:58', b'0', '1', null, null, '1', null, 'aaa', null, null, b'1', '1', null, null, '-2', '1', null, null, null, null, null, b'1', null, null, null, null, '1', '1', '12', '1', '2', '1', null, null, null, '12', null, '0', '0', '0', null, '0', '0', '0', null, null, null, null, null, null, '0', null, null, null, '5', b'0', null, b'0', null), ('4', null, b'0', '0', null, null, '0', null, null, null, null, b'0', '0', null, null, '1', '11', null, null, null, null, null, b'0', null, null, null, null, '0', '0', '0', '0', '0', '0', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null), ('5', null, b'0', '0', null, null, '0', null, null, null, null, b'0', '0', null, null, '1', '11', null, null, null, null, null, b'0', null, null, null, null, '0', '0', '0', '0', '0', '0', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null), ('6', null, b'0', '0', null, null, '0', null, null, null, null, b'0', '0', null, null, '1', '11', null, null, null, null, null, b'0', null, null, null, null, '0', '0', '0', '0', '0', '0', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null), ('7', null, b'0', '0', null, null, '0', null, null, null, null, b'0', '0', null, null, '0', '11', null, null, null, null, null, b'0', null, null, null, null, '0', '0', '0', '0', '0', '0', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null), ('11', '2017-12-09 23:59:54', b'0', '0', 'fggdfgdg', null, '12', null, 'sdasD', '112.00', null, b'1', '0', null, '1234324', '0', '1', '13.00', 'all', 'dfgfdg', 'dfgdfg', '12.00', b'0', null, null, null, null, '0', '0', '0', '0', '0', '0', '164', '4', '426114', '12', null, null, null, '0', null, null, null, null, '12.00', '12.00', null, null, null, null, null, null, null, null, null, null, null, null, null), ('27', '2017-12-12 14:39:23', b'0', '0', 'dsadfasdfasdf', null, '333', null, 'cccc', '190.00', null, b'0', '0', null, '123452342', '1', '0', '33.00', 'all', 'asdfasdf', 'adfasf', '220.00', b'0', null, null, null, null, '0', '0', '0', '0', '0', '0', '506', null, null, '12', null, null, null, '0', null, null, null, null, '220.00', '12.00', null, null, null, null, null, null, null, null, null, null, null, null, null);
+INSERT INTO `gs_goods` VALUES ('2', '2017-12-06 16:16:58', b'0', '1', null, null, '1', null, 'aaa', null, null, b'1', '1', null, null, '-2', '1', null, null, null, null, null, b'1', null, null, null, null, '1', '1', '12', '1', '2', '1', null, null, null, '12', null, '0', '0', '0', null, '0', '0', '0', null, null, null, null, null, null, '0', null, null, null, '5', b'0', null, b'0', null), ('4', null, b'0', '0', null, null, '0', null, null, null, null, b'0', '0', null, null, '1', '11', null, null, null, null, null, b'0', null, null, null, null, '0', '0', '0', '0', '0', '0', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null), ('5', null, b'0', '0', null, null, '0', null, null, null, null, b'0', '0', null, null, '1', '11', null, null, null, null, null, b'0', null, null, null, null, '0', '0', '0', '0', '0', '0', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null), ('6', null, b'0', '0', null, null, '0', null, null, null, null, b'0', '0', null, null, '1', '11', null, null, null, null, null, b'0', null, null, null, null, '0', '0', '0', '0', '0', '0', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null), ('7', null, b'0', '0', null, null, '0', null, null, null, null, b'0', '0', null, null, '0', '11', null, null, null, null, null, b'0', null, null, null, null, '0', '0', '0', '0', '0', '0', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null), ('11', '2017-12-09 23:59:54', b'0', '143', 'fggdfgdg', null, '12', null, 'sdasD', '112.00', null, b'1', '0', null, '1234324', '0', '1', '13.00', 'all', 'dfgfdg', 'dfgdfg', '12.00', b'1', null, null, null, null, '0', '0', '0', '0', '0', '0', '164', '4', '426114', '12', null, null, null, '0', null, null, null, null, '12.00', '12.00', null, null, null, null, null, null, null, null, null, null, null, null, null), ('27', '2017-12-12 14:39:23', b'0', '0', 'dsadfasdfasdf', null, '333', null, 'cccc', '190.00', null, b'0', '0', null, '123452342', '1', '0', '33.00', 'all', 'asdfasdf', 'adfasf', '220.00', b'0', null, null, null, null, '0', '0', '0', '0', '0', '0', '506', null, null, '12', null, null, null, '0', null, null, null, null, '220.00', '12.00', null, null, null, null, null, null, null, null, null, null, null, null, null), ('28', '2018-02-14 22:44:08', b'0', '6', 'dsfadfadsf', null, '333', null, 'aaaa', '222.00', null, b'1', '0', null, '134sfdsa', '0', '1', '44.00', 'all', 'aaaa', 'aaaa', '333.00', b'0', null, null, null, null, '0', '0', '0', '0', '0', '0', '38', null, null, '14', '63', null, null, '0', null, null, null, null, '333.00', '3.00', null, null, null, null, null, null, null, null, null, null, null, null, null);
 COMMIT;
 
 -- ----------------------------
@@ -210,6 +210,85 @@ CREATE TABLE `gs_goods_combin` (
   `combin_goods_id` bigint(20) NOT NULL COMMENT 'gs_goods表主键',
   KEY `FKBA02E2801E09A074` (`goods_id`),
   KEY `FKBA02E280E7269A9C` (`combin_goods_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+--  Table structure for `gs_goods_consult`
+-- ----------------------------
+DROP TABLE IF EXISTS `gs_goods_consult`;
+CREATE TABLE `gs_goods_consult` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `addTime` datetime DEFAULT NULL,
+  `deleteStatus` bit(1) NOT NULL,
+  `consult_content` longtext,
+  `consult_email` varchar(255) DEFAULT NULL,
+  `consult_reply` longtext,
+  `reply` bit(1) NOT NULL,
+  `reply_time` datetime DEFAULT NULL,
+  `consult_user_id` bigint(20) DEFAULT NULL,
+  `goods_id` bigint(20) DEFAULT NULL,
+  `reply_user_id` bigint(20) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `FK86CB3BBB66DC9BFC` (`reply_user_id`),
+  KEY `FK86CB3BBBA995E663` (`goods_id`),
+  KEY `FK86CB3BBBCAAD62FE` (`consult_user_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+--  Table structure for `gs_goods_evaluate`
+-- ----------------------------
+DROP TABLE IF EXISTS `gs_goods_evaluate`;
+CREATE TABLE `gs_goods_evaluate` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `addTime` datetime DEFAULT NULL,
+  `deleteStatus` bit(1) NOT NULL,
+  `evaluate_admin_info` longtext,
+  `evaluate_buyer_val` int(11) NOT NULL,
+  `evaluate_info` longtext,
+  `evaluate_seller_info` longtext,
+  `evaluate_seller_time` datetime DEFAULT NULL,
+  `evaluate_seller_val` int(11) NOT NULL,
+  `evaluate_status` int(11) NOT NULL,
+  `evaluate_type` varchar(255) DEFAULT NULL,
+  `goods_spec` longtext,
+  `evaluate_goods_id` bigint(20) DEFAULT NULL COMMENT '评价商品 gs_goods表id',
+  `evaluate_seller_user_id` bigint(20) DEFAULT NULL COMMENT '卖家 gs_user表id',
+  `evaluate_user_id` bigint(20) DEFAULT NULL COMMENT '用户 gs_user表id',
+  `of_id` bigint(20) DEFAULT NULL COMMENT 'gs_orderform表主键',
+  `description_evaluate` decimal(12,2) DEFAULT NULL,
+  `service_evaluate` decimal(12,2) DEFAULT NULL,
+  `ship_evaluate` decimal(12,2) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `FK7E1866AAAC64FF7` (`evaluate_seller_user_id`),
+  KEY `FK7E1866AA95BC8749` (`evaluate_goods_id`),
+  KEY `FK7E1866AA9D2A16AB` (`evaluate_user_id`),
+  KEY `FK7E1866AA9F21119E` (`of_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='商品评价表';
+
+-- ----------------------------
+--  Table structure for `gs_goods_floor`
+-- ----------------------------
+DROP TABLE IF EXISTS `gs_goods_floor`;
+CREATE TABLE `gs_goods_floor` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `addTime` datetime DEFAULT NULL,
+  `deleteStatus` bit(1) NOT NULL,
+  `gf_css` varchar(255) DEFAULT NULL,
+  `gf_display` bit(1) NOT NULL,
+  `gf_goods_count` int(11) NOT NULL,
+  `gf_level` int(11) NOT NULL,
+  `gf_name` varchar(255) DEFAULT NULL,
+  `gf_sequence` int(11) NOT NULL,
+  `parent_id` bigint(20) DEFAULT NULL,
+  `gf_gc_goods` longtext,
+  `gf_gc_list` longtext,
+  `gf_left_adv` longtext,
+  `gf_list_goods` longtext,
+  `gf_right_adv` longtext,
+  `gf_brand_list` longtext,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `id` (`id`),
+  KEY `FKC4188632E195105D` (`parent_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
@@ -408,6 +487,110 @@ CREATE TABLE `gs_goods_user_class` (
 BEGIN;
 INSERT INTO `gs_goods_user_class` VALUES ('11', '2017-12-01 02:03:32', b'0', 'a1', b'1', '0', '1', null, '65'), ('12', '2017-12-01 02:03:40', b'0', 'a2', b'1', '0', '1', null, '65'), ('13', '2017-12-01 02:03:45', b'0', 'a3', b'1', '0', '1', null, '65'), ('14', '2017-12-01 02:03:52', b'0', 'a4', b'1', '0', '1', null, '65'), ('15', '2017-12-01 02:03:57', b'0', 'a5', b'1', '0', '1', null, '65'), ('16', '2017-12-01 02:04:01', b'0', 'a6', b'1', '0', '1', null, '65'), ('17', '2017-12-01 02:04:07', b'0', 'a7', b'1', '0', '1', null, '65'), ('18', '2017-12-01 02:04:12', b'0', 'a8', b'1', '0', '1', null, '65'), ('19', '2017-12-01 02:04:29', b'0', 'a9', b'1', '0', '1', null, '65'), ('20', '2017-12-01 02:04:44', b'0', 'a10', b'1', '0', '1', null, '65'), ('21', '2017-12-01 02:04:48', b'0', 'a11', b'1', '0', '1', null, '65'), ('22', '2017-12-01 02:04:53', b'0', 'a12', b'1', '0', '1', null, '65'), ('23', '2017-12-01 02:04:57', b'0', 'a13', b'1', '0', '1', null, '65'), ('24', '2017-12-01 02:05:01', b'0', 'a14', b'1', '0', '1', null, '65'), ('25', '2017-12-01 02:05:05', b'0', 'a15', b'1', '0', '1', null, '65'), ('26', '2017-12-01 02:05:09', b'0', 'a16', b'1', '0', '1', null, '65'), ('27', '2017-12-01 02:05:13', b'0', 'a17', b'1', '0', '1', null, '65'), ('28', '2017-12-01 02:05:18', b'0', 'a18', b'1', '0', '1', null, '65'), ('29', '2017-12-01 02:05:23', b'0', 'a19', b'1', '0', '1', null, '65'), ('30', '2017-12-01 02:05:28', b'0', 'a20', b'1', '0', '1', null, '65'), ('31', '2017-12-01 02:05:32', b'0', 'a21', b'1', '0', '1', null, '65'), ('32', '2017-12-01 02:06:01', b'0', 'b1', b'1', '0', '1', '11', '65'), ('33', '2017-12-01 02:06:07', b'0', 'b2', b'1', '0', '1', '11', '65'), ('34', '2017-12-01 02:06:23', b'0', 'b3', b'1', '0', '1', '11', '65'), ('35', '2017-12-01 02:52:14', b'0', 'a24', b'1', '0', '1', null, '65'), ('36', '2017-12-01 02:52:27', b'0', 'a25', b'0', '0', '1', null, '65');
 COMMIT;
+
+-- ----------------------------
+--  Table structure for `gs_group`
+-- ----------------------------
+DROP TABLE IF EXISTS `gs_group`;
+CREATE TABLE `gs_group` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `addTime` datetime DEFAULT NULL,
+  `deleteStatus` bit(1) NOT NULL,
+  `beginTime` datetime DEFAULT NULL,
+  `endTime` datetime DEFAULT NULL,
+  `group_name` varchar(255) DEFAULT NULL,
+  `joinEndTime` datetime DEFAULT NULL,
+  `status` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `id` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+--  Table structure for `gs_group_area`
+-- ----------------------------
+DROP TABLE IF EXISTS `gs_group_area`;
+CREATE TABLE `gs_group_area` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `addTime` datetime DEFAULT NULL,
+  `deleteStatus` bit(1) NOT NULL,
+  `ga_level` int(11) NOT NULL,
+  `ga_name` varchar(255) DEFAULT NULL,
+  `ga_sequence` int(11) NOT NULL,
+  `parent_id` bigint(20) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `id` (`id`),
+  KEY `FK72D6441ED32BF465` (`parent_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+--  Table structure for `gs_group_class`
+-- ----------------------------
+DROP TABLE IF EXISTS `gs_group_class`;
+CREATE TABLE `gs_group_class` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `addTime` datetime DEFAULT NULL,
+  `deleteStatus` bit(1) NOT NULL,
+  `gc_level` int(11) NOT NULL,
+  `gc_name` varchar(255) DEFAULT NULL,
+  `gc_sequence` int(11) NOT NULL,
+  `parent_id` bigint(20) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `id` (`id`),
+  KEY `FKE80BA8071C634840` (`parent_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+--  Table structure for `gs_group_goods`
+-- ----------------------------
+DROP TABLE IF EXISTS `gs_group_goods`;
+CREATE TABLE `gs_group_goods` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `addTime` datetime DEFAULT NULL,
+  `deleteStatus` bit(1) NOT NULL,
+  `gg_audit_time` datetime DEFAULT NULL,
+  `gg_content` longtext,
+  `gg_count` int(11) NOT NULL,
+  `gg_def_count` int(11) NOT NULL,
+  `gg_group_count` int(11) NOT NULL,
+  `gg_max_count` int(11) NOT NULL,
+  `gg_min_count` int(11) NOT NULL,
+  `gg_name` varchar(255) DEFAULT NULL,
+  `gg_price` decimal(12,2) DEFAULT NULL,
+  `gg_rebate` decimal(12,2) DEFAULT NULL,
+  `gg_recommend` int(11) NOT NULL,
+  `gg_recommend_time` datetime DEFAULT NULL,
+  `gg_status` int(11) NOT NULL,
+  `gg_vir_count` int(11) NOT NULL,
+  `gg_ga_id` bigint(20) DEFAULT NULL COMMENT 'gs_group_area表主键',
+  `gg_gc_id` bigint(20) DEFAULT NULL COMMENT 'gs_group_class表主键',
+  `gg_goods_id` bigint(20) DEFAULT NULL COMMENT 'gs_goods表主键',
+  `gg_img_id` bigint(20) DEFAULT NULL COMMENT 'gs_accessory表主键',
+  `group_id` bigint(20) DEFAULT NULL COMMENT 'gs_group表主键',
+  `weixin_shop_recommend` bit(1) DEFAULT b'0',
+  `weixin_shop_recommendTime` date DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `id` (`id`),
+  KEY `FKE84595E5108251` (`gg_img_id`),
+  KEY `FKE84595E55D2DC6AF` (`gg_gc_id`),
+  KEY `FKE84595E5493829C3` (`group_id`),
+  KEY `FKE84595E5E08B86E2` (`gg_goods_id`),
+  KEY `FKE84595E513F58A16` (`gg_ga_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='团购商品';
+
+-- ----------------------------
+--  Table structure for `gs_group_price_range`
+-- ----------------------------
+DROP TABLE IF EXISTS `gs_group_price_range`;
+CREATE TABLE `gs_group_price_range` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `addTime` datetime DEFAULT NULL,
+  `deleteStatus` bit(1) NOT NULL,
+  `gpr_begin` int(11) NOT NULL,
+  `gpr_end` int(11) NOT NULL,
+  `gpr_name` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `id` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 --  Table structure for `gs_trans_area`

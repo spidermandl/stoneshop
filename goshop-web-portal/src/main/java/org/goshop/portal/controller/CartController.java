@@ -66,12 +66,6 @@ public class CartController extends BaseController {
     @Autowired
     private StoreService storeService;
     @Autowired
-    private StoreJoinService storeJoinService;
-    @Autowired
-    private StoreCartService storeCartService;
-    @Autowired
-    private GoodsCartService goodsCartService;
-    @Autowired
     private GoodsPropertyService goodsPropertyService;
     @Autowired
     private GoodsService goodsService;
@@ -109,104 +103,7 @@ public class CartController extends BaseController {
 
     private static Logger logger = LoggerFactory.getLogger(CartController.class);
 
-    private List<GsStoreCart> cart_calc(HttpServletRequest request){
-        List<GsStoreCart> cart = new ArrayList<>();
-        List<GsStoreCart> user_cart = new ArrayList<>();
-        List<GsStoreCart> cookie_cart = new ArrayList<>();
-        User user = (User) SecurityUtils.getSubject().getPrincipal();
-        Store store = user==null?null:this.storeJoinService.getCurrentStore(user);
-        String cart_session_id = "";
-        Map params = new HashMap();
-        Cookie[] cookies = request.getCookies();
-        if (cookies != null){
-            for (Cookie cookie : cookies){
-                if (cookie.getName().equals("cart_session_id")){
-                    cart_session_id = CommUtil.null2String(cookie.getValue());
-                }
-            }
-        }
-        if (user != null){// 买家已登录
-            if (!cart_session_id.equals("")){
-                if (store != null){
-                    params.clear();
-                    params.put("cart_session_id", cart_session_id);
-                    params.put("user_id", user.getId());
-                    params.put("sc_status", Integer.valueOf(0));
-                    params.put("store_id", store.getStoreId());
-                    List<GsStoreCart> store_cookie_cart = this.storeCartService.findByCondition(params);
-//                    "select obj from StoreCart obj where (obj.cart_session_id=:cart_session_id or obj.user.id=:user_id) and obj.sc_status=:sc_status and obj.store.id=:store_id",
-                    for (GsStoreCart sc : store_cookie_cart){
-                        // sc = (StoreCart)localIterator1.next();
-                        for (GsGoodsCart gc : sc.getGcs()){
-                            this.goodsCartService.delete(gc.getId());
-                        }
-                        this.storeCartService.delete(((GsStoreCart) sc).getId());
-                    }
-                }
 
-                params.clear();
-                params.put("cart_session_id", cart_session_id);
-                params.put("sc_status", Integer.valueOf(0));
-                cookie_cart = this.storeCartService.findByCondition(params);
-//                "select obj from StoreCart obj where obj.cart_session_id=:cart_session_id and obj.sc_status=:sc_status",
-
-                params.clear();
-                params.put("user_id", user.getId());
-                params.put("sc_status", Integer.valueOf(0));
-                user_cart = this.storeCartService.findByCondition(params);
-//                        "select obj from StoreCart obj where obj.user.id=:user_id and obj.sc_status=:sc_status"
-
-            }else{
-                params.clear();
-                params.put("user_id", user.getId());
-                params.put("sc_status", Integer.valueOf(0));
-                user_cart = this.storeCartService.findByCondition(params);
-//                        "select obj from StoreCart obj where obj.user.id=:user_id and obj.sc_status=:sc_status"
-            }
-
-        }else if (!cart_session_id.equals("")){// 买家未登录
-            params.clear();
-            params.put("cart_session_id", cart_session_id);
-            params.put("sc_status", Integer.valueOf(0));
-            cookie_cart = this.storeCartService.findByCondition(params);
-//                    "select obj from StoreCart obj where obj.cart_session_id=:cart_session_id and obj.sc_status=:sc_status",
-        }
-
-        // 遍历买家登录状态下的购物车，并将购物车内容添加到cart对象里
-        for (GsStoreCart sc : user_cart){
-            boolean sc_add = true;
-            for (GsStoreCart sc1 : cart){
-                if (sc1.getStoreId().equals(sc.getStoreId())){
-                    sc_add = false;
-                }
-            }
-            if (sc_add){
-                cart.add(sc);
-            }
-        }
-        // 遍历买家未登录状态下的购物车，并将购物车内容添加到cart对象里
-        for (GsStoreCart sc : cookie_cart){
-            boolean sc_add = true;
-            for (GsStoreCart sc1 : cart){
-                if (sc1.getStoreId().equals(sc.getStoreId())){
-                    sc_add = false;
-                    for (GsGoodsCart gc : sc.getGcs()){
-                        gc.setScId(sc.getId());
-                        this.goodsCartService.update(gc);
-                    }
-                    this.storeCartService.delete(sc.getId());
-                }
-            }
-            if (sc_add){
-                cart.add(sc);
-                Map param = new HashMap();
-                param.put("sc_id",sc.getId());
-                sc.setGcs(this.goodsCartService.findByCondition(param));
-            }
-        }
-
-        return cart;
-    }
 
     @RequestMapping({ "/cart_menu_detail" })
     public String cart_menu_detail(Model model,
@@ -215,25 +112,20 @@ public class CartController extends BaseController {
         reCapsuleModel(model,request,response);
         String ret = generateViewURL("cart_menu_detail");
         List<GsStoreCart> cart = cart_calc(request);
-        List<GsGoodsCart> list = new ArrayList<>();
-        if (cart != null){
-            for (GsStoreCart sc : cart){
-                if (sc != null)
-                    list.addAll(sc.getGcs());
-            }
-        }
+        List<GsGoodsCart> list = cart_calc(cart);
+
         float total_price = 0.0F;
         for (GsGoodsCart gc : list){
-            GsGoods goods = this.goodsService.findOne(gc.getGoodsId());
+            String combin_price = this.goodsService.findSingleColumnById(gc.getGoodsId(),"combin_price");
             if (CommUtil.null2String(gc.getCartType()).equals("combin"))
-                total_price = CommUtil.null2Float(goods.getCombinPrice());
+                total_price = CommUtil.null2Float(combin_price);
             else{
                 total_price = CommUtil.null2Float(
                         Double.valueOf(CommUtil.mul(Integer.valueOf(gc.getCount()), gc.getPrice()))) + total_price;
             }
         }
         model.addAttribute("total_price", Float.valueOf(total_price));
-        model.addAttribute("cart", list);
+        model.addAttribute("goods_cart", list);
 
         return ret;
     }
@@ -249,9 +141,12 @@ public class CartController extends BaseController {
      * @param buy_type
      */
     @RequestMapping({ "/add_goods_cart" })
-    public void add_goods_cart(HttpServletRequest request, HttpServletResponse response, String id, String count,
-                               String price, String gsp, String buy_type){
-        String cart_session_id = "";
+    public void add_goods_cart(HttpServletRequest request,
+                               HttpServletResponse response,
+                               String id, String count,
+                               String price, String gsp,
+                               String buy_type){
+        String cart_session_id = "";//未登录状态的记录
         Cookie[] cookies = request.getCookies();
         if (cookies != null){
             for (Cookie cookie : cookies){
@@ -313,7 +208,9 @@ public class CartController extends BaseController {
             sc33.setStoreId(goods.getGoodsStoreId());
             if (type.equals("save")){
                 sc33.setAddtime(new Date());
-                this.storeCartService.save(sc33);
+                sc33.setDeletestatus(false);
+                long store_cart_id = this.storeCartService.save(sc33);
+                sc33.setId(store_cart_id);
             }else{
                 this.storeCartService.update(sc33);
             }
@@ -379,10 +276,9 @@ public class CartController extends BaseController {
             // 再次更新购物车
             if ( type.equals("save")){
                 sc33.setAddtime(new Date());
-                this.storeCartService.save(sc33);
-            }else{
-                this.storeCartService.update(sc33);
             }
+            this.storeCartService.update(sc33);
+            //////////////
             boolean cart_add = true;
             for (GsStoreCart sc1 : cart){
                 if (sc1.getStoreId().equals(sc33.getStoreId())){
@@ -601,12 +497,14 @@ public class CartController extends BaseController {
     public String goods_cart1(Model model,
                                     HttpServletRequest request,
                                     HttpServletResponse response){
+        reCapsuleModel(model,request,response);
         String ret = generateViewURL("goods_cart1");
         String wemall_view_type = CommUtil.null2String(request.getSession().getAttribute("wemall_view_type"));
         if((wemall_view_type != null) && (!wemall_view_type.equals("")) && (wemall_view_type.equals("wap"))){
             ret = generateViewURL("wap/goods_cart1");
         }
         List<GsStoreCart> cart = cart_calc(request);
+        cart_calc(cart);
         if (cart != null){
             User user = (User) SecurityUtils.getSubject().getPrincipal();
             Store store = user==null?null:this.storeJoinService.getCurrentStore(user);
@@ -630,7 +528,7 @@ public class CartController extends BaseController {
                 ret = generateViewURL("wap/error");
             }
             model.addAttribute("op_title", "购物车信息为空");
-            model.addAttribute("url", CommUtil.getURL(request) + "/index.htm");
+            model.addAttribute("url", CommUtil.getURL(request) + "/index");
         }
 
         if (this.systemConfigService.getConfig().getZtc_status()){
@@ -663,12 +561,14 @@ public class CartController extends BaseController {
                               HttpServletRequest request,
                               HttpServletResponse response,
                               String store_id){
+        reCapsuleModel(model,request,response);
         String ret = generateViewURL("goods_cart2");
         String wemall_view_type = CommUtil.null2String(request.getSession().getAttribute("wemall_view_type"));
         if((wemall_view_type != null) && (!wemall_view_type.equals("")) && (wemall_view_type.equals("wap"))){
             ret = generateViewURL("wap/goods_cart2");
         }
         List<GsStoreCart> cart = cart_calc(request);
+        cart_calc(cart);
         GsStoreCart sc = null;
         if (cart != null){
             for (GsStoreCart sc1 : cart){
@@ -747,6 +647,7 @@ public class CartController extends BaseController {
                               HttpServletResponse response,
                               String cart_session, String store_id,
                               String addr_id, String coupon_id) throws Exception {
+        reCapsuleModel(model,request,response);
         String ret = generateViewURL("goods_cart3");
         String wemall_view_type = CommUtil.null2String(request.getSession().getAttribute("wemall_view_type"));
         if((wemall_view_type != null) && (!wemall_view_type.equals("")) && (wemall_view_type.equals("wap"))){
@@ -755,6 +656,7 @@ public class CartController extends BaseController {
         User user = (User) SecurityUtils.getSubject().getPrincipal();
         String cart_session1 = (String) request.getSession(false).getAttribute("cart_session");
         List<GsStoreCart> cart = cart_calc(request);
+        cart_calc(cart);
         if (cart != null){
             if (CommUtil.null2String(cart_session1).equals(cart_session)){
                 request.getSession(false).removeAttribute("cart_session");

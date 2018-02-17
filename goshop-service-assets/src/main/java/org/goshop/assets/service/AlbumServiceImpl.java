@@ -23,7 +23,7 @@ public class AlbumServiceImpl implements AlbumService {
     public Long save(GsAlbum gsAlbum) {
         if(gsAlbum.getDeletestatus()==null)
             gsAlbum.setDeletestatus(false);
-        int ret = gsAlbumMapper.insert(gsAlbum);
+        int ret = gsAlbumMapper.insertSelective(gsAlbum);
         return gsAlbum.getId();
     }
 

@@ -35,7 +35,7 @@ public class StoreGradeServiceImpl implements StoreGradeService {
             return storeGradeMapper.updateByPrimaryKeySelective(storeGrade);
         }
 
-        return storeGradeMapper.insert(storeGrade);
+        return storeGradeMapper.insertSelective(storeGrade);
     }
 
     @Override

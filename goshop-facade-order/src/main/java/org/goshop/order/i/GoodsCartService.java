@@ -29,4 +29,6 @@ public interface GoodsCartService {
 
     int saveCartLinksWithSpecProperty(List<GsCartGsp> cart_gsp);
 
+    boolean isEmptyCart(Long orderId);
+
 }

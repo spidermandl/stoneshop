@@ -18,7 +18,7 @@
     delete from gs_store_cart
     where id = #{id,jdbcType=BIGINT}
   </delete>
-  <insert id="insert" parameterType="org.goshop.order.pojo.GsStoreCart" >
+  <insert id="insert" useGeneratedKeys="true" keyProperty="id" keyColumn="id" parameterType="org.goshop.order.pojo.GsStoreCart" >
     <selectKey resultType="java.lang.Long" keyProperty="id" order="AFTER" >
       SELECT LAST_INSERT_ID()
     </selectKey>
@@ -29,7 +29,7 @@
       #{totalPrice,jdbcType=DECIMAL}, #{storeId,jdbcType=BIGINT}, #{userId,jdbcType=BIGINT},
       #{scStatus,jdbcType=INTEGER})
   </insert>
-  <insert id="insertSelective" parameterType="org.goshop.order.pojo.GsStoreCart" >
+  <insert id="insertSelective" useGeneratedKeys="true" keyProperty="id" keyColumn="id" parameterType="org.goshop.order.pojo.GsStoreCart" >
     <selectKey resultType="java.lang.Long" keyProperty="id" order="AFTER" >
       SELECT LAST_INSERT_ID()
     </selectKey>

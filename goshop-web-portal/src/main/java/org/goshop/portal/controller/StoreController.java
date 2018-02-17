@@ -68,7 +68,7 @@ public class StoreController extends BaseController{
      * @return
      */
     @RequestMapping({"/store_me"})
-    public String me(String id){
+    public String me(){
         User user = (User) SecurityUtils.getSubject().getPrincipal();
         Store store = this.storeJoinService.getCurrentStore(user);
         if (store ==null)

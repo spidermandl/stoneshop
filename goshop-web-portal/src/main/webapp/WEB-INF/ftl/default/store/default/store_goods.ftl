@@ -457,7 +457,7 @@ function ajaxPage(url,currentPage,obj){
                             <h1>店铺信息</h1>
                             <ul>
                                 <li>创店时间：${CommUtil.formatShortDate(store.storeTime)}</li>
-                                <li>所在地区：${areaViewTools.generic_area_info(store.area.id)}</li>
+                                <li>所在地区：${(areaViewTools.generic_area_info(store.area.id))!}</li>
                                 <#assign goods_count=0 />
                                 <#list store.goods_list! as goods_info >
                                     <#if goods_info.goodsStatus==0 >
@@ -657,12 +657,12 @@ function ajaxPage(url,currentPage,obj){
                                 <#if (obj.dg)!??>
                                     <li class="detailstop_ul_li"><span class="detbt">赠品：</span>
                                         <span style="margin-right:10px;width:360px;overflow:hidden;">
-                                            <a href="${S_URL}/goods_${(obj.dg.d_delivery_goods.id)!}" target="_blank">
+                                            <a href="${S_URL}/goods?id=${(obj.dg.d_delivery_goods.id)!}" target="_blank">
                                             ${(obj.dg.d_delivery_goods.goodsName)!}
                                             </a>
                                         </span>
                                         <#if (obj.dg.d_delivery_goods.goods_main_photo)!??>
-                                            <#assign img="${imageWebServer!}/${(obj.dg.d_delivery_goods.goods_main_photo.path)!}/${(obj.dg.d_delivery_goods.goods_main_photo.name)!}_small.${(obj.dg.d_delivery_goods.goods_main_photo.ext)!}" />
+                                            <#assign img="${RES_URL}/${imageWebServer!}/${(obj.dg.d_delivery_goods.goods_main_photo.path)!}/${(obj.dg.d_delivery_goods.goods_main_photo.name)!}_small.${(obj.dg.d_delivery_goods.goods_main_photo.ext)!}" />
                                         <#else>
                                             <#assign img="${imageWebServer!}/${(config.goodsImage.path)!}/${(config.goodsImage.name)!}" />
                                         </#if>
@@ -895,7 +895,7 @@ function ajaxPage(url,currentPage,obj){
                                 <ul>
                                     <li class="goodsimgs">
                                         <span class="goods_sp_span">
-                                            <p><a href="${S_URL}/goods_${(goods.id)!}">
+                                            <p><a href="${S_URL}/goods?id=${(goods.id)!}">
                                                 <img src="${imageWebServer!}/static/images/common/loader.gif" original="${img!}"
                                                      onerror="this.src='${imageWebServer!}/${(config.goodsImage.path)!}/${(config.goodsImage.name)!}';"
                                                      width="28" height="28"/>

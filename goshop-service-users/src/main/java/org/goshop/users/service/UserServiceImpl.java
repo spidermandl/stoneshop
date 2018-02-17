@@ -154,7 +154,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public long insert(User user) {
-        userMapper.insert(user);
+        userMapper.insertSelective(user);
         return user.getId();
     }
 
@@ -168,7 +168,7 @@ public class UserServiceImpl implements UserService {
         userRole = new UserRole();
         userRole.setuId(user.getId());
         userRole.setrId(role.getId());
-        return userRoleMapper.insert(userRole);
+        return userRoleMapper.insertSelective(userRole);
     }
 
     @Override

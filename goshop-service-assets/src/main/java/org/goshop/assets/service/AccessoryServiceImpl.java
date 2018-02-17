@@ -38,13 +38,13 @@ public class AccessoryServiceImpl implements AccessoryService {
         if(accessory.getDeletestatus()==null) {
             accessory.setDeletestatus(false);
         }
-        gsAccessoryMapper.insert(accessory);
+        gsAccessoryMapper.insertSelective(accessory);
         return  accessory.getId();
     }
 
     @Override
     public int update(GsAccessory accessory) {
-        return gsAccessoryMapper.updateByPrimaryKey(accessory);
+        return gsAccessoryMapper.updateByPrimaryKeySelective(accessory);
     }
 
     @Override

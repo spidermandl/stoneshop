@@ -36,6 +36,10 @@
     delete from gs_goods_evaluate
     where id = #{id,jdbcType=BIGINT}
   </delete>
+  <delete id="deleteByGoodsId" parameterType="java.lang.Long" >
+    delete from gs_goods_evaluate
+    where evaluate_goods_id = #{evaluate_goods_id,jdbcType=BIGINT}
+  </delete>
   <insert id="insert" parameterType="org.goshop.goods.pojo.GsGoodsEvaluateWithBLOBs" >
     <selectKey resultType="java.lang.Long" keyProperty="id" order="AFTER" >
       SELECT LAST_INSERT_ID()

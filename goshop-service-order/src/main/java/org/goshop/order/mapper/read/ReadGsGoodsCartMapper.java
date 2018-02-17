@@ -11,4 +11,5 @@ public interface ReadGsGoodsCartMapper {
 
     List<GsGoodsCart> selectByCondition(Map condition);
 
+    int selectCountByOrderId(Long order_id);
 }

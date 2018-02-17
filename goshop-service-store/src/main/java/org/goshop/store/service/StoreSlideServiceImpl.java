@@ -30,7 +30,7 @@ public class StoreSlideServiceImpl implements StoreSlideService {
     public int save(GsStoreSlide slide) {
         if (slide.getDeletestatus()==null)
             slide.setDeletestatus(false);
-        return gsStoreSlideMapper.insert(slide);
+        return gsStoreSlideMapper.insertSelective(slide);
     }
 
     @Override

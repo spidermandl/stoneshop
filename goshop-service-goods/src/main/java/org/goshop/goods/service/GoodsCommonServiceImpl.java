@@ -14,6 +14,6 @@ public class GoodsCommonServiceImpl implements GoodsCommonService {
 
     @Override
     public int save(GoodsCommonWithBLOBs goodsCommonWithBLOBs) {
-        return goodsCommonMapper.insert(goodsCommonWithBLOBs);
+        return goodsCommonMapper.insertSelective(goodsCommonWithBLOBs);
     }
 }

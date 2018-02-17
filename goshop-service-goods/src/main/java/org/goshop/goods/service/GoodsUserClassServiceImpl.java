@@ -54,7 +54,7 @@ public class GoodsUserClassServiceImpl implements GoodsUserClassService {
             userClass.setDeletestatus(false);
         if(userClass.getLevel()==null)
             userClass.setLevel(0);
-        gsGoodsUserClassMapper.insert(userClass);
+        gsGoodsUserClassMapper.insertSelective(userClass);
         return userClass.getUserId();
     }
 

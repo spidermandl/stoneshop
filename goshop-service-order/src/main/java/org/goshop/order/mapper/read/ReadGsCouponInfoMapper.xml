@@ -21,21 +21,26 @@
   </select>
   <select id="selectByCondition" resultMap="BaseResultMap" parameterType="java.util.Map" >
     select
-    <include refid="Base_Column_List" />
+    info.id,
+    info.addTime,
+    info.deleteStatus,
+    info.coupon_sn,
+    info.status,
+    info.coupon_id,
+    info.user_id
     from gs_coupon_info info
     <if test="coupon_join != null">
       left JOIN gs_coupon coupon ON (
-      <where>
-        <if test="coupon_order_amount != null">
-          coupon.coupon_order_amount &lt;= #{coupon_order_amount}
-        </if>
-        <if test="coupon_begin_time != null" >
-          and coupon.coupon_begin_time &lt;= #{coupon_begin_time}
-        </if>
-        <if test="coupon_end_time != null" >
-          and coupon.coupon_end_time &gt;= #{coupon_end_time}
-        </if>
-      </where>
+      info.coupon_id = coupon.id
+      <if test="coupon_order_amount != null">
+        and coupon.coupon_order_amount &lt;= #{coupon_order_amount}
+      </if>
+      <if test="coupon_begin_time != null" >
+        and coupon.coupon_begin_time &lt;= #{coupon_begin_time}
+      </if>
+      <if test="coupon_end_time != null" >
+        and coupon.coupon_end_time &gt;= #{coupon_end_time}
+      </if>
       )
     </if>
     <where>

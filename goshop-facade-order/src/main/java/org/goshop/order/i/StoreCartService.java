@@ -16,7 +16,7 @@ public interface StoreCartService {
 
     List<GsStoreCart> findByCondition(Map condition);
 
-    int save(GsStoreCart cart);
+    Long save(GsStoreCart cart);
 
     int update(GsStoreCart cart);
 

@@ -8,8 +8,8 @@
                   <img src="${imageWebServer!}/${(config.websiteLogo.path)!}/${(config.websiteLogo.name)!}" border="0" />
               </a>
           <#else>
-              <a href="${S_URL}/index.htm">
-              <img src="${imageWebServer!}/resources/style/system/front/default/images/logo.png"  width="200" border="0" />
+              <a href="${S_URL}/index">
+              <img src="${imageWebServer!}/images/logo.png"  width="200" border="0" />
               </a>
           </#if>
           </div>

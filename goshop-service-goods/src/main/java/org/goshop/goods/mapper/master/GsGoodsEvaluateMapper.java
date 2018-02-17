@@ -15,4 +15,6 @@ public interface GsGoodsEvaluateMapper {
     int updateByPrimaryKeyWithBLOBs(GsGoodsEvaluateWithBLOBs record);
 
     int updateByPrimaryKey(GsGoodsEvaluate record);
+
+    int deleteByGoodsId(Long evaluate_goods_id);
 }

@@ -43,7 +43,7 @@ public class AdminServiceImpl implements AdminService {
                 userRole=new UserRole();
                 userRole.setuId(userId);
                 userRole.setrId(role.getId());
-                userRoleMapper.insert(userRole);
+                userRoleMapper.insertSelective(userRole);
             }
         }else{
             if(userRole!=null) {

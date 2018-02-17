@@ -577,7 +577,7 @@ public class GoodsController extends BaseController{
         param.put("orderType","desc");
         param.put("goods_id",CommUtil.null2Long(goods_id));
         param.put("order_status_gt",Integer.valueOf(20));
-        PageInfo pList = this.goodsCartService.findByCondition(param,CommUtil.null2Int(currentPage),Integer.valueOf(8));
+        PageInfo pList = this.goodsCartService.findByCondition(param,currentPage==null?1:CommUtil.null2Int(currentPage),Integer.valueOf(8));
         CommUtil.saveIPageList2ModelAndView(CommUtil.getURL(request)+"/goods_order", "", "", pList,model);
         model.addAttribute("storeViewTools", this.storeViewTools);
 

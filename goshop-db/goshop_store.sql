@@ -11,7 +11,7 @@
  Target Server Version : 50716
  File Encoding         : utf-8
 
- Date: 01/05/2018 02:20:33 AM
+ Date: 02/16/2018 14:34:07 PM
 */
 
 SET NAMES utf8mb4;
@@ -108,7 +108,7 @@ CREATE TABLE `gs_store` (
   `store_owner_card` varchar(50) DEFAULT NULL COMMENT '身份证',
   `sc_id` int(11) NOT NULL COMMENT '店铺分类',
   `store_company_name` varchar(50) DEFAULT NULL COMMENT '店铺公司名称',
-  `area_id` int(11) DEFAULT NULL COMMENT '地区id',
+  `area_id` int(11) DEFAULT NULL COMMENT '地区id,gs_area表主键',
   `area_info` varchar(100) DEFAULT NULL COMMENT '地区内容，冗余数据',
   `store_address` varchar(100) DEFAULT NULL COMMENT '详细地区',
   `store_zip` varchar(10) DEFAULT NULL COMMENT '邮政编码',
@@ -157,13 +157,13 @@ CREATE TABLE `gs_store` (
   KEY `sc_id` (`sc_id`),
   KEY `area_id` (`area_id`),
   KEY `store_state` (`store_state`)
-) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8 COMMENT='店铺数据表';
+) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8 COMMENT='店铺数据表';
 
 -- ----------------------------
 --  Records of `gs_store`
 -- ----------------------------
 BEGIN;
-INSERT INTO `gs_store` VALUES ('1', '古古', '0', '0', '1', '66', 'gugu', 'gugu_shop', null, '7', '公司名称', null, null, null, null, '联系人电话', null, '1', '1', '关闭原因1', '0', '2016-04-17', '2026-04-30', null, null, '', '', null, null, null, null, null, '0', '0', 'default', '0', '0', '0', '0', '0', '0', null, null, null, null, '0', null, null, null, '0.00', '10', null, null, null, 'default'), ('12', 'sadfa', '0', '0', '1', '65', 'dddd', '11223344', '123424123421342134', '2', 'asf', '4522514', null, 'asdfasdf', null, '1234897324', '426160', '426161', '1', null, '0', '2017-11-19', null, '426143', '426146', 'aaaa', 'asdfasdfasd', '333445566', 'asdsf', 'dsfsadfsadf', null, 'sert', '0', '0', 'default', '0', '0', '0', '0', '0', '0', null, null, null, null, '0', null, null, null, '0.00', '10', null, '31.30', '121.52', 'default'), ('13', 'asdfasdf', '0', '0', '1', '46', 'bbbb', 'asdfasdf', null, '9', 'asf', null, null, null, null, '1234897324', null, '426138', '1', null, '0', '2017-12-14', null, null, null, '', '', null, null, null, null, null, '0', '0', 'default', '0', '0', '0', '0', '0', '0', null, null, null, null, '0', null, null, null, '0.00', '10', null, null, null, 'default');
+INSERT INTO `gs_store` VALUES ('1', '古古', '0', '0', '1', '66', 'gugu', 'gugu_shop', null, '7', '公司名称', null, null, null, null, '联系人电话', null, '1', '2', '关闭原因1', '0', '2016-04-17', '2026-04-30', null, null, '', '', null, null, null, null, null, '0', '0', 'default', '0', '0', '0', '0', '0', '0', null, null, null, null, '0', null, null, null, '0.00', '10', null, null, null, 'default'), ('12', 'sadfa', '0', '0', '1', '65', 'dddd', '11223344', '123424123421342134', '2', 'asf', '4522514', null, 'asdfasdf', null, '1234897324', '426160', '426161', '2', null, '0', '2017-11-19', null, '426143', '426146', 'aaaa', 'asdfasdfasd', '333445566', 'asdsf', 'dsfsadfsadf', null, 'sert', '0', '0', 'default', '0', '0', '0', '0', '0', '0', null, null, null, null, '0', null, null, null, '0.00', '10', null, '31.30', '121.52', 'default'), ('13', 'asdfasdf', '0', '0', '1', '46', 'bbbb', 'asdfasdf', null, '9', 'asf', null, null, null, null, '1234897324', null, '426138', '2', null, '0', '2017-12-14', null, null, null, '', '', null, null, null, null, null, '0', '0', 'default', '0', '0', '0', '0', '0', '0', null, null, null, null, '0', null, null, null, '0.00', '10', null, null, null, 'default'), ('14', 'cds341', '0', '0', '2', '63', 'cccc', 'dsfjkasd', '', '9', 'dsfasdfasdf', null, null, '', null, '11112323', '426208', '426197', '2', null, '0', '2018-02-05', null, '426202', '426209', '', '', '', '', '', null, '', '0', '0', 'default', '0', '0', '0', '0', '0', '0', null, null, null, null, '0', null, null, null, '0.00', '10', null, null, null, null);
 COMMIT;
 
 -- ----------------------------
@@ -292,7 +292,7 @@ CREATE TABLE `gs_store_join` (
   `sg_name` varchar(50) DEFAULT NULL COMMENT '店铺等级名称',
   `sg_id` int(10) unsigned DEFAULT NULL COMMENT '店铺等级编号',
   `sc_name` varchar(50) DEFAULT NULL COMMENT '店铺分类名称',
-  `sc_id` int(10) unsigned DEFAULT NULL COMMENT '店铺分类编号',
+  `sc_id` bigint(20) unsigned DEFAULT NULL COMMENT '店铺分类编号',
   `store_class_commis_rates` varchar(200) DEFAULT NULL COMMENT '分类佣金比例',
   `paying_money_certificate` bigint(20) DEFAULT NULL COMMENT '付款凭证 gs_accessory表主键',
   `paying_money_certificate_explain` varchar(200) DEFAULT NULL COMMENT '付款凭证说明',
@@ -303,7 +303,7 @@ CREATE TABLE `gs_store_join` (
 --  Records of `gs_store_join`
 -- ----------------------------
 BEGIN;
-INSERT INTO `gs_store_join` VALUES ('46', 'bbbb', 'asf', '北京 北京市 朝阳区', null, '1234553234', '11', '43', 'asdf', '1234897324', 'spider@qq.com', '1341dasdf', '天津', '2017-12-12', '2017-12-23', 'dfasdfasdf', '426138', 'sdfasd1341', '426139', '426140', 'asdfsadfa', 'sdfasdfasdf', 'sadfasdf', 'asdfasdfasdf', '河北省 唐山市 丰南区', '426141', '1', '', '', '', '', '', 'asdfasdf', 'asdfasdfasdf', '426142', 'asdfasdf', 'asdfasdf', '[{\"jmcs\":[{\"name\":\"家居家装\",\"id\":\"3\"}]},{\"jmcs\":[{\"name\":\"\",\"id\":\"\"}]}]', null, '40', null, '系统默认', '1', '  服饰鞋帽', '9', null, null, null), ('63', 'cccc', 'aaaa', '北京 北京市', null, '1234553234', '11', '43', 'asdf', '1234897324', 'spider@qq.com', '1341dasdf', '北京 北京市 东城区', '2009-11-18', '2025-11-06', '1234', '1', 'adsfsdafad', '1', '1', '12345644343432', 'da134134', '12341234', '1345341234', '北京 北京市 东城区', '1', '1', '', '', '', '', '', 'dsfasdf', 'dsfasdf', '1', '12345678', 'aaaa', '[{\"jmcs\":[{\"id\":\"1\",\"name\":\"服饰鞋帽6\"}]},{\"jmcs\":[{\"id\":\"308\",\"name\":\"家用电器\"}]}]', null, '10', '找到', '系统默认', '1', '    卫衣', '6', null, '1', '已付款'), ('65', 'dddd', 'asf', '北京 北京市 东城区', null, '1234553234', '11', '43', 'asdf', '1234897324', 'spider@qq.com', '1341dasdf', '北京 北京市 东城区', '2011-11-09', '2020-11-26', 'dsf', '2', 'adsfsdafad', '2', '2', 'adsfjpo', '123412341234', 'sdfasdf', '134515', '北京 北京市 东城区', '2', '1', '', '', '', '', '', '1349871234721074', '341123471237412', '2', '11223344', 'sadfa', '[{\"jmcs\":[{\"id\":\"2\",\"name\":\"礼品箱包\"}]},{\"jmcs\":[{\"id\":\"3\",\"name\":\"家居家装\"}]}]', null, '40', null, '系统默认', '1', '    T恤', '2', null, '2', ''), ('66', 'gugu', '公司名称', '内蒙古自治区 乌海市 乌达区', null, '110', '1', '2', '联系人姓名', '联系人电话', 'pzh_gugu@126.com', '营业执照号1', '河北省 石家庄市 元氏县', '2016-04-03', '2016-04-29', '法定经营范围1', '3', '组织机构代码', '3', '3', '银行开户名', '公司银行账号', '开户银行支行名称', '支行联行号', '北京 北京市 西城区', '3', '1', '银行开户名', '公司银行账号', '开户银行支行名称', '支行联行号', '广东省 潮州市 湘桥区', '税务登记证号', '纳税人识别号', '3', 'gugu_shop', '古古', '[{\"jmcs\":[{\"id\":\"2\",\"name\":\"礼品箱包\"},{\"id\":\"151\",\"name\":\"潮流女包\"},{\"id\":\"157\",\"name\":\"手拿包\"}]},{\"jmcs\":[{\"id\":\"308\",\"name\":\"家用电器\"},{\"id\":\"310\",\"name\":\"生活电器\"},{\"id\":\"326\",\"name\":\"净化器\"}]}]', null, '40', '找到', '白金店铺', '2', '  服饰鞋帽', '9', null, '3', '已付款');
+INSERT INTO `gs_store_join` VALUES ('46', 'bbbb', 'asf', '北京 北京市 朝阳区', null, '1234553234', '11', '43', 'asdf', '1234897324', 'spider@qq.com', '1341dasdf', '天津', '2017-12-12', '2017-12-23', 'dfasdfasdf', '426138', 'sdfasd1341', '426139', '426140', 'asdfsadfa', 'sdfasdfasdf', 'sadfasdf', 'asdfasdfasdf', '河北省 唐山市 丰南区', '426141', '1', '', '', '', '', '', 'asdfasdf', 'asdfasdfasdf', '426142', 'asdfasdf', 'asdfasdf', '[{\"jmcs\":[{\"name\":\"家居家装\",\"id\":\"3\"}]},{\"jmcs\":[{\"name\":\"\",\"id\":\"\"}]}]', null, '40', null, '系统默认', '1', '  服饰鞋帽', '9', null, null, null), ('63', 'cccc', 'dsfasdfasdf', '北京 北京市 东城区', null, '1234234', '11', '12', 'dfsdf', '11112323', 'sdfasdf@sf.com', '3214124', '北京 北京市 西城区', '2012-02-08', '2022-02-17', 'kljhjhlhj', '426197', 'sdafsadfasdfsadf', '426198', '426199', 'uhgjhoyoy', 'hfdutyi6765', 'jhhgdnmv', 'jhtt69696uyg', '北京 北京市 西城区', '426200', '1', '', '', '', '', '', '32456789k', 'kjhgfyu987654', '426201', 'dsfjkasd', 'cds341', '[{\"jmcs\":[{\"name\":\"礼品箱包\",\"id\":\"2\"}]},{\"jmcs\":[{\"name\":\"食品饮料\",\"id\":\"593\"}]}]', null, '40', null, '白金店铺', '2', '  服饰鞋帽', '9', null, null, null), ('65', 'dddd', 'asf', '北京 北京市 东城区', null, '1234553234', '11', '43', 'asdf', '1234897324', 'spider@qq.com', '1341dasdf', '北京 北京市 东城区', '2011-11-09', '2020-11-26', 'dsf', '2', 'adsfsdafad', '2', '2', 'adsfjpo', '123412341234', 'sdfasdf', '134515', '北京 北京市 东城区', '2', '1', '', '', '', '', '', '1349871234721074', '341123471237412', '2', '11223344', 'sadfa', '[{\"jmcs\":[{\"id\":\"2\",\"name\":\"礼品箱包\"}]},{\"jmcs\":[{\"id\":\"3\",\"name\":\"家居家装\"}]}]', null, '40', null, '系统默认', '1', '    T恤', '2', null, '2', ''), ('66', 'gugu', '公司名称', '内蒙古自治区 乌海市 乌达区', null, '110', '1', '2', '联系人姓名', '联系人电话', 'pzh_gugu@126.com', '营业执照号1', '河北省 石家庄市 元氏县', '2016-04-03', '2016-04-29', '法定经营范围1', '3', '组织机构代码', '3', '3', '银行开户名', '公司银行账号', '开户银行支行名称', '支行联行号', '北京 北京市 西城区', '3', '1', '银行开户名', '公司银行账号', '开户银行支行名称', '支行联行号', '广东省 潮州市 湘桥区', '税务登记证号', '纳税人识别号', '3', 'gugu_shop', '古古', '[{\"jmcs\":[{\"id\":\"2\",\"name\":\"礼品箱包\"},{\"id\":\"151\",\"name\":\"潮流女包\"},{\"id\":\"157\",\"name\":\"手拿包\"}]},{\"jmcs\":[{\"id\":\"308\",\"name\":\"家用电器\"},{\"id\":\"310\",\"name\":\"生活电器\"},{\"id\":\"326\",\"name\":\"净化器\"}]}]', null, '40', '找到', '白金店铺', '2', '  服饰鞋帽', '9', null, '3', '已付款');
 COMMIT;
 
 -- ----------------------------
@@ -331,6 +331,22 @@ CREATE TABLE `gs_store_nav` (
 BEGIN;
 INSERT INTO `gs_store_nav` VALUES ('1', '2017-12-16 11:38:48', b'0', 'sfasdfasdf', b'0', '1', 'aaaa', 'http://www.it165.net/admin/html/201409/3754.html', 'cur_win', '12');
 COMMIT;
+
+-- ----------------------------
+--  Table structure for `gs_store_partner`
+-- ----------------------------
+DROP TABLE IF EXISTS `gs_store_partner`;
+CREATE TABLE `gs_store_partner` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `addTime` datetime DEFAULT NULL,
+  `deleteStatus` bit(1) NOT NULL,
+  `sequence` int(11) NOT NULL,
+  `title` varchar(255) DEFAULT NULL,
+  `url` varchar(255) DEFAULT NULL,
+  `store_id` bigint(20) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `FKB357F3F9920D7683` (`store_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 --  Table structure for `gs_store_plate`
@@ -392,7 +408,7 @@ CREATE TABLE `gs_store_point` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `id` (`id`),
   KEY `FK4E878501920D7683` (`store_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COMMENT='打分表';
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COMMENT='卖家评价表';
 
 -- ----------------------------
 --  Records of `gs_store_point`
@@ -415,13 +431,13 @@ CREATE TABLE `gs_store_slide` (
   PRIMARY KEY (`id`),
   KEY `FK4EB06D22920D7683` (`store_id`),
   KEY `FK4EB06D22DD494C94` (`acc_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8 COMMENT='店铺slide图片';
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8 COMMENT='店铺slide图片';
 
 -- ----------------------------
 --  Records of `gs_store_slide`
 -- ----------------------------
 BEGIN;
-INSERT INTO `gs_store_slide` VALUES ('2', '2017-12-26 21:56:46', b'0', '', '426154', '12'), ('3', '2017-12-26 22:12:23', b'0', '', '426155', '12'), ('7', '2017-12-26 22:56:20', b'0', '', '426159', '12');
+INSERT INTO `gs_store_slide` VALUES ('2', '2017-12-26 21:56:46', b'0', '', '426154', '12'), ('3', '2017-12-26 22:12:23', b'0', '', '426155', '12'), ('7', '2017-12-26 22:56:20', b'0', '', '426159', '12'), ('8', '2018-02-05 16:29:14', b'0', '', '426203', '14'), ('9', '2018-02-05 16:36:09', b'0', '', '426204', '14'), ('10', '2018-02-05 16:37:11', b'0', '', '426205', '14'), ('11', '2018-02-05 16:39:30', b'0', '', '426206', '14'), ('12', '2018-02-05 17:11:52', b'0', '', '426207', '14');
 COMMIT;
 
 -- ----------------------------

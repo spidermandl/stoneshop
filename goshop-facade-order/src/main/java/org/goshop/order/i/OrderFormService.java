@@ -18,4 +18,6 @@ public interface OrderFormService {
 
     int update(GsOrderformWithBLOBs form);
 
+    int delete(Long id);
+
 }

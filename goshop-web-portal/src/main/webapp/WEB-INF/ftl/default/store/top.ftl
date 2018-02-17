@@ -42,12 +42,13 @@
 		 var goods_count=${cart!?size};
 		 var total_price=0;
 		 <#assign total_price=0 />
-		 <#list cart as gc >
-		  <#if (gc.goods.group_buy)!0 == 2 >
-		    <#assign total_price = gc.goods.group_goods.gg_price * gc.count + total_price />
-		  <#else>
-		    <#assign total_price= gc.goods.store_price*gc.count+total_price />
-          </#if>
+		 <#list cart_goods! as gc >
+              <#if ((gc.goods.groupBuy)!0) == 2 >
+                  <#assign total_price = gc.goods.groupGoods.ggPrice * gc.count + total_price />
+              <#else>
+                  <#assign total_price= gc.goods.storePrice*gc.count+total_price />
+                  <#--<#assign total_price= 0 />-->
+              </#if>
          </#list>
 		function cart_remove(id,store_id){
            jQuery.post('${S_URL}/remove_goods_cart',{"id":id,"store_id":store_id},function(data){
@@ -72,7 +73,9 @@
 		   jQuery("#cart_goods_top_menu").mouseover(function(){
 			  jQuery.ajax({type:'POST',url:'${S_URL}/cart_menu_detail',data:'',
 						   beforeSend:function(){
-							     jQuery("#cart_goods_top_info").empty().html('<div class="menu-bd-panel"><div style="text-align:center;"><img src="${S_URL}/resources/style/common/images/loader.gif" /></div></div>');
+							     jQuery("#cart_goods_top_info").empty().html(
+							             '<div class="menu-bd-panel"><div style="text-align:center;">' +
+                                         '<img src="${S_URL}/static/images/common/loader.gif" /></div></div>');
 							     jQuery("#cart_goods_top_info").show();
 							   },
 						  success:function(data){

@@ -44,7 +44,7 @@ public class FindPasswordEMailServiceImpl implements FindPasswordService {
         findPassword.setCreated(new Timestamp(System.currentTimeMillis()));
         findPassword.setRandom(key);
         findPassword.setLoginName(username);
-        return findPasswordMapper.insert(findPassword);
+        return findPasswordMapper.insertSelective(findPassword);
     }
 
     @Override

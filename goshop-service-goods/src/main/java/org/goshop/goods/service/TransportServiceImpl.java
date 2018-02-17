@@ -62,7 +62,7 @@ public class TransportServiceImpl implements TransportService {
         if (transport.getTransExpress()==null){
             transport.setTransExpress(false);
         }
-        long ret = gsTransportMapper.insert(transport);
+        long ret = gsTransportMapper.insertSelective(transport);
         return ret;
     }
 

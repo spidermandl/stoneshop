@@ -40,15 +40,15 @@ import java.util.*;
  */
 @Component
 public class PayTools {
-    @Autowired(required = false)
+    @Autowired
     private PaymentService paymentService;
-    @Autowired(required = false)
+    @Autowired
     private OrderFormService orderFormService;
-    @Autowired(required = false)
+    @Autowired
     private PredepositService predepositService;
-    @Autowired(required = false)
+    @Autowired
     private GoldRecordService goldRecordService;
-    @Autowired(required = false)
+    @Autowired
     private IntegralGoodsOrderService integralGoodsOrderService;
     @Autowired
     private SystemConfigService systemConfigService;

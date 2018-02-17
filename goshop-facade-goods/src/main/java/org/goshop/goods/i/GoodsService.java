@@ -19,6 +19,13 @@ public interface GoodsService {
      * @return
      */
     GsGoodsWithBLOBs findOne(Long id);
+
+    /**
+     * 根据goods主键获取
+     * @param id
+     * @return
+     */
+    GsGoodsWithBLOBs findBasicOne(Long id);
     /**
      * 根据主照片获取goods
      * @param accessory
@@ -88,6 +95,13 @@ public interface GoodsService {
      * @return
      */
     int deleteCombinRelationByGoodsId(Long id);
+
+    /**
+     * 删除商品相关评论
+     * @param id
+     * @return
+     */
+    int deleteEvaluationRelationByGoodsId(Long id);
     /**
      * 根据条件查询
      * @param condition

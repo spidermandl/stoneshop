@@ -207,7 +207,7 @@ public class MemberServiceImpl implements MemberService {
         if(StringUtils.hasText(loginName)){
             User user=userService.findByLoginName(loginName);
             user.setPassword(password);
-            userService.updateByPrimaryKey(passWordUser(user));
+            userService.updateByPrimaryKeySelective(passWordUser(user));
             findPasswordService.delete(key);
         }else{
             throw new Exception("此链接已过期!");
@@ -219,7 +219,7 @@ public class MemberServiceImpl implements MemberService {
     public void updatePassword(Long userId, String password) throws Exception {
         User user=userService.selectByPrimaryKey(userId);
         user.setPassword(password);
-        userService.updateByPrimaryKey(passWordUser(user));
+        userService.updateByPrimaryKeySelective(passWordUser(user));
     }
     /**
      * 将密码加密
@@ -297,7 +297,7 @@ public class MemberServiceImpl implements MemberService {
         user=this.setDefaultUser(user);
         userService.insert(user);
         member=this.setDefaultMember(member,user.getId());
-        return memberMapper.insert(member);
+        return memberMapper.insertSelective(member);
 
     }
 

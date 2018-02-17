@@ -45,7 +45,7 @@ public class GoodsCartServiceImpl implements GoodsCartService{
 
     @Override
     public int update(GsGoodsCart goodsCart) {
-        return gsGoodsCartMapper.updateByPrimaryKey(goodsCart);
+        return gsGoodsCartMapper.updateByPrimaryKeySelective(goodsCart);
     }
 
     @Override
@@ -69,7 +69,7 @@ public class GoodsCartServiceImpl implements GoodsCartService{
     public int save(GsGoodsCart goodsCart) {
         if (goodsCart.getDeletestatus()==null)
             goodsCart.setDeletestatus(false);
-        return gsGoodsCartMapper.insert(goodsCart);
+        return gsGoodsCartMapper.insertSelective(goodsCart);
     }
 
     @Override
@@ -84,9 +84,16 @@ public class GoodsCartServiceImpl implements GoodsCartService{
 
     @Override
     public int saveCartLinksWithSpecProperty(List<GsCartGsp> cart_gsp) {
+        if (cart_gsp==null||cart_gsp.size()==0)
+            return 0;
         return gsCartGspMapper.insertBatch(cart_gsp);
     }
 
+    @Override
+    public boolean isEmptyCart(Long orderId) {
+        int count = readGsGoodsCartMapper.selectCountByOrderId(orderId);
+        return count>0?true:false;
+    }
 
 
 }

@@ -46,6 +46,7 @@ public class GoodServiceImpl implements GoodsService{
     @Autowired
     ReadGsGoodsSpecPropertyMapper readGsGoodsSpecPropertyMapper;
 
+
     @Autowired
     GsGoodsUgcMapper gsGoodsUgcMapper;
     @Autowired
@@ -54,6 +55,8 @@ public class GoodServiceImpl implements GoodsService{
     GsGoodsCombinMapper gsGoodsCombinMapper;
     @Autowired
     GsGoodsPhotoMapper gsGoodsPhotoMapper;
+    @Autowired
+    GsGoodsEvaluateMapper gsGoodsEvaluateMapper;
 
     @Autowired
     AccessoryService accessoryService;
@@ -74,6 +77,14 @@ public class GoodServiceImpl implements GoodsService{
             one.setGroup_goods_list(readGsGroupGoodsMapper.selectByGroupId(one.getGroupId()));
         }
 
+        return one;
+    }
+
+    @Override
+    public GsGoodsWithBLOBs findBasicOne(Long id) {
+        GsGoodsWithBLOBs one = gsGoodsMapper.selectByPrimaryKey(id);
+        if (one.getGoodsMainPhotoId()!=null)
+            one.setGoods_main_photo(accessoryService.findOne(one.getGoodsMainPhotoId()));
         return one;
     }
 
@@ -235,7 +246,7 @@ public class GoodServiceImpl implements GoodsService{
         if (goods.getZtcPayStatus() == null)
             goods.setZtcPayStatus(0);
 
-        gsGoodsMapper.insert(goods);
+        gsGoodsMapper.insertSelective(goods);
         long ret = goods.getId();
         List<GsGoodsUgc> ugcs = new ArrayList<>();
         for ( GsGoodsUserClass userClass  : goods.getGoodsUgcs()){
@@ -287,6 +298,7 @@ public class GoodServiceImpl implements GoodsService{
         deleteCombinRelationByGoodsId(id);
         deletePropertyRelationByGoodsId(id);
         deleteUGCRelationByGoodsId(id);
+        deleteEvaluationRelationByGoodsId(id);
         return gsGoodsMapper.deleteByPrimaryKey(id);
     }
 
@@ -308,6 +320,11 @@ public class GoodServiceImpl implements GoodsService{
     @Override
     public int deleteCombinRelationByGoodsId(Long id) {
         return gsGoodsCombinMapper.deleteByGoodsId(id);
+    }
+
+    @Override
+    public int deleteEvaluationRelationByGoodsId(Long id) {
+        return gsGoodsEvaluateMapper.deleteByGoodsId(id);
     }
 
     @Override

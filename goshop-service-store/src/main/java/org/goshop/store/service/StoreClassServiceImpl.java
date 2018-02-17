@@ -35,7 +35,7 @@ public class StoreClassServiceImpl implements StoreClassService {
         }
         if (storeClass.getDeletestatus()==null)
             storeClass.setDeletestatus(false);
-        return storeClassMapper.insert(storeClass);
+        return storeClassMapper.insertSelective(storeClass);
     }
 
     @Override

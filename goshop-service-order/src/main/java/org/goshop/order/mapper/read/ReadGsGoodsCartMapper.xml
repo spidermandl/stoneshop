@@ -31,9 +31,15 @@
   </select>
   <select id="selectByCondition" resultMap="ResultMapWithBLOBs" parameterType="java.util.Map" >
     select
-    <include refid="Base_Column_List" />
-    ,
-    <include refid="Blob_Column_List" />
+    cart.id,
+    cart.addTime,
+    cart.deleteStatus,
+    cart.count,
+    cart.price,
+    cart.goods_id,
+    cart.of_id,
+    cart.cart_type,
+    cart.sc_id,spec_info
     from gs_goods_cart cart
     <if test="order_status_gt != null">
       left JOIN gs_orderform order_form ON (
@@ -52,9 +58,23 @@
       <if test="of_id != null" >
         and cart.of_id = #{of_id}
       </if>
+      <!--<if test="order_status_gt != null" >-->
+        <!--and order_form.order_status &gt;= #{order_status_gt}-->
+      <!--</if>-->
     </where>
     <if test="orderBy != null">
-      order BY card.#{orderBy} #{orderType}
+      order BY #{orderBy} #{orderType}
     </if>
   </select>
+  <select id="selectCountByOrderId" resultType="java.lang.Integer" parameterType="java.lang.Long" >
+    select
+    COUNT(*)
+    from gs_goods_cart
+    <where>
+      <if test="of_id != null">
+        of_id = #{of_id}
+      </if>
+    </where>
+  </select>
+
 </mapper>

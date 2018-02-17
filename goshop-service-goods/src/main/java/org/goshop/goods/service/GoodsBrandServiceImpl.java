@@ -51,13 +51,13 @@ public class GoodsBrandServiceImpl implements GoodsBrandService {
             brand.setRecommend(false);
         if (brand.getSequence()==null)
             brand.setSequence(0);
-        long id = gsGoodsBrandMapper.insert(brand);
+        long id = gsGoodsBrandMapper.insertSelective(brand);
         return id;
     }
 
     @Override
     public int update(GsGoodsBrand brand) {
-        return gsGoodsBrandMapper.updateByPrimaryKey(brand);
+        return gsGoodsBrandMapper.updateByPrimaryKeySelective(brand);
     }
 
     @Override

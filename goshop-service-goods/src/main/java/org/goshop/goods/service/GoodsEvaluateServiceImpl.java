@@ -20,6 +20,8 @@ public class GoodsEvaluateServiceImpl implements GoodsEvaluateService{
 
     @Autowired
     ReadGsGoodsEvaluateMapper readGsGoodsEvaluateMapper;
+    @Autowired
+    GsGoodsEvaluateMapper gsGoodsEvaluateMapper;
 
     @Override
     public List<GsGoodsEvaluateWithBLOBs> findByCondition(Map condition) {
@@ -32,4 +34,5 @@ public class GoodsEvaluateServiceImpl implements GoodsEvaluateService{
         List<GsGoodsEvaluateWithBLOBs> list = readGsGoodsEvaluateMapper.selectByCondition(condition);
         return new PageInfo<>(list);
     }
+
 }

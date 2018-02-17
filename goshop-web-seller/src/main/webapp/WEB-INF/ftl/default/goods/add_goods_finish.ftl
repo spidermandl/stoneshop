@@ -19,7 +19,7 @@
                   </div>
                   <div class="success_mid">
                     <h1>恭喜您！商品发布成功！</h1>
-                      <span><a href="${S_URL}/goods_${(obj.id)!}.htm" target="_blank">查看商品详情>> </a></span>
+                      <span><a href="${SHOP_URL}/goods?id=${(obj.id)!}" target="_blank">查看商品详情>> </a></span>
                       <span> <a href="${S_URL}/goods/goods_edit?id=${(obj.id)!}">编辑刚发布的商品>></a></span>
                   </div>
                   <div class="success_right">

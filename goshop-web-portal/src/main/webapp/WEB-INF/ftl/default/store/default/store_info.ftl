@@ -32,10 +32,10 @@
     ${httpInclude.include("/store_head?store_id=${(store.storeId)!}")}
     <#assign banner="${S_URL}/static/images/shop/${(store.template)!}/images/banner.jpg" />
     <#if (store.banner)!??>
-        <#assign banner="${S_URL}/${(store.banner.path)!}/${(store.banner.name)!}" />
+        <#assign banner="${RES_URL}/${(store.banner.path)!}/${(store.banner.name)!}" />
     </#if>
     <div class="banner_width">
-      <div class="shopbanner"><img src="${RES_URL}${banner!}"  width="1200px" /></div>
+      <div class="shopbanner"><img src="${banner!}"  width="1200px" /></div>
     </div>
     <div class="nav_width">
         <div class="main">
@@ -75,7 +75,7 @@
                     <div class="shopinfo_box">
                         <div class="shopinfo_top">
                             <#if (store.logo)!??>
-                                <#assign store_logo="${S_URL}/${(store.logo.path)!}/${(store.logo.name)!}" />
+                                <#assign store_logo="${RES_URL}/${(store.logo.path)!}/${(store.logo.name)!}" />
                             <#else>
                                 <#assign store_logo="${S_URL}/${(config.storeImage.path)!}/${(config.storeImage.name)!}" />
                             </#if>
@@ -85,7 +85,7 @@
                                     <b>二维码收藏店铺</b>
                                 </span>
                                 <dl class="shopcode_left">
-                                    <dt><img src="${RES_URL}${store_logo!}" width="90" height="90" /></dt>
+                                    <dt><img src="${store_logo!}" width="90" height="90" /></dt>
                                     <dd><em>店铺名称：${(store.storeName)!}</em>
                                         <em>店铺等级：${(store.storeGrade.sgName)!}</em>
                                         <em>认证信息：
