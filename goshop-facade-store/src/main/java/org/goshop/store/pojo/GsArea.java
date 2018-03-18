@@ -24,7 +24,18 @@ public class GsArea implements Serializable {
 
     private Boolean common;
 
+    /*****手动加入*****/
     private List<GsArea> childs = new ArrayList<>();
+    private GsArea parent;
+    /*****************/
+
+    public GsArea getParent() {
+        return parent;
+    }
+
+    public void setParent(GsArea parent) {
+        this.parent = parent;
+    }
 
     public List<GsArea> getChilds() {
         return childs;

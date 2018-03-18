@@ -13,6 +13,8 @@ public interface ReadUserMapper {
 
     User findByLoginName(String loginName);
 
+    User findByUserName(String userName);
+
     User findOfRoleOne(Long id);
 
     int findByLoginNameCount(String loginName);
@@ -24,4 +26,5 @@ public interface ReadUserMapper {
     List<User> selectByParentId(@Param("parentId") Long parentId);
 
     List<GsPermission> findPermissionListByUserId(Long userId);
+
 }

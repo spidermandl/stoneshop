@@ -22,8 +22,8 @@
 <script>
     jQuery.validator.addMethod("transportId",
         function(value, element) {
-            if (jQuery(':radio[name=goodsTransfee][value=0]').attr('checked') &&
-                    jQuery(':radio[name=transport_type][value=0]').attr('checked')){
+            if (jQuery(':radio[name=goodsTransfee][value=0]').prop('checked') &&
+                    jQuery(':radio[name=transport_type][value=0]').prop('checked')){
                 if (jQuery('#transport_id').val() == ''){
                     return false;
                 }else{
@@ -32,6 +32,19 @@
             }else{
                 return true;
             }}
+    );
+    jQuery.validator.addMethod("transportFee",
+            function(value, element) {
+                if (jQuery(':radio[name=goodsTransfee][value=0]').prop('checked') &&
+                        jQuery(':radio[name=transport_type][value=1]').prop('checked')) {
+                    if (jQuery('#mail_trans_fee').val() == ''||
+                            jQuery('#express_trans_fee').val() == ''||
+                            jQuery('#ems_trans_fee').val() == '') {
+                        return false;
+                    }
+                }
+                return true;
+            }
     );
     //options为编辑配置属性
     var options = {
@@ -205,7 +218,7 @@
                 goods_spec_ids=jQuery(this).val()+","+goods_spec_ids;
             });
 
-            jQuery.post("${S_URL}/goods/goods_inventory.htm",{"goods_spec_ids":goods_spec_ids},function(data){
+            jQuery.post("${S_URL}/goods/goods_inventory",{"goods_spec_ids":goods_spec_ids},function(data){
                 jQuery("#inventory_detail_content").append(data);
                 jQuery("#inventory_detail").show();
                 var inventory_detail='${(obj.goodsInventoryDetail)!}';
@@ -223,72 +236,78 @@
                 jQuery("#property_"+item.id).val(item.val);
             });
         </#if>
-        //表单验证
+        //表单验证 rules和控件name关联
         jQuery("#theForm").validate({
             ignore: "",
             rules: {
                 goods_class_id:{
                     required:true
                 },
-                goods_serial:{
+                goodsSerial:{
                     maxlength:20
                 },
-                goods_name:{
+                goodsName:{
                     required:true,
                     minlength:3,
                     maxlength:50
                 },
-                goods_price:{
+                goodsPrice:{
                     required:true,
                     number:true,
                     range:[0.01,1000000]
                 },
-                goods_weight:{
+                goodsWeight:{
                     number:true
                 },
-                goods_volume:{
+                goodsVolume:{
                     number:true
                 },
-                store_price:{
+                storePrice:{
                     required:true,
                     number:true,
                     range:[0.01,1000000]
                 },
-                goods_inventory:{
+                goodsInventory:{
                     number:true,
                     range:[1,1000000000]
                 },
-                transport_id:{transportId:true}
+                transport_id:{transportId:true},
+                mailTransFee:{transportFee:true},
+                expressTransFee:{transportFee:true},
+                emsTransFee:{transportFee:true}
             },
             messages: {
                 goods_class_id:{required:"商品分类不能为空"},
-                goods_serial:{maxlength:"输入字符长度不得超过20"},
-                goods_name:{
+                goodsSerial:{maxlength:"输入字符长度不得超过20"},
+                goodsName:{
                     required: "商品名不能为空",
                     minlength:"商品名最少为3个字符",
                     maxlength:"商品名最多为50个字符"
                 },
-                goods_price:{
+                goodsPrice:{
                     required:"商品原价不能为空",
                     number:"商品原价只能是数字格式",
                     range:"商品价格只能在0.01-1000000之间"
                 },
-                goods_weight:{
+                goodsWeight:{
                     number:"只能输入小数及整数"
                 },
-                goods_volume:{
+                goodsVolume:{
                     number:"只能输入小数及整数"
                 },
-                store_price:{
+                storePrice:{
                     required:"店铺价格不能为空",
                     number:"店铺价格只能是数字格式",
                     range:"店铺价格只能在0.01-1000000之间"
                 },
-                goods_inventory:{
+                goodsInventory:{
                     number:"商品库存只能为数字",
                     range:"商品库存数量只能在0-1000000000之间"
                 },
-                transport_id:{transportId:"请选择一个运费模板"}
+                transport_id:{transportId:"请选择一个运费模板"},
+                mailTransFee:{transportFee:"三项必须全填"},
+                expressTransFee:{transportFee:"三项必须全填"},
+                emsTransFee:{transportFee:"三项必须全填"}
             }
 
         });
@@ -844,10 +863,10 @@
                                                 }
                                             });
 			                                <#if (obj.transport)??>
-                                            jQuery(":radio[name=transport_type][value=0]").attr("checked","checked");
+                                            jQuery(":radio[name=transport_type][value=0]").prop("checked",true);
                                             jQuery("#transport_template_select").show();
 			                                <#else>
-                                            jQuery(":radio[name=transport_type][value=1]").attr("checked","checked");
+                                            jQuery(":radio[name=transport_type][value=1]").prop("checked",true);
                                             jQuery("#transport_template_select").hide();
                                             </#if>
                                             <#if ((obj.goodsTransfee)!1)==0 >
@@ -871,6 +890,7 @@
                                                 </div>
                                                 <#else>
                                                     <div id="transport_template_select" style="padding-left:30px;">
+                                                        <input type="hidden" value="${(obj.transport.id)!}" name="transport_id" id="transport_id" />
                                                         <a href="${S_URL}/transport/transport_list">创建模板</a>
                                                     </div>
                                                 </#if>

@@ -112,7 +112,7 @@ function query_price(){
                             </#if>
                               <ul>
                                   <li class="goodsimgs">
-                                      <a href="${S_URL}/goods_${goods.id}" target="_blank">
+                                      <a href="${S_URL}/goods?id=${goods.id}" target="_blank">
                                           <span class="goods_sp_span">
                                               <p><img src="${imageWebServer!}/static/images/common/loader.gif" original="${img!}"
                                                       onerror="this.src='${S_URL}/${(config.goodsImage.path)!}/${(config.goodsImage.name)!}';" width="28" height="28"/>
@@ -120,11 +120,11 @@ function query_price(){
                                           </span>
                                       </a>
                                   </li>
-                                  <li class="goodslook"><a href="${S_URL}/goods_${(goods.id)!}" target="_blank" class="look">查看详情</a>
+                                  <li class="goodslook"><a href="${S_URL}/goods?id=${(goods.id)!}" target="_blank" class="look">查看详情</a>
                                       <strong>¥${(goods.storePrice)!}</strong>
                                   </li>
                                   <li class="goodsnames">
-                                      <a href="${S_URL}/goods_${(goods.id)!}" target="_blank">
+                                      <a href="${S_URL}/goods?id=${(goods.id)!}" target="_blank">
                                           ${CommUtil.substring("${(goods.goodsName)!}",22)}</a>
                                       <#if ((goods.groupBuy)!0)==2 >
                                           <span style="padding:3px 3px;color:#FFF;background:#F00">团购</span>

@@ -66,7 +66,7 @@ public class GoodsCartServiceImpl implements GoodsCartService{
     }
 
     @Override
-    public int save(GsGoodsCart goodsCart) {
+    public long save(GsGoodsCart goodsCart) {
         if (goodsCart.getDeletestatus()==null)
             goodsCart.setDeletestatus(false);
         return gsGoodsCartMapper.insertSelective(goodsCart);
@@ -76,6 +76,7 @@ public class GoodsCartServiceImpl implements GoodsCartService{
     public List<GsGoodsSpecProperty> findSpecPropertByGoodsCartId(Long id) {
         List<GsCartGsp> cartGsps = readGsCartGspMapper.selectByCartId(id);
         List<Long> ids = new ArrayList<>();
+        ids.add(-1L);
         for (GsCartGsp gsp: cartGsps){
             ids.add(gsp.getGspId());
         }

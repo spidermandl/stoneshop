@@ -14,4 +14,9 @@
                      interface="org.goshop.pay.i.PredepositService" check="false" />
     <dubbo:reference id="goldRecordService"
                      interface="org.goshop.pay.i.GoldRecordService" check="false" />
+    <dubbo:reference id="refundService"
+                     interface="org.goshop.pay.i.RefundService" check="false" />
+    <dubbo:reference id="refundLogService"
+                     interface="org.goshop.pay.i.RefundLogService" check="false" />
+
 </beans>

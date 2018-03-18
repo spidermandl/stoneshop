@@ -431,7 +431,7 @@ left:-50%; }
 .writeok strong{ margin-right:5px; display:block; float:left; margin-top:2px;}
 .writeok span{ margin-right:20px; display:block; float:left;}
 .margin10{ margin-top:10px;}
-.sendmethod{ float:left; overflow:hidden; width:1200px; margin-top:10px;}
+.sendmethod{ float:left; width:980px; margin-top:10px;}
 .sendmethod ul li { margin-top:10px;}
 .sendmethod ul li strong{ margin-left:20px; color:#F00;}
 .sendmeg{  overflow:hidden; width:1200px; margin-top:10px; float:left}

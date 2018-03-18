@@ -13,15 +13,15 @@ jQuery(document).ready(function(){
  jQuery("#theForm").validate({
 	ignore: "",
     rules:{
-	  trueName:{required :true},
+	  truename:{required :true},
 	  area_id:{required :true},
-	  area_info:{required :true},
+	  areaInfo:{required :true},
 	  telephone:{mobile_telephone :true}
 	 },
 	messages:{
-	  trueName:{required :"收货人不能为空"},
+	  truename:{required :"收货人不能为空"},
 	  area_id:{required :"请选择详细区域"},
-	  area_info:{required :"详细地址不能为空"},
+	  areaInfo:{required :"详细地址不能为空"},
 	  telephone:{mobile_telephone :"联系电话、手机至少填写一项"}
 	}
   });
@@ -34,7 +34,7 @@ jQuery(document).ready(function(){
 	     jQuery("#area"+level).empty();
 		  jQuery("#area"+level).append("<option value=''>请选择</option>");
 	    jQuery.each(data, function(index,item){
-		  jQuery("#area"+level).append("<option value='"+item.id+"'>"+item.areaName+"</option>");
+		  jQuery("#area"+level).append("<option value='"+item.id+"'>"+item.areaname+"</option>");
 		  jQuery("#area"+level).show();
 		});
 	  },"json");
@@ -56,10 +56,10 @@ jQuery(document).ready(function(){
   <table style="float:left;" width="460" border="0" cellspacing="0" cellpadding="0" class="box_table">
     <tr>
       <td width="100" align="right" valign="top"><span class="hui_table">收货人姓名</span>：
-        <input name="id" type="hidden" id="id" value="$!obj.id" />
+        <input name="id" type="hidden" id="id" value="${(obj.id)!}" />
       </td>
       <td align="left"><span class="dia_txt">
-        <input name="trueName" type="text" id="trueName" size="35" />
+        <input name="truename" type="text" id="truename" size="35" />
       </span></td>
     </tr>
     <tr>
@@ -73,7 +73,7 @@ jQuery(document).ready(function(){
       </#list>
       </select>
           <input type="button" name="area_edit" id="area_edit" value="修改" style="display:none;"
-                 onclick="javascript:jQuery('#area1').show();jQuery('#area_info').empty();jQuery(this).hide();" />
+                 onclick="javascript:jQuery('#area1').show();jQuery('#areaInfo').empty();jQuery(this).hide();" />
           <select name="area2" id="area2" style="display:none;width:60px;" level="3">
           </select>
           <select name="area3" id="area3" style="display:none;width:60px;" level="4">
@@ -86,7 +86,7 @@ jQuery(document).ready(function(){
           <span class="hui_table">详细地址</span>：</td>
       <td align="left">
           <span class="dia_txt">
-              <input name="area_info" type="text" id="area_info" size="35" />
+              <input name="areaInfo" type="text" id="areaInfo" size="35" />
           </span>
       </td>
     </tr>

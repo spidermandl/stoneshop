@@ -72,6 +72,10 @@ public class GoodsController extends BaseController{
     @Autowired
     private GoodsConsultService goodsConsultService;
 
+    @Override
+    protected String rootTemplatePath() {
+        return "store/";
+    }
 
     @RequestMapping({"/goods_list"})
     public String goods_list(Model model,
@@ -491,12 +495,24 @@ public class GoodsController extends BaseController{
         return ret;
     }
 
+    /**
+     * 商家热卖商品
+     * @param model
+     * @param request
+     * @param response
+     * @param currentPage
+     * @param orderBy
+     * @param orderType
+     * @param goods_view
+     * @return
+     */
     @RequestMapping({"/ztc_goods_list"})
     public String ztc_goods_list(Model model,
                                        HttpServletRequest request,
                                        HttpServletResponse response,
                                        String currentPage, String orderBy,
                                        String orderType, String goods_view){
+        reCapsuleModel(model,request,response);
         String ret = generateViewURL("ztc_goods_list");
         Map param = new HashMap();
         param.put("goods_status",Integer.valueOf(0));

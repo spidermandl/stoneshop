@@ -3,7 +3,7 @@
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>${(store.storeName)!} - ${(config.poweredby)!}</title>
+    <title>购物车 - ${(config.poweredby)!}</title>
     <meta name="keywords" content="${(store.storeKeywords)!}" />
     <meta name="description" content="${(store.storeDescription)!}" />
     <meta name="generator" content="${(config.meta_generator)!}" />
@@ -12,6 +12,8 @@
     <#if (config.website_ico)??>
         <link rel="shortcut icon" href="${imageWebServer!}/${(config.website_ico.path)!}/${(config.website_ico.name)!}" type="image/x-icon"/>
     </#if>
+
+
     <link href="${S_URL}/static/styles/system/front/default/css/public.css" type="text/css" rel="stylesheet" />
     <link href="${S_URL}/static/styles/system/front/default/css/goods.css" type="text/css" rel="stylesheet" />
     <link href="${S_URL}/static/styles/overlay.css" type="text/css" rel="stylesheet" />
@@ -75,9 +77,9 @@ ${httpInclude.include("/top")}
                             <h2>您的订单已成功生成，选择您想用的支付支付方式进行支付</h2>
                             <ul>
                                 <li><strong>订单编号：</strong><strong class="orange">${(of.orderId)!}</strong></li>
-                                <li><strong>应付金额：</strong><strong class="orange">¥${(of.totalPrice)!}</strong></li>
+                                <li><strong>应付金额：</strong><strong class="orange">¥${(of.totalprice)?string('0.00')}</strong></li>
                             </ul>
-                            <h3>您可以在用户中心中<a href="${S_URL}/buyer/order">“我的订单”</a>查看该订单</h3>
+                            <h3>您可以在用户中心中<a href="${S_URL}/order">“我的订单”</a>查看该订单</h3>
                         </div>
                     </div>
                     <div class="bank">
@@ -212,8 +214,8 @@ ${httpInclude.include("/top")}
                         <ul>
                             <li>
                                 <h1>在线支付</h1>
-                              <#assign install = paymentTools.queryStorePayment("alipay","${(of.storeId)!}").get("install") />
-                              <#assign content = paymentTools.queryStorePayment("alipay","${(of.storeId)!}").get("content") />
+                              <#assign install = paymentTools.queryStorePayment("alipay","${(of.storeId)!}")["install"] />
+                              <#assign content = paymentTools.queryStorePayment("alipay","${(of.storeId)!}")["content"] />
                               <#if (install!false)==true >
                                   <div class="bankone"> <span class="banksp">
                                       <input name="payType" type="radio" value="alipay" checked="checked" />
@@ -224,8 +226,8 @@ ${httpInclude.include("/top")}
                                       <span class="bank_txt">${content!}</span>
                                   </div>
                               </#if>
-                              <#assign install = paymentTools.queryStorePayment("paypal","${(of.storeId)!}").get("install") />
-                              <#assign content = paymentTools.queryStorePayment("paypal","${(of.storeId)!}").get("content") />
+                              <#assign install = paymentTools.queryStorePayment("paypal","${(of.storeId)!}")["install"] />
+                              <#assign content = paymentTools.queryStorePayment("paypal","${(of.storeId)!}")["content"] />
                               <#if (install!false)==true >
                               <div class="bankone">
                               <span class="banksp">
@@ -237,8 +239,8 @@ ${httpInclude.include("/top")}
                                   <span class="bank_txt">${content!}</span>
                               </div>
                               </#if>
-                              <#assign install = paymentTools.queryStorePayment("tenpay","${(of.storeId)!}").get("install") />
-                              <#assign content = paymentTools.queryStorePayment("tenpay","${(of.storeId)!}").get("content") />
+                              <#assign install = paymentTools.queryStorePayment("tenpay","${(of.storeId)!}")["install"] />
+                              <#assign content = paymentTools.queryStorePayment("tenpay","${(of.storeId)!}")["content"] />
                               <#if (install!false)==true >
                                   <div class="bankone">
                                   <span class="banksp">
@@ -250,8 +252,8 @@ ${httpInclude.include("/top")}
                                   <span class="bank_txt">${content!}</span>
                                   </div>
                               </#if>
-                              <#assign install = paymentTools.queryStorePayment("wxcodepay","${(of.storeId)!}").get("install") />
-                              <#assign content = paymentTools.queryStorePayment("wxcodepay","${(of.storeId)!}").get("content") />
+                              <#assign install = paymentTools.queryStorePayment("wxcodepay","${(of.storeId)!}")["install"] />
+                              <#assign content = paymentTools.queryStorePayment("wxcodepay","${(of.storeId)!}")["content"] />
                               <#if (install!false)==true >
                                   <div class="bankone">
                                       <span class="banksp">
@@ -262,8 +264,8 @@ ${httpInclude.include("/top")}
                                       <span class="bank_txt">${content!}</span>
                                   </div>
                               </#if>
-                              <#assign install = paymentTools.queryStorePayment("chinabank","${(of.storeId)!}").get("install") />
-                              <#assign content = paymentTools.queryStorePayment("chinabank","${(of.storeId)!}").get("content") />
+                              <#assign install = paymentTools.queryStorePayment("chinabank","${(of.storeId)!}")["install"] />
+                              <#assign content = paymentTools.queryStorePayment("chinabank","${(of.storeId)!}")["content"] />
                               <#if (install!false)==true >
                                   <div class="bankone"> <span class="banksp">
                                       <input name="payType" type="radio" value="chinabank" />
@@ -273,8 +275,8 @@ ${httpInclude.include("/top")}
                                       <span class="bank_txt">${content!}</span>
                                   </div>
                               </#if>
-                              <#assign install = paymentTools.queryStorePayment("bill","${(of.storeId)!}").get("install") />
-                              <#assign content = paymentTools.queryStorePayment("bill","${(of.storeId)!}").get("content") />
+                              <#assign install = paymentTools.queryStorePayment("bill","${(of.storeId)!}")["install"] />
+                              <#assign content = paymentTools.queryStorePayment("bill","${(of.storeId)!}")["content"] />
                               <#if (install!false)==true >
                                   <div class="bankone">
                                       <span class="banksp">
@@ -289,8 +291,8 @@ ${httpInclude.include("/top")}
                             </li>
                         <li>
                             <h1>线下支付</h1>
-                          <#assign install = paymentTools.queryStorePayment("outline","${(of.storeId)!}").get("install") />
-                          <#assign content = paymentTools.queryStorePayment("outline","${(of.storeId)!}").get("content") />
+                          <#assign install = paymentTools.queryStorePayment("outline","${(of.storeId)!}")["install"] />
+                          <#assign content = paymentTools.queryStorePayment("outline","${(of.storeId)!}")["content"] />
                           <#if (install!false)==true >
                               <div class="bankone"> <span class="banksp">
                                   <input name="payType" type="radio" value="outline" />
@@ -303,8 +305,8 @@ ${httpInclude.include("/top")}
                         </li>
                             <li>
                                 <h1>货到付款</h1>
-                              <#assign install = paymentTools.queryStorePayment("payafter","${(of.storeId)!}").get("install") />
-                              <#assign content = paymentTools.queryStorePayment("payafter","${(of.storeId)!}").get("content") />
+                              <#assign install = paymentTools.queryStorePayment("payafter","${(of.storeId)!}")["install"] />
+                              <#assign content = paymentTools.queryStorePayment("payafter","${(of.storeId)!}")["content"] />
                               <#if (install!false)==true >
                                   <div class="bankone"> <span class="banksp">
                                       <input name="payType" type="radio" value="payafter" />
@@ -317,8 +319,8 @@ ${httpInclude.include("/top")}
                             </li>
                             <li>
                                 <h1>预存款支付</h1>
-                              <#assign install = paymentTools.queryStorePayment("balance","${(of.storeId)!}").get("install") />
-                              <#assign content = paymentTools.queryStorePayment("balance","${(of.storeId)!}").get("content") />
+                              <#assign install = paymentTools.queryStorePayment("balance","${(of.storeId)!}")["install"] />
+                              <#assign content = paymentTools.queryStorePayment("balance","${(of.storeId)!}")["content"] />
                               <#if (install!false)==true >
                                   <div class="bankone"> <span class="banksp">
                                       <input name="payType" type="radio" value="balance" />

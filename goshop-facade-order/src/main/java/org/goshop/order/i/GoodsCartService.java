@@ -23,7 +23,7 @@ public interface GoodsCartService {
 
     GsGoodsCart findOne(Long id);
 
-    int save (GsGoodsCart goodsCart);
+    long save (GsGoodsCart goodsCart);
 
     List<GsGoodsSpecProperty> findSpecPropertByGoodsCartId(Long id);
 

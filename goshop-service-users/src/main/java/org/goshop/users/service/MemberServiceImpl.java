@@ -237,8 +237,8 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
-    public Member findUserByUserId(Long userId) {
-        return readMemberMapper.findUserByUserId(userId);
+    public Member findByUserId(Long userId) {
+        return readMemberMapper.selectByUserId(userId);
     }
 
     @Override

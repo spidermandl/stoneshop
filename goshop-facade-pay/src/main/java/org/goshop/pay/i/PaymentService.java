@@ -13,4 +13,10 @@ public interface PaymentService {
     GsPaymentWithBLOBs findOne(Long id);
 
     List<GsPaymentWithBLOBs> findByCondition(Map condition);
+
+    int update(GsPaymentWithBLOBs payment);
+
+    int save(GsPaymentWithBLOBs payment);
+
+    int delete(Long id);
 }

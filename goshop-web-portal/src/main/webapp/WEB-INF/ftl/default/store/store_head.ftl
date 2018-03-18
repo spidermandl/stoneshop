@@ -19,7 +19,7 @@
             <div class="top_searleft"> </div>
             <div class="top_nofilter">
               <div class="top_sear_kf">
-                  <a href="${S_URL}/store_${(store.storeId)!}.htm">${(store.storeName)!}</a>
+                  <a href="${S_URL}/store?id=${(store.storeId)!}">${(store.storeName)!}</a>
                   <a target="_blank" href="http://wpa.qq.com/msgrd?v=3&uin=${(store.storeQq)!}&Site=${(store.storeQq)!}&Menu=yes">
                       <img alt="点击这里给我发消息" src="http://wpa.qq.com/pa?p=2:${(store.storeQq)!}:51" />
                   </a>

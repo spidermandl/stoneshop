@@ -61,8 +61,12 @@ i{ font-style:normal;}
   margin-right: auto;
   width: 1200px;
 }
-.pageleft{ float:left; height:26px; overflow:hidden} 
+.pageleft{ float:left; height:26px; overflow:hidden}
 .pageleft span{ float:left; display:block; color:#555;}
+.pageleft .seller-login { margin-top:4px;background-color: #D93600; display: inline-block; margin-left: 10px; border: 1px solid #B22D00; border-radius: 3px; box-shadow: 2px 2px 0 rgba(204,204,204,0.65);}
+.pageleft .seller-login a { line-height: 14px; color: #FFF; display: block; height: 14px; padding: 1px 4px;}
+.pageleft .seller-login a:hover { text-decoration: none; background-color: #B22D00;}
+.pageleft .seller-login i { font-size: 14px; vertical-align: middle; margin-right: 4px;}
 .welimg img{ margin-top:7px; padding-left:5px; padding-right:5px;}
 .lightblue{ color:#666666;}
 .pxlr{ padding-left:5px; padding-right:5px;}

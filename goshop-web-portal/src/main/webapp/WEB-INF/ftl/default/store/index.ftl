@@ -250,8 +250,8 @@ ${httpInclude.include("/nav")}
 			              <#else>
 			              		<#assign img="${imageWebServer!}/${(config.goodsImage.path)!}/${(config.goodsImage.name)!}" />
 						  </#if>
-			              <#assign goods_url="${S_URL}/goods_${(obj.id)!}" />
-			              <#if (config.second_domain_open)!??>
+			              <#assign goods_url="${S_URL}/goods?id=${(obj.id)!}" />
+			              <#if ((config.second_domain_open)!false) == true>
 							  <#assign goods_url="http://${(obj.goods_store.store_second_domain)!}.${domainPath!}/goods?id=${(obj.id)!}" />
 						  </#if>
 
@@ -355,7 +355,7 @@ ${httpInclude.include("/nav")}
 		        <#assign img="${imageWebServer!}/${(config.goodsImage.path)!}/${(config.goodsImage.name)!}" />
 				</#if>
 		        <#assign goods_url="${S_URL}/goods?id=${(fengKuang.id)!}" />
-		        <#if (config.second_domain_open)!>
+		        <#if ((config.second_domain_open)!false) == true>
 					<#assign goods_url="http://${(fengKuang.goods_store.store_second_domain)!}.${domainPath!}/goods?id=${(fengKuang.id)!}" />
 				</#if>
 			    <ul class="index_sale_two">
@@ -390,7 +390,7 @@ ${httpInclude.include("/nav")}
 			        <#assign img="${imageWebServer!}/${(config.goodsImage.path)!}/${(config.goodsImage.name)!}" />
 					</#if>
 			        <#assign goods_url="${S_URL}/goods?id=${(niCai.id)!}" />
-			        <#if (config.second_domain_open)!??>
+			        <#if ((config.second_domain_open)!false) == true>
 			        <#assign goods_url="http://${(niCai.goods_store.store_second_domain)!}.${domainPath!}/goods?id=${(niCai.id)!}" />
 					</#if>
 					  <ul class="index_sale_two">
@@ -424,8 +424,8 @@ ${httpInclude.include("/nav")}
 	        		<#assign img="${imageWebServer!}/${(config.goodsImage.path)!}/${(config.goodsImage.name)!}" />
 				</#if>
 	        	<#assign goods_url="${S_URL}/goods?id=${(xinShang.id)!}" />
-	        	<#if (config.second_domain_open)!>
-	        		<#assign goods_url="http://${(xinShang.goods_store.store_second_domain)!}.${domainPath!}/goods=id?${(xinShang.id)!}" />
+	        	<#if ((config.second_domain_open)!false) == true>
+	        		<#assign goods_url="http://${(xinShang.goods_store.store_second_domain)!}.${domainPath!}/goods?id=${(xinShang.id)!}" />
 				</#if>
 	      	  <ul class="index_sale_two">
 		          <li class="sale_two_img">
@@ -452,8 +452,8 @@ ${httpInclude.include("/nav")}
 	      <div id="index_sale_box_5" style="display: none;" class="index_sale_box">
 	      <div id="index_sale_con_5" class="index_sale_con">
 	      	  <#list dgs! as obj>
-              <#assign goods_url="${S_URL}/goods_${(obj.d_goods.id)!}" />
-              <#if (config.second_domain_open)!??>
+              <#assign goods_url="${S_URL}/goods?id=${(obj.d_goods.id)!}" />
+              <#if ((config.second_domain_open)!false) == true>
               	<#assign goods_url="http://${(obj.d_goods.goods_store.store_second_domain)!}.${domainPath!}/goods?id=${(obj.d_goods.id)!}" />
 			  </#if>
 			  <#if (obj.d_goods.goods_main_photo)!??>
@@ -487,8 +487,8 @@ ${httpInclude.include("/nav")}
 	      	<div id="index_sale_con_6" class="index_sale_con">
 	      	  <#list hots! as obj >
 	          <#assign goods_url="${S_URL}/goods?id=${(obj.id)!}" />
-	          <#if (config.second_domain_open)!?? >
-	          	<#assign goods_url="http://${(obj.goods_store.store_second_domain)!}.${domainPath!}/goods=id?${(obj.id)!}" />
+	          <#if ((config.second_domain_open)!false) == true >
+	          	<#assign goods_url="http://${(obj.goods_store.store_second_domain)!}.${domainPath!}/goods?id=${(obj.id)!}" />
 			  </#if>
 	          <#if (obj.goods_main_photo)!?? >
 	          	<#assign img="${imageWebServer!}/${(obj.goods_main_photo.path)!}/${(obj.goods_main_photo.name)!}_small.${(obj.goods_main_photo.ext)!}" />

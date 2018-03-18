@@ -36,6 +36,6 @@ public interface ReadMemberMapper {
                        @Param("isBuy") Integer isBuy, @Param("isAllowtalk") Integer isAllowtalk,
                        @Param("memberState") Integer memberState, @Param("sort") String sort);
 
-    Member findUserByUserId(@Param("userId") Long userId);
+    Member selectByUserId(@Param("userId") Long userId);
 
 }

@@ -6,11 +6,9 @@ import org.goshop.order.pojo.GsOrderformWithBLOBs;
 public interface GsOrderformMapper {
     int deleteByPrimaryKey(Long id);
 
-    int insert(GsOrderformWithBLOBs record);
+    long insert(GsOrderformWithBLOBs record);
 
-    int insertSelective(GsOrderformWithBLOBs record);
-
-    GsOrderformWithBLOBs selectByPrimaryKey(Long id);
+    long insertSelective(GsOrderformWithBLOBs record);
 
     int updateByPrimaryKeySelective(GsOrderformWithBLOBs record);
 

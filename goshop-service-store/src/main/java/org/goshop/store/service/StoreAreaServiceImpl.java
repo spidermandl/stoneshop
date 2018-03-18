@@ -32,4 +32,17 @@ public class StoreAreaServiceImpl implements StoreAreaService {
     public List<GsArea> findByCondition(Map condition) {
         return readGsAreaMapper.selectByCondition(condition);
     }
+
+    @Override
+    public GsArea findLinkedOne(Long id) {
+        GsArea area = findOne(id);
+        if (area.getParentId()!=null){
+            GsArea parent = findOne(area.getParentId());
+            area.setParent(parent);
+            if (parent.getParentId()!=null){
+                parent.setParent(findOne(parent.getParentId()));
+            }
+        }
+        return area;
+    }
 }

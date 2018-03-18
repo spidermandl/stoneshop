@@ -1,4 +1,5 @@
 <#assign S_URL=request.contextPath />
+<#assign CHANNEL = 'SETTING'/>
 <!DOCTYPE html>
 <html>
 <head>
@@ -8,7 +9,7 @@
     <script type="text/javascript">
         var SITEURL = '${S_URL}';
     </script>
-    <link type="text/css" rel="stylesheet" href="${S_URL}/static/styles/shop/base.css">
+    <link type="text/css" rel="stylesheet" href="${S_URL}/static/styles/base.css">
     <link type="text/css" rel="stylesheet" href="${S_URL}/static/styles/member.css">
     <link type="text/css" rel="stylesheet" href="${S_URL}/static/styles/home_login.css">
     <link type="text/css" rel="stylesheet" href="${S_URL}/static/scripts/dialog/dialog.css">
@@ -32,7 +33,8 @@
 <body>
 <div id="append_parent"></div>
 <div id="ajaxwaitid"></div>
-<#include "../top.ftl"/>
+<#--<#include "../top.ftl"/>-->
+${httpInclude.include("/up")}
 <#include "../member_header.ftl"/>
 <div id="container" class="wrapper">
     <div class="layout">

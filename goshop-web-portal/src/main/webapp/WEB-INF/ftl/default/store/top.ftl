@@ -12,22 +12,22 @@
 	                <!-- <a href="${S_URL}/buyer/order.htm" rel="nofollow">已买到的宝贝</a>
 	                <a href="${S_URL}/buyer/index.htm?type=4"  rel="nofollow">店铺动态</a>
 	                <a href="${S_URL}/buyer/index.htm?type=2"  rel="nofollow">好友动态</a> -->
-                  <a href="${S_URL}/buyer/order.htm?order_status=order_submit" rel="nofollow">待支付</a>
-		          <a href="${S_URL}/buyer/order.htm?order_status=order_shipping" rel="nofollow">待收货</a>
-		          <a href="${S_URL}/buyer/order.htm?order_status=order_receive" rel="nofollow">待评价</a>
+                  <a href="${S_URL}/buyer/order?order_status=order_submit" rel="nofollow">待支付</a>
+		          <a href="${S_URL}/buyer/order?order_status=order_shipping" rel="nofollow">待收货</a>
+		          <a href="${S_URL}/buyer/order?order_status=order_receive" rel="nofollow">待评价</a>
                 </div>
               </div>
             </div>
           </div>
         </li>
 		<li class="mytaobao menu-item menupx">
-          <div class="menu"> <a class="menu-hd" href="${S_URL}/seller" rel="nofollow">商家支持<b></b></a>
+          <div class="menu"><a class="menu-hd" href="${S_URL}/seller" rel="nofollow">商家支持<b></b></a>
             <div class="menu-bd">
               <div class="menu-bd-panel">
                 <div>
                 <a href="${S_URL}/seller" rel="nofollow">商家中心</a>
-                <a href="${S_URL}/seller/order.htm"  rel="nofollow">商家订单</a>
-                <a href="${S_URL}/seller/goods.htm" rel="nofollow">商家商品</a>
+                <a href="${S_URL}/seller/order"  rel="nofollow">商家订单</a>
+                <a href="${S_URL}/seller/goods" rel="nofollow">商家商品</a>
                 <#if (user.store)!??>
                 <a href="${S_URL}/store_me" rel="nofollow">我的店铺</a>
                 <#else>
@@ -93,7 +93,7 @@
           <div class="menu" id="cart_menu">
               <span class="menu-hd" id="cart_goods_top_menu">
                   <s></s>购物车
-                  <span id="cart_goods_count_top" class="top_car">${cart!?size}</span>种商品
+                  <span id="cart_goods_count_top" class="top_car">${cart_goods!?size}</span>种商品
                   <b></b>
               </span>
             <div class="menu-bd" id="cart_goods_top_info">
@@ -130,7 +130,7 @@
         </#if>
         <#assign navs= navTools.queryNav(-1,-1) />
 		<#if navs!?size gt 0 >
-        <li class="menupx"><a href="${S_URL}/articlelist_help.htm">帮助中心</a></li>
+        <li class="menupx"><a href="${S_URL}/articlelist_help">帮助中心</a></li>
 		<#else>
         <li class="menupx" style="background:none;"><a href="${S_URL}/articlelist_help">帮助中心</a></li>
         </#if>
@@ -161,7 +161,29 @@
     <#if user?? >
         <span>${CommUtil.substring("${(user.userName)!}",12)}
             您好,欢迎来到${CommUtil.substring("${(config.websiteName)!}",30)}！</span>
-        <a href="${S_URL}/wemall_logout" class="lightblue">[退出]</a>
+        <span><a href="${S_URL}/wemall_logout" class="lightblue">[退出]</a></span>
+        <@shiro.hasRole name="seller">
+            <span class="seller-login">
+                <a title="登录商家管理中心" target="_blank" href="${SELLER_URL}/">
+                    <i class="icon-signin"></i>
+                    商家管理中心
+                </a>
+            </span>
+        </@shiro.hasRole>
+        <@shiro.lacksRole name="seller">
+            <span class="seller-login">
+                <a title="申请店铺" target="_blank" href="${SELLER_URL}/store_join/agreement.html">
+                    <i class="icon-signin"></i>
+                    申请店铺
+                </a>
+            </span>
+        </@shiro.lacksRole>
+        <span class="seller-login">
+            <a title="个人中心" target="_blank" href="${S_URL}/member/base_set.html">
+                <i class="icon-signin"></i>
+                    个人中心
+            </a>
+        </span>
     <#else>
         <span>亲，欢迎来到${(config.websiteName)!}！</span>
         <span class="pxlr"><a href="${S_URL}/login.htm" class="lightblue">登录</a></span><span class="pxlr">或</span>

@@ -14,4 +14,12 @@ public interface GoodsEvaluateService {
     List<GsGoodsEvaluateWithBLOBs> findByCondition(Map condition);
 
     PageInfo<GsGoodsEvaluateWithBLOBs> findByCondition(Map condition, Integer curPage, Integer pageSize);
+
+    Integer findCountByCondition(Map condition);
+
+    int save(GsGoodsEvaluateWithBLOBs eva);
+
+    int update(GsGoodsEvaluateWithBLOBs eva);
+
+    GsGoodsEvaluateWithBLOBs findOne(Long id);
 }

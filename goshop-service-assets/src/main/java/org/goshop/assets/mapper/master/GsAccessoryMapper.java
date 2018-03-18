@@ -7,9 +7,9 @@ import java.util.List;
 public interface GsAccessoryMapper {
     int deleteByPrimaryKey(Long id);
 
-    int insert(GsAccessory record);
+    long insert(GsAccessory record);
 
-    int insertSelective(GsAccessory record);
+    long insertSelective(GsAccessory record);
 
     GsAccessory selectByPrimaryKey(Long id);
 

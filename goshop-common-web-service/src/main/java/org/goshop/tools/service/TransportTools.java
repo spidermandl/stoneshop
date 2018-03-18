@@ -12,6 +12,8 @@ import org.goshop.goods.pojo.GsTransArea;
 import org.goshop.goods.pojo.GsTransportWithBLOBs;
 import org.goshop.order.pojo.GsGoodsCart;
 import org.goshop.order.pojo.GsStoreCart;
+import org.goshop.store.i.StoreAreaService;
+import org.goshop.store.pojo.GsArea;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -30,7 +32,7 @@ public class TransportTools {
     private TransportService transportService;
 
     @Autowired
-    private AreaService areaService;
+    private StoreAreaService storeAreaService;
 
     @Autowired
     private GoodsService goodsService;
@@ -248,8 +250,8 @@ public class TransportTools {
     public List<SysMap> query_cart_trans(GsStoreCart sc, String area_id){
         List sms = new ArrayList();
         if ((area_id != null) && (!area_id.equals(""))){
-            GsTransArea area = this.areaService.findOne(
-                    this.areaService.findOne(CommUtil.null2Long(area_id)).getParentId());
+            GsArea area = this.storeAreaService.findOne(
+                    this.storeAreaService.findOne(CommUtil.null2Long(area_id)).getParentId());
             String city_name = area.getAreaname();
 
             float mail_fee = 0.0F;

@@ -29,10 +29,22 @@ import javax.servlet.http.HttpServletResponse;
 import java.awt.image.BufferedImage;
 import java.io.*;
 import java.text.SimpleDateFormat;
-
+/**
+ * 买家会员中心
+ */
 @Controller
 @RequestMapping(value =  "/member")
-public class MemberController {
+public class MemberController extends BaseController{
+    @Autowired
+    MemberService memberService;
+
+    @Autowired
+    AttachmentService attachmentService;
+
+    @Override
+    protected String rootTemplatePath() {
+        return "member/";
+    }
 
     @InitBinder
     protected void initBinder(HttpServletRequest request,
@@ -51,17 +63,14 @@ public class MemberController {
                 new CustomTimestampEditor(datetimeFormat, true));
     }
 
-    @Autowired
-    MemberService memberService;
-
-    @Autowired
-    AttachmentService attachmentService;
 
     @RequestMapping("/base_set")
     public String index(@CurrentUser User user,Model model,
                         HttpServletRequest request,
                         HttpServletResponse response){
-        Member member=memberService.findUserByUserId(user.getId());
+        reCapsuleModel(model,request,response);
+
+        Member member=memberService.findByUserId(user.getId());
         String json=member.getMemberPrivacy();
         if(StringUtils.hasText(json)) {
             PrivacyModel pm = (PrivacyModel) JsonUtils.jsonToPojo(json, PrivacyModel.class);
@@ -101,6 +110,8 @@ public class MemberController {
     public String password(Model model,
                         HttpServletRequest request,
                         HttpServletResponse response){
+        reCapsuleModel(model,request,response);
+
         return "member/set_password";
     }
 
@@ -110,6 +121,8 @@ public class MemberController {
                            String new_password,String confirm_password,Model model,
                            HttpServletRequest request,
                            HttpServletResponse response){
+        reCapsuleModel(model,request,response);
+
         String url = request.getContextPath() + "/member/password.html";
         String name = "密码修改成功！";
         if(StringUtils.hasText(orig_password)&&StringUtils.hasText(new_password)&&StringUtils.hasText(confirm_password)) {
@@ -138,6 +151,8 @@ public class MemberController {
     public String email(Model model,
                            HttpServletRequest request,
                            HttpServletResponse response){
+        reCapsuleModel(model,request,response);
+
         return "member/set_email";
     }
 
@@ -146,7 +161,9 @@ public class MemberController {
     public void emailSave(@CurrentUser User user,String orig_password,String email,Model model,
                              HttpServletRequest request,
                              HttpServletResponse response){
-        String url = request.getContextPath() + "/member/email.html";
+        reCapsuleModel(model,request,response);
+
+        String url = request.getContextPath() + "/member/email";
         String name = "email修改成功！";
         if(StringUtils.hasText(orig_password)){
             Boolean is=memberService.checkPassword(user.getId(), orig_password);
@@ -165,7 +182,9 @@ public class MemberController {
     public String avatar(@CurrentUser User user, Model model,
                          HttpServletRequest request,
                          HttpServletResponse response){
-        Member member=memberService.findUserByUserId(user.getId());
+        reCapsuleModel(model,request,response);
+
+        Member member=memberService.findByUserId(user.getId());
         model.addAttribute("P_MEMBER", member);
         return "member/set_avatar";
     }
@@ -230,6 +249,6 @@ public class MemberController {
             e.printStackTrace();
             throw  new PageException("头像文件保存错误！");
         }
-        return "redirect:/member/avatar.html";
+        return "redirect:/member/avatar";
     }
 }

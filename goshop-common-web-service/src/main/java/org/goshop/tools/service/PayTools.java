@@ -408,7 +408,7 @@ public class PayTools {
         String version = "v2.0";
         String language = "1";
         String signType = "1";
-        String payerName = user.getName();
+        String payerName = user.getUserName();
         String payerContactType = "1";
         String payerContact = "";
         String orderId = "";
@@ -915,7 +915,7 @@ public class PayTools {
         String language = "1";
         String signType = "1";
 
-        String payerName = user.getName();
+        String payerName = user.getUserName();
 
         String payerContactType = "1";
 

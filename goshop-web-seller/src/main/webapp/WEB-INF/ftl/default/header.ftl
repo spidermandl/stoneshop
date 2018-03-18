@@ -225,11 +225,12 @@
 
             <dd class="arrow"></dd>
             </dl>
-            <dl class="">
-                <dt><a href="${S_URL}/order/orderQuery"> 订单 </a></dt>
+            <dl <#if P_CURRENT_TOP=='order'> class="current" </#if>>
+                <dt><a href="${S_URL}/order"> 订单 </a></dt>
                 <dd>
                     <ul>
-                        <li><a href="${S_URL}/order/orderQuery"> 订单管理 </a></li>
+                        <li><a href="${S_URL}/order"> 订单管理 </a></li>
+                        <li><a href="${S_URL}/payment">支付方式</a></li>
                         <li><a href="${S_URL}/deliver/deliverQuery"> 发货 </a></li>
                         <li><a href="${S_URL}/deliver/deliverSetQuery"> 发货设置 </a></li>
                         <li><a href="${S_URL}/evaluate/evaluateQuery"> 评价管理 </a></li>

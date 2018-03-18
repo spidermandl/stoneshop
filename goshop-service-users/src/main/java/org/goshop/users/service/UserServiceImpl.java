@@ -7,6 +7,7 @@ import org.goshop.common.utils.RandomUtils;
 import org.goshop.users.i.PasswordService;
 import org.goshop.users.i.UserService;
 import org.goshop.users.mapper.master.GsUserBanPermMapper;
+import org.goshop.users.mapper.master.MemberMapper;
 import org.goshop.users.mapper.master.UserMapper;
 import org.goshop.users.mapper.master.UserRoleMapper;
 import org.goshop.users.mapper.read.*;
@@ -15,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
+import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.Iterator;
 import java.util.List;
@@ -27,30 +29,26 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     UserMapper userMapper;
-
     @Autowired
     ReadUserMapper readUserMapper;
-
     @Autowired
     ReadRoleMapper readRoleMapper;
-
     @Autowired
     UserRoleMapper userRoleMapper;
-
     @Autowired
     PasswordService passwordService;
-
     @Autowired
     ReadGsUserBanPermMapper readGsUserBanPermMapper;
-
     @Autowired
     ReadGsPermissionGroupMapper readGsPermissionGroupMapper;
-
     @Autowired
     ReadGsPermissionMapper readGsPermissionMapper;
-
     @Autowired
     GsUserBanPermMapper gsUserBanPermMapper;
+    @Autowired
+    MemberMapper memberMapper;
+    @Autowired
+    ReadMemberMapper readMemberMapper;
 
     @Override
     public long save(User user) {
@@ -80,6 +78,11 @@ public class UserServiceImpl implements UserService {
     @Override
     public User findByLoginName(String loginName) {
         return readUserMapper.findByLoginName(loginName);
+    }
+
+    @Override
+    public User findByUserName(String userName) {
+        return readUserMapper.findByUserName(userName);
     }
 
     @Override
@@ -186,6 +189,27 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<GsPermissionGroup> findPermissionGroupByType(String type, String orderBy, String orderType) {
         return readGsPermissionGroupMapper.selectByType(type,orderBy,orderType);
+    }
+
+    @Override
+    public void changeDepositBalance(User user,Double delta) {
+        Member member = this.readMemberMapper.selectByUserId(user.getId());
+        member.setAvailablePredeposit(member.getAvailablePredeposit().add(BigDecimal.valueOf(delta)));
+        this.memberMapper.updateByPrimaryKeySelective(member);
+    }
+
+    @Override
+    public void changeFreezeBalance(User user,Double delta) {
+        Member member = this.readMemberMapper.selectByUserId(user.getId());
+        member.setFreezePredeposit(member.getFreezePredeposit().add(BigDecimal.valueOf(delta)));
+        this.memberMapper.updateByPrimaryKeySelective(member);
+    }
+
+    @Override
+    public void changePoint(User user, Integer delta) {
+        Member member = this.readMemberMapper.selectByUserId(user.getId());
+        member.setMemberPoints(member.getMemberPoints()+delta);
+        this.memberMapper.updateByPrimaryKeySelective(member);
     }
 
     /**

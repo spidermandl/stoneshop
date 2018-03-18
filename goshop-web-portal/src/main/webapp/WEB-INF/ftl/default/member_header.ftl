@@ -3,11 +3,11 @@
         <h1 title="电商测试" id="logo"><a href="#"><img class="pngFix" alt="电商测试" src="${S_URL}/static/images/shop/logo.png"></a></h1>
         <nav>
             <ul>
-                <li class="frist"><a title="买家首页" href="#" class="normal">买家首页</a></li>
-                <li><a title="个人主页" href="#" class="normal">个人主页</a></li>
-                <li><a title="好友" href="#" class="normal">好友</a></li>
-                <li><a title="站内信" href="#" class="normal">站内信        	</a></li>
-                <li><a title="设置" href="${S_URL}/member/base_set.html" class="active">设置</a></li>
+                <li class="frist"><a title="买家首页" href="${S_URL}/buyer/index" <#if (CHANNEL!'')=='MAIN' > class="active" <#else>class="normal"</#if>>买家首页</a></li>
+                <li><a title="个人主页" href="#" <#if (CHANNEL!'')=='PERSONAL' > class="active" <#else>class="normal"</#if>>个人主页</a></li>
+                <li><a title="好友" href="#" <#if (CHANNEL!'')=='SOCIAL' > class="active" <#else>class="normal"</#if>>好友</a></li>
+                <li><a title="站内信" href="#" <#if (CHANNEL!'')=='MAIL' > class="active" <#else>class="normal"</#if>>站内信</a></li>
+                <li><a title="设置" href="${S_URL}/member/base_set.html" <#if (CHANNEL!'')=='SETTING' > class="active" <#else>class="normal"</#if>>设置</a></li>
             </ul>
             <div class="search-box">
                 <form id="formSearch" action="#" method="get">

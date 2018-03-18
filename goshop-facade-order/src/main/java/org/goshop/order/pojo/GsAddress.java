@@ -1,5 +1,7 @@
 package org.goshop.order.pojo;
 
+import org.goshop.store.pojo.GsArea;
+
 import java.io.Serializable;
 import java.util.Date;
 
@@ -24,6 +26,18 @@ public class GsAddress implements Serializable{
 
     private Long userId;
 
+    /**********手动加入**********/
+    private GsArea area;
+    /********************/
+
+
+    public GsArea getArea() {
+        return area;
+    }
+
+    public void setArea(GsArea area) {
+        this.area = area;
+    }
     public Long getId() {
         return id;
     }

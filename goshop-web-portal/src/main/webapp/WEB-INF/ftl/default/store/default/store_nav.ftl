@@ -5,7 +5,7 @@
         <a href="${S_URL}/store?id=${(store.storeId)!}" >首页</a>
     </li>
     <#if (goods_view?string) == 'true' >
-    <li id="store_goods" class="this"><a href="${S_URL}/goods_${goods_id!}">商品详情</a></li>
+    <li id="store_goods" class="this"><a href="${S_URL}/goods?id=${goods_id!}">商品详情</a></li>
     </#if>
     <#if (goods_list?string) == 'true' >
         <li id="store_goods" class="this">

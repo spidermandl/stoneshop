@@ -35,4 +35,24 @@ public class GoodsEvaluateServiceImpl implements GoodsEvaluateService{
         return new PageInfo<>(list);
     }
 
+    @Override
+    public Integer findCountByCondition(Map condition) {
+        return readGsGoodsEvaluateMapper.selectCountByCondition(condition);
+    }
+
+    @Override
+    public int save(GsGoodsEvaluateWithBLOBs eva) {
+        return gsGoodsEvaluateMapper.insertSelective(eva);
+    }
+
+    @Override
+    public int update(GsGoodsEvaluateWithBLOBs eva) {
+        return gsGoodsEvaluateMapper.updateByPrimaryKeySelective(eva);
+    }
+
+    @Override
+    public GsGoodsEvaluateWithBLOBs findOne(Long id) {
+        return readGsGoodsEvaluateMapper.selectByPrimaryKey(id);
+    }
+
 }

@@ -44,7 +44,7 @@ public interface MemberService {
 
     void updatePassword(Long userId,String password) throws Exception;
 
-    Member findUserByUserId(Long userId);
+    Member findByUserId(Long userId);
 
     int updateByUserId(Member member);
 

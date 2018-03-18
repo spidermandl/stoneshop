@@ -24,5 +24,7 @@
                      interface="org.goshop.store.i.StoreNavigationService" check="false" />
     <dubbo:reference id="storePartnerService"
                      interface="org.goshop.store.i.StorePartnerService" check="false" />
+    <dubbo:reference id="storePointService"
+                     interface="org.goshop.store.i.StorePointService" check="false" />
 
 </beans>

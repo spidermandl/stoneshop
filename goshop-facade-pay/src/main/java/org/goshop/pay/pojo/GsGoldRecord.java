@@ -1,8 +1,9 @@
 package org.goshop.pay.pojo;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class GsGoldRecord {
+public class GsGoldRecord  implements Serializable {
     private Long id;
 
     private Date addtime;

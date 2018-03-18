@@ -1,6 +1,7 @@
 package org.goshop.store.pojo;
 
 import org.goshop.assets.pojo.GsAccessory;
+import org.goshop.users.pojo.User;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -116,7 +117,18 @@ public class Store  implements Serializable {
     private GsAccessory license;//店铺
     private List<GsStoreSlide> slides = new ArrayList<>();//店铺slide
     private GsStorePoint point;//店铺打分
+    private User user;//店铺所属用户
+
     /************end*****************/
+
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
 
     public String getTemplate() {
         if (template==null)

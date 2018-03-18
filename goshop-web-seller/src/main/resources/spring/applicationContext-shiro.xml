@@ -51,6 +51,7 @@
 				/goods/**= authc,currentUserFilter,roles[seller]
 				/transport/** = authc,currentUserFilter,roles[seller]
 				/store/** = authc,currentUserFilter,roles[seller]
+				/payment/** = authc,currentUserFilter,roles[seller]
 				/** = authc,currentUserFilter
 				<!--perms[seller:read],-->
 				<!-- /** = anon所有url都可以匿名访问 -->

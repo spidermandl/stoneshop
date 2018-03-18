@@ -7,7 +7,7 @@
     <meta name="description" content="">
     <meta name="author" content="ShopNC">
     <meta name="copyright" content="ShopNC Inc. All Rights Reserved">
-    <link href="${S_URL}/static/styles/shop/base.css" rel="stylesheet" type="text/css">
+    <link href="${S_URL}/static/styles/base.css" rel="stylesheet" type="text/css">
     <link href="${S_URL}/static/styles/shop/home_header.css" rel="stylesheet" type="text/css">
     <link rel="stylesheet" href="${S_URL}/static/styles/font-awesome/css/font-awesome.min.css">
     <!--[if IE 7]>

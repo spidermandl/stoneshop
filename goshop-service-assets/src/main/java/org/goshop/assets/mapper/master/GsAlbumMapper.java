@@ -6,11 +6,9 @@ import org.goshop.assets.pojo.GsAlbum;
 public interface GsAlbumMapper {
     int deleteByPrimaryKey(Long id);
 
-    int insert(GsAlbum record);
+    long insert(GsAlbum record);
 
-    int insertSelective(GsAlbum record);
-
-    GsAlbum selectByPrimaryKey(Long id);
+    long insertSelective(GsAlbum record);
 
     int updateByPrimaryKeySelective(GsAlbum record);
 
@@ -18,5 +16,4 @@ public interface GsAlbumMapper {
 
     int updateByPrimaryKey(GsAlbum record);
 
-    GsAlbum getDefaultAlbumByUserId(@Param("userId") Long userId, @Param("albumDefault") Boolean albumDefault);
 }

@@ -1,5 +1,8 @@
 package org.goshop.order.pojo;
 
+import org.goshop.store.pojo.Store;
+import org.goshop.store.pojo.StoreWithBLOBs;
+
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -25,6 +28,7 @@ public class GsStoreCart  implements Serializable {
 
     /******************手动添加***************************/
     private List<GsGoodsCart> gcs = new ArrayList();//goods cart
+    private Store store;//商店
     /****************************************************/
 
     public List<GsGoodsCart> getGcs() {
@@ -34,6 +38,15 @@ public class GsStoreCart  implements Serializable {
     public void setGcs(List<GsGoodsCart> gcs) {
         this.gcs = gcs;
     }
+
+    public Store getStore() {
+        return store;
+    }
+
+    public void setStore(Store store) {
+        this.store = store;
+    }
+
     public Long getId() {
         return id;
     }

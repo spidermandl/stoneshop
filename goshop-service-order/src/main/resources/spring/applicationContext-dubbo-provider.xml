@@ -36,6 +36,11 @@
     <dubbo:service retries="0" interface="org.goshop.order.i.OrderFormLogService" ref="orderFormLogService"  />
     <dubbo:service retries="0" interface="org.goshop.order.i.CouponService" ref="couponService"  />
     <dubbo:service retries="0" interface="org.goshop.order.i.IntegralGoodsOrderService" ref="integralGoodsOrderService"  />
+    <dubbo:service retries="0" interface="org.goshop.order.i.ExpressCompanyService" ref="expressCompanyService"  />
+    <dubbo:service retries="0" interface="org.goshop.order.i.GoodsReturnService" ref="goodsReturnService"  />
+    <dubbo:service retries="0" interface="org.goshop.order.i.GoodsReturnItemService" ref="goodsReturnItemService"  />
+    <dubbo:service retries="0" interface="org.goshop.order.i.GoodsReturnLogService" ref="goodsReturnLogService"  />
+    <dubbo:service retries="0" interface="org.goshop.order.i.IntergralLogService" ref="intergralLogService"  />
 
 
 </beans>

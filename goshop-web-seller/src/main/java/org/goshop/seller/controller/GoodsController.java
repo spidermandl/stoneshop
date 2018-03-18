@@ -293,13 +293,13 @@ public class GoodsController {
         if (goods_session1==null || goods_session1.equals("")){
             ret = "error";
             model.addAttribute("op_title", "禁止重复提交表单");
-            model.addAttribute("url", CommUtil.getURL(request) + "/goods/index.htm");
+            model.addAttribute("url", CommUtil.getURL(request) + "/home");
             return "goods/"+ret;
         }
         if(!(goods_session1.equals(goods_session))){
             ret = "error";
             model.addAttribute("op_title", "参数错误");
-            model.addAttribute("url", CommUtil.getURL(request) + "/goods/index.htm");
+            model.addAttribute("url", CommUtil.getURL(request) + "/home");
             return "goods/"+ret;
         }
 
@@ -314,7 +314,7 @@ public class GoodsController {
         }else{
             ret = "success";
             model.addAttribute("op_title", "商品编辑成功");
-            model.addAttribute("url", CommUtil.getURL(request) + "/goods?id=" + id);
+            model.addAttribute("url", CommUtil.getURL(request) + "goods/step_one");
             GsGoodsWithBLOBs obj = this.goodsService.findOne(Long.valueOf(Long.parseLong(id)));
             goods = (GsGoodsWithBLOBs) wf.toPo(request, obj);
         }
@@ -540,7 +540,7 @@ public class GoodsController {
                 model.addAttribute("goods_class_info",this.storeTools.generic_goods_class_info(obj.getGc()));
                 model.addAttribute("goods_class", obj.getGc());
             }
-
+            model.addAttribute("trans_count",this.transportService.hasTransfortTemplate(storeId));
             String goods_session = CommUtil.randomString(32);
             model.addAttribute("goods_session", goods_session);
             request.getSession(false).setAttribute("goods_session",goods_session);

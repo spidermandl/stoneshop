@@ -25,6 +25,10 @@
     delete from gs_goods_cart
     where sc_id = #{scId,jdbcType=BIGINT}
   </delete>
+  <delete id="deleteByOrderId" parameterType="java.lang.Long" >
+    delete from gs_goods_cart
+    where of_id = #{of_id,jdbcType=BIGINT}
+  </delete>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
     delete from gs_goods_cart
     where id = #{id,jdbcType=BIGINT}

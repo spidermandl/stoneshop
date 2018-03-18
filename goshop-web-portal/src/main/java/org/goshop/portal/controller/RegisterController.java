@@ -19,6 +19,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+/**
+ * 买家注册
+ */
 @Controller
 @RequestMapping(value = "/register")
 public class RegisterController {

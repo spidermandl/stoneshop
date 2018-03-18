@@ -53,4 +53,18 @@
     from gs_store_point
     where store_id = #{storeId,jdbcType=BIGINT}
   </select>
+
+  <select id="selectByCondition" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select
+    <include refid="Base_Column_List" />
+    from gs_store_point
+    <where>
+      <if test="store_id != null" >
+        and store_id = #{store_id}
+      </if>
+      <if test="orderBy !=null">
+        order BY #{orderBy} #{orderType}
+      </if>
+    </where>
+  </select>
 </mapper>

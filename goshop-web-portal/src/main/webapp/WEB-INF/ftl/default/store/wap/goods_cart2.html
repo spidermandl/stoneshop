@@ -189,11 +189,11 @@
 					#if($!velocityCount==1)
 						#set($default_address_info="$!{addr.area.parent.parent.areaName}$!{addr.area.parent.areaName}$!{addr.area.areaName}$!{addr.area_info}")
 						#set($addr_id="$!{addr.area.id}")
-						#set($default_person_info="$!{addr.trueName} $!{addr.mobile}")
+						#set($default_person_info="$!{addr.truename} $!{addr.mobile}")
 					#end
 					<li class="tel">
 						<input type="radio" name="addr_id" value="$!addr.id" #if($!velocityCount==1) checked="checked" #end />
-						$!{addr.trueName}<span>$!{addr.mobile}</span>
+						$!{addr.truename}<span>$!{addr.mobile}</span>
 					</li>
 					<li class="site">$!{addr.area.parent.parent.areaName}$!{addr.area.parent.areaName}$!{addr.area.areaName}$!{addr.area_info}</li>
 				#end

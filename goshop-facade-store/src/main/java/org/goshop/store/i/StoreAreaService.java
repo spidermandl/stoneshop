@@ -14,4 +14,6 @@ public interface StoreAreaService {
     List<GsArea> findByParentId(Long parentId);
 
     List<GsArea> findByCondition(Map condition);
+
+    GsArea findLinkedOne(Long id);
 }

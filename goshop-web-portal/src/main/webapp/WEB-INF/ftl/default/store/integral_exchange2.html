@@ -30,14 +30,14 @@ jQuery(document).ready(function(){
   //
   jQuery("#theForm").validate({
     rules:{
-	  trueName:{required :true},
+	  truename:{required :true},
 	  area_id:{required :true},
 	  area_info:{required :true},
 	  telephone:{required :true},
 	  mobile:{required :true}
 	 },
 	messages:{
-	  trueName:{required :"收货人不能为空"},
+	  truename:{required :"收货人不能为空"},
 	  area_id:{required :"请选择详细区域"},
 	  area_info:{required :"详细地址不能为空"},
 	  telephone:{required :"联系电话不能为空"},
@@ -90,7 +90,7 @@ $!httpInclude.include("/top.htm")
             <b>
             <input name="addr_id" type="radio" value="$!addr.id" #if($!velocityCount==1) checked="checked"#end/>
             </b>
-            <span class="transad"> $!{addr.area.parent.parent.areaName}$!{addr.area.parent.areaName}$!{addr.area.areaName} $!{addr.area_info}</span><span class="transuser">收货人姓名: $!addr.trueName</span><span class="transtel">电话:$!addr.mobile</span>
+            <span class="transad"> $!{addr.area.parent.parent.areaName}$!{addr.area.parent.areaName}$!{addr.area.areaName} $!{addr.area_info}</span><span class="transuser">收货人姓名: $!addr.truename</span><span class="transtel">电话:$!addr.mobile</span>
             </li>
             #end
           <li class="this"><b>
@@ -102,7 +102,7 @@ $!httpInclude.include("/top.htm")
             <tr>
               <td width="90"><span class="transtab_name"><strong>*</strong>填写真实姓名:</span></td>
               <td>
-                <input name="trueName" type="text" id="trueName" size="30" />
+                <input name="truename" type="text" id="truename" size="30" />
              </td>
             </tr>
             <tr>

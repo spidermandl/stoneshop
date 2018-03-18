@@ -4,6 +4,7 @@ import org.goshop.order.pojo.GsOrderform;
 import org.goshop.order.pojo.GsOrderformWithBLOBs;
 
 import java.util.List;
+import java.util.Map;
 
 public interface ReadGsOrderformMapper {
 
@@ -11,4 +12,5 @@ public interface ReadGsOrderformMapper {
 
     List<GsOrderform> selectByStoreId(Long storeId);
 
+    List<GsOrderformWithBLOBs> selectByCondition(Map condition);
 }

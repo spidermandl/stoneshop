@@ -73,7 +73,7 @@
       <if test="type != null">
         and type = #{type}
       </if>
-      <if test="type != null">
+      <if test="store_id != null">
         and store_id = #{store_id}
       </if>
     </where>

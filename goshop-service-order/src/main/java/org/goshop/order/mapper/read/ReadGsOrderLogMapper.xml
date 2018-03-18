@@ -26,4 +26,19 @@
     from gs_order_log
     where id = #{id,jdbcType=BIGINT}
   </select>
+
+  <select id="selectByCondition" resultMap="ResultMapWithBLOBs" parameterType="java.util.Map" >
+    select
+    <include refid="Base_Column_List" />
+    from gs_order_log
+    <where>
+      <if test="of_id != null">
+        of_id = #{of_id}
+      </if>
+    </where>
+    <if test="orderBy != null">
+      order BY #{orderBy} #{orderType}
+    </if>
+  </select>
+
 </mapper>

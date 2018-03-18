@@ -7,9 +7,11 @@ public interface GsGoodsCartMapper {
 
     int deleteByStorecartId(Long sc_id);
 
-    int insert(GsGoodsCart record);
+    int deleteByOrderId(Long order_id);
 
-    int insertSelective(GsGoodsCart record);
+    long insert(GsGoodsCart record);
+
+    long insertSelective(GsGoodsCart record);
 
     int updateByPrimaryKeySelective(GsGoodsCart record);
 

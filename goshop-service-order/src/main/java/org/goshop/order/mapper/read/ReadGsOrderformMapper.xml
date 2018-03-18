@@ -56,12 +56,44 @@
     from gs_orderform
     where id = #{id,jdbcType=BIGINT}
   </select>
-  <select id="selectByStoreId" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+  <select id="selectByStoreId" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Long" >
     select
     <include refid="Base_Column_List" />
     ,
     <include refid="Blob_Column_List" />
     from gs_orderform
     where store_id = #{storeId,jdbcType=BIGINT}
+  </select>
+
+  <select id="selectByCondition" resultMap="ResultMapWithBLOBs" parameterType="java.util.Map" >
+    select
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from gs_orderform
+    <where>
+      <if test="user_id != null">
+        user_id = #{user_id}
+      </if>
+      <if test="order_id != null" >
+        and order_id LIKE concat('%',#{order_id},'%')
+      </if>
+      <if test="beginTime != null" >
+        and addTime &gt;= #{beginTime}
+      </if>
+      <if test="endTime != null" >
+        and addTime &lt;= #{endTime}
+      </if>
+      <if test="order_status != null" >
+        and order_status = #{order_status}
+      </if>
+      <if test="store_id != null" >
+        and store_id = #{store_id}
+      </if>
+
+    </where>
+    <if test="orderBy != null">
+      order BY #{orderBy} #{orderType}
+    </if>
   </select>
 </mapper>

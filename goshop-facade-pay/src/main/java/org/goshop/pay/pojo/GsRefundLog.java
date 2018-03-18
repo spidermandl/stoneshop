@@ -1,9 +1,10 @@
 package org.goshop.pay.pojo;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
 
-public class GsRefundLog {
+public class GsRefundLog  implements Serializable {
     private Long id;
 
     private Date addtime;

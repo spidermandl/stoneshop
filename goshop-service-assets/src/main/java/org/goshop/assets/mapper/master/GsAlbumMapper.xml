@@ -21,22 +21,6 @@
   <sql id="Blob_Column_List">
     alblum_info
   </sql>
-  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="ResultMapWithBLOBs">
-    select
-    <include refid="Base_Column_List" />
-    ,
-    <include refid="Blob_Column_List" />
-    from gs_album
-    where id = #{id,jdbcType=BIGINT}
-  </select>
-  <select id="getDefaultAlbumByUserId" resultMap="ResultMapWithBLOBs">
-    select
-    <include refid="Base_Column_List" />
-    ,
-    <include refid="Blob_Column_List" />
-    from gs_album
-    where user_id = #{userId,jdbcType=BIGINT} and album_default = #{albumDefault ,jdbcType=BIT}
-  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
     delete from gs_album
     where id = #{id,jdbcType=BIGINT}

@@ -35,15 +35,15 @@ function img_switch(obj){
 }
 <#assign group=0 />
 <#assign current_price= obj.goodsCurrentPrice />
-<#if (obj.groupBuy)!0==2 >
+<#if ((obj.groupBuy)!0)==2 >
   <#assign group=1 />
 </#if>
 <#if group==1 >
   <#list obj.group_goods_list as info >
-    <#if (info.groupId)!0 == (obj.groupId)!-1>
+    <#if ((info.groupId)!0) == ((obj.groupId)!-1)>
 	  var store_price=${(info.ggPrice)!};
 	  <#assign current_price= info.ggPrice />
-      <#if (info.ggMaxCount)!-1 gt 0 >
+      <#if ((info.ggMaxCount)!-1) gt 0 >
         var goods_inventory=${(info.ggMaxCount)!};
       <#else>
         var goods_inventory=${(info.ggCount)!};
@@ -124,7 +124,7 @@ jQuery("#report_goods").click(function(){
 jQuery("#goods_count").keyup(function(){
    var goods_count=jQuery(this).val();
    if(goods_count>goods_inventory){
-	  <#if (obj.groupBuy)!0==2 >
+	  <#if ((obj.groupBuy)!0)==2 >
 	    <#if (obj.group_goods.ggMaxCount)!-1 gt 0>
 		  alert("超出团购运行最大数量，请重新输入购买数量");
 		<#else>
@@ -515,11 +515,11 @@ function ajaxPage(url,currentPage,obj){
                     <h1>
                         <strong class="tuang_h">${(obj.goodsName)!}</strong>
                         <#if group==1 ><span class="tuang">团购</span></#if>
-                        <#if (obj.bargainStatus)!0==2 > <span class="tuang">特价</span> </#if>
-                        <#if (goods.activityStatus)!0==2><span class="tuang">活动</span></#if>
-                        <#if (goods.bargainStatus)!0==2><span class="tuang">特价</span></#if>
-                        <#if (goods.combinStatus)!0==2><span class="tuang">组合</span></#if>
-                        <#if (goods.deliveryStatus)!0==2><span class="tuang">买就送</span></#if>
+                        <#if ((obj.bargainStatus)!0)==2 > <span class="tuang">特价</span> </#if>
+                        <#if ((goods.activityStatus)!0)==2><span class="tuang">活动</span></#if>
+                        <#if ((goods.bargainStatus)!0)==2><span class="tuang">特价</span></#if>
+                        <#if ((goods.combinStatus)!0)==2><span class="tuang">组合</span></#if>
+                        <#if ((goods.deliveryStatus)!0)==2><span class="tuang">买就送</span></#if>
                     </h1>
                     <div class="photoproduct">
                         <div class="photopro">
@@ -633,7 +633,7 @@ function ajaxPage(url,currentPage,obj){
                                             <#if ((obj.goodsTransfee)!0)==1>
                                                 <span class="detbt"></span><span>卖家承担</span>
                                             <#else>
-                                                <#if (obj.transport)!??>
+                                                <#if obj.transport!??>
                                                     <span>
                                                     <#if (obj.transport.transMail)!??>平邮: <i id="goods_mail_fee">
                                                         ¥${transportTools.cal_goods_trans_fee("${(obj.transport.id)!}","mail","${(obj.goodsWeight)!}","${(obj.goodsVolume)!}","${current_city!}")} </i>
@@ -667,7 +667,7 @@ function ajaxPage(url,currentPage,obj){
                                             <#assign img="${imageWebServer!}/${(config.goodsImage.path)!}/${(config.goodsImage.name)!}" />
                                         </#if>
                                         <span style="float:left;margin-left:90px;width:360px;overflow:hidden;">
-                                            <a href="${S_URL}/goods_${(obj.dg.d_delivery_goods.id)!}" target="_blank">
+                                            <a href="${S_URL}/goods?id=${(obj.dg.d_delivery_goods.id)!}" target="_blank">
                                                 <img src="${img!}" width="60" height="60" /></a>
                                         </span>
                                     </li>
@@ -800,11 +800,11 @@ function ajaxPage(url,currentPage,obj){
                                         <#else>
                                             <#assign big_img="${S_URL}/${(config.goodsImage.path)!}/${(config.goodsImage.name)!}" />
                                         </#if>
-                                        <a href="${S_URL}/goods_${(obj.id)!}">
+                                        <a href="${S_URL}/goods?id=${(obj.id)!}">
                                             <img src="${big_img!}" width="122" height="122" />
                                         </a>
                                     </span>
-                                    <span><a href="${S_URL}/goods_${(obj.id)!}">${(obj.goodsName)!}</a></span>
+                                    <span><a href="${S_URL}/goods?id=${(obj.id)!}">${(obj.goodsName)!}</a></span>
                                 </div>
                             </div>
                             <div class="Group_mid">
@@ -823,12 +823,12 @@ function ajaxPage(url,currentPage,obj){
                                                     <#assign big_img="${imageWebServer!}/${(config.goodsImage.path)!}/${(config.goodsImage.name)!}" />
                                                 </#if>
                                                 <span>
-                                                    <a href="${S_URL}/goods_${(info.id)!}" target="_blank">
+                                                    <a href="${S_URL}/goods?id=${(info.id)!}" target="_blank">
                                                         <img src="${big_img!}" width="122" height="122" />
                                                     </a>
                                                 </span>
                                                 <span>
-                                                    <a href="${S_URL}/goods_${(info.id)!}" target="_blank">${CommUtil.substring("${(info.goodsName)!}",18)}</a>
+                                                    <a href="${S_URL}/goods?id=${(info.id)!}" target="_blank">${CommUtil.substring("${(info.goodsName)!}",18)}</a>
                                                 </span>
                                                 <div class="choose"> <b>￥${(info.goodsCurrentPrice)!}</b></div>
                                             </div>
@@ -906,7 +906,7 @@ function ajaxPage(url,currentPage,obj){
                                         <strong>¥${(goods.storePrice)!}</strong>
                                     </li>
                                     <li class="goodsnames">
-                                        <a href="${S_URL}/goods_${goods.id}">${CommUtil.substring("${(goods.goodsName)!}",28)}</a>
+                                        <a href="${S_URL}/goods?id=${goods.id}">${CommUtil.substring("${(goods.goodsName)!}",28)}</a>
                                     </li>
                                     <li class="recentgoodsok">最近成交<strong>${(goods.goodsSalenum)!}</strong>笔</li>
                                 </ul>

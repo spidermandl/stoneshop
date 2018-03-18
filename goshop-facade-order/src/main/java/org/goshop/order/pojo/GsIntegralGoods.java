@@ -1,9 +1,10 @@
 package org.goshop.order.pojo;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
 
-public class GsIntegralGoods {
+public class GsIntegralGoods  implements Serializable {
     private Long id;
 
     private Date addtime;

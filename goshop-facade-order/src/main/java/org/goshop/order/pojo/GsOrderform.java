@@ -1,8 +1,14 @@
 package org.goshop.order.pojo;
 
+import org.goshop.pay.pojo.GsRefundLog;
+import org.goshop.store.pojo.GsArea;
+import org.goshop.store.pojo.Store;
+
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 public class GsOrderform  implements Serializable {
     private Long id;
@@ -64,6 +70,64 @@ public class GsOrderform  implements Serializable {
     private Date returnShiptime;
 
     private String orderType;
+    /********手动加入********/
+    List<GsGoodsCart> gcs = new ArrayList<>();//购物车商品
+    Store store;//订单所属店铺
+    GsAddress addr;//送货地址
+    GsExpressCompany ec;//物流公司
+    List<GsOrderLog> ofls;//操作记录
+    List<GsRefundLog> grls;//退款记录
+    /***************************/
+
+
+    public List<GsRefundLog> getGrls() {
+        return grls;
+    }
+
+    public void setGrls(List<GsRefundLog> grls) {
+        this.grls = grls;
+    }
+
+    public List<GsOrderLog> getOfls() {
+        return ofls;
+    }
+
+    public void setOfls(List<GsOrderLog> ofls) {
+        this.ofls = ofls;
+    }
+
+
+    public GsExpressCompany getEc() {
+        return ec;
+    }
+
+    public void setEc(GsExpressCompany ec) {
+        this.ec = ec;
+    }
+
+    public GsAddress getAddr() {
+        return addr;
+    }
+
+    public void setAddr(GsAddress addr) {
+        this.addr = addr;
+    }
+
+    public List<GsGoodsCart> getGcs() {
+        return gcs;
+    }
+
+    public void setGcs(List<GsGoodsCart> gcs) {
+        this.gcs = gcs;
+    }
+
+    public Store getStore() {
+        return store;
+    }
+
+    public void setStore(Store store) {
+        this.store = store;
+    }
 
     public Long getId() {
         return id;

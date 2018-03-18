@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="org.goshop.order.mapper.read.ReadGsGoodsReturnGspMapper" >
+  <resultMap id="BaseResultMap" type="org.goshop.order.pojo.GsGoodsReturnGsp" >
+    <result column="item_id" property="itemId" jdbcType="BIGINT" />
+    <result column="gsp_id" property="gspId" jdbcType="BIGINT" />
+  </resultMap>
+  <insert id="insert" parameterType="org.goshop.order.pojo.GsGoodsReturnGsp" >
+    insert into gs_goods_return_gsp (item_id, gsp_id)
+    values (#{itemId,jdbcType=BIGINT}, #{gspId,jdbcType=BIGINT})
+  </insert>
+  <insert id="insertSelective" parameterType="org.goshop.order.pojo.GsGoodsReturnGsp" >
+    insert into gs_goods_return_gsp
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="itemId != null" >
+        item_id,
+      </if>
+      <if test="gspId != null" >
+        gsp_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="itemId != null" >
+        #{itemId,jdbcType=BIGINT},
+      </if>
+      <if test="gspId != null" >
+        #{gspId,jdbcType=BIGINT},
+      </if>
+    </trim>
+  </insert>
+</mapper>

@@ -13,7 +13,7 @@
             _behavior: url(${S_URL}/static/styles/csshover.htc);
         }
     </style>
-    <link type="text/css" rel="stylesheet" href="${S_URL}/static/styles/shop/base.css">
+    <link type="text/css" rel="stylesheet" href="${S_URL}/static/styles/base.css">
     <link type="text/css" rel="stylesheet" href="${S_URL}/static/styles/shop/home_header.css">
     <link type="text/css" rel="stylesheet" href="${S_URL}/static/styles/home_login.css">
     <link rel="stylesheet" href="${S_URL}/static/styles/font-awesome/css/font-awesome.min.css">

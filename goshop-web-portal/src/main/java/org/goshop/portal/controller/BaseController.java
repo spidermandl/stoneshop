@@ -46,6 +46,7 @@ abstract public class BaseController {
     @Autowired
     protected GoodsService goodsService;
 
+    abstract protected String rootTemplatePath();
 //    @Autowired
 //    protected FreeMarkerConfigurer freemarkerConfig;
     /**
@@ -76,12 +77,12 @@ abstract public class BaseController {
         String lang = systemConfigService.getConfig().getSysLanguage();
         if ( lang != null){
             if (lang.equals("zh_cn")){
-                return "store/" + viewName;
+                return rootTemplatePath() + viewName;
             }else{
-                return "store/" + viewName;
+                return rootTemplatePath() + viewName;
             }
         }else{
-            return "store/" + viewName;
+            return rootTemplatePath() + viewName;
         }
     }
 

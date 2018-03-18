@@ -108,7 +108,7 @@
     </if>
   </select>
 
-  <select id="findUserByUserId" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+  <select id="selectByUserId" resultMap="BaseResultMap" parameterType="java.lang.Long" >
     select m.*,u.user_name,u.login_name,u.login_num,u.login_time,u.login_ip
     from gs_member m LEFT JOIN gs_user u on m.user_id=u.id
     where m.user_id = #{userId,jdbcType=INTEGER}

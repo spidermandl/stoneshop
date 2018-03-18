@@ -194,6 +194,12 @@
 
             <dependency>
                 <groupId>org.goshop</groupId>
+                <artifactId>goshop-facade-pay</artifactId>
+                <version>${goshop.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.goshop</groupId>
                 <artifactId>goshop-facade-assets</artifactId>
                 <version>${goshop.version}</version>
             </dependency>

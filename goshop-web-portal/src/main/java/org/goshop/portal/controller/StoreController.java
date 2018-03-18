@@ -63,6 +63,10 @@ public class StoreController extends BaseController{
     @Autowired
     private StoreViewTools storeViewTools;
 
+    @Override
+    protected String rootTemplatePath() {
+        return "store/";
+    }
     /**
      * 我的店铺
      * @return

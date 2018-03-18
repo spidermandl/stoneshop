@@ -3,7 +3,7 @@
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>${(store.storeName)!} - ${(config.poweredby)!}</title>
+    <title>我的购物车 - ${(config.poweredby)!}</title>
     <meta name="keywords" content="${(store.storeKeywords)!}" />
     <meta name="description" content="${(store.storeDescription)!}" />
     <meta name="generator" content="${(config.meta_generator)!}" />
@@ -123,102 +123,103 @@ ${httpInclude.include("/top")}
       </ul>
     </div>
     <#list cart as sc>
-    <form status="no_submit" method="post" name="cart_${(sc.storeId)!}" target="_blank"
-          id="cart_${(sc.storeId)!}" action="${S_URL}/goods_cart2">
-      <div class="h1">
-          <span class="h1_l">店铺名称：<a href="${S_URL}/store?id=${(sc.storeId)!}" target="_blank">${(sc.store.store_name)!}</a>
-          </span>
-          <span class="h1_r">商品总价(不含运费)：<b>¥<span id="top_total_price_${(sc.storeId)!}">${(sc.totalPrice)!}</span></b>
-              <a href="javascript:void(0);"  onclick="confirm_cart('${(sc.storeId)!}');">结算</a>
-          </span>
-      </div>
-      <div class="table">
-        <table width="100%" cellpadding="0" cellspacing="0" border="0">
-          <tr>
-            <td width="55%" align="center" class="title">店铺商品</td>
-            <td width="8%" align="center" class="title">单价</td>
-            <td width="14%" align="center" class="title">数量</td>
-            <td width="8%" align="center" class="title">小计（元）</td>
-            <td  align="center" class="title">操作</td>
-          </tr>
-          <#list (sc.gcs)! as obj >
-          <tr goods_list="goods_info_${(obj.id)!}" id="${(obj.id)!}">
-            <td class="baby">
-            <#if (obj.goods.goods_main_photo)!??>
-                <#assign img="${RES_URL}/${imageWebServer!}/${(obj.goods.goods_main_photo.path)!}/${(obj.goods.goods_main_photo.name)!}_small.${(obj.goods.goods_main_photo.ext)!}" />
-            <#else>
-                <#assign img="${imageWebServer!}/${(config.goodsImage.path)!}/${(config.goodsImage.name)!}" />
-            </#if>
-            <img src="${img!}" width="65" height="65" />
-              <p>
-                <a href="${S_URL}/goods?id=${(obj.goodsId)!}" target="_blank">${CommUtil.substring("${(obj.goods.goodsName)!}",42)}</a>
-                <#if ((obj.goods.groupBuy)!0)==2> <span style="color:#F00">(团购)</span> </#if>
-                <#if ((obj.goods.bargainStatus)!0)==2> <span style="color:#F00">(特价)</span> </#if>
-                <#if ((obj.cartType)!'')=="combin">
-                    <div class="baby_gp">
-                        <a href="javascript:void(0);" style="color:#F00;">【组合商品】</a>
-                        <div class="baby_group" style="display:none;">
-                            <div class="baby_group_box">
-                                <ul class="group_ul">
-                                  <#list goodsViewTools.query_combin_goods("${(obj.goodsId)!}") as info >
-                                    <li>
-                                      <a href="${S_URL}/goods?id=${(info.id)!}" target="_blank">
-                                      <#if (info.goods_main_photo)!??>
-                                          <#assign img="${RES_URL}/${imageWebServer!}/${(info.goods_main_photo.path)!}/${(info.goods_main_photo.name)!}_small.${(info.goods_main_photo.ext)!}" />
-                                      <#else>
-                                          <#assign img="${imageWebServer!}/${(config.goodsImage.path)!}/${(config.goodsImage.name)!}" />
-                                      </#if>
-                                      <img src="${img!}" />
-                                      </a>
-                                      <span>
-                                          <a href="${S_URL}/goods?id=${(info.id)!}" target="_blank">${CommUtil.substring("${(info.goodsName)!}",18)!}</a>
-                                      </span>
-                                    </li>
-                                  </#list>
-                                </ul>
-                            </div>
-                        </div>
-                        <span class="arrow" style="display:none;"></span>
-                    </div>
+        <form status="no_submit" method="post" name="cart_${(sc.storeId)!}" target="_blank"
+              id="cart_${(sc.storeId)!}" action="${S_URL}/goods_cart2">
+          <div class="h1">
+              <span class="h1_l">店铺名称：<a href="${S_URL}/store?id=${(sc.storeId)!}" target="_blank">${(sc.store.storeName)!}</a>
+              </span>
+              <span class="h1_r">商品总价(不含运费)：
+                  <b>¥<span id="top_total_price_${(sc.storeId)!}">${(sc.totalPrice)!?string('0.00')}</span></b>
+                  <a href="javascript:void(0);"  onclick="confirm_cart('${(sc.storeId)!}');">结算</a>
+              </span>
+          </div>
+          <div class="table">
+            <table width="100%" cellpadding="0" cellspacing="0" border="0">
+              <tr>
+                <td width="55%" align="center" class="title">店铺商品</td>
+                <td width="8%" align="center" class="title">单价</td>
+                <td width="14%" align="center" class="title">数量</td>
+                <td width="8%" align="center" class="title">小计（元）</td>
+                <td  align="center" class="title">操作</td>
+              </tr>
+              <#list (sc.gcs)! as obj >
+              <tr goods_list="goods_info_${(obj.id)!}" id="${(obj.id)!}">
+                <td class="baby">
+                <#if (obj.goods.goods_main_photo)!??>
+                    <#assign img="${RES_URL}/${imageWebServer!}/${(obj.goods.goods_main_photo.path)!}/${(obj.goods.goods_main_photo.name)!}_small.${(obj.goods.goods_main_photo.ext)!}" />
+                <#else>
+                    <#assign img="${imageWebServer!}/${(config.goodsImage.path)!}/${(config.goodsImage.name)!}" />
                 </#if>
-                <#if ((obj.goods.deliveryStatus)!0)==2><span style="color:#F00">[买就送]</span> </#if><br />
-                <#list (obj.gsps)! as gsp >
-                    <#if (gsp.spec)!??><span class="color">${(gsp.spec.name)!}: ${(gsp.value)!}</span><br/></#if>
-                </#list>
+                <img src="${img!}" width="65" height="65" />
+                  <p>
+                    <a href="${S_URL}/goods?id=${(obj.goodsId)!}" target="_blank">${CommUtil.substring("${(obj.goods.goodsName)!}",42)}</a>
+                    <#if ((obj.goods.groupBuy)!0)==2> <span style="color:#F00">(团购)</span> </#if>
+                    <#if ((obj.goods.bargainStatus)!0)==2> <span style="color:#F00">(特价)</span> </#if>
+                    <#if ((obj.cartType)!'')=="combin">
+                        <div class="baby_gp">
+                            <a href="javascript:void(0);" style="color:#F00;">【组合商品】</a>
+                            <div class="baby_group" style="display:none;">
+                                <div class="baby_group_box">
+                                    <ul class="group_ul">
+                                      <#list goodsViewTools.query_combin_goods("${(obj.goodsId)!}") as info >
+                                        <li>
+                                          <a href="${S_URL}/goods?id=${(info.id)!}" target="_blank">
+                                          <#if (info.goods_main_photo)!??>
+                                              <#assign img="${RES_URL}/${imageWebServer!}/${(info.goods_main_photo.path)!}/${(info.goods_main_photo.name)!}_small.${(info.goods_main_photo.ext)!}" />
+                                          <#else>
+                                              <#assign img="${imageWebServer!}/${(config.goodsImage.path)!}/${(config.goodsImage.name)!}" />
+                                          </#if>
+                                          <img src="${img!}" />
+                                          </a>
+                                          <span>
+                                              <a href="${S_URL}/goods?id=${(info.id)!}" target="_blank">${CommUtil.substring("${(info.goodsName)!}",18)!}</a>
+                                          </span>
+                                        </li>
+                                      </#list>
+                                    </ul>
+                                </div>
+                            </div>
+                            <span class="arrow" style="display:none;"></span>
+                        </div>
+                    </#if>
+                    <#if ((obj.goods.deliveryStatus)!0)==2><span style="color:#F00">[买就送]</span> </#if><br />
+                    <#list (obj.gsps)! as gsp >
+                        <#if (gsp.spec)!??><span class="color">${(gsp.spec.name)!}: ${(gsp.value)!}</span><br/></#if>
+                    </#list>
 
-              </p></td>
-            <td align="center">¥${(obj.price)!}</td>
-            <td class="input" align="center">
-                <span>
-                    <a href="javascript:void(0);" id="count_down_${(obj.id)!}" cart_id="${(obj.id)!}" store_id="${(sc.storeId)!}">
-                    <img src="${imageWebServer!}/static/styles/system/front/default/images/jian.jpg" width="12" height="12" /></a>
-                </span>
-                <input name="goods_count_${(obj.id)!}" type="text" id="goods_count_${(obj.id)!}" value="${(obj.count)!}" cart_id="${(obj.id)!}" store_id="${(sc.storeId)!}" goods_count="${(obj.count)!}" />
-                <span>
-                    <a href="javascript:void(0);" id="count_up_${(obj.id)!}" cart_id="${(obj.id)!}" store_id="${(sc.storeId)!}">
-                        <img src="${imageWebServer!}/static/styles/system/front/default/images/add.jpg" width="12" height="12" />
-                    </a>
-                </span>
-            </td>
-            <#assign total_price= obj.count * obj.price />
-            <td align="center"><strong class="orange" id="goods_total_price_${(obj.id)!}">¥${total_price!}</strong></td>
-            <td align="center"><a href="javascript:void(0);" class="cart_common" id="favorite_${(obj.goodId)!}">收藏</a>
-                <a href="javascript:void(0);" dialog_uri="${S_URL}/goods_share?goods_id=${(obj.goodId)!}" dialog_title="分享商品"
-                   dialog_width="450" dialog_height="400" dialog_id="goods_share" class="cart_common">分享</a>
-                <a href="javascript:void(0);" onclick="cart_remove('${(obj.id)!}','${(sc.storeId)!}');" class="cart_common">删除</a>
-            </td>
-          </tr>
-          </#list>
-        </table>
-      </div>
-      <div class="h2">
-          <span class="h2_r"><em>商品总价(不含运费)：</em>
-              <b>¥<strong class="orange" id="total_price_${(sc.storeId)!}">${(sc.totalPrice)!}</strong></b>
-              <input name="store_id" type="hidden" id="store_id" value="${(sc.storeId)!}" />
-              <a href="javascript:void(0);"  onclick="confirm_cart('${(sc.storeId)!}');">结算</a>
-          </span>
-      </div>
-    </form>
+                  </p></td>
+                <td align="center">¥${(obj.price)!}</td>
+                <td class="input" align="center">
+                    <span>
+                        <a href="javascript:void(0);" id="count_down_${(obj.id)!}" cart_id="${(obj.id)!}" store_id="${(sc.storeId)!}">
+                        <img src="${imageWebServer!}/static/styles/system/front/default/images/jian.jpg" width="12" height="12" /></a>
+                    </span>
+                    <input name="goods_count_${(obj.id)!}" type="text" id="goods_count_${(obj.id)!}" value="${(obj.count)!}" cart_id="${(obj.id)!}" store_id="${(sc.storeId)!}" goods_count="${(obj.count)!}" />
+                    <span>
+                        <a href="javascript:void(0);" id="count_up_${(obj.id)!}" cart_id="${(obj.id)!}" store_id="${(sc.storeId)!}">
+                            <img src="${imageWebServer!}/static/styles/system/front/default/images/add.jpg" width="12" height="12" />
+                        </a>
+                    </span>
+                </td>
+                <#assign total_price= obj.count * obj.price />
+                <td align="center"><strong class="orange" id="goods_total_price_${(obj.id)!}">¥${total_price!?string('0.00')}</strong></td>
+                <td align="center"><a href="javascript:void(0);" class="cart_common" id="favorite_${(obj.goodId)!}">收藏</a>
+                    <a href="javascript:void(0);" dialog_uri="${S_URL}/goods_share?goods_id=${(obj.goodId)!}" dialog_title="分享商品"
+                       dialog_width="450" dialog_height="400" dialog_id="goods_share" class="cart_common">分享</a>
+                    <a href="javascript:void(0);" onclick="cart_remove('${(obj.id)!}','${(sc.storeId)!}');" class="cart_common">删除</a>
+                </td>
+              </tr>
+              </#list>
+            </table>
+          </div>
+          <div class="h2">
+              <span class="h2_r"><em>商品总价(不含运费)：</em>
+                  <b>¥<strong class="orange" id="total_price_${(sc.storeId)!}">${(sc.totalPrice)!?string('0.00')}</strong></b>
+                  <input name="store_id" type="hidden" id="store_id" value="${(sc.storeId)!}" />
+                  <a href="javascript:void(0);"  onclick="confirm_cart('${(sc.storeId)!}');">结算</a>
+              </span>
+          </div>
+        </form>
     </#list>
     <div class="car_nogoods" <#if cart!?size gt 0 > style="display:none;"</#if> >
       <div class="shopcar">
@@ -245,7 +246,7 @@ ${httpInclude.include("/top")}
                 <li><a href="${S_URL}/goods?id=${(ztc.id)!}" target="_blank">
                     <img src="${ztc_img!}" width="160" height="160" />
                 </a>
-                    <strong>¥ ${(ztc.storePrice)!}</strong>
+                    <strong>¥ ${(ztc.storePrice)!?string('0.00')}</strong>
                     <span><a href="${S_URL}/goods?id=${(ztc.id)!}" target="_blank">${(ztc.goodsName)!}</a></span>
                 </li>
             </#list>

@@ -1,6 +1,8 @@
 package org.goshop.order.pojo;
 
-public class GsCartGsp {
+import java.io.Serializable;
+
+public class GsCartGsp  implements Serializable {
     private Long cartId;
 
     private Long gspId;

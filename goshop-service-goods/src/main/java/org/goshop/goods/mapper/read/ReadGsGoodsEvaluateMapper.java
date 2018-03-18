@@ -9,4 +9,6 @@ public interface ReadGsGoodsEvaluateMapper {
     GsGoodsEvaluateWithBLOBs selectByPrimaryKey(Long id);
 
     List<GsGoodsEvaluateWithBLOBs> selectByCondition(Map conditioin);
+
+    Integer selectCountByCondition(Map conditioin);
 }

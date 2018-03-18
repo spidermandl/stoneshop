@@ -1,8 +1,9 @@
 package org.goshop.order.pojo;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class GsCouponInfo {
+public class GsCouponInfo  implements Serializable {
     private Long id;
 
     private Date addtime;

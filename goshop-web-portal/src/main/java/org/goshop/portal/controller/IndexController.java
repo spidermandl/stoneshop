@@ -79,9 +79,6 @@ public class IndexController extends BaseController{
 //    private IArticleService articleService;
 //
 //    @Autowired
-//    private IAccessoryService accessoryService;
-//
-//    @Autowired
 //    private INavigationService navigationService;
 //
 //    @Autowired
@@ -99,6 +96,26 @@ public class IndexController extends BaseController{
 //    @Autowired
 //    private MsgTools msgTools;
 
+    @Override
+    protected String rootTemplatePath() {
+        return "store/";
+    }
+
+    /**
+     * 页面最上面部分
+     * @param request
+     * @param response
+     * @return
+     */
+    @RequestMapping({ "/up" })
+    public String up(Model model,
+                      HttpServletRequest request,
+                      HttpServletResponse response){
+        reCapsuleModel(model,request,response);
+        String ret = "top";
+        top(model,request);
+        return ret;
+    }
     /**
      * 页面最上面部分
      * @param request
@@ -109,9 +126,14 @@ public class IndexController extends BaseController{
     public String top(Model model,
                             HttpServletRequest request,
                             HttpServletResponse response){
-        User user = (User) SecurityUtils.getSubject().getPrincipal();
         reCapsuleModel(model,request,response);
         String ret = generateViewURL("top");
+        top(model,request);
+        return ret;
+    }
+
+    private void top(Model model,HttpServletRequest request){
+        User user = (User) SecurityUtils.getSubject().getPrincipal();
         List msgs = new ArrayList();
         if(user != null){
             Map params = new HashMap();
@@ -146,8 +168,6 @@ public class IndexController extends BaseController{
 
         model.addAttribute("total_price", Float.valueOf(total_price));
         model.addAttribute("cart_goods", list);
-
-        return ret;
     }
     /**
      * 横着的导航栏
@@ -673,100 +693,9 @@ public class IndexController extends BaseController{
         model.addAttribute("store", store);
         model.addAttribute("navTools", this.navViewTools);
         model.addAttribute("msgs", msgs);
-        List<GsGoodsCart> list = new ArrayList<>();
-        List<GsStoreCart> cart = new ArrayList<>();
-        List<GsStoreCart> user_cart = new ArrayList<>();
-        List<GsStoreCart> cookie_cart = new ArrayList<>();
+        List<GsStoreCart> cart = cart_calc(request);
+        List<GsGoodsCart> list = cart_calc(cart);
 
-        String cart_session_id = "";
-        params.clear();
-        Cookie[] cookies = request.getCookies();
-        if(cookies != null){
-            for(Cookie cookie : cookies){
-                if(cookie.getName().equals("cart_session_id")){
-                    cart_session_id = CommUtil.null2String(cookie.getValue());
-                }
-            }
-        }
-        if(user != null){
-            if(!cart_session_id.equals("")){
-                if(store != null){
-                    params.clear();
-                    params.put("cart_session_id", cart_session_id);
-                    params.put("user_id", user.getId());
-                    params.put("sc_status", Integer.valueOf(0));
-                    params.put("store_id", store.getStoreId());
-                    List<GsStoreCart> store_cookie_cart = this.storeCartService.findOwnCartByCondition(params);
-//                            "select obj from StoreCart obj where (obj.cart_session_id=:cart_session_id or obj.user.id=:user_id) and obj.sc_status=:sc_status and obj.store.id=:store_id", params, -1, -1);
-                    for(GsStoreCart sc : store_cookie_cart){
-                        for(GsGoodsCart gc : sc.getGcs()){
-                            this.goodsCartService.delete(gc.getId());
-                        }
-                        this.storeCartService.delete(sc.getId());
-                    }
-                }
-
-                params.clear();
-                params.put("cart_session_id", cart_session_id);
-                params.put("sc_status", Integer.valueOf(0));
-                cookie_cart = this.storeCartService.findOwnCartByCondition(params);
-//                        query("select obj from StoreCart obj where obj.cart_session_id=:cart_session_id and obj.sc_status=:sc_status", params, -1, -1);
-
-                params.clear();
-                params.put("user_id", user.getId());
-                params.put("sc_status", Integer.valueOf(0));
-                user_cart = this.storeCartService.findOwnCartByCondition(params);
-//                        query("select obj from StoreCart obj where obj.user.id=:user_id and obj.sc_status=:sc_status", params, -1, -1);
-            }else{
-                params.clear();
-                params.put("user_id", user.getId());
-                params.put("sc_status", Integer.valueOf(0));
-                user_cart = this.storeCartService.findOwnCartByCondition(params);
-//                        query("select obj from StoreCart obj where obj.user.id=:user_id and obj.sc_status=:sc_status", params, -1, -1);
-            }
-
-        }else if(!cart_session_id.equals("")){
-            params.clear();
-            params.put("cart_session_id", cart_session_id);
-            params.put("sc_status", Integer.valueOf(0));
-            cookie_cart = this.storeCartService.findOwnCartByCondition(params);
-//                    query("select obj from StoreCart obj where obj.cart_session_id=:cart_session_id and obj.sc_status=:sc_status", params, -1, -1);
-        }
-
-        for(GsStoreCart sc : user_cart){
-            boolean sc_add = true;
-            for(GsStoreCart sc1 : cart){
-                if(sc1.getStoreId().equals(sc.getStoreId())){
-                    sc_add = false;
-                }
-            }
-            if(sc_add)
-                cart.add(sc);
-        }
-        boolean sc_add;
-        for(GsStoreCart sc : cookie_cart){
-            sc_add = true;
-            for(GsStoreCart sc1 : cart){
-                if(sc1.getStoreId().equals(sc.getStoreId())){
-                    sc_add = false;
-                    for(GsGoodsCart gc : sc.getGcs()){
-                        gc.setScId(sc1.getStoreId());
-                        this.goodsCartService.update(gc);
-                    }
-                    this.storeCartService.delete(sc.getId());
-                }
-            }
-            if(sc_add){
-                cart.add(sc);
-            }
-        }
-        if(cart != null){
-            for(GsStoreCart sc : cart){
-                if(sc != null){
-                    list.addAll(sc.getGcs());
-                }
-            }
-        }
         float total_price = 0.0F;
         for(GsGoodsCart gc : list){
             GsGoods goods = this.goodsService.findOne(gc.getGoodsId());
@@ -777,7 +706,7 @@ public class IndexController extends BaseController{
             }
         }
         model.addAttribute("total_price", Float.valueOf(total_price));
-        model.addAttribute("cart", list);
+        model.addAttribute("cart_goods", list);
 
         return ret;
     }

@@ -58,7 +58,8 @@ jQuery(function(jQuery){
                 <#assign store_logo="${RES_URL}/${(store.logo.path)!}/${(store.logo.name)!}" />
             <#else>
                 <#assign store_logo="${S_URL}/${(config.storeImage.path)!}/${(config.storeImage.name)!}" />
-            </#if> <img src="${store_logo!}" width="60" height="60" />
+            </#if>
+            <img src="${store_logo!}" width="60" height="60" />
         </span></dt>
         <#assign credit=storeViewTools.generic_store_credit("${(store.storeId)!}") />
         <#assign img="${imageWebServer!}/resources/style/common/images/level_0.gif" />
@@ -243,9 +244,9 @@ jQuery(function(jQuery){
             <#else>
                 <#assign img="${imageWebServer!}/${(config.goodsImage.path)!}/${(config.goodsImage.name)!}" />
             </#if>
-            <#assign goods_url="${S_URL}/goods_${(goods.id)!}" />
-            <#if config.second_domain_open!?? >
-                <#assign goods_url="http://${(goods.goods_store.storeDomain)!}.${domainPath!}/goods_${(goods.id)!}" />
+            <#assign goods_url="${S_URL}/goods?id=${(goods.id)!}" />
+            <#if ((config.second_domain_open)!false) == true >
+                <#assign goods_url="http://${(goods.goods_store.storeDomain)!}.${domainPath!}/goods?id=${(goods.id)!}" />
             </#if>
             <dl>
               <dt><span class="imgcenter_span ">
@@ -270,9 +271,9 @@ jQuery(function(jQuery){
         <#else>
             <#assign img="${imageWebServer!}/${(config.goodsImage.path)!}/${(config.goodsImage.name)!}" />
         </#if>
-            <#assign goods_url="${S_URL}/goods_${(goods.id)!}" />
-        <#if (config.second_domain_open)!??>
-            <#assign goods_url="http://${(goods.goods_store.storeDomain)!}.${domainPath!}/goods_${(goods.id)!}" />
+            <#assign goods_url="${S_URL}/goods?id=${(goods.id)!}" />
+        <#if ((config.second_domain_open)!false) == true>
+            <#assign goods_url="http://${(goods.goods_store.storeDomain)!}.${domainPath!}/goods?id=${(goods.id)!}" />
         </#if>
         <dl>
           <dt>

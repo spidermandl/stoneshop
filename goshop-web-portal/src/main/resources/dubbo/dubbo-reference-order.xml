@@ -20,4 +20,14 @@
                      interface="org.goshop.order.i.CouponService" check="false" />
     <dubbo:reference id="integralGoodsOrderService"
                      interface="org.goshop.order.i.IntegralGoodsOrderService" check="false" />
+    <dubbo:reference id="expressCompanyService"
+                     interface="org.goshop.order.i.ExpressCompanyService" check="false" />
+    <dubbo:reference id="goodsReturnService"
+                     interface="org.goshop.order.i.GoodsReturnService" check="false" />
+    <dubbo:reference id="goodsReturnItemService"
+                     interface="org.goshop.order.i.GoodsReturnItemService" check="false" />
+    <dubbo:reference id="goodsReturnLogService"
+                     interface="org.goshop.order.i.GoodsReturnLogService" check="false" />
+    <dubbo:reference id="intergralLogService"
+                     interface="org.goshop.order.i.IntergralLogService" check="false" />
 </beans>

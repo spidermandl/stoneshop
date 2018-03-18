@@ -24,12 +24,10 @@
     select
     <include refid="Base_Column_List" />
     from gs_goods_spec_property
-    <if test="spec_ids !=null">
-      and id IN
-      <foreach collection="spec_ids" index="index" item="item" open="(" separator="," close=")">
-        #{item}
-      </foreach>
-    </if>
+    WHERE id IN
+    <foreach collection="spec_ids" index="index" item="item" open="(" separator="," close=")">
+      #{item}
+    </foreach>
   </select>
 
 </mapper>

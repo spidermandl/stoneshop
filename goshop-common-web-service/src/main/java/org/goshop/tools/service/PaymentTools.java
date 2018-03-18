@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * ֧���������
+ * ??????????
  */
 @Component
 public class PaymentTools {
@@ -24,7 +24,7 @@ public class PaymentTools {
     private StoreService storeService;
 
     /**
-     * ��ѯ֧����ʽ
+     * ?????????
      * @param mark
      * @param type
      * @return
@@ -43,7 +43,7 @@ public class PaymentTools {
     }
 
     /**
-     * ��ѯ֧����ʽ
+     * ?????????
      * @param mark
      * @return
      */
@@ -68,10 +68,10 @@ public class PaymentTools {
     }
 
     /**
-     * ��ѯ����֧����ʽ
+     * ?????????????
      * @param mark
      * @param store_id
-     * @return ��װ״̬��֧��˵��
+     * @return ?????????????
      */
     public Map queryStorePayment(String mark, String store_id){
         Map ret = new HashMap();
@@ -92,9 +92,9 @@ public class PaymentTools {
     }
 
     /**
-     * ��ѯƽ̨֧����ʽ
+     * ???????????
      * @param mark
-     * @return ��װ״̬��֧��˵��
+     * @return ?????????????
      */
     public Map queryShopPayment(String mark){
         Map ret = new HashMap();

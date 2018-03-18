@@ -237,6 +237,97 @@
 .manage_box_main li{width:177px; float:left; line-height:30px; height:30px;}
 .manage_box_main li input{margin-right:5px;}
 /**-------------------------end---------------------------***/
+/**-----------------store 设置payment start-----------------------***/
+.paymtable{margin-left: auto;margin-right: auto}
+.paymtable td{border: none;border-bottom: 1px solid #ccc;padding-top: 10px;padding-bottom: 10px;}
+.configure{background: url(../images/config.gif) no-repeat;padding-left: 20px;line-height: 20px;margin-right: 10px;}
+.unloading{background: url(../images/uninstall.gif) no-repeat;padding-left: 20px;line-height: 20px;margin-right: 5px}
+.installation{background: url(../images/anz.jpg) no-repeat;padding-left: 20px;line-height: 25px;padding-top: 2px;padding-bottom: 2px;}
+/**-------------------------end---------------------------***/
+/**-----------------order 设置-----------------------***/
+.ordersp1 input{height: 18px;line-height: 18px;padding-left: 5px;margin-top: 5px;}
+.size4 input{width: 80px;}
+.size3 input{width: 120px;}
+.size5 input{width: 150px;}
+.ordersear{height: 30px;margin-top: 20px;padding-left: 20px;}
+.ordersear span{display: block;float: left;height: 30px;line-height: 30px;margin-right: 5px;}
+.myorder{padding-left: 3px;padding-right: 3px; margin-top: 10px;}
+.Order{ margin:0px auto;}
+.Order_box{ border:1px solid #d8d8d8; float:left; margin-bottom:10px;}
+.Order_box .line01{ float:left; width:797px;height:30px; line-height:30px;background-color:#edf6ff; padding-left:10px; border-bottom:1px solid #d8d8d8;}
+.Order_box .line01 li{float:left; margin-right:10px;}
+.Order_box .line01 .li_01 span{color:#090;}
+.Order_box .line01 .li_02 span{color:#999;}
+.Order_box .line01 .li_021{float:right;}
+.Order_box .line01 .li_021 img{margin-top:3px;}
+.Order_box .line01 .li_03{width:85px; height:20px; float:left; background:url(../images/order_01.gif) no-repeat 5px 3px; margin-top:5px; line-height:20px; padding-left:20px; border:1px solid #CCC; border-radius:4px; box-shadow: 0px 0px 3px rgba(0, 0, 0, 0.2); background-color:#FFF;}
+.Order_box .line01 .li_04{width:85px; height:18px; float:right; border:1px solid #cbe4ff; line-height:18px; margin-top:5px; border-radius:4px; text-align:center; background:url(../images/usercenter/order_02.gif) no-repeat 5px 3px #FFF; padding-left:15px;}
+.Order_box .line_02{padding-left:10px; background-color:#FFF; float:left;}
+.Order_box .line_02 .ul_01{width:355px; float:left; padding-top:10px;}
+.Order_box .line_02 .ul_01 .li_05{border:1px solid #CCC; width:60px; height:60px; float:left;}
+.Order_box .line_02 .ul_01 .li_06{width:270px; float:left; line-height:18px; padding:0px 5px;}
+.Order_box .line_02 .ul_01 .li_06 a{color:#007feb;}
+.Order_box .line_02 .ul_01 .li_06 span{width:270px; float:left; color:#aaaaaa;}
+.Order_box .line_02 .ul_02{width:90px; height:85px; float:left;padding-top:10px;}
+.Order_box .line_02 .ul_02 li{width:90px; float:left; text-align:center; line-height:20px;}
+.Order_box .line_02 .ul_02 li span{color:#ff9400;}
+.Order_box .line_02 .ul_02 .li_07{position:relative;}
+.Order_box .line_02 .ul_02 .li_07 .li_07_box{position:absolute; top:-65px; left:86px; width:350px; z-index:999;}
+.Order_box .line_02 .ul_02 .li_07 .li_07_box span{width:15px; height:15px; margin-top:60px; float:left; margin-right:-7px;}
+.Order_box .line_02 .ul_02 .li_07 .li_07_box ul{width:325px; float:left; padding:5px; border:2px solid #CCC; border-radius:4px; background-color:#f9f9f9; overflow:hidden;word-break: break-all; word-wrap:break-word; height:140px;}
+.Order_box .line_02 .ul_02 .li_07 .li_07_box ul li{width:325px; float:left; height:20px; line-height:20px; text-align:left; font-weight:normal; font-size:11px;}
+.Order_box .line_02 .ul_03{width:150px; float:left; padding-top:10px;}
+.Order_box .line_02 .ul_03 .li_pot{position:relative;}
+.Order_box .line_02 .ul_03 .xx{position:absolute; width:230px; border:1px solid #cccccc; background-color:#FFF; border-radius:4px; top:-60px; left:90px; padding:5px;}
+.Order_box .line_02 .ul_03 .xx span{width:180px; height:20px; line-height:20px; float:left; padding-left:20px; text-align:left;}
+.Order_box .line_02 .ul_03 .xx i{position:absolute; width:4px; height:7px; top:70px; left:-10px;}
+.Order_box .line_02 .ul_03 .xx td{border:none; line-height:18px; font-size:10px;}
+.Order_box .line_02 .ul_03 li{width:150px; float:left; text-align:center; line-height:24px; color:#007feb;}
+.Order_box .line_02 .ul_03 li img{margin-left:5px;}
+.Order_box .line_02 .ul_04{width:100px; float:left; padding-top:10px;}
+.Order_box .line_02 .ul_04 li{width:100px; float:left; text-align:center; line-height:22px; color:#007feb;}
+.Order_box .line_02 .ul_04 .li_09{margin-right: 0px; _margin-left:0px;height:22px; margin-bottom:5px; line-height:22px; float:left;}
+.Order_box .line_02 .ul_04 .li_09 a{color:#FFF; background-color:#09F; _margin-left:15px; padding:1px 6px; border-radius:5px;}
+.Order_box .line_02 .ul_02 .li_07 .li_ship_box_loading{position:absolute; top:-10px; left:86px; width:350px; z-index:999;}
+.Order_box .line_02 .ul_02 .li_07 .li_ship_box_loading span{width:15px; height:15px; margin-top:5px; float:left; margin-right:-7px;}
+.Order_box .line_02 .ul_02 .li_07 .li_ship_box_loading b{width:325px; float:left; padding:5px; border:2px solid #CCC; border-radius:4px; background-color:#f9f9f9;}
+.Order_box .line_02 .ul_02 .li_10{width:auto; height:22px; margin:3px 14px 0px; _margin-left:11px; _margin-right:11px; float:left;}
+.Order_box .line_02 .ul_02 .li_10 a{background-color:#f2f2f2; border:1px solid #8d8d8d; border-radius:4px; padding:0px 6px; color:#333;}
+.Order_box .line_02 .ul_04 .li_11{width:85px; height:22px; float:left; _margin-left:12px; background-color:#09F; border-radius:5px; margin-bottom:3px;}
+.Order_box .line_02 .ul_04 .li_11 a{color:#FFF;}
+.Order_box .line_02 .ul_02 .li_09 a{background-color:#f2f2f2; border:1px solid #8d8d8d; border-radius:4px; padding:1px 6px; color:#333; margin-top:3px;}
+.ul_left{width:355px; float:left;}
+.ul_right{width:443px; float:left;}
+.order_table td{border:none; border-right:1px solid #d8d8d8;}
+/**-------------------------end---------------------------***/
+/**-----------------seller order订单详情 start-----------------------***/
+.orderdetail{border: 1px solid #EAE9E9;margin-top: 10px;}
+.orderdh{border-bottom: 1px solid #EAE9E9;padding: 5px;}
+.orderdh h1{background: #EAE9E9;padding: 5px;padding-left: 20px;}
+.ordersee{margin-left: auto;margin-right: auto;padding-bottom: 10px;overflow: hidden}
+.tablesee1 td{height: 50px;line-height: 50px;}
+.tablesee2 td{height: 30px;line-height: 30px;}
+.ordersee2 h2{background: #EAE9E9;padding-left: 10px;font-size: 12px;padding-top: 5px;padding-bottom: 5px;!important;}
+.ordersee3 h2{background: #EAE9E9;padding-left: 10px;font-size: 12px;padding-top: 5px;padding-bottom: 5px;margin-top: 10px;}
+.orderinfo{border: 1px solid #EAE9E9;margin-top: 10px;overflow: hidden}
+.orderinfo_l{float: left;width: 923px;overflow: hidden;}
+.orderinfo_l td{padding-left: 10px;}
+.orderinfo_r{width: 923px;overflow: hidden;float: left;height: 30px;line-height: 30px;border-bottom: 1px solid #EAE9E9;}
+.infoimg img{width: 83px;height: 63px;border: 2px solid #ccc;}
+.frspan{color: #676363;font-size: 14px;font-weight: bold;padding-left: 20px;margin-right: 50px;}
+.frspan_r{float: right;font-size: 12px;margin-right: 10px;}
+.ordersee4 h2{background: #EAE9E9;padding-left: 10px;font-size: 12px;padding-top: 5px;padding-bottom: 5px;margin-top: 10px;height:18px;}
+.ordersee4 h2 a{margin-left:50px; _margin-left:40px;}
+.ordersee4 h2 span{line-height:16px; float:left;}
+.ordersee4 ul{padding-top: 20px;overflow: hidden;}
+.ordersee4 ul li{float: left;width: 850px;line-height: 25px;}
+.orseet{width: 100px;text-align: right;float: left;display: block;color: #999;padding-right: 10px;}
+.orseet2{display: block;float: left;}
+.ordersee5 h2{background: #EAE9E9;padding-left: 10px;font-size: 12px;padding-top: 5px;padding-bottom: 5px;margin-top: 10px;}
+.ophistory{color: #666666;padding-top: 10px;padding-left: 20px}
+.ophistory strong{padding-left: 10px;padding-right: 10px;}
+/**-------------------------end---------------------------***/
+
 /**系统常用按钮样式css3**/
 .button_common{color: #666;display: block;float: left;margin-right: 8px;text-decoration: none;font-weight: lighter;line-height: 1;border: 3px;border: 1px solid #ccc;border-radius: 3px;box-shadow: 0 1px 2px #999;text-shadow: 0 -1px 1px #ccc;cursor: pointer;padding: 5px 5px;}
 .button_common:hover{background: -webkit-gradient(linear, 0 0, 0 100%, from(#ccc), to(#fff) );background: -moz-linear-gradient(top, #ccc, #fff);}

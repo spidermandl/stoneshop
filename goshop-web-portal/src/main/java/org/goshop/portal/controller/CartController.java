@@ -26,6 +26,7 @@ import org.goshop.pay.pojo.GsPredepositLog;
 import org.goshop.store.i.StoreAreaService;
 import org.goshop.store.i.StoreJoinService;
 import org.goshop.store.i.StoreService;
+import org.goshop.store.pojo.GsArea;
 import org.goshop.store.pojo.Store;
 import org.goshop.tools.WxAdvancedUtil;
 import org.goshop.tools.WxCommonUtil;
@@ -53,7 +54,6 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.*;
 import java.math.BigDecimal;
-import java.text.DecimalFormat;
 import java.util.*;
 
 /**
@@ -61,7 +61,7 @@ import java.util.*;
  * 购物车
  */
 @Controller
-public class CartController extends BaseController {
+public class CartController extends BaseController{
 
     @Autowired
     private StoreService storeService;
@@ -103,7 +103,10 @@ public class CartController extends BaseController {
 
     private static Logger logger = LoggerFactory.getLogger(CartController.class);
 
-
+    @Override
+    protected String rootTemplatePath() {
+        return "store/";
+    }
 
     @RequestMapping({ "/cart_menu_detail" })
     public String cart_menu_detail(Model model,
@@ -192,7 +195,7 @@ public class CartController extends BaseController {
         }
 
         if (add){// 买家当前所选规格的商品可以添加到购物车
-            GsGoodsWithBLOBs goods = this.goodsService.findOne(CommUtil.null2Long(id));
+            GsGoodsWithBLOBs goods = this.goodsService.findBasicOne(CommUtil.null2Long(id));
 
             // 判断是更新购物车还是新增购物车，一个卖家一条购物车记录
             String type = "save";// 更新购物车内商品或新增加商品到购物车的标志位
@@ -305,7 +308,7 @@ public class CartController extends BaseController {
         map.put("total_price", Double.valueOf(total_price));
 
         String ret = JsonUtils.objectToJson(map);
-        response.setContentType("text/plain");
+        response.setContentType("text/plain; charset=UTF-8");
         response.setHeader("Cache-Control", "no-cache");
         try {
             request.setCharacterEncoding("UTF-8");
@@ -361,7 +364,7 @@ public class CartController extends BaseController {
         map.put("count", Double.valueOf(count));
         map.put("total_price", Double.valueOf(total_price));
         map.put("sc_total_price", Double.valueOf(sc_total_price));
-        response.setContentType("text/plain");
+        response.setContentType("text/plain; charset=UTF-8");
         response.setHeader("Cache-Control", "no-cache");
         try {
             request.setCharacterEncoding("UTF-8");
@@ -376,7 +379,14 @@ public class CartController extends BaseController {
         }
     }
 
-    /**需要调试，该方法有隐患**/
+    /**
+     * 调整购物车物品
+     * @param request
+     * @param response
+     * @param cart_id
+     * @param store_id
+     * @param count
+     */
     @RequestMapping({ "/goods_count_adjust" })
     public void goods_count_adjust(HttpServletRequest request,
                                    HttpServletResponse response,
@@ -390,12 +400,17 @@ public class CartController extends BaseController {
         GsGoods goods = null;
         String cart_type = "";
         for (GsStoreCart sc : cart) {
+            boolean is_break = false;
             for (GsGoodsCart gc :sc.getGcs() ) {
                 if (gc.getId().toString().equals(cart_id)) {
+                    is_break = true;
                     goods = goodsService.findOne(gc.getGoodsId());
                     cart_type = CommUtil.null2String(gc.getCartType());
+                    break;
                 }
             }
+            if (is_break)
+                break;
         }
         if (cart_type.equals("")){
             if (goods.getGroupBuy() == 2){
@@ -406,73 +421,36 @@ public class CartController extends BaseController {
                     }
                 }
                 if (gg.getGgCount() >= CommUtil.null2Int(count))
-                    for (GsStoreCart sc1 : cart){ // sc = (StoreCart)gc.next();
-                        for (int i = 0; i < sc1.getGcs().size(); i++){
-                            GsGoodsCart art =  sc1.getGcs().get(i);
-                            if (art.getId().toString().equals(cart_id)){
-                                sc1.setTotalPrice(
-                                        BigDecimal.valueOf(CommUtil.add(sc1.getTotalPrice(),
-                                                Double.valueOf((CommUtil.null2Int(count) - art.getCount())
-                                                        * CommUtil.null2Double(art.getPrice())))));
-                                art.setCount(CommUtil.null2Int(count));
-                                goods_total_price = CommUtil.null2Double(art.getPrice()) * art.getCount();
-                                this.storeCartService.update(sc1);
-                            }
-                        }
-                    }
+                    calTotalPrice(cart,cart_id,count);
                 else{
-                    error = "300";
+                    error = "300";//团购库存不足
                 }
             }else if (goods.getGoodsInventory() >= CommUtil.null2Int(count)){
-                for (GsStoreCart scart : cart){
-                    for (int i = 0; i < scart.getGcs().size(); i++){
-                        GsGoodsCart gcart = scart.getGcs().get(i);
-                        if (gcart.getId().toString().equals(cart_id)){
-                            scart.setTotalPrice(BigDecimal.valueOf(CommUtil.add(scart.getTotalPrice(),
-                                    Double.valueOf((CommUtil.null2Int(count) - gcart.getCount())
-                                            * Double.parseDouble(gcart.getPrice().toString())))));
-                            gcart.setCount(CommUtil.null2Int(count));
-                            goods_total_price = Double.parseDouble(gcart.getPrice().toString()) * gcart.getCount();
-                            this.storeCartService.update(scart);
-                        }
-                    }
-                }
+                calTotalPrice(cart,cart_id,count);
             }else{
-                error = "200";
+                error = "200";//库存不足
             }
         }
 
         if (cart_type.equals("combin")){
             if (goods.getGoodsInventory() >= CommUtil.null2Int(count))
-                for (GsStoreCart sscart : cart){
-                    for (int i = 0; i < sscart.getGcs().size(); i++){
-                        GsGoodsCart gc = sscart.getGcs().get(i);
-                        if (gc.getId().toString().equals(cart_id)){
-                            sscart.setTotalPrice(BigDecimal.valueOf(CommUtil.add(sscart.getTotalPrice(),
-                                    Float.valueOf((CommUtil.null2Int(count) - gc.getCount())
-                                            * CommUtil.null2Float(
-                                            this.goodsService.findSingleColumnById(gc.getId(),"combin_price"))))));
-                            gc.setCount(CommUtil.null2Int(count));
-                            goods_total_price = Double.parseDouble(gc.getPrice().toString()) * gc.getCount();
-                            this.storeCartService.update(sscart);
-                        }
-                    }
-                }
+                calTotalPrice(cart,cart_id,count);
             else{
-                error = "200";
+                error = "200";//库存不足
             }
         }
-        DecimalFormat df = new DecimalFormat("0.00");
-        Object map = new HashMap();
-        ((Map) map).put("count", count);
-        for (GsStoreCart ssscart : cart){
-            if (ssscart.getStoreId().equals(CommUtil.null2Long(store_id))){
-                ((Map) map).put("sc_total_price", Float.valueOf(CommUtil.null2Float(ssscart.getTotalPrice())));
+        Map map = new HashMap();
+        map.put("count", count);
+        for (GsStoreCart sc : cart){
+            if (sc.getStoreId().equals(CommUtil.null2Long(store_id))){
+                goods_total_price = Double.valueOf(CommUtil.null2Double(sc.getTotalPrice()));
+                map.put("sc_total_price",goods_total_price);
+//                goods_total_price += store_total_price;
             }
         }
-        ((Map) map).put("goods_total_price", Double.valueOf(df.format(goods_total_price)));
-        ((Map) map).put("error", error);
-        response.setContentType("text/plain");
+        map.put("goods_total_price", goods_total_price);
+        map.put("error", error);
+        response.setContentType("text/plain; charset=UTF-8");
         response.setHeader("Cache-Control", "no-cache");
         try {
             request.setCharacterEncoding("UTF-8");
@@ -506,18 +484,23 @@ public class CartController extends BaseController {
         List<GsStoreCart> cart = cart_calc(request);
         cart_calc(cart);
         if (cart != null){
-            User user = (User) SecurityUtils.getSubject().getPrincipal();
-            Store store = user==null?null:this.storeJoinService.getCurrentStore(user);
-            if (store != null){
-                for (GsStoreCart sc : cart){
-                    if (sc.getStoreId().equals(store.getStoreId())){
-                        for (GsGoodsCart gc : sc.getGcs()){
-                            this.goodsCartService.delete(gc.getId());
-                        }
-                        sc.getGcs().clear();
-                        this.storeCartService.delete(sc.getId());
-                    }
-                }
+            /********下面注释代码功能不明********/
+//            User user = (User) SecurityUtils.getSubject().getPrincipal();
+//            Store store = user==null?null:this.storeJoinService.getCurrentStore(user);
+//            if (store != null){
+//                for (GsStoreCart sc : cart){
+//                    if (sc.getStoreId().equals(store.getStoreId())){
+//                        for (GsGoodsCart gc : sc.getGcs()){
+//                            this.goodsCartService.delete(gc.getId());
+//                        }
+//                        sc.getGcs().clear();
+//                        this.storeCartService.delete(sc.getId());
+//                    }
+//                }
+//            }
+            /********************************/
+            for(GsStoreCart sc:cart){
+                sc.setStore(this.storeService.findBasicOne(sc.getStoreId()));
             }
             request.getSession(false).setAttribute("cart", cart);
             model.addAttribute("cart", cart);
@@ -532,7 +515,6 @@ public class CartController extends BaseController {
         }
 
         if (this.systemConfigService.getConfig().getZtc_status()){
-            List ztc_goods = null;
             Map ztc_map = new HashMap();
             ztc_map.put("ztc_status", Integer.valueOf(3));
             ztc_map.put("ztc_begin_time", new Date());
@@ -542,7 +524,7 @@ public class CartController extends BaseController {
             List goods = this.goodsService.findByCondition(ztc_map);
 //            "select obj from Goods obj where obj.ztc_status =:ztc_status and obj.ztc_begin_time <=:now_date and obj.ztc_gold>:ztc_gold order by obj.ztc_dredge_price desc"
 
-            ztc_goods = randomZtcGoods(goods);
+            List ztc_goods = randomZtcGoods(goods);
             model.addAttribute("ztc_goods", ztc_goods);
         }
 
@@ -581,12 +563,16 @@ public class CartController extends BaseController {
         if (sc != null){
             Map params = new HashMap();
             User user = (User) SecurityUtils.getSubject().getPrincipal();
+            sc.setStore(this.storeService.findBasicOne(sc.getStoreId()));
             params.put("user_id", user==null?0:user.getId());
             params.put("orderBy","addTime");
             params.put("orderType","desc");
-            List addrs = this.orderAddressService.findByCondition(params);
+            List<GsAddress> addrs = this.orderAddressService.findByCondition(params);
 //                    "select obj from Address obj where obj.user.id=:user_id order by obj.addTime desc", params, -1, -1);
             model.addAttribute("addrs", addrs);
+            for (GsAddress addr : addrs){
+                addr.setArea(this.storeAreaService.findLinkedOne(addr.getAreaId()));
+            }
             if ((store_id == null) || (store_id.equals(""))){
                 store_id = sc.getStoreId().toString();
             }
@@ -680,7 +666,8 @@ public class CartController extends BaseController {
                             c.getCouponAmount())));
                 }
                 of.setOrderType("web");
-                this.orderFormService.save(of);
+                long o_id = this.orderFormService.save(of);
+                of.setId(o_id);
                 for (GsStoreCart sc : cart){
                     if (sc.getStoreId().toString().equals(store_id)){
                         for (GsGoodsCart gc: sc.getGcs()){
@@ -714,7 +701,7 @@ public class CartController extends BaseController {
                 this.orderFormLogService.save(ofl);
                 model.addAttribute("of", of);
                 model.addAttribute("paymentTools", this.paymentTools);
-                Member m = memberService.findUserByUserId(of.getUserId());
+                Member m = memberService.findByUserId(of.getUserId());
                 if (this.systemConfigService.getConfig().getEmailEnable()){
                     send_email(request, of, m.getMemberEmail(), "email_tobuyer_order_submit_ok_notify");
                 }
@@ -753,6 +740,7 @@ public class CartController extends BaseController {
                                        HttpServletRequest request,
                                        HttpServletResponse response,
                                        String id){
+        reCapsuleModel(model,request,response);
         String ret = generateViewURL("order_pay");
 
         String wemall_view_type = CommUtil.null2String(request.getSession().getAttribute("wemall_view_type"));
@@ -793,6 +781,7 @@ public class CartController extends BaseController {
                                   HttpServletRequest request,
                                   HttpServletResponse response,
                                   String payType, String order_id){
+        reCapsuleModel(model,request,response);
         String ret = null;
         GsOrderformWithBLOBs of = this.orderFormService.findOne(CommUtil.null2Long(order_id));
         String wemall_view_type = CommUtil.null2String(request.getSession().getAttribute("wemall_view_type"));
@@ -854,7 +843,7 @@ public class CartController extends BaseController {
                 ret = generateViewURL("wap/error");
             }
             model.addAttribute("op_title", "该订单不能进行付款！");
-            model.addAttribute("url", CommUtil.getURL(request) + "/index.htm");
+            model.addAttribute("url", CommUtil.getURL(request) + "/index");
         }
 
         return ret;
@@ -1148,7 +1137,7 @@ public class CartController extends BaseController {
             String json = JSONArray.fromObject(params).toString();
             logger.info("用于wx.config配置的json：" + json);
 
-            response.setContentType("text/plain");
+            response.setContentType("text/plain; charset=UTF-8");
             response.setHeader("Cache-Control", "no-cache");
             try {request.setCharacterEncoding("UTF-8");} catch (UnsupportedEncodingException e1) {e1.printStackTrace();}
 
@@ -1256,7 +1245,7 @@ public class CartController extends BaseController {
                 returnhtml = "支付状态不正确";
             }
         }
-        response.setContentType("text/plain");
+        response.setContentType("text/plain; charset=UTF-8");
         response.setHeader("Cache-Control", "no-cache");
         try {request.setCharacterEncoding("UTF-8");} catch (UnsupportedEncodingException e1) {e1.printStackTrace();}
         try {
@@ -1302,7 +1291,7 @@ public class CartController extends BaseController {
             of.setOrderStatus(15);
             this.orderFormService.update(of);
             Store store = this.storeService.findBasicOne(of.getStoreId());
-            Member m = this.memberService.findUserByUserId(store.getMemberId());
+            Member m = this.memberService.findByUserId(store.getMemberId());
             if (this.systemConfigService.getConfig().getSmsEnbale()){
                 send_sms(request, of, m.getMemberMobile(), "sms_toseller_outline_pay_ok_notify");
             }
@@ -1363,7 +1352,7 @@ public class CartController extends BaseController {
             of.setOrderStatus(16);
             this.orderFormService.update(of);
             Store store = this.storeService.findBasicOne(of.getStoreId());
-            Member m = this.memberService.findUserByUserId(store.getMemberId());
+            Member m = this.memberService.findByUserId(store.getMemberId());
             if (this.systemConfigService.getConfig().getSmsEnbale()){
                 send_sms(request, of, m.getMemberMobile(), "sms_toseller_payafter_pay_ok_notify");
             }
@@ -1409,7 +1398,7 @@ public class CartController extends BaseController {
         String ret = generateViewURL("success");
         GsOrderformWithBLOBs of = this.orderFormService.findOne(CommUtil.null2Long(order_id));
         User user = (User) SecurityUtils.getSubject().getPrincipal();
-        Member m = this.memberService.findUserByUserId(user.getId());
+        Member m = this.memberService.findByUserId(user.getId());
 
         if (CommUtil.null2Double(m.getAvailablePredeposit()) > CommUtil.null2Double(of.getTotalprice())){
             of.setPayMsg(pay_msg);
@@ -1448,7 +1437,7 @@ public class CartController extends BaseController {
                 param.put("of_id",of.getId());
                 List<GsGoodsCart> goodsCarts = this.goodsCartService.findByCondition(param);
                 for (GsGoodsCart gc : goodsCarts){
-                    GsGoodsWithBLOBs goods = this.goodsService.findOne(gc.getGoodsId());
+                    GsGoodsWithBLOBs goods = this.goodsService.findBasicOne(gc.getGoodsId());
                     if ((goods.getGroup() != null) && (goods.getGroupBuy() == 2)){
                         for (GsGroupGoods gg : goods.getGroup_goods_list()){
                             if (gg.getGroupId().equals(goods.getGroup().getId())){
@@ -1524,6 +1513,7 @@ public class CartController extends BaseController {
                                      HttpServletRequest request,
                                      HttpServletResponse response,
                                      String order_id){
+        reCapsuleModel(model,request,response);
         String ret = generateViewURL("order_finish");
         String wemall_view_type = CommUtil.null2String(request.getSession().getAttribute("wemall_view_type"));
         if((wemall_view_type != null) && (!wemall_view_type.equals("")) && (wemall_view_type.equals("wap"))){
@@ -1622,7 +1612,7 @@ public class CartController extends BaseController {
         GsAddress addr = this.orderAddressService.findOne(CommUtil.null2Long(addr_id));
         List sms = this.transportTools.query_cart_trans(sc, CommUtil.null2String(addr.getAreaId()));
 
-        response.setContentType("text/plain");
+        response.setContentType("text/plain; charset=UTF-8");
         response.setHeader("Cache-Control", "no-cache");
         try {
             request.setCharacterEncoding("UTF-8");
@@ -1732,6 +1722,38 @@ public class CartController extends BaseController {
         return "redirect:goods_cart2?store_id=" + store_id;
     }
 
+
+    /**
+     * 计算物品变化后的商店购物车的总价
+     * @param cart
+     * @param goods_cart_id
+     * @param count
+     */
+    private void calTotalPrice(List<GsStoreCart> cart,String goods_cart_id,String count){
+        for (GsStoreCart sc : cart){ // sc = (StoreCart)gc.next();
+            boolean isAlter = false;
+            double goods_total_price = 0d;
+            for (int i = 0; i < sc.getGcs().size(); i++){
+                GsGoodsCart gc =  sc.getGcs().get(i);
+                if (gc.getId().toString().equals(goods_cart_id)){
+                    goods_total_price += Double.valueOf(CommUtil.null2Int(count)*CommUtil.null2Double(gc.getPrice()));
+                    if (!gc.getCount().equals(CommUtil.null2Int(count))) {//数量有变化，总价需要重新记录
+                        isAlter = true;
+                        gc.setCount(CommUtil.null2Int(count));
+                        this.goodsCartService.update(gc);
+                    }
+                }else{
+                    goods_total_price += Double.valueOf(CommUtil.null2Int(gc.getCount())*CommUtil.null2Double(gc.getPrice()));
+                }
+            }
+            if (isAlter) {
+                sc.setTotalPrice(BigDecimal.valueOf(goods_total_price));
+                this.storeCartService.update(sc);
+                return;
+            }
+        }
+    }
+
     private List<GsGoodsWithBLOBs> randomZtcGoods(List<GsGoodsWithBLOBs> goods){
         Random random = new Random();
         int random_num = 0;
@@ -1832,4 +1854,5 @@ public class CartController extends BaseController {
 //            this.msgTools.sendSMS(mobile, content);
 //        }
     }
+
 }

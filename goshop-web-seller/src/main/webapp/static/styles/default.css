@@ -1,0 +1,34 @@
+/* CSS Document */
+/* ======================================== */
+/* 商家中心相关样式表单						*/
+/* 作者:		狐狸糊涂							*/
+/* 版权:		www.shopnc.net					*/
+/* 创建:		Oct-15-2013						*/
+/* 修改：	    Oct-15-2013						*/
+/* ======================================== */
+
+body { color: #666; background-color: #F9F9F9;}
+html,body{ height:100%;}
+h2 { font: 24px/40px "microsoft yahei"; color: #27A9E3;}
+h1, h2, h3, h4, h5, h6 { font-family:  "microsoft yahei"; font-weight: normal;}
+h1 { font-size: 32px;}
+h2 { font-size: 25px;}
+h3 { font-size: 22px;}
+h4 { font-size: 18px;}
+h5 { font-size: 15px;}
+h6 { font-size: 13px;}
+.lighter { font-weight: lighter;}
+.bolder { font-weight: bolder;}
+h1.smaller { font-size: 31px;}
+h2.smaller { font-size: 24px;}
+h3.smaller { font-size: 21px;}
+h4.smaller { font-size: 17px;}
+h5.smaller { font-size: 14px;}
+h6.smaller { font-size: 12px;}
+h1.bigger { font-size: 33px;}
+h2.bigger { font-size: 26px;}
+h3.bigger { font-size: 23px;}
+h4.bigger { font-size: 19px;}
+h5.bigger { font-size: 16px;}
+h6.bigger { font-size: 14px;}
+h1.block, h2.block, h3.block, h4.block, h5.block, h6.block { margin-bottom: 16px;}

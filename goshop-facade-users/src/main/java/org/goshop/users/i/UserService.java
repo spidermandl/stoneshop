@@ -27,6 +27,8 @@ public interface UserService {
 
     User findByLoginName(String loginName);
 
+    User findByUserName(String userName);
+
     int delete(Long userId);
 
     User findOfRoleOne(Long userId);
@@ -70,4 +72,23 @@ public interface UserService {
      * @return
      */
     List<GsPermissionGroup> findPermissionGroupByType(String type,String orderBy,String orderType);
+
+    /**
+     * 改变用户账户金额
+     * @param delta
+     */
+    void changeDepositBalance(User user,Double delta);
+
+    /**
+     * 改变用户账户冻结金额
+     * @param delta
+     */
+    void changeFreezeBalance(User user,Double delta);
+
+    /**
+     * 改变用户积分
+     * @param user
+     * @param delta
+     */
+    void changePoint(User user,Integer delta);
 }

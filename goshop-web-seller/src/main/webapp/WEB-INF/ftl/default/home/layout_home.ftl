@@ -11,12 +11,12 @@
         <div class="column-menu">
             <ul id="seller_center_left_menu">
                 <li>
-                    <a href="${S_URL}/se/goods/addstep/one">
+                    <a href="${S_URL}/goods/step_one">
                         商品发布
                     </a>
                 </li>
                 <li>
-                    <a href="${S_URL}/se/store/set/list">
+                    <a href="${S_URL}/store/store_set">
                         店铺设置
                     </a>
                 </li>

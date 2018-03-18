@@ -212,9 +212,4 @@ public class User implements Serializable {
             this.upcreated = (Timestamp)upcreated.clone();
         }
     }
-
-    //@Override
-    public String getName() {
-        return loginName;
-    }
 }

@@ -32,6 +32,8 @@
     <dubbo:service retries="0" interface="org.goshop.pay.i.PredepositLogService" ref="predepositLogService"  />
     <dubbo:service retries="0" interface="org.goshop.pay.i.PredepositService" ref="predepositService"  />
     <dubbo:service retries="0" interface="org.goshop.pay.i.GoldRecordService" ref="goldRecordService"  />
+    <dubbo:service retries="0" interface="org.goshop.pay.i.RefundService" ref="refundService"  />
+    <dubbo:service retries="0" interface="org.goshop.pay.i.RefundLogService" ref="refundLogService"  />
 
 
 </beans>

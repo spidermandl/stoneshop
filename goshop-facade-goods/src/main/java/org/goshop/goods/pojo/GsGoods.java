@@ -132,7 +132,7 @@ public class GsGoods implements Serializable {
     private GsTransportWithBLOBs transport;//运送地址
     private GsGroup group;//商品组
     private List<GsGroupGoods> group_goods_list = new ArrayList<>();//group goods
-
+    /** end **/
     public List<GsGroupGoods> getGroup_goods_list() {
         return group_goods_list;
     }
@@ -173,7 +173,6 @@ public class GsGoods implements Serializable {
         this.group = group;
     }
 
-    /** end **/
     public GsGoodsClass getGc() {
         return gc;
     }

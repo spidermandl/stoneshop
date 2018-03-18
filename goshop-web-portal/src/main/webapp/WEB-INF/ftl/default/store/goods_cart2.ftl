@@ -3,7 +3,7 @@
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>${(store.storeName)!} - ${(config.poweredby)!}</title>
+    <title>订单确认 - ${(config.poweredby)!}</title>
     <meta name="keywords" content="${(store.storeKeywords)!}" />
     <meta name="description" content="${(store.storeDescription)!}" />
     <meta name="generator" content="${(config.meta_generator)!}" />
@@ -31,14 +31,17 @@ jQuery(document).ready(function(){
    var h=document.body.scrollHeight;
    jQuery('.black_overlay').css("height",h);
    jQuery(".white_content").css("position","absolute").css("top",top);
-   jQuery.ajax({type:'POST',url:"${S_URL}/cart_address",async:false,data:{"store_id":"${store_id!}"},success:function(html){
-	    	jQuery(".content_load").remove();
-			jQuery("#cart_address .white_content").css("width","500");
-		    jQuery("#cart_address .white_box h1").after(html);
-		    jQuery("#cart_address").show();
-	   }});
+   jQuery.ajax({type:'POST',
+            url:"${S_URL}/cart_address",
+            async:false,data:{"store_id":"${store_id!}"},
+            success:function(html){
+                jQuery(".content_load").remove();
+                jQuery("#cart_address .white_content").css("width","500");
+                jQuery("#cart_address .white_box h1").after(html);
+                jQuery("#cart_address").show();
+           }});
   </#if>
-  jQuery(":radio[name=invoiceType]").click(function(){
+  jQuery(":radio[name=invoicetype]").click(function(){
      var val=jQuery(this).val();
 	 if(val=="1"){
 	   jQuery("#invoice_info").show();
@@ -68,71 +71,87 @@ jQuery(document).ready(function(){
 		  ship_price=0;
 	  }
 	  var order_fee=goods_amount-coupon_amount+ship_price;
-	  jQuery("#order_store_amount").html("¥"+order_fee);
-	  jQuery("#order_pay_fee").html("¥"+order_fee);
+	  jQuery("#order_store_amount").html("¥"+order_fee.toFixed(2));
+	  jQuery("#order_pay_fee").html("¥"+order_fee.toFixed(2));
 	  if(coupon_amount==0){
 	    jQuery("#order_coupon_div").hide();
 	  }
   });
   //
-  jQuery(":radio[name^=addr_id]").click(function(){
+    jQuery(":radio[name^=addr_id]").click(function(){
        var addr_id=jQuery(this).val();
-	   jQuery.ajax({type:'POST',url:'${S_URL}/order_address',data:{'addr_id':addr_id,"store_id":"${(sc.storeId)!}"},dataType:'json',
-				  beforeSend:function(){
-					    jQuery("#order_save").attr("disabled",true);
-					  },
-				  success:function(data){
-	                 jQuery("#ship_price").empty();
-					 jQuery(data).each(function(index,item){
-					     jQuery("#ship_price").append("<option value='"+item.value+"'>"+item.key+"</option>");
-					 });
-				     var ship_price=parseFloat(jQuery("#ship_price").val());
-					 if(isNaN(ship_price)){
-					    ship_price=0;
-					 }
-	                 var coupon_amount=parseFloat(jQuery("#coupon_id").find("option:selected").attr("coupon_amount"));
-					 if(isNaN(coupon_amount)){
-					   coupon_amount=0;
-					 }
-	                 var goods_amount=parseFloat(jQuery("#goods_amount").val());
-	                 var order_fee=goods_amount-coupon_amount+ship_price;
-	                 jQuery("#order_store_amount").html("¥"+order_fee);
-	                 jQuery("#order_pay_fee").html("¥"+order_fee);
-					 jQuery("#order_save").attr("disabled",false);
-				  }
-	   });
-  });
+       jQuery.ajax({type:'POST',url:'${S_URL}/order_address',data:{'addr_id':addr_id,"store_id":"${(sc.storeId)!}"},dataType:'json',
+              beforeSend:function(){
+                    jQuery("#order_save").attr("disabled",true);
+                  },
+              success:function(data){
+                  jQuery("#ship_price").empty();
+                  jQuery(data).each(function(index,item){
+                     jQuery("#ship_price").append("<option value='"+item.value+"'>"+item.key+"</option>");
+                  });
+                  updateFee();
+                  jQuery("#order_save").attr("disabled",false);
+              }
+       });
+    });
   //
-  jQuery("#ship_price").change(function(){
-     var ship_price=parseFloat(jQuery(this).val());
-	 if(isNaN(ship_price)){
-		 ship_price=0;
-	 }
-	 var coupon_amount=parseFloat(jQuery("#coupon_id").find("option:selected").attr("coupon_amount"));
-	 if(isNaN(coupon_amount)){
-         coupon_amount=0;
-     }
-	 var goods_amount=parseFloat(jQuery("#goods_amount").val());
-	 var order_fee=goods_amount-coupon_amount+ship_price;
-	 jQuery("#order_store_amount").html("¥"+order_fee);
-	 jQuery("#order_pay_fee").html("¥"+order_fee);
-	 var text=jQuery(this).find("option:selected").text();
-	 var transport=text.substring(0,text.indexOf("["));
-	 jQuery("#transport").val(transport);
-  });
-  //
-  jQuery(".baby_gp>a").mouseover(function(){
-	jQuery(this).parent().find(".arrow").show();
-    jQuery(this).parent().find(".baby_group").show();
-  });
-  jQuery(".baby_gp").mouseleave(function(){
-    jQuery(this).parent().find(".arrow").hide();
-    jQuery(this).parent().find(".baby_group").hide();
-  });
-  //
-  jQuery("#coupon_id").val("0");
-  jQuery("#ship_price").find("option:first").attr("selected",true);
-  jQuery(":radio[name^=addr_id]:first").attr("checked",true);
+    jQuery("#ship_price").change(function(){
+        var ship_price=parseFloat(jQuery(this).val());
+        if(isNaN(ship_price)){
+            ship_price=0;
+        }
+        var coupon_amount=parseFloat(jQuery("#coupon_id").find("option:selected").attr("coupon_amount"));
+        if(isNaN(coupon_amount)){
+            coupon_amount=0;
+        }
+        var goods_amount=parseFloat(jQuery("#goods_amount").val());
+        var order_fee=goods_amount-coupon_amount+ship_price;
+        jQuery("#order_store_amount").html("¥"+order_fee.toFixed(2));
+        jQuery("#order_pay_fee").html("¥"+order_fee.toFixed(2));
+        var text=jQuery(this).find("option:selected").text();
+        var transport=text.substring(0,text.indexOf("["));
+        jQuery("#transport").val(transport);
+    });
+    //
+    jQuery(".baby_gp>a").mouseover(function(){
+        jQuery(this).parent().find(".arrow").show();
+        jQuery(this).parent().find(".baby_group").show();
+    });
+    jQuery(".baby_gp").mouseleave(function(){
+        jQuery(this).parent().find(".arrow").hide();
+        jQuery(this).parent().find(".baby_group").hide();
+    });
+    //
+    jQuery("#coupon_id").val("0");
+    jQuery("#ship_price").find("option:first").attr("selected",true);
+    jQuery(":radio[name^=addr_id]:first").attr("checked",true);
+
+    updateFee();
+    updateAddr();
+    //更新结算显示数据
+    function updateFee() {
+        var ship_price=parseFloat(jQuery("#ship_price").val());
+        if(isNaN(ship_price)){
+            ship_price=0;
+        }
+        var coupon_amount=parseFloat(jQuery("#coupon_id").find("option:selected").attr("coupon_amount"));
+        if(isNaN(coupon_amount)){
+            coupon_amount=0;
+        }
+        var goods_amount=parseFloat(jQuery("#goods_amount").val());
+        var order_fee=goods_amount-coupon_amount+ship_price;
+        jQuery("#order_store_amount").html("¥"+order_fee.toFixed(2));
+        jQuery("#order_pay_fee").html("¥"+order_fee.toFixed(2));
+    }
+    //更新地址显示数据
+    function updateAddr() {
+        var obj =jQuery(":radio[name=addr_id]");
+        var addr=obj.parent().parent().find("#address").html();
+        var person=obj.parent().parent().find("#person").html()+" "+obj.parent().parent().find("#mobile").html();
+        jQuery("#order_address_info").html("寄送至:"+addr);
+        jQuery("#order_person_info").html("收货人:"+person);
+    }
+
 });
 function save_order(){
   jQuery("#cart_form").submit();
@@ -152,7 +171,7 @@ ${httpInclude.include("/top")}
         <li class="last">5.评价</li>
       </ul>
     </div>
-    <form action="${S_URL}/goods_cart3.htm" method="post" enctype="${S_URL}/goods_cart3" id="cart_form">
+    <form action="${S_URL}/goods_cart3" method="post" enctype="${S_URL}/goods_cart3" id="cart_form">
       <div class="h1">
           <span class="h1_l">店铺名称：
               <a href="${S_URL}/store?id=${(sc.storeId)!}" target="_blank">${(sc.store.storeName)!}</a>
@@ -211,10 +230,10 @@ ${httpInclude.include("/top")}
                 </#list>
                 </p>
             </td>
-            <td align="center">${(gc.price)!}</td>
+            <td align="center">${(gc.price)?string('0.00')}</td>
             <td align="center">${(gc.count)!}</td>
             <#assign total_price=gc.count * gc.price />
-            <td align="center"><strong class="orange">¥${total_price!}</strong></td>
+            <td align="center"><strong class="orange">¥${total_price?string('0.00')}</strong></td>
           </tr>
           </#list>
         </table>
@@ -234,24 +253,24 @@ ${httpInclude.include("/top")}
           <ul>
             <#assign addr_id="" />
             <#list addrs! as addr>
-              <#if addr_index==1>
-                  <#assign default_address_info="${(addr.area.parent.parent.areaName)!}${(addr.area.parent.areaName)!}${(addr.area.areaName)!}${(addr.area_info)!}" />
-                  <#assign addr_id="${(addr.area.id)!}" />
-                  <#assign default_person_info="${(addr.trueName)!} ${(addr.mobile)!}" />
-              </#if>
-            <li>
-                <strong>
-                    <img src="${S_URL}/styles/system/front/default/images/Steps_02.gif" width="14" height="23" />
-                </strong>
-                <label>
+                <#if addr_index==1>
+                    <#assign default_address_info="${(addr.area.parent.parent.areaname)!}-${(addr.area.parent.areaname)!}-${(addr.area.areaname)!} ${(addr.areaInfo)!}" />
+                    <#assign addr_id="${(addr.area.id)!}" />
+                    <#assign default_person_info="${(addr.truename)!} ${(addr.mobile)!}" />
+                </#if>
+                <li>
                     <strong>
-                        <input type="radio" name="addr_id" value="${(addr.id)!}" <#if addr_index==1> checked="checked" </#if>/>
+                        <img src="${S_URL}/static/styles/system/front/default/images/Steps_02.gif" width="14" height="23" />
                     </strong>
-                    <span id="address">${(addr.area.parent.parent.areaName)!}${(addr.area.parent.areaName)!}${(addr.area.areaName)!}${(addr.area_info)!}</span>
-                    <span id="person">${(addr.trueName)!}</span>
-                    <span id="mobile">${(addr.mobile)!}</span>
-                </label>
-            </li>
+                    <label>
+                        <strong>
+                            <input type="radio" name="addr_id" value="${(addr.id)!}" <#if addr_index==1> checked="checked" </#if>/>
+                        </strong>
+                        <span id="address">${(addr.area.parent.parent.areaname)!}-${(addr.area.parent.areaname)!}-${(addr.area.areaname)!} ${(addr.areaInfo)!}</span>
+                        <span id="person">${(addr.truename)!}</span>
+                        <span id="mobile">${(addr.mobile)!}</span>
+                    </label>
+                </li>
             </#list>
           </ul>
         </div>
@@ -260,10 +279,10 @@ ${httpInclude.include("/top")}
           <ul>
             <li>
               <label>
-                <input name="invoiceType" type="radio" value="0" checked="checked" />
+                <input name="invoicetype" type="radio" value="0" checked="checked" />
                 个人 </label>
               <label>
-                <input name="invoiceType" type="radio" value="1" />
+                <input name="invoicetype" type="radio" value="1" />
                 单位 </label>
             </li>
             <li id="invoice_info" style="display:none;"><span style="margin-bottom:5px;">发票抬头：</span>
@@ -316,12 +335,12 @@ ${httpInclude.include("/top")}
         </div>
         <#assign order_total_price = CommUtil.null2Float(ship_price)+sc.totalPrice />
         <div class="paysend">店铺合计：
-            <strong class="red" style=" font-size:24px;" id="order_store_amount">¥${order_total_price!}</strong>
+            <strong class="red" style=" font-size:24px;" id="order_store_amount">¥${order_total_price?string('0.00')}</strong>
         </div>
         <div class="paysend">
           <div class="paysd">
             <div class="paysd_box">
-            <span>实付款：<strong></strong><b id="order_pay_fee">¥${order_total_price!}</b></span>
+            <span>实付款：<strong></strong><b id="order_pay_fee">¥${order_total_price?string('0.00')}</b></span>
               <ul>
                 <li><span id="order_address_info">寄送至:${default_address_info!}</span></li>
                 <li><span id="order_person_info">收货人:${default_person_info!}</span></li>
@@ -332,7 +351,7 @@ ${httpInclude.include("/top")}
         <div class="paybtn">
             <input  name="order_save" type="button"  value="提交订单并支付" onclick="save_order();"  style="cursor:pointer;" id="order_save"/>
             <input name="cart_session" type="hidden" id="cart_session" value="${cart_session!}" />
-            <input name="goods_amount" type="hidden" id="goods_amount" value="${(sc.totalPrice)!}" />
+            <input name="goodsAmount" type="hidden" id="goods_amount" value="${(sc.totalPrice)?string('0.00')}" />
         </div>
       </div>
     </form>

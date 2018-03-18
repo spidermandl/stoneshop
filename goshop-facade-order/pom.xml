@@ -28,7 +28,15 @@
         </dependency>
         <dependency>
             <groupId>org.goshop</groupId>
+            <artifactId>goshop-facade-store</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.goshop</groupId>
             <artifactId>goshop-facade-assets</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.goshop</groupId>
+            <artifactId>goshop-facade-pay</artifactId>
         </dependency>
         <dependency>
             <groupId>com.github.pagehelper</groupId>

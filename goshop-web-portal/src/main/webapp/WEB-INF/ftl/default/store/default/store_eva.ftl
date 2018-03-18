@@ -21,10 +21,10 @@
           <#assign evaluate_buyer_val="差评" />
         </#if>
       <td>${evaluate_buyer_val!}</td>
-      <td><#if obj.evaluate_info!="" >${(obj.evaluate_info)!} <#else> 这家伙什么都没说 </#if></td>
+      <td><#if ((obj.evaluate_info)!'')="" >${(obj.evaluate_info)!} <#else> 这家伙什么都没说 </#if></td>
       <td class="goodsevalu">
           <span class="nameevalu">
-              <a href="${S_URL}/goods_${(obj.evaluate_goods.id)!}" target="_blank">${(obj.evaluate_goods.goods_name)!}</a>
+              <a href="${S_URL}/goods?id=${(obj.evaluate_goods.id)!}" target="_blank">${(obj.evaluate_goods.goodsName)!}</a>
           </span>
       </td>
       <td align="center"><strong class="orange">¥${(obj.of.totalPrice)!}</strong></td>
